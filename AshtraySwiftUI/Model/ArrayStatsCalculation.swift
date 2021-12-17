@@ -138,8 +138,8 @@ extension Array where Element == CountType {
         }
         
         private static func calculateAverage(sum: Double, distance: Int) -> Double {
-            if distance > 0 {
-                return sum / Double(distance)
+            if distance >= 0 {
+                return sum / Double(distance + 1)
             } else {
                 return sum
             }

@@ -73,7 +73,7 @@ struct HistoryView: View {
         var opacity: CGFloat = 1
         var animation: Animation {
             if isEditing {
-                return Animation.easeInOut
+                return Animation.easeInOut(duration: 1)
                     .repeatForever()
             } else {
                 return Animation.easeInOut
