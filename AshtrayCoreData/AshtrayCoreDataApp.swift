@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct AshtrayCoreDataApp: App {
     let persistenceController = PersistenceController.shared
-<<<<<<< HEAD
     @StateObject var model = AshtrayModel()
     @StateObject var viewModel = AshtrayViewModel()
     
@@ -18,12 +17,12 @@ struct AshtrayCoreDataApp: App {
         UIScrollView.appearance().backgroundColor = .clear
         UITableView.appearance().backgroundColor = .clear
     }
-=======
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(model)
+                .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

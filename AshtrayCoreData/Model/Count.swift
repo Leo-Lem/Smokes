@@ -7,7 +7,7 @@
 
 import CoreData
 
-
+//TODO: Make the Count data codable for export and import
 
 class Count: NSManagedObject/*, Codable*/ {
 	/*enum CodingKeys: CodingKey {

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import AshtrayCoreData
+//@testable import AshtrayCoreData
 
 class AshtrayCoreDataTests: XCTestCase {
     override func setUpWithError() throws {

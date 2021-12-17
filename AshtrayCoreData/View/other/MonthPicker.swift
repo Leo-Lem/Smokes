@@ -20,10 +20,10 @@ struct MonthPicker: View {
     
     var body: some View {
         HStack {
-            SymbolButtonView("chevron.left", size: 20) { date = date.addToValues([-1], for: [.year]) }
+            SymbolButton("chevron.left", size: 20) { date = date.addToValues([-1], for: [.year]) }
             .foregroundColor(date.getComponents().year == from.getComponents().year ? .gray : .black)
             YearMonthView($date, from: from, to: to)
-            SymbolButtonView("chevron.right", size: 20) { date = date.addToValues([1], for: [.year]) }
+            SymbolButton("chevron.right", size: 20) { date = date.addToValues([1], for: [.year]) }
             .foregroundColor(date.getComponents().year == to.getComponents().year ? .gray : .black)
         }.customBackground().padding(.horizontal)
     }

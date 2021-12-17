@@ -10,7 +10,6 @@ import MyJSONs
 import MyDates
 import MyCustomUI
 
-enum PackInfo: String, CaseIterable { case price = "Price", amount = "Amount", Brand = "Brand" }
 
 struct SettingsView: View {
     @EnvironmentObject private var model: AshtrayModel
@@ -26,86 +25,103 @@ struct SettingsView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             List {
-                Section(header: Text("Data").font(size: 15).customBackground()) {
+                Section(header: Text("Data")
+                            .font(size: 15)
+                            .customBackground()) {
                     HStack {
-                        Button("export data", action: export)
-                            .buttonStyle(.borderless)
-                            .alert(isPresented: $showConfirmation) {
-                                Alert(title: Text(confirmationTitle), message: Text(confirmationMessage), dismissButton: .default(Text("OK")))
-                            }
-                        Spacer(); Divider(); Spacer()
-                        Button("import data", action: { showWarning.toggle() })
-                            .buttonStyle(.borderless)
-                            .alert(isPresented: $showWarning) {
-                                Alert(title: Text("Are you sure?"), message: Text("This will irreversibly overwrite all current data!"), primaryButton: .destructive(Text("Import")) { showImporter.toggle() }, secondaryButton: .cancel())
-                            }
-                    }.padding(.horizontal)
-                }.customRowBackground()
-                
-                Section(header: Text("start date").font(size: 15).customBackground()) {
-                    DatePickerView($model.installationDate)
-                }.customRowBackground()
-                
-                Section(header: Text("pack defaults").font(size: 15).customBackground()) {
-                    ForEach(PackInfo.allCases, id: \.self) { packInfo in
-                        Text(packInfo.rawValue)
+                        Button("export data") {
+                            showExporter = true
+                            encodeToJSON()
+                        }
+                        .buttonStyle(.borderless)
+                        
+                        Spacer()
+                        Divider()
+                        Spacer()
+                        
+                        Button("import data"){
+                            showWarning = true
+                        }
+                        .buttonStyle(.borderless)
                     }
-                }.customRowBackground()
+                    .padding(.horizontal)
+                    .alert(isPresented: $showConfirmation) {
+                        Alert(title: Text(confirmationTitle),
+                              message: Text(confirmationMessage),
+                              dismissButton: .default(Text("OK")))
+                    }
+                    .alert(isPresented: $showWarning) {
+                        Alert(title: Text("Are you sure?"),
+                              message: Text("This will irreversibly overwrite all current data!"),
+                              primaryButton: .destructive(Text("Import")) {
+                                    showImporter = true
+                              }, secondaryButton: .cancel())
+                    }
+                    
+                }
+                .customRowBackground()
+                
+                Section(header: Text("start date")
+                            .font(size: 15)
+                            .customBackground()) {
+                    DatePickerView($model.startingID)
+                }
+                .customRowBackground()
             }
-            SymbolButtonView("xmark.circle") { withAnimation { showSettings = false } }
-                .padding(5)
-        }
-        .fileExporter(isPresented: $showExporter, document: doc, contentType: .json, defaultFilename: "Ashtray-Counts (\(getString(Date())))") { result in
-            switch result {
-            case .success: confirmationTitle = "Export successful!"; showConfirmation.toggle()
-            case .failure: confirmationTitle = "Export failed!"; showConfirmation.toggle()
-            }
-        }
-        .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
-            do {
-                let fileURL: URL = try result.get().first!
-                if fileURL.startAccessingSecurityScopedResource() {
-                    let data = try Data(contentsOf: fileURL)
-                    fileURL.stopAccessingSecurityScopedResource()
-                    model.counts = try JSONDecoder().decode([String: Int].self, from: data)
-                } else { print("Access to file denied!")}
-            } catch { print("Import failed!\n\(error.localizedDescription)") }
-            switch result {
-            case .success: confirmationTitle = "Import successful!"; showConfirmation.toggle()
-            case .failure: confirmationTitle = "Import failed!"; showConfirmation.toggle()
-            }
-<<<<<<< HEAD
             SymbolButton("xmark.circle") {
                 withAnimation {
                     showSettings = false
                 }
             }
             .padding(5)
-=======
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
         }
+        .fileExporter(isPresented: $showExporter,
+                      document: doc, contentType: .json, defaultFilename: "Ashtray-Counts (\(getString(Date())))",
+                      onCompletion: exportAction)
+        
+        .fileImporter(isPresented: $showImporter,
+                      allowedContentTypes: [.json], allowsMultipleSelection: false,
+                      onCompletion: importAction)
     }
-}
-
-extension SettingsView {
-    init(_ showSettings: Binding<Bool>) {
-        self._showSettings = showSettings
-    }
-}
-
-extension SettingsView {
-    private func export() {
-        do {
+    
+    private func encodeToJSON() {
+        //TODO: Add json export functionality
+        /*do {
             doc.data = try JSONEncoder().encode(model.counts)
         } catch {
             print("Failed to encode JSON")
-        }
-        showExporter.toggle()
+        }*/
     }
+    
+    private func exportAction(result: Result<URL, Error>) -> Void {
+        switch result {
+        case .success: confirmationTitle = "Export successful!"; showConfirmation.toggle()
+        case .failure: confirmationTitle = "Export failed!"; showConfirmation.toggle()
+        }
+    }
+    
+    private func importAction(result: Result<[URL], Error>) -> Void {
+        //TODO: Add json import functionality
+        /*do {
+            let fileURL: URL = try result.get().first!
+            if fileURL.startAccessingSecurityScopedResource() {
+                let data = try Data(contentsOf: fileURL)
+                fileURL.stopAccessingSecurityScopedResource()
+                model.counts = try JSONDecoder().decode(CountCollectionType.self, from: data)
+            } else { print("Access to file denied!")}
+        } catch { print("Import failed!\n\(error.localizedDescription)") }
+        switch result {
+        case .success: confirmationTitle = "Import successful!"; showConfirmation.toggle()
+        case .failure: confirmationTitle = "Import failed!"; showConfirmation.toggle()
+        }*/
+    }
+    
+    
 }
 
 struct Settings_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(.constant(true)).preview()
+        SettingsView(showSettings: .constant(true))
+            .preview()
     }
 }

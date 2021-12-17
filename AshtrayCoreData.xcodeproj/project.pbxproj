@@ -17,29 +17,23 @@
 		6E2C1CFC27666BBE0044042D /* AshtrayCoreDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1CFB27666BBE0044042D /* AshtrayCoreDataUITests.swift */; };
 		6E2C1CFE27666BBE0044042D /* AshtrayCoreDataUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1CFD27666BBE0044042D /* AshtrayCoreDataUITestsLaunchTests.swift */; };
 		6E2C1D0B27666CC20044042D /* Count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D0A27666CC20044042D /* Count.swift */; };
-		6E2C1D36276685E70044042D /* CountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D35276685E70044042D /* CountModel.swift */; };
-		6E2C1D4A2768CB3C0044042D /* MyPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 6E2C1D492768CB3C0044042D /* MyPackage */; };
+		6E2C1D36276685E70044042D /* AshtrayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D35276685E70044042D /* AshtrayViewModel.swift */; };
 		6E2C1D4E2768CBE00044042D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D4B2768CBE00044042D /* InfoView.swift */; };
 		6E2C1D4F2768CBE00044042D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D4C2768CBE00044042D /* SettingsView.swift */; };
 		6E2C1D502768CBE00044042D /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D4D2768CBE00044042D /* TitleView.swift */; };
 		6E2C1D542768CBED0044042D /* AverageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D512768CBED0044042D /* AverageView.swift */; };
 		6E2C1D552768CBED0044042D /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D522768CBED0044042D /* HistoryView.swift */; };
 		6E2C1D562768CBED0044042D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D532768CBED0044042D /* MainView.swift */; };
-		6E2C1D582768CC0D0044042D /* AshtrayDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D572768CC0D0044042D /* AshtrayDate.swift */; };
-		6E2C1D5A2768CC120044042D /* StatsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D592768CC120044042D /* StatsCalculation.swift */; };
+		6E2C1D5A2768CC120044042D /* ArrayStatsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D592768CC120044042D /* ArrayStatsCalculation.swift */; };
 		6E2C1D612768CC820044042D /* BarplotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D5C2768CC820044042D /* BarplotView.swift */; };
 		6E2C1D622768CC820044042D /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D5D2768CC820044042D /* CustomPicker.swift */; };
 		6E2C1D632768CC820044042D /* WeekPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D5E2768CC820044042D /* WeekPicker.swift */; };
 		6E2C1D642768CC820044042D /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D5F2768CC820044042D /* MonthPicker.swift */; };
 		6E2C1D652768CC820044042D /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D602768CC820044042D /* DatePickerView.swift */; };
-		6E2C1D672768CC8B0044042D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D662768CC8B0044042D /* Model.swift */; };
 		6E2C1D6C2768CD020044042D /* Preview Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D6A2768CD020044042D /* Preview Code.swift */; };
 		6E2C1D6D2768CD020044042D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2C1D6B2768CD020044042D /* Preview Assets.xcassets */; };
-<<<<<<< HEAD
 		6E2C1D6F276935A60044042D /* AshtrayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D6E276935A60044042D /* AshtrayModel.swift */; };
 		6E2C1D7127694C400044042D /* CountCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C1D7027694C400044042D /* CountCategories.swift */; };
-=======
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,24 +66,23 @@
 		6E2C1CFB27666BBE0044042D /* AshtrayCoreDataUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayCoreDataUITests.swift; sourceTree = "<group>"; };
 		6E2C1CFD27666BBE0044042D /* AshtrayCoreDataUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayCoreDataUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6E2C1D0A27666CC20044042D /* Count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Count.swift; sourceTree = "<group>"; usesTabs = 1; };
-		6E2C1D35276685E70044042D /* CountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountModel.swift; sourceTree = "<group>"; };
+		6E2C1D35276685E70044042D /* AshtrayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayViewModel.swift; sourceTree = "<group>"; };
 		6E2C1D4B2768CBE00044042D /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		6E2C1D4C2768CBE00044042D /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6E2C1D4D2768CBE00044042D /* TitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		6E2C1D512768CBED0044042D /* AverageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AverageView.swift; sourceTree = "<group>"; };
 		6E2C1D522768CBED0044042D /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		6E2C1D532768CBED0044042D /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		6E2C1D572768CC0D0044042D /* AshtrayDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AshtrayDate.swift; sourceTree = "<group>"; };
-		6E2C1D592768CC120044042D /* StatsCalculation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsCalculation.swift; sourceTree = "<group>"; };
+		6E2C1D592768CC120044042D /* ArrayStatsCalculation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayStatsCalculation.swift; sourceTree = "<group>"; };
 		6E2C1D5C2768CC820044042D /* BarplotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarplotView.swift; sourceTree = "<group>"; };
 		6E2C1D5D2768CC820044042D /* CustomPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
 		6E2C1D5E2768CC820044042D /* WeekPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekPicker.swift; sourceTree = "<group>"; };
 		6E2C1D5F2768CC820044042D /* MonthPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		6E2C1D602768CC820044042D /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
-		6E2C1D662768CC8B0044042D /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		6E2C1D682768CCC80044042D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6E2C1D6A2768CD020044042D /* Preview Code.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Preview Code.swift"; sourceTree = "<group>"; };
 		6E2C1D6B2768CD020044042D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6E2C1D6E276935A60044042D /* AshtrayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayModel.swift; sourceTree = "<group>"; };
+		6E2C1D7027694C400044042D /* CountCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCategories.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
 				6E1A0C14276A9CEA0000BEA5 /* MyPackage in Frameworks */,
-=======
-				6E2C1D4A2768CB3C0044042D /* MyPackage in Frameworks */,
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +142,6 @@
 		6E2C1CDA27666BBD0044042D /* AshtrayCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				6E2C1D682768CCC80044042D /* Info.plist */,
 				6E2C1CDB27666BBD0044042D /* AshtrayCoreDataApp.swift */,
 				6E2C1D2C276682F00044042D /* View */,
 				6E2C1D2A276682C60044042D /* Model */,
@@ -183,9 +171,9 @@
 		6E2C1D12276682480044042D /* main */ = {
 			isa = PBXGroup;
 			children = (
-				6E2C1D512768CBED0044042D /* AverageView.swift */,
-				6E2C1D522768CBED0044042D /* HistoryView.swift */,
 				6E2C1D532768CBED0044042D /* MainView.swift */,
+				6E2C1D522768CBED0044042D /* HistoryView.swift */,
+				6E2C1D512768CBED0044042D /* AverageView.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -203,13 +191,13 @@
 		6E2C1D2A276682C60044042D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6E2C1CE427666BBD0044042D /* Persistence.swift */,
+				6E2C1D35276685E70044042D /* AshtrayViewModel.swift */,
+				6E2C1D7027694C400044042D /* CountCategories.swift */,
+				6E2C1D6E276935A60044042D /* AshtrayModel.swift */,
+				6E2C1D592768CC120044042D /* ArrayStatsCalculation.swift */,
 				6E2C1D0A27666CC20044042D /* Count.swift */,
-				6E2C1D35276685E70044042D /* CountModel.swift */,
 				6E2C1CE627666BBD0044042D /* AshtrayCoreData.xcdatamodeld */,
-				6E2C1D662768CC8B0044042D /* Model.swift */,
-				6E2C1D572768CC0D0044042D /* AshtrayDate.swift */,
-				6E2C1D592768CC120044042D /* StatsCalculation.swift */,
+				6E2C1CE427666BBD0044042D /* Persistence.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -271,11 +259,7 @@
 			);
 			name = AshtrayCoreData;
 			packageProductDependencies = (
-<<<<<<< HEAD
 				6E1A0C13276A9CEA0000BEA5 /* MyPackage */,
-=======
-				6E2C1D492768CB3C0044042D /* MyPackage */,
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 			);
 			productName = AshtrayCoreData;
 			productReference = 6E2C1CD827666BBD0044042D /* AshtrayCoreData.app */;
@@ -350,11 +334,7 @@
 			);
 			mainGroup = 6E2C1CCF27666BBD0044042D;
 			packageReferences = (
-<<<<<<< HEAD
 				6E1A0C0F276A9CDD0000BEA5 /* XCRemoteSwiftPackageReference "MyPackage" */,
-=======
-				6E2C1D482768CB3C0044042D /* XCRemoteSwiftPackageReference "MyPackage" */,
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 			);
 			productRefGroup = 6E2C1CD927666BBD0044042D /* Products */;
 			projectDirPath = "";
@@ -400,24 +380,24 @@
 			files = (
 				6E2C1CE527666BBD0044042D /* Persistence.swift in Sources */,
 				6E2C1D562768CBED0044042D /* MainView.swift in Sources */,
+				6E2C1D7127694C400044042D /* CountCategories.swift in Sources */,
 				6E2C1D0B27666CC20044042D /* Count.swift in Sources */,
 				6E2C1D542768CBED0044042D /* AverageView.swift in Sources */,
 				6E2C1D642768CC820044042D /* MonthPicker.swift in Sources */,
-				6E2C1D36276685E70044042D /* CountModel.swift in Sources */,
+				6E2C1D6F276935A60044042D /* AshtrayModel.swift in Sources */,
+				6E2C1D36276685E70044042D /* AshtrayViewModel.swift in Sources */,
 				6E2C1CDE27666BBD0044042D /* ContentView.swift in Sources */,
 				6E2C1D622768CC820044042D /* CustomPicker.swift in Sources */,
 				6E2C1D652768CC820044042D /* DatePickerView.swift in Sources */,
 				6E2C1D552768CBED0044042D /* HistoryView.swift in Sources */,
-				6E2C1D582768CC0D0044042D /* AshtrayDate.swift in Sources */,
 				6E2C1CDC27666BBD0044042D /* AshtrayCoreDataApp.swift in Sources */,
 				6E2C1D4E2768CBE00044042D /* InfoView.swift in Sources */,
 				6E2C1D6C2768CD020044042D /* Preview Code.swift in Sources */,
 				6E2C1CE827666BBD0044042D /* AshtrayCoreData.xcdatamodeld in Sources */,
 				6E2C1D612768CC820044042D /* BarplotView.swift in Sources */,
-				6E2C1D672768CC8B0044042D /* Model.swift in Sources */,
 				6E2C1D4F2768CBE00044042D /* SettingsView.swift in Sources */,
 				6E2C1D502768CBE00044042D /* TitleView.swift in Sources */,
-				6E2C1D5A2768CC120044042D /* StatsCalculation.swift in Sources */,
+				6E2C1D5A2768CC120044042D /* ArrayStatsCalculation.swift in Sources */,
 				6E2C1D632768CC820044042D /* WeekPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -773,11 +753,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-<<<<<<< HEAD
 		6E1A0C0F276A9CDD0000BEA5 /* XCRemoteSwiftPackageReference "MyPackage" */ = {
-=======
-		6E2C1D482768CB3C0044042D /* XCRemoteSwiftPackageReference "MyPackage" */ = {
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Leo-Lem/MyPackage";
 			requirement = {
@@ -788,15 +764,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-<<<<<<< HEAD
 		6E1A0C13276A9CEA0000BEA5 /* MyPackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6E1A0C0F276A9CDD0000BEA5 /* XCRemoteSwiftPackageReference "MyPackage" */;
-=======
-		6E2C1D492768CB3C0044042D /* MyPackage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6E2C1D482768CB3C0044042D /* XCRemoteSwiftPackageReference "MyPackage" */;
->>>>>>> parent of ab469f5 (Managed to get it working at least.)
 			productName = MyPackage;
 		};
 /* End XCSwiftPackageProductDependency section */
