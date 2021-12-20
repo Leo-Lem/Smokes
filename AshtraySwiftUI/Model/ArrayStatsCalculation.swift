@@ -43,86 +43,55 @@ extension Array where Element == CountType {
         static func getAverage(for id: CountIDType, timespan: IDSpanType, interval: IDIntervalType) -> Double {
             let idRange = getIDRange(from: id, forTimespan: timespan)
             
-            return calculateCountAverage(in: idRange, withInterval: interval)
-        }
-        
-        private static func getIDRange(from id: CountIDType, forTimespan timespan: IDSpanType) -> ClosedRange<CountIDType> {
-            let idRange: ClosedRange<CountIDType>
-            let idRanges = IDRanges(from: id)
-            
-            switch timespan {
-            case .day: idRange = idRanges.day
-            case .week: idRange = idRanges.week
-            case .month: idRange = idRanges.month
-            case .alltime: idRange = idRanges.alltime
-            }
-            
-            return idRange
-        }
-        
-        private struct IDRanges {
-            private var startingID: CountIDType {
-                StatsCalculation.startingID
-            }
-            private let baseID: CountIDType
-            
-            init(from id: CountIDType) {
-                self.baseID = id
-            }
-            
-            var day: ClosedRange<CountIDType> {
-                baseID...baseID
-            }
-            
-            var week: ClosedRange<CountIDType> {
-                var from = baseID.getComponents(), to = baseID.getComponents()
-                
-                from.day! -= (from.weekday! - 1)
-                to.day! += (7 - to.weekday!)
-                
-                return from.getDate()...to.getDate()
-            }
-            
-            var month: ClosedRange<CountIDType> {
-                var from = baseID.getComponents(), to = baseID.getComponents()
-                
-                from.day = 1
-                to.month! += 1; to.day = 0
-                
-                return from.getDate()...to.getDate()
-            }
-            
-            var alltime: ClosedRange<CountIDType> {
-                self.startingID < baseID ? self.startingID...baseID : baseID...baseID
-            }
+            return calculateCountAverage(in: idRange, interval: interval)
         }
         
         private static func calculateCountSum(in idRange: ClosedRange<CountIDType>) -> Double {
-            let distance = getDistance(of: idRange)
+            let distance = Int(getDistance(of: idRange))
             var sum: Int = 0, lowerID = idRange.lowerBound
             
-            for i in 0...distance {
-                let id = incrementID(lowerID, by: i)
-                sum += getAmount(for: id)
+            for _ in 0...distance {
+                lowerID.day += 1
+                sum += getAmount(for: lowerID)
             }
             
             return Double(sum)
         }
         
-        private static func calculateCountAverage(in idRange: ClosedRange<CountIDType>, withInterval interval: IDIntervalType) -> Double {
-            var sum = calculateCountSum(in: idRange), distance = getDistance(of: idRange)
+        private static func calculateCountAverage(in idRange: ClosedRange<CountIDType>, interval: IDIntervalType) -> Double {
+            let sum = calculateCountSum(in: idRange), distance: Double
             
             switch interval {
-            case .daily: break
-            case .weekly: distance /= 7
-            case .monthly: distance /= 30
+            case .daily: distance = getDistance(of: idRange)
+            case .weekly: distance = getDistance(of: idRange, in: .week)
+            case .monthly: distance = getDistance(of: idRange, in: .month)
             }
             
             return calculateAverage(sum: sum, distance: distance)
         }
         
-        private static func getDistance(of idRange: ClosedRange<CountIDType>) -> Int {
-            Calendar.current.dateComponents([.day], from: idRange.lowerBound, to: idRange.upperBound).day!
+        private static func getIDRange(from id: CountIDType, forTimespan timespan: IDSpanType) -> ClosedRange<CountIDType> {
+            var from = id, to = id
+            
+            switch timespan {
+            case .day: break
+            case .week:
+                from.day -= (from.weekday - 1)
+                to.day += (7 - to.weekday)
+            case .month:
+                from.day = 1
+                to.month += 1
+                to.day = 0
+            case .alltime:
+                from = startingID
+            }
+            
+            if from <= to { return from...to }
+            else { return id...id }
+        }
+        
+        private static func getDistance(of idRange: ClosedRange<CountIDType>, in unit: Date.DistanceUnit = .day) -> Double {
+            idRange.lowerBound.distance(to: idRange.upperBound, in: unit)
         }
         
         private static func findCount(for id: CountIDType) -> CountType? {
@@ -133,13 +102,9 @@ extension Array where Element == CountType {
             findCount(for: id)?.amount ?? 0
         }
         
-        private static func incrementID(_ id: CountIDType, by i: Int) -> CountIDType {
-            id.addToValues([i], for: [.day])
-        }
-        
-        private static func calculateAverage(sum: Double, distance: Int) -> Double {
-            if distance >= 0 {
-                return sum / Double(distance + 1)
+        private static func calculateAverage(sum: Double, distance: Double) -> Double {
+            if distance > 0 {
+                return sum / distance
             } else {
                 return sum
             }

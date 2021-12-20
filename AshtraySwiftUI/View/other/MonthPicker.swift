@@ -22,14 +22,14 @@ struct MonthPicker: View {
     var body: some View {
         HStack {
             SymbolButton("chevron.left", size: 20) {
-                date = date.addToValues([-1], for: [.year])
+                date.addToValue(-1, for: .year)
             }
             .foregroundColor(date.getComponents().year == from.getComponents().year ? .gray : .black)
             
             YearMonthView($date, from: from, to: to)
             
             SymbolButton("chevron.right", size: 20) {
-                date = date.addToValues([1], for: [.year])
+                date.addToValue(1, for: .year)
             }
             .foregroundColor(date.getComponents().year == to.getComponents().year ? .gray : .black)
         }
@@ -47,10 +47,14 @@ struct YearMonthView: View {
             Text(String(date.getComponents().year!)).font(size: 70)
             GridStack(rows: 3, columns: 4) { row, col in
                 Button(action: {
-                    date = date.setValues([0, 4*row+col+2], for: [.day, .month])
+                    date.setValue([0, 4*row+col+2], for: [.day, .month])
                 }) {
-                    Text(monthDateFormatter.string(from: date.setValues([0, 4*row+col+2, date.getComponents().year!], for: [.day, .month, .year])))
-                        .foregroundColor(.primary).font(.system(size: 9)).lineLimit(1).padding(5)
+                    Text(monthDateFormatter.string(from: date.getDateWithValueSet([0, 4*row+col+2, date.asDateComponents.year!],
+                                                                                  for: [.day, .month, .year])))
+                        .foregroundColor(.primary)
+                        .font(.system(size: 9))
+                        .lineLimit(1)
+                        .padding(5)
                         .frame(maxWidth: .infinity)
                 }
                 .background(Color.accentColor)
@@ -61,11 +65,11 @@ struct YearMonthView: View {
     }
     
     private func isMonthOutOfBounds(row: Int, col: Int) -> Bool {
-        let monthDate = date.setValues([0, 4*row+col+2, date.getComponents().year!],
-                                       for: [.day, .month, .year])
+        let monthDate = date.getDateWithValueSet([0, 4*row+col+2, date.asDateComponents.year!],
+                                                 for: [.day, .month, .year])
         return (
-            monthDate.getComponents().year! == from.getComponents().year! &&
-            monthDate.getComponents().month! < from.getComponents().month!
+            monthDate.asDateComponents.year! == from.asDateComponents.year! &&
+            monthDate.asDateComponents.month! < from.asDateComponents.month!
             ||
             monthDate.getComponents().year! == to.getComponents().year! &&
             monthDate.getComponents().month! > to.getComponents().month!

@@ -6,140 +6,76 @@
 //
 
 import XCTest
+import MyOthers
 @testable import AshtraySwiftUI
 
 class AshtraySwiftUITests: XCTestCase {
-    private let startingID = Count.getID(from: Date(timeIntervalSince1970: 86400*365*50)) //20.12.2019
-    private var testingID: CountIDType {
-        Count.getID(from: startingID.addToValues([60], for: [.day])) //18.02.2020
-    }
-    private var exampleCounts: [CountType] {
-        var counts = [CountType]()
-        for i in 0..<100 {
-            let id = startingID.addToValues([i], for: [.day])
-            counts.append(Count(id: id, amount: 2))
-        }
-        return counts
-    }
-    private var exampleEmptyCounts = [CountType]()
+    //MARK: configuration
+    private var exampleDays = 0, startID = CountIDType(), endID = CountIDType(), testingInterval = 0, testingAmount = 0, testingID = CountIDType()
+    private var exampleCounts = [CountType]()
+    private var testWithEmptyCountsArray = false
     
     override func setUpWithError() throws {
+        exampleDays = Int.random(in: 61...364)
+        startID = Count.getID(from: Date(timeIntervalSinceReferenceDate: Double.random(in: 0..<86400*365*20)))
+        endID = Count.getID(from: startID.getDateWithValueAdded(exampleDays, for: .day))
+        testingInterval = Int.random(in: 30..<(exampleDays-31))
+        testingID = Count.getID(from: startID.getDateWithValueAdded(testingInterval, for: .day))
+        testingAmount = Int.random(in: 1...25)
+        
+        
+        
+        if !testWithEmptyCountsArray {
+            for i in 0...exampleDays {
+                let id = startID.getDateWithValueAdded(i, for: .day)
+                exampleCounts.append(Count(id: id, amount: testingAmount))
+            }
+        }
     }
 
     override func tearDownWithError() throws {
-    }
-
-    func testExampleCountsContainsExamples() {
-        XCTAssertFalse(exampleCounts.isEmpty)
+        print("""
+            \nTested with:
+                Starting-ID: \(startID),
+                End-ID: \(endID),
+                Example-Days: \(exampleDays),
+                Testing-ID: \(testingID),
+                Testing-Interval: \(testingInterval),
+                Testing-Amount: \(testingAmount)\n
+            """)
     }
     
     func testSumCalculation() {
-        let id = testingID //18.02.2020
-        let counts = exampleCounts
+        let interval = testingInterval + 1, amount = testingAmount, id = testingID, counts = exampleCounts
         
         //day
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .day)),
-            2
-        )
+        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .day)), amount)
         
         //week
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .week)),
-            14
-        )
+        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .week)), amount * 7)
         
         //month
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .month)),
-            58
-        )
+        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .month)),
+                       amount * testingID.asDateComponents.daysInMonth, accuracy: amount * 2)
         
         //alltime
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .alltime, from: startingID)),
-            122
-        )
-    }
-    
-    func testSumCalculationWithEmptyArray() {
-        let id = testingID //18.02.2020
-        let counts = exampleEmptyCounts
-
-        //day
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .day)),
-            0
-        )
-        
-        //week
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .week)),
-            0
-        )
-        
-        //month
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .month)),
-            0
-        )
-        
-        //alltime
-        XCTAssertEqual(
-            Int(counts.calculateSum(for: id, timespan: .alltime, from: startingID)),
-            0
-        )
+        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .alltime, from: startID)), amount * interval, accuracy: amount * 2)
     }
     
     func testAverageCalculation() {
-        let id = testingID //18.02.2020
-        let counts = exampleCounts
+        let id = testingID, amount = Double(testingAmount), counts = exampleCounts
+        let errorMargin = 0.2
         
-        //week-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .week, interval: .daily),
-                       2.0)
-        //month-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .daily),
-                       2.0)
-        //alltime-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .daily, from: startingID),
-                       2.0)
+        //daily: week, month and alltime
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .week, interval: .daily), amount, accuracy: amount * errorMargin)
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .daily), amount, accuracy: amount * errorMargin)
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .daily, from: startID), amount, accuracy: amount * errorMargin)
         
-        //month-weekly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .weekly),
-                       11.6)
-        //alltime-weekly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .weekly, from: startingID),
-                       13 + 5/9)
+        //weekly: month, alltime
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .weekly), amount * 7, accuracy: (amount * 7) * errorMargin)
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .weekly, from: startID), amount * 7, accuracy: (amount * 7) * errorMargin)
         
-        //alltime-monthly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .monthly, from: startingID),
-                       40 + 2/3)
-    }
-    
-    func testAverageCalculationWithEmptyArray() {
-        let id = testingID //18.02.2020
-        let counts = exampleEmptyCounts
-        
-        //week-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .week, interval: .daily),
-                       0)
-        //month-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .daily),
-                       0)
-        //alltime-daily
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .daily, from: startingID),
-                       0)
-        
-        //month-weekly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .weekly),
-                       0)
-        //alltime-weekly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .weekly, from: startingID),
-                       0)
-        
-        //alltime-monthly
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .monthly, from: startingID),
-                       0)
+        //monthly: alltime
+        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .monthly, from: startID), amount * 30.4, accuracy: (amount * 30.4) * errorMargin)
     }
 }
