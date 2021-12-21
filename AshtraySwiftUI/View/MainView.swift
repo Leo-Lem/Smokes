@@ -9,35 +9,29 @@ import SwiftUI
 import MyCustomUI
 
 struct MainView: View {
-    @EnvironmentObject private var viewModel: AshtrayViewModel
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
         VStack {
-            ForEach(AshtrayViewModel.Main.allCases, id:\.self) { category in
+            ForEach(ViewModel.DisplayCategory.allCases, id:\.self) { category in
                 NavigationLink {
                     //TODO: insert plots to visualize different counts
                 } label: {
-                    CountDisplay(category.rawValue, viewModel.calculateMain(category: category))
+                    CountDisplay(category.rawValue, viewModel.getDiplayValue(category: category))
                         .layoutListItem()
                 }
             }
             
             Spacer()
             
-            TwoWayDragButton(leftAction: removeCig,
-                             rightAction: addCig)
+            TwoWayDragButton(leftAction: removeCig, rightAction: addCig)
             
             Spacer()
         }
     }
     
-    private func addCig() {
-        viewModel.addCig()
-    }
-    
-    private func removeCig() {
-        viewModel.removeCig()
-    }
+    private func removeCig() { viewModel.removeCig() }
+    private func addCig() { viewModel.addCig() }
 }
 
 struct MainView_Previews: PreviewProvider {

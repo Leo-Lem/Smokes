@@ -9,12 +9,9 @@ import SwiftUI
 
 @main
 struct AshtraySwiftUIApp: App {
-    @StateObject var viewModel = AshtrayViewModel()
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(viewModel)
         }
     }
 }

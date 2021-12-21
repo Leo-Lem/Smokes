@@ -10,28 +10,24 @@ import MyLayout
 import MyCustomUI
 
 struct AverageView: View {
-    @EnvironmentObject private var viewModel: AshtrayViewModel
-    
-    @State private var timespan: AshtrayViewModel.AverageSpan = .alltime
-    @State private var date = Date()
+    @StateObject var viewModel = ViewModel()
     
     var body: some View {
         VStack {
-            ForEach(AshtrayViewModel.AverageInterval.allCases, id:\.self) { interval in
-                CountDisplay(interval.rawValue,
-                             viewModel.calculateAverage(for: date, category: timespan, interval: interval))
+            ForEach(ViewModel.Interval.allCases, id:\.self) { interval in
+                CountDisplay(interval.rawValue, viewModel.getDisplayValue(interval: interval))
                     .layoutListItem()
-                    .hidden(interval.hideView(timespan))
-                    .animation(.default, value: timespan)
+                    .hidden(interval.hideView(viewModel.timespan))
+                    .animation(.default, value: viewModel.timespan)
                     .transition(.move(edge: .trailing))
             }
             
             Spacer()
             
             Group {
-                switch timespan {
+                switch viewModel.timespan {
                 case .alltime, .thisweek, .thismonth:
-                    DatePicker($date, in: viewModel.startingID...Date())
+                    DatePicker($viewModel.date, in: viewModel.startingDate...Date())
                         .labelsHidden()
                         .layoutListItem()
                     
@@ -41,7 +37,7 @@ struct AverageView: View {
             }
             .frame(height: LayoutDefaults.rowHeight * 2)
             
-            CustomPicker($timespan)
+            CustomPicker($viewModel.timespan)
                 .padding()
                 .layoutListItem()
                 

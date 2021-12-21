@@ -11,71 +11,100 @@ import MyOthers
 
 class AshtraySwiftUITests: XCTestCase {
     //MARK: configuration
-    private var exampleDays = 0, startID = CountIDType(), endID = CountIDType(), testingInterval = 0, testingAmount = 0, testingID = CountIDType()
-    private var exampleCounts = [CountType]()
+    private let model = Model()
+    private var exampleInterval = 0, exampleAmount = 0, endID = CountIDType()
     private var testWithEmptyCountsArray = false
     
     override func setUpWithError() throws {
-        exampleDays = Int.random(in: 61...364)
-        startID = Count.getID(from: Date(timeIntervalSinceReferenceDate: Double.random(in: 0..<86400*365*20)))
-        endID = Count.getID(from: startID.getDateWithValueAdded(exampleDays, for: .day))
-        testingInterval = Int.random(in: 30..<(exampleDays-31))
-        testingID = Count.getID(from: startID.getDateWithValueAdded(testingInterval, for: .day))
-        testingAmount = Int.random(in: 1...25)
-        
-        
+        //setting up some example data in the model
+        model.startingID = Count.getID(from: Date(timeIntervalSinceReferenceDate:
+                                                    Double.random(in: 0..<86400*365*20)))
+        exampleInterval = Int.random(in: 61...364)
+        exampleAmount = Int.random(in: 1...25)
+        endID = Count.getID(from: model.startingID.getDateWithValueAdded(exampleInterval, for: .day))
         
         if !testWithEmptyCountsArray {
-            for i in 0...exampleDays {
-                let id = startID.getDateWithValueAdded(i, for: .day)
-                exampleCounts.append(Count(id: id, amount: testingAmount))
+            for i in 0...exampleInterval {
+                let id = model.startingID.getDateWithValueAdded(i, for: .day)
+                model.counts.append(Count(id: id, amount: exampleAmount))
             }
         }
+        
+        print("""
+            \nTesting with:
+                Starting-ID: \(model.startingID),
+                Example-Interval: \(exampleInterval),
+                Example-Amount: \(exampleAmount),,
+                End-ID: \(endID)\n
+            """)
     }
 
     override func tearDownWithError() throws {
-        print("""
-            \nTested with:
-                Starting-ID: \(startID),
-                End-ID: \(endID),
-                Example-Days: \(exampleDays),
-                Testing-ID: \(testingID),
-                Testing-Interval: \(testingInterval),
-                Testing-Amount: \(testingAmount)\n
-            """)
     }
     
     func testSumCalculation() {
-        let interval = testingInterval + 1, amount = testingAmount, id = testingID, counts = exampleCounts
+        let amount = exampleAmount
+        let interval = Int.random(in: 30..<(exampleInterval-31))
+        let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))
         
-        //day
-        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .day)), amount)
+        //all timespans
+        XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .day)),
+                       amount)
+        XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .week)),
+                       amount * 7)
+        XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .month)),
+                       amount * id.asDateComponents.daysInMonth, accuracy: amount * 2)
+        XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .alltime)),
+                       amount * interval, accuracy: amount * 2)
         
-        //week
-        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .week)), amount * 7)
-        
-        //month
-        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .month)),
-                       amount * testingID.asDateComponents.daysInMonth, accuracy: amount * 2)
-        
-        //alltime
-        XCTAssertEqual(Int(counts.calculateSum(for: id, timespan: .alltime, from: startID)), amount * interval, accuracy: amount * 2)
+        print("""
+            \nTested with:
+                Testing-ID: \(id),
+                Testing-Interval \(interval)
+            """)
     }
     
     func testAverageCalculation() {
-        let id = testingID, amount = Double(testingAmount), counts = exampleCounts
-        let errorMargin = 0.2
+        let amount = Double(exampleAmount)
+        let interval = Int.random(in: 30..<(exampleInterval-31))
+        let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))
+        let errorMargin = 0.2 //because of the way these averages are calculated
         
         //daily: week, month and alltime
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .week, interval: .daily), amount, accuracy: amount * errorMargin)
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .daily), amount, accuracy: amount * errorMargin)
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .daily, from: startID), amount, accuracy: amount * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .week, interval: .daily),
+                       amount, accuracy: amount * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .month, interval: .daily),
+                       amount, accuracy: amount * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .alltime, interval: .daily),
+                       amount, accuracy: amount * errorMargin)
         
         //weekly: month, alltime
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .month, interval: .weekly), amount * 7, accuracy: (amount * 7) * errorMargin)
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .weekly, from: startID), amount * 7, accuracy: (amount * 7) * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .month, interval: .weekly),
+                       amount * 7, accuracy: (amount * 7) * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .alltime, interval: .weekly),
+                       amount * 7, accuracy: (amount * 7) * errorMargin)
         
         //monthly: alltime
-        XCTAssertEqual(counts.calculateAverage(for: id, timespan: .alltime, interval: .monthly, from: startID), amount * 30.4, accuracy: (amount * 30.4) * errorMargin)
+        XCTAssertEqual(model.calculateAverage(for: id, timespan: .alltime, interval: .monthly),
+                       amount * 30.4, accuracy: (amount * 30.4) * errorMargin)
+        
+        print("""
+            \nTested with:
+                Testing-ID: \(id),
+                Testing-Interval \(interval),
+                Error-Margin: \(errorMargin)
+            """)
+    }
+    
+    func testAddingOnDate() {
+        
+    }
+    
+    func testRemovingOnDate() {
+        
+    }
+    
+    func testRemovingOnDateIfEmpty() {
+        
     }
 }

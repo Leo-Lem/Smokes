@@ -10,19 +10,19 @@ import MyLayout
 import MyOthers
 
 public struct CustomPicker: View {
-    @Binding private var selection: AshtrayViewModel.AverageSpan
+    @Binding private var selection: AverageView.ViewModel.Timespan
     private let height: CGFloat
     
     public var body: some View {
         Picker(selection: $selection, label: Text("")) {
-            ForEach(AshtrayViewModel.AverageSpan.allCases, id:\.self) {
+            ForEach(AverageView.ViewModel.Timespan.allCases, id:\.self) {
                 Text($0.rawValue)
             }
         }
         .pickerStyle(.segmented)
     }
     
-    init(_ selection: Binding<AshtrayViewModel.AverageSpan>,
+    init(_ selection: Binding<AverageView.ViewModel.Timespan>,
          height: CGFloat = LayoutDefaults.rowHeight) {
         self._selection = selection
         self.height = height
