@@ -9,7 +9,7 @@ import SwiftUI
 import MyCustomUI
 
 struct HistoryView: View {
-    @StateObject private var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
         VStack {
@@ -18,10 +18,10 @@ struct HistoryView: View {
                     .layoutListItem()
                     .onTapGesture {} //making scrolling possible with the longpressgesture recognizer
                     .onLongPressGesture(minimumDuration: 1) {
-                        withAnimation { viewModel.editing.isEditing = true }
+                        withAnimation { viewModel.isEditing = true }
                     }
-                    .opacity(viewModel.editing.opacity)
-                    .animation(viewModel.editing.animation, value: viewModel.editing.isEditing)
+                    .opacity(viewModel.isEditing ? 0.8 : 1)
+                    .animation(viewModel.isEditing ? .linear(duration: 1).repeatForever() : .default, value: viewModel.isEditing)
             }
             
             Spacer()
@@ -32,15 +32,15 @@ struct HistoryView: View {
             
             TwoWayDragButton(leftAction: removeCig, rightAction: addCig)
                 .transition(.move(edge: .bottom))
-                .hidden(!viewModel.editing.isEditing)
+                .hidden(!viewModel.isEditing)
             
             Spacer()
         }
         .overlay(alignment: .bottomTrailing) {
             SymbolButton("xmark.circle") {
-                withAnimation { viewModel.editing.isEditing = false }
+                withAnimation { viewModel.isEditing = false }
             }
-            .hidden(!viewModel.editing.isEditing)
+            .hidden(!viewModel.isEditing)
         }
     }
     

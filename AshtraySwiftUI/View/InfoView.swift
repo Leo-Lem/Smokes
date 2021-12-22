@@ -13,7 +13,7 @@ struct InfoView: View {
     var body: some View {
         ScrollView {
             Section {
-                Text("Hi, my name's Leo. Ashtray has been my project for a while now. It started out as something I was missing on my iPhone: A way to gain insight into my smoking habit. I had pretty much just started out learning to program for iOS and this was a great project to practice my skills on.")
+                Text("Hi, my name's Leo. Ashtray has been my project for a while now. It started out as something I was missing on my iPhone: A way to gain insight into my smoking habit.")
                     .font(size: 15)
                     .multilineTextAlignment(.center)
                     .layoutListItem(height: LayoutDefaults.rowHeight * 4)

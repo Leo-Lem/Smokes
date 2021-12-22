@@ -9,7 +9,7 @@ import SwiftUI
 import MyCustomUI
 
 struct MainView: View {
-    @StateObject private var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
         VStack {

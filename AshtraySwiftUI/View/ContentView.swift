@@ -10,33 +10,33 @@ import MyLayout
 import MyCustomUI
 
 struct ContentView: View {
-    private enum ViewType: String, CaseIterable {
-        case main = "Ashtray", history = "History", average = "Average"
-    }
-    @State private var selectedView: ViewType = .main
-    @State private var showOverlay = false
-    @State private var showInfo = false
+    @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
         ZStack {
             VStack {
-                TitleView(selectedView.rawValue, showOverlay: $showOverlay, showInfo: $showInfo)
+                TitleView(viewModel.selectedView.rawValue, showOverlay: $viewModel.showOverlay, showInfo: $viewModel.showInfo)
                     .zIndex(2)
-                TabView(selection: $selectedView) {
+                TabView(selection: $viewModel.selectedView) {
                     HistoryView()
-                        .tag(ViewType.history)
+                        .tag(ViewModel.ViewType.history)
                     MainView()
-                        .tag(ViewType.main)
+                        .tag(ViewModel.ViewType.main)
                     AverageView()
-                        .tag(ViewType.average)
+                        .tag(ViewModel.ViewType.average)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .zIndex(1)
             }
+            .overlay {
+                if viewModel.showOverlay {
+                    Color.black.opacity(0.5).ignoresSafeArea()
+                }
+            }
             
-            if showOverlay {
+            if viewModel.showOverlay {
                 Group {
-                    if showInfo {
+                    if viewModel.showInfo {
                         InfoView()
                             .transition(.move(edge: .top))
                     } else {
@@ -44,15 +44,10 @@ struct ContentView: View {
                             .transition(.move(edge: .top))
                     }
                 }
-                .background {
-                    Color.black
-                        .opacity(0.5)
-                        .ignoresSafeArea()
-                }
-                .overlay(alignment: .bottomTrailing) {
-                    SymbolButton("xmark.circle") {
+                .overlay(alignment: .bottom) {
+                    SymbolButton("chevron.up", size: 40) {
                         withAnimation {
-                            showOverlay = false
+                            viewModel.showOverlay = false
                         }
                     }
                     .padding(5)

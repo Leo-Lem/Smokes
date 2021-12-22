@@ -37,6 +37,17 @@
                BlueprintName = "AshtraySwiftUITests"
                ReferencedContainer = "container:AshtraySwiftUI.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AshtraySwiftUITests/testAddingOnDate()">
+               </Test>
+               <Test
+                  Identifier = "AshtraySwiftUITests/testRemovingOnDate()">
+               </Test>
+               <Test
+                  Identifier = "AshtraySwiftUITests/testRemovingOnDateIfEmpty()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

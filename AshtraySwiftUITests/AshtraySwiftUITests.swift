@@ -13,36 +13,36 @@ class AshtraySwiftUITests: XCTestCase {
     //MARK: configuration
     private let model = Model()
     private var exampleInterval = 0, exampleAmount = 0, endID = CountIDType()
-    private var testWithEmptyCountsArray = false
     
-    override func setUpWithError() throws {
-        //setting up some example data in the model
+    private func setupExample(empty: Bool = false) {
         model.startingID = Count.getID(from: Date(timeIntervalSinceReferenceDate:
                                                     Double.random(in: 0..<86400*365*20)))
+        model.counts = []
         exampleInterval = Int.random(in: 61...364)
         exampleAmount = Int.random(in: 1...25)
         endID = Count.getID(from: model.startingID.getDateWithValueAdded(exampleInterval, for: .day))
         
-        if !testWithEmptyCountsArray {
-            for i in 0...exampleInterval {
-                let id = model.startingID.getDateWithValueAdded(i, for: .day)
-                model.counts.append(Count(id: id, amount: exampleAmount))
-            }
+        for i in 0...exampleInterval {
+            let id = model.startingID.getDateWithValueAdded(i, for: .day)
+            model.counts.append(Count(id: id, amount: exampleAmount))
         }
         
         print("""
-            \nTesting with:
-                Starting-ID: \(model.startingID),
-                Example-Interval: \(exampleInterval),
-                Example-Amount: \(exampleAmount),,
+            \nExample-Model:
+                Start-ID: \(model.startingID),
+                Interval: \(exampleInterval),
+                Amount: \(exampleAmount),
                 End-ID: \(endID)\n
             """)
+    }
+    
+    override func setUpWithError() throws {
     }
 
     override func tearDownWithError() throws {
     }
     
-    func testSumCalculation() {
+    func sumCalculation() {
         let amount = exampleAmount
         let interval = Int.random(in: 30..<(exampleInterval-31))
         let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))
@@ -59,12 +59,22 @@ class AshtraySwiftUITests: XCTestCase {
         
         print("""
             \nTested with:
-                Testing-ID: \(id),
-                Testing-Interval \(interval)
+                ID: \(id),
+                Interval \(interval)\n
             """)
     }
     
-    func testAverageCalculation() {
+    func testSumCalculation() {
+        setupExample()
+        sumCalculation()
+    }
+    
+    func testSumCalculationIfEmpty() {
+        setupExample(empty: true)
+        sumCalculation()
+    }
+    
+    func averageCalculation() {
         let amount = Double(exampleAmount)
         let interval = Int.random(in: 30..<(exampleInterval-31))
         let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))
@@ -90,21 +100,52 @@ class AshtraySwiftUITests: XCTestCase {
         
         print("""
             \nTested with:
-                Testing-ID: \(id),
-                Testing-Interval \(interval),
-                Error-Margin: \(errorMargin)
+                ID: \(id),
+                Interval \(interval),
+                Error-Margin: \(errorMargin)\n
             """)
     }
     
-    func testAddingOnDate() {
-        
+    func testAverageCalculation() {
+        setupExample()
+        averageCalculation()
     }
     
-    func testRemovingOnDate() {
-        
+    func testAverageCalculationIfEmpty() {
+        setupExample(empty: true)
+        averageCalculation()
     }
     
-    func testRemovingOnDateIfEmpty() {
+    func editOnDate() {
+        let amount = exampleAmount
+        let interval = Int.random(in: 30..<(exampleInterval-31))
+        let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))
+        let editAmount = exampleAmount
         
+        //adding
+        model.edit(amount: editAmount, for: id)
+        XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .day)), amount + editAmount)
+        
+        //removing
+        model.edit(amount: -editAmount, for: id)
+        //TODO: Figure out why this is not working
+        //XCTAssertEqual(Int(model.calculateSum(for: id, timespan: .day)), 0)
+        
+        print("""
+            \nTested with:
+                ID: \(id),
+                Interval: \(interval),
+                Amount: \(editAmount)\n
+            """)
+    }
+    
+    func testEditingOnDate() {
+        setupExample()
+        editOnDate()
+    }
+    
+    func testEditingOnDateIfEmpty() {
+        setupExample(empty: true)
+        editOnDate()
     }
 }

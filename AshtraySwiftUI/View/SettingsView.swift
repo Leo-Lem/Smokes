@@ -7,10 +7,9 @@
 
 import SwiftUI
 import MyCustomUI
-import MyOthers
 
 struct SettingsView: View {
-    @StateObject var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
         ScrollView {
@@ -31,7 +30,7 @@ struct SettingsView: View {
                 Spacer()
                 
                 Button {
-                    viewModel.showWarning = true
+                    viewModel.showImporter = true
                 } label: {
                     Image(systemName: "square.and.arrow.down")
                         .font()
@@ -39,8 +38,7 @@ struct SettingsView: View {
                 }
             }
             .layoutListItem()
-            .alert(isPresented: $viewModel.showWarning) { viewModel.warningAlert }
-            .alert(isPresented: $viewModel.showConfirmation) { viewModel.completionAlert }
+            .alert(isPresented: $viewModel.showConfirmation) { completionAlert }
             .fileExporter(isPresented: $viewModel.showExporter,
                           document: viewModel.file, contentType: .json, defaultFilename: "Ashtray-Counts",
                           onCompletion: exportAction)
@@ -52,7 +50,7 @@ struct SettingsView: View {
                 Text("Start Date")
                     .font(size: 15)
                     .padding()
-                DatePicker($viewModel.startingID, to: Date())
+                DatePicker($viewModel.startingDate, to: Date())
                     .padding()
             }
             .layoutListItem()
@@ -60,8 +58,16 @@ struct SettingsView: View {
         .padding(.vertical)
     }
     
+    //TODO: add a new alert notifying of the consequences of an import (overwriting all current data)
+    //an alert giving information about the status of the export or import
+    private var completionAlert: Alert {
+        Alert(title: Text(viewModel.completionTitle),
+              message: Text(viewModel.completionMessage),
+              dismissButton: .default(Text("OK")))
+    }
+    
     private func exportAction(result: Result<URL, Error>) { viewModel.exportAction(result: result) }
-    private func importAction(result: Result<[URL], Error>) { viewModel.importAction(result: result)}
+    private func importAction(result: Result<[URL], Error>) { viewModel.importAction(result: result) }
 }
 
 struct Settings_Previews: PreviewProvider {

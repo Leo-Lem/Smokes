@@ -14,6 +14,7 @@ struct PreviewMod: ViewModifier {
         content
             .preferredColorScheme(.dark)
             .backgroundImage()
+            .environmentObject(SuperViewModel())
     }
 }
 

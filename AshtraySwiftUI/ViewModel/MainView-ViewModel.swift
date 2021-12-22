@@ -8,9 +8,7 @@
 import Foundation
 
 extension MainView {
-    @MainActor class ViewModel: ObservableObject {
-        private let model = Model()
-        
+    @MainActor class ViewModel: SuperViewModel {
         enum DisplayCategory: String, CaseIterable {
             case today = "Today",
                  yesterday = "Yesterday",

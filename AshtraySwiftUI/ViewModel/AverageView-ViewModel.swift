@@ -9,10 +9,7 @@ import Foundation
 import MyOthers
 
 extension AverageView {
-    @MainActor class ViewModel: ObservableObject {
-        private let model = Model()
-        var startingDate: Date { model.startingID.getDate() }
-        
+    @MainActor class ViewModel: SuperViewModel {
         @Published var timespan: Timespan = .alltime
         @Published var date = Date()
         

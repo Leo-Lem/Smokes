@@ -5,17 +5,13 @@
 //  Created by Leopold Lemmermann on 21.12.21.
 //
 
-import SwiftUI
+import Foundation
 import MyOthers
 
 extension HistoryView {
-    @MainActor class ViewModel: ObservableObject {
-        private let model = Model()
-        var startingDate: Date { model.startingID.getDate() }
-        
+    @MainActor class ViewModel: SuperViewModel {
         @Published var date = Date()
-        //TODO: redesign the editing structure
-        @Published var editing = Editing()
+        @Published var isEditing = false
         
         enum DisplayCategory: String, CaseIterable {
             case thisday = "This Day",
@@ -46,26 +42,6 @@ extension HistoryView {
         func removeCig() {
             let id = Count.getID(from: date)
             model.edit(amount: -1, for: id)
-        }
-        
-        struct Editing {
-            var isEditing: Bool = false {
-                didSet {
-                    if isEditing == true { opacity = 0.8 }
-                    else { opacity = 1 }
-                }
-            }
-            
-            var opacity: CGFloat = 1
-            
-            var animation: Animation {
-                if isEditing {
-                    return Animation.easeInOut(duration: 1)
-                        .repeatForever()
-                } else {
-                    return Animation.easeInOut
-                }
-            }
         }
     }
 }

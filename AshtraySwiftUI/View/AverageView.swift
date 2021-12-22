@@ -10,7 +10,7 @@ import MyLayout
 import MyCustomUI
 
 struct AverageView: View {
-    @StateObject var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
         VStack {
