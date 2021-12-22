@@ -42,6 +42,12 @@
                   Identifier = "AshtraySwiftUITests/testAddingOnDate()">
                </Test>
                <Test
+                  Identifier = "AshtraySwiftUITests/testEditingOnDate()">
+               </Test>
+               <Test
+                  Identifier = "AshtraySwiftUITests/testEditingOnDateIfEmpty()">
+               </Test>
+               <Test
                   Identifier = "AshtraySwiftUITests/testRemovingOnDate()">
                </Test>
                <Test

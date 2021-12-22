@@ -8,54 +8,60 @@
 import Foundation
 import MyOthers
 
-typealias CountType = Count
-typealias CountIDType = Date
-
-struct Count: Codable, Hashable, Comparable {
-    let id: CountIDType
-    var amount: Int
-    
-    static func getID(from date: Date) -> CountIDType {
-        date.getComponents([.day, .month, .year]).getDate()
-    }
-    
-    static func <(lhs: Count, rhs: Count) -> Bool {
-        lhs.id < rhs.id
-    }
-}
-
 class Model: ObservableObject {
-    var startingID: CountIDType {
+    //TODO: rename startingID to startID
+    //TODO: try out objects for startID and counts with loading and saving methods
+    var startingID: CountIDType = Count.getID(from: CountIDType()){
         willSet { self.objectWillChange.send() }
-        didSet { UserDefaults.standard.set(Count.getID(from: startingID), forKey: "startingID") }
+        didSet { saveStartingID() }
     }
     
-    //TODO: change the saving to of the counts to the app directory
-    var counts: [CountType] {
+    private func loadStartingID() {
+        guard let id = UserDefaults.standard.object(forKey:"startingID") as? CountIDType else { return }
+        self.startingID = id
+    }
+    private func saveStartingID() {
+        UserDefaults.standard.set(startingID, forKey: "startingID")
+    }
+    
+    //the counts and related methods
+    var counts: [CountType] = [] {
         willSet { self.objectWillChange.send() }
-        didSet { UserDefaults.standard.setObject(counts.filter { $0.amount > 0 }.sorted(), forKey: "counts") }
+        didSet {
+            modifyCounts(&counts)
+            try? saveCounts()
+        }
+    }
+    
+    private let docsURL = FileManager.documentsDirectory.appendingPathComponent("SavedCounts")
+    private func loadCounts() throws {
+        let data = try Data(contentsOf: docsURL)
+        self.counts = try JSONDecoder().decode([CountType].self, from: data)
+        //self.counts = UserDefaults.standard.getObject(forKey: "counts", castTo: [CountType].self) ?? []
+    }
+    private func saveCounts() throws {
+        let data = try JSONEncoder().encode(counts)
+        try data.write(to: docsURL, options: .atomic)
+        //UserDefaults.standard.setObject(counts, forKey: "counts")
+    }
+    private func modifyCounts(_ counts: inout [CountType]) {
+        counts.removeAll { $0.amount <= 0 }
+        counts.sort()
     }
     
     init() {
-        self.startingID = UserDefaults.standard.object(forKey:"startingID") as? CountIDType ?? CountIDType()
-        self.counts = UserDefaults.standard.getObject(forKey: "counts", castTo: [CountType].self) ?? []
-    }
-
-    enum Timespan: CaseIterable {
-        case day, week, month, alltime
-    }
-    enum Interval: CaseIterable {
-        case daily, weekly, monthly
+        loadStartingID()
+        try? loadCounts()
     }
     
     //calculating the stats
-    func calculateSum(for id: CountIDType, timespan: Timespan) -> Double {
-        let calculator = StatsCalculator(from: self.counts, startingID: self.startingID)
+    func calculateSum(for id: CountIDType, timespan: StatsCalculator.Timespan) -> Double {
+        let calculator = StatsCalculator(counts: self.counts, startingID: self.startingID)
         return calculator.sum(for: id, timespan: timespan)
     }
     
-    func calculateAverage(for id: CountIDType, timespan: Timespan,  interval: Interval) -> Double {
-        let calculator = StatsCalculator(from: self.counts, startingID: self.startingID)
+    func calculateAverage(for id: CountIDType, timespan: StatsCalculator.Timespan,  interval: StatsCalculator.Interval) -> Double {
+        let calculator = StatsCalculator(counts: self.counts, startingID: self.startingID)
         return calculator.average(for: id, timespan: timespan, interval: interval)
     }
     

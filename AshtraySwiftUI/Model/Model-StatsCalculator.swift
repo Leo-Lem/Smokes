@@ -9,9 +9,16 @@ import Foundation
 
 extension Model {
     class StatsCalculator {
+        enum Timespan: CaseIterable {
+            case day, week, month, alltime
+        }
+        enum Interval: CaseIterable {
+            case daily, weekly, monthly
+        }
+        
         private let counts: [CountType], startingID: CountIDType
         
-        init(from counts: [CountType], startingID: CountIDType = CountIDType()) {
+        init(counts: [CountType], startingID: CountIDType = CountIDType()) {
             self.counts = counts
             self.startingID = startingID
         }
