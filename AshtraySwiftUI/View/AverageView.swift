@@ -49,6 +49,5 @@ struct AverageView: View {
 struct Averages_Previews: PreviewProvider {
     static var previews: some View {
         AverageView()
-            .preview()
     }
 }

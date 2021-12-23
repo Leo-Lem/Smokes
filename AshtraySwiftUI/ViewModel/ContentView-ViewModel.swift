@@ -13,8 +13,11 @@ extension ContentView {
             case main = "Ashtray", history = "History", average = "Average"
         }
         
+        enum OverlayType: String {
+            case none = "None", settings = "Settings", info = "Info"
+        }
+        
         @Published var selectedView: ViewType = .main
-        @Published var showOverlay = false
-        @Published var showInfo = false
+        @Published var selectedOverlay: OverlayType = .none
     }
 }

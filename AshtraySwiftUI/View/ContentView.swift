@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                TitleView(viewModel.selectedView.rawValue, showOverlay: $viewModel.showOverlay, showInfo: $viewModel.showInfo)
+                TitleView(viewModel.selectedView.rawValue, selectedOverlay: $viewModel.selectedOverlay)
                     .zIndex(2)
                 TabView(selection: $viewModel.selectedView) {
                     HistoryView()
@@ -28,40 +28,36 @@ struct ContentView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .zIndex(1)
             }
+            .accessibilityHidden(viewModel.selectedOverlay != .none)
             .overlay {
-                if viewModel.showOverlay {
-                    Color.black.opacity(0.5).ignoresSafeArea()
-                }
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                    .hidden(viewModel.selectedOverlay == .none)
             }
             
-            if viewModel.showOverlay {
-                Group {
-                    if viewModel.showInfo {
-                        InfoView()
-                            .transition(.move(edge: .top))
-                    } else {
-                        SettingsView()
-                            .transition(.move(edge: .top))
-                    }
-                }
-                .overlay(alignment: .bottom) {
-                    SymbolButton("chevron.up", size: 40) {
-                        withAnimation {
-                            viewModel.showOverlay = false
-                        }
-                    }
-                    .padding(5)
-                }
-                .zIndex(3)
+            Group {
+                SettingsView()
+                    .hidden(viewModel.selectedOverlay != .settings)
+                
+                InfoView()
+                    .hidden(viewModel.selectedOverlay != .info)
             }
+            .transition(.move(edge: .top))
+            .overlay(alignment: .bottom) {
+                SymbolButton("chevron.up", size: 40) {
+                    withAnimation { viewModel.selectedOverlay = .none }
+                }
+                .accessibilityLabel("Dismiss")
+            }
+            .zIndex(3)
+            .hidden(viewModel.selectedOverlay == .none)
         }
-        .backgroundImage("BackgroundImage", opacity: 0.8)
+        .backgroundImage("BackgroundImage", opacity: 0.9)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .preview()
     }
 }

@@ -51,6 +51,5 @@ struct HistoryView: View {
 struct EditCigs_Previews: PreviewProvider {
     static var previews: some View {
         HistoryView()
-            .preview()
     }
 }

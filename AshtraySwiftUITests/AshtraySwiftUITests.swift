@@ -16,6 +16,8 @@ class AshtraySwiftUITests: XCTestCase {
     override func tearDownWithError() throws {
     }
     
+    //TODO: figure out how to have an in-memory model without cluttering up the production code
+    
     //different configurations
     func testSumCalculation() {
         sumCalculation(example: Example.random)
@@ -99,7 +101,6 @@ class AshtraySwiftUITests: XCTestCase {
             """)
     }
     
-    //TODO: figure out how to have an in-memory model without cluttering up the production code
     /*private func editOnDate() {
         let interval = Int.random(in: 30..<(exampleInterval-31))
         let id = Count.getID(from: model.startingID.getDateWithValueAdded(interval, for: .day))

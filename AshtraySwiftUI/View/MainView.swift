@@ -25,6 +25,15 @@ struct MainView: View {
             Spacer()
             
             TwoWayDragButton(leftAction: removeCig, rightAction: addCig)
+                .accessibilityRemoveTraits(.isImage)
+                .accessibilityLabel("Add or remove cigarettes for today.")
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: addCig()
+                    case .decrement: removeCig()
+                    default: break
+                    }
+                }
             
             Spacer()
         }
@@ -38,7 +47,6 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             MainView()
-                .preview()
         }
     }
 }

@@ -14,28 +14,22 @@ struct SettingsView: View {
     var body: some View {
         ScrollView {
             HStack {
-                Button {
+                SymbolButton("square.and.arrow.up") {
                     viewModel.showExporter = true
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .font()
-                        .padding()
                 }
+                .accessibilityLabel("Export")
                 
                 Spacer()
                 
-                Text("Data")
+                Text("Count-Data")
                     .font(size: 15)
                 
                 Spacer()
                 
-                Button {
+                SymbolButton("square.and.arrow.down") {
                     viewModel.showImporter = true
-                } label: {
-                    Image(systemName: "square.and.arrow.down")
-                        .font()
-                        .padding()
                 }
+                .accessibilityLabel("Import")
             }
             .layoutListItem()
             .alert(isPresented: $viewModel.showConfirmation) { completionAlert }
@@ -73,6 +67,5 @@ struct SettingsView: View {
 struct Settings_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .preview()
     }
 }

@@ -89,6 +89,5 @@ struct MonthPicker_Previews: PreviewProvider {
         MonthPicker(date: .constant(Date()),
                     from: Calendar.current.date(byAdding: .month, value: -48, to: Date())!,
                     to: Date())
-            .preview()
     }
 }
