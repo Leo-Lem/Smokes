@@ -32,14 +32,14 @@ class AshtrayTests: XCTestCase {
         let entry = TestData.entry
         stateController.entries.append(entry)
         
-        XCTAssertNoThrow(try stateController.save())
+        XCTAssertNoThrow(try stateController.saveEntries())
     }
     
     
     func testLoadingEntries() {
         let stateController = StateController()
         
-        XCTAssertNotNil(try? stateController.load())
+        XCTAssertNotNil(try? stateController.Entries())
     }
     
     //MARK: storage controller

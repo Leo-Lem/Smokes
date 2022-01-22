@@ -25,6 +25,9 @@ final class StateController: ObservableObject {
          calculationController: CalculationControllerProtocol = CalculationController()) {
         self.storageController = storageController
         self.calculationController = calculationController
+        
+        self.preferences ?= try? loadPrefs()
+        self.entries ?= try? loadEntries()
     }
     
 }
@@ -40,7 +43,7 @@ extension StateController {
             entries.append(entry)
         }
         
-        try save()
+        try saveEntries()
     }
     
     private func getIndex(_ entry: Entry) -> Int? { entries.firstIndex { $0.id == entry.id } }
@@ -48,12 +51,20 @@ extension StateController {
 
 //MARK: - storage
 extension StateController {
-    func save() throws {
+    func saveEntries() throws {
         try storageController.save(self.entries)
     }
     
-    func load() throws -> [Entry] {
+    func loadEntries() throws -> [Entry] {
         try storageController.loadEntries()
+    }
+    
+    func savePrefs() throws {
+        try storageController.save(self.preferences)
+    }
+    
+    func loadPrefs() throws -> Preferences {
+        try storageController.loadPreferences()
     }
 }
 
@@ -124,7 +135,7 @@ extension StateController {
 
 //MARK: - preferences
 extension StateController {
-    struct Preferences {
+    struct Preferences: Codable {
         var startDate: Date
         
         static let `default` = Preferences(startDate: Date())
@@ -134,5 +145,7 @@ extension StateController {
         startDate: Date? = nil
     ) throws {
         preferences.startDate ?= startDate
+        
+        try savePrefs()
     }
 }

@@ -9,7 +9,7 @@
 //MARK: - Properties
 "app-title" = "Ashtray";
 "default-font" = "American Typewriter";
-
+"preferences-save-key" = "preferences";
 
 //MARK: - Main
 "main-label" = "Ashtray";

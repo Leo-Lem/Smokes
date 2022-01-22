@@ -18,7 +18,7 @@ protocol StorageControllerProtocol {
 }
 
 class LocalStorageController: StorageControllerProtocol {
-    enum StorageError: Error { case encode } //TODO: implement error handling
+    enum StorageError: Error { case encode, notFound, decode } //TODO: implement error handling
     
     
     func save(_ entries: [Entry]) throws {
@@ -31,11 +31,14 @@ class LocalStorageController: StorageControllerProtocol {
     }
     
     func save(_ preferences: Preferences) throws {
-        //TODO: implement saving prefs
+        guard let data = try? JSONEncoder().encode(preferences) else { throw StorageError.encode}
+        UserDefaults.standard.set(data, forKey: "preferences-save-key"~)
     }
     
     func loadPreferences() throws -> Preferences {
-        //TODO: implement loading prefs
-        return Preferences.default
+        guard let data = UserDefaults.standard.object(forKey: "preferences-save-key"~) as? Data else { throw StorageError.notFound }
+        guard let prefs = try? JSONDecoder().decode(Preferences.self, from: data) else { throw StorageError.decode }
+        
+        return prefs
     }
 }
