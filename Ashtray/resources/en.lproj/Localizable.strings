@@ -1,0 +1,44 @@
+/* 
+  Localizable.strings
+  Ashtray
+
+  Created by Leopold Lemmermann on 20.01.22.
+  
+*/
+
+//MARK: - General
+"app-title" = "Ashtray";
+
+
+//MARK: - Main
+"main-label-text" = "Ashtray";
+
+"main-today-label" = "Today";
+"main-yesterday-label" = "Yesterday";
+"main-this-week-label" = "This Week";
+"main-this-month-label" = "This Month";
+"main-alltime-label" = "Since Inception";
+
+//MARK: - History
+"history-label-text" = "History";
+
+"hist-this-day-label" = "This Day";
+"hist-this-week-label" = "This Week";
+"hist-this-month-label" = "This Month";
+"hist-alltime-label" = "Until This Day";
+
+//MARK: - Stats
+"stats-label-text" = "Stats";
+
+
+
+//MARK: - Symbols
+"pref-button-symbol" = "gear.circle";
+"info-button-symbol" = "info.circle";
+"dismiss-overlay-symbol" = "chevron.up";
+"main-label-symbol" = "house.circle";
+"history-label-symbol" = "calendar.circle";
+"stats-label-symbol" = "divide.circle";
+
+//MARK: - Properties
+"default-font" = "American Typewriter";
