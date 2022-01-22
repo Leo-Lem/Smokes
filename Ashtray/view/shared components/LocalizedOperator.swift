@@ -7,6 +7,7 @@
 
 import Foundation
 
+//TODO: move to package
 postfix operator ~
 public postfix func ~ (string: String) -> String {
     NSLocalizedString(string, comment: "")

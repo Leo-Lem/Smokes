@@ -14,13 +14,13 @@ struct AshtrayView: View {
             TabView(selection: $currentPage) {
                 Group {
                     HistView()
-                        .tabItem { Label("history-label-text"~, systemImage: "history-label-symbol"~) }
+                        .tabItem { Label("history-label"~, systemImage: "history-label-symbol"~) }
                         .tag(Page.hist)
                     MainView()
-                        .tabItem { Label("main-label-text"~, systemImage: "main-label-symbol"~) }
+                        .tabItem { Label("main-label"~, systemImage: "main-label-symbol"~) }
                         .tag(Page.main)
                     StatView()
-                        .tabItem { Label("stats-label-text"~, systemImage: "stats-label-symbol"~)}
+                        .tabItem { Label("stats-label"~, systemImage: "stats-label-symbol"~)}
                         .tag(Page.stat)
                 }
                 .padding(.bottom, 50)
@@ -30,20 +30,24 @@ struct AshtrayView: View {
             .modifier(TitleBar(selectedOverlay: $currentOverlay))
         }
         .overlay {
-            switch currentOverlay {
-            case .pref:
-                PrefView()
+            ZStack {
+                if currentOverlay != .none {
+                    Color.black.opacity(0.8)
+                    
+                    Group {
+                        if currentOverlay == .pref { PrefView() }
+                        else if currentOverlay == .info { InfoView() }
+                    }
                     .overlay(alignment: .bottom) {
                         SymbolButton("dismiss-overlay-symbol"~) { currentOverlay = .none }
+                        .font(size: 30)
                     }
-            case .info:
-                InfoView()
-                    .overlay(alignment: .bottom) {
-                        SymbolButton("dismiss-overlay-symbol"~) { currentOverlay = .none }
-                    }
-            default: EmptyView()
+                    .transition(.move(edge: .top))
+                }
             }
+            .animation(currentOverlay)
         }
+        
         .foregroundColor(.primary)
     }
     

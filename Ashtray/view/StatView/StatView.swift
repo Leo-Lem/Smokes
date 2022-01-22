@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatView: View {
-    @EnvironmentObject var sc: StateController
+    @EnvironmentObject private var sc: StateController
     
     var body: some View { Content(startDate: sc.preferences.startDate, calc: calc) }
     

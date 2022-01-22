@@ -57,7 +57,5 @@ struct HistViewContent_Previews: PreviewProvider {
 extension HistView.Content {
     #if DEBUG
     typealias Total = StateController.Total
-    typealias LabeledNumber = MainView.LabeledNumber
-    typealias CustomDatePicker = StatView.CustomDatePicker
     #endif
 }

@@ -44,6 +44,5 @@ struct MainViewContent_Previews: PreviewProvider {
 extension MainView.Content {
     #if DEBUG
     typealias Total = StateController.Total
-    typealias LabeledNumber = MainView.LabeledNumber
     #endif
 }

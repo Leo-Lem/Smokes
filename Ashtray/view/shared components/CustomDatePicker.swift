@@ -8,7 +8,7 @@
 import SwiftUI
 import MyCustomUI
 
-extension StatView {
+extension StatView.Content {
     struct CustomDatePicker: View {
         @Binding var date: Date
         let bounds: (Date?, Date?)
@@ -37,7 +37,7 @@ extension StatView {
     }
 }
 
-extension HistView { typealias CustomDatePicker = StatView.CustomDatePicker }
+extension HistView.Content { typealias CustomDatePicker = StatView.Content.CustomDatePicker }
 
 //TODO: move to package
 extension DatePicker {

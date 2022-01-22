@@ -21,7 +21,7 @@ extension AshtrayView {
                     }
                     
                     ToolbarItem(placement: .principal) {
-                        Text("app-title"~).font("default-font"~)
+                        Text("app-title"~).font(.title)
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {

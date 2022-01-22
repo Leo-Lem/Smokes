@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension MainView {
+extension MainView.Content {
     struct LabeledNumber<N: CustomStringConvertible>: View {
         let label: String, number: N
         
@@ -27,13 +27,13 @@ extension MainView {
     }
 }
 
-extension HistView { typealias LabeledNumber = MainView.LabeledNumber }
-extension StatView { typealias LabeledNumber = MainView.LabeledNumber }
+extension HistView.Content { typealias LabeledNumber = MainView.Content.LabeledNumber }
+extension StatView.Content { typealias LabeledNumber = MainView.Content.LabeledNumber }
 
 //MARK: - Previews
 struct Row_Previews: PreviewProvider {
     static var previews: some View {
-        MainView.LabeledNumber(label: "today", number: 10)
+        MainView.Content.LabeledNumber(label: "today", number: 10)
             .frame(maxHeight: 75)
     }
 }

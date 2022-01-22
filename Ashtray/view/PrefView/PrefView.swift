@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct PrefView: View {
-    @EnvironmentObject var sc: StateController
+    @EnvironmentObject private var sc: StateController
     
-    var body: some View {
-        Content()
+    var body: some View { Content(startDate: sc.preferences.startDate, edit: edit) }
+    
+    private func edit(_ startDate: Date? = nil) {
+        try? sc.editPreferences(startDate: startDate) //TODO: implement error handling
     }
-    
-    /*
-     //MARK: ideas for settable preferences
-     
-     - start date
-     - import / export (JSON)
-     - cloud storage
-     - default number of cigarettes to add per click
-     - ...
-     
-     */
 }
+
+/*
+ //MARK: ideas for settable preferences
+ 
+ - start date
+ - import / export (JSON)
+ - cloud storage
+ - default number of cigarettes to add per click
+ - ...
+ 
+ */

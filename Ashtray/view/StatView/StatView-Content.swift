@@ -51,7 +51,5 @@ struct StatViewContent_Previews: PreviewProvider {
 extension StatView.Content {
     #if DEBUG
     typealias Average = StateController.Average
-    typealias LabeledNumber = MainView.LabeledNumber
-    typealias CustomDatePicker = HistView.CustomDatePicker
     #endif
 }
