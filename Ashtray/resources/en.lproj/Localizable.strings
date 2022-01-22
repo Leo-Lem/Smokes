@@ -6,8 +6,9 @@
   
 */
 
-//MARK: - General
+//MARK: - Properties
 "app-title" = "Ashtray";
+"default-font" = "SF Pro Display";
 
 
 //MARK: - Main
@@ -30,7 +31,12 @@
 //MARK: - Stats
 "stats-label-text" = "Stats";
 
-
+"stat-daily-label" = "Daily";
+"stat-weekly-label" = "Weekly";
+"stat-monthly-label" = "Monthly";
+"stat-this-week-label" = "Week";
+"stat-this-month-label" = "Month";
+"stat-alltime-label" = "Alltime";
 
 //MARK: - Symbols
 "pref-button-symbol" = "gear.circle";
@@ -40,5 +46,3 @@
 "history-label-symbol" = "calendar.circle";
 "stats-label-symbol" = "divide.circle";
 
-//MARK: - Properties
-"default-font" = "American Typewriter";

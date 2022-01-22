@@ -93,7 +93,7 @@ extension StateController {
         }
     }
     
-    func calculateAverage(average: Average) -> Double {
+    func calculate(average: Average) -> Double {
         let timespan: CalculationTimespan, interval: CalculationInterval
         
         switch average.kind {

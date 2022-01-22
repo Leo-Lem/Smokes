@@ -10,35 +10,38 @@ import SwiftUI
 struct StatView: View {
     @EnvironmentObject var sc: StateController
     
-    var body: some View {
-        Content()
-    }
+    var body: some View { Content(startDate: sc.preferences.startDate, calc: calc) }
     
-    typealias Timespan = StateController.Average.Timespan
-    typealias Interval = StateController.Average.Interval
+    private func calc(_ average: Average) -> Double { sc.calculate(average: average) }
+    
+    typealias Average = StateController.Average
 }
 
 //MARK: - Labels for the displayed averages
-extension StateController.Average.Timespan: CaseIterable {
-    static var allCases: [Self] = [.thisweek, .thismonth, .alltime]
+extension StateController.Average {
+    static func statCases(_ date: Date, _ timespan: Timespan) -> [Self] {
+        [
+            Self(kind: (timespan, .daily), date: date),
+            Self(kind: (timespan, .weekly), date: date),
+            Self(kind: (timespan, .monthly), date: date)
+        ]
+    }
     
-    var name: String {
-        switch self {
-        case .thisweek: return "This Week"
-        case .thismonth: return "This Month"
-        case .alltime: return "All Time"
+    var intervalName: String {
+        switch self.kind.1 {
+        case .daily: return "stat-daily-label"~
+        case .weekly: return "stat-weekly-label"~
+        case .monthly: return "stat-monthly-label"~
         }
     }
-}
-
-extension StateController.Average.Interval: CaseIterable {
-    static var allCases: [Self] = [.daily, .weekly, .monthly]
     
-    var name: String {
-        switch self {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .monthly: return "Monthly"
+    static var timespanCases: [Timespan] = [.alltime, .thismonth, .thisweek] //TODO: add this year
+    
+    static func timespanName(_ timespan: Timespan) -> String {
+        switch timespan {
+        case .thisweek: return "stat-this-week-label"~
+        case .thismonth: return "stat-this-month-label"~
+        case .alltime: return "stat-alltime-label"~
         }
     }
 }

@@ -23,7 +23,7 @@ struct AshtrayView: View {
                         .tabItem { Label("stats-label-text"~, systemImage: "stats-label-symbol"~)}
                         .tag(Page.stat)
                 }
-                .padding(.bottom, 25)
+                .padding(.bottom, 50)
             }
             .tabViewStyle(.page)
             .labelStyle(.iconOnly)

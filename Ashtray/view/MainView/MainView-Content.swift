@@ -19,7 +19,7 @@ extension MainView {
                         //TODO: insert plots to visualize different counts
                     //} label: {
                         LabeledNumber(label: total.mainName, number: calc(total))
-                            .rowItem()
+                            .rowItem().frame(maxHeight: 100)
                     //}
                 }
                 
@@ -31,11 +31,6 @@ extension MainView {
                 Spacer()
             }
         }
-        
-        #if DEBUG
-        typealias Total = StateController.Total
-        typealias LabeledNumber = MainView.LabeledNumber
-        #endif
     }
 }
 
@@ -44,4 +39,11 @@ struct MainViewContent_Previews: PreviewProvider {
     static var previews: some View {
         MainView.Content(calc: { _ in 0}, add: {}, rem: {})
     }
+}
+
+extension MainView.Content {
+    #if DEBUG
+    typealias Total = StateController.Total
+    typealias LabeledNumber = MainView.LabeledNumber
+    #endif
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension MainView {
-    struct LabeledNumber<N: Numeric & CustomStringConvertible>: View {
+    struct LabeledNumber<N: CustomStringConvertible>: View {
         let label: String, number: N
         
         var body: some View {

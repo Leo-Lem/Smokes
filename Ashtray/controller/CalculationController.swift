@@ -50,29 +50,32 @@ class CalculationController: CalculationControllerProtocol {
     ) -> Double {
         let total = calculateTotal(for: timespan, in: entries)
         let divisor = getDivisor(for: timespan, with: interval)
-        let average = Double(total) / (divisor ?? 1)
+        let average = Double(total) / divisor
         
         return average
     }
     
     //MARK: - actual calculation methods
-    private func getDivisor(for timespan: CalculationTimespan, with interval: CalculationInterval) -> Double? {
+    private func getDivisor(for timespan: CalculationTimespan, with interval: CalculationInterval) -> Double {
+        let divisor: Double
+        
         switch (timespan, interval) {
-        case (.day, .daily): return 1
         case (.week(let date), .daily):
-            return Double(date.distance(for: .weekOfYear, in: .day)!)
+            divisor = Double(date.distance(for: .weekOfYear, in: .day)!)
         case (.month(let date), .daily):
-            return Double(date.distance(for: .month, in: .day)!)
+            divisor = Double(date.distance(for: .month, in: .day)!)
         case (.month(let date), .weekly):
-            return Double(date.distance(for: .month)!) / 7
+            divisor = Double(date.distance(for: .month)!) / 7
         case (.alltime(let date, let startDate), .daily):
-            return startDate.distance(to: date, in: .day)!
+            divisor = startDate.distance(to: date, in: .day)!
         case (.alltime(let date, let startDate), .weekly):
-            return startDate.distance(to: date, in: .day)! / 7
+            divisor = startDate.distance(to: date, in: .day)! / 7
         case (.alltime(let date, let startDate), .monthly):
-            return startDate.distance(to: date, in: .month)!
-        default: return nil
+            divisor = startDate.distance(to: date, in: .month)!
+        default: divisor = 1
         }
+        
+        return divisor > 1 ? divisor : 1
     }
     
     private func getDates(for timespan: CalculationTimespan) -> [Date] {

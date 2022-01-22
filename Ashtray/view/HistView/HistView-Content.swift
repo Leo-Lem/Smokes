@@ -20,7 +20,7 @@ extension HistView {
                         //TODO: insert plots to visualize different counts
                     //} label: {
                         LabeledNumber(label: total.histName, number: calc(total))
-                            .rowItem()
+                            .rowItem().frame(maxHeight: 100)
                             .onTapGesture {} //making scrolling possible with the longpressgesture recognizer
                             .onLongPressGesture { editing.toggle() }
                             .opacity(editing ? 0.8 : 1)
@@ -44,12 +44,6 @@ extension HistView {
         
         @State private var date = Date()
         @State private var editing = false
-        
-        #if DEBUG
-        typealias Total = StateController.Total
-        typealias LabeledNumber = MainView.LabeledNumber
-        typealias CustomDatePicker = StatView.CustomDatePicker
-        #endif
     }
 }
 
@@ -58,4 +52,12 @@ struct HistViewContent_Previews: PreviewProvider {
     static var previews: some View {
         HistView.Content(startDate: Date(), calc: { _ in 0}, add: {_ in}, rem: {_ in})
     }
+}
+
+extension HistView.Content {
+    #if DEBUG
+    typealias Total = StateController.Total
+    typealias LabeledNumber = MainView.LabeledNumber
+    typealias CustomDatePicker = StatView.CustomDatePicker
+    #endif
 }
