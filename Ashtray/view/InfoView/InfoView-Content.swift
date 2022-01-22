@@ -27,7 +27,7 @@ extension InfoView {
                 Spacer()
             }
             .toolbar {
-                ToolbarItem(placement: .principal) { Text("info-label"~).font(.title) }
+                ToolbarItem(placement: .principal) { Text("info-label"~).font("default-font"~, size: 30) }
             }
             .embedInNavigation()
             .blendMode(.lighten)

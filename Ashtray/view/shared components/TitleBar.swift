@@ -21,14 +21,16 @@ extension AshtrayView {
                     }
                     
                     ToolbarItem(placement: .principal) {
-                        Text("app-title"~).font(.title)
+                        if selectedOverlay == .none {
+                            Text("app-title"~).font("default-font"~, size: 30)
+                        }
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         SymbolButton("info-button-symbol"~) { selectedOverlay = .info }
                     }
                 }
-                .embedInNavigation()
+                
         }
     }
 }

@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+import MyCustomUI
 
 struct Row: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity)
             .padding(.horizontal)
-            .background(.regularMaterial)
+            .background(.bar)
             .cornerRadius(10)
             .padding(.horizontal)
-            .shadow(color: .secondary, radius: 5, y: 3)
-            .font("default-font"~)
+            .shadow(color: .accentColor, radius: 3, x: 3, y: 3)
+            .font("default-font"~, size: 25)
     }
 }
 

@@ -23,7 +23,7 @@ extension PrefView {
                 Spacer()
             }
             .toolbar {
-                ToolbarItem(placement: .principal) { Text("prefs-label"~).font(.title) }
+                ToolbarItem(placement: .principal) { Text("prefs-label"~).font("default-font"~, size: 30) }
             }
             .embedInNavigation()
             .blendMode(.lighten) //TODO: check if the background of the navView can be made transparent in less of a work-around

@@ -28,11 +28,13 @@ struct AshtrayView: View {
             .tabViewStyle(.page)
             .labelStyle(.iconOnly)
             .modifier(TitleBar(selectedOverlay: $currentOverlay))
+            .backgroundImage("BackgroundImage", opacity: 0.6)
+            .embedInNavigation()
         }
         .overlay {
             ZStack {
                 if currentOverlay != .none {
-                    Color.black.opacity(0.8)
+                    Color.black.opacity(0.8).ignoresSafeArea()
                     
                     Group {
                         if currentOverlay == .pref { PrefView() }
@@ -47,15 +49,12 @@ struct AshtrayView: View {
             }
             .animation(currentOverlay)
         }
-        
         .foregroundColor(.primary)
     }
     
     @State private var currentOverlay: Overlay = .none
     @State private var currentPage: Page = .main
-}
-
-extension AshtrayView {
+    
     enum Page { case main, hist, stat }
     enum Overlay { case none, pref, info }
 }

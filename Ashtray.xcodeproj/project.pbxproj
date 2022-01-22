@@ -119,14 +119,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E33F139279C55FB00CBDCDD /* components */ = {
-			isa = PBXGroup;
-			children = (
-				6E33F137279C54C300CBDCDD /* StartDatePicker.swift */,
-			);
-			path = components;
-			sourceTree = "<group>";
-		};
 		6E7809E327996FB600409480 /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,7 +179,6 @@
 			children = (
 				6E7809FE27997BFF00409480 /* PrefView.swift */,
 				6E780A0027997C2900409480 /* PrefView-Content.swift */,
-				6E33F139279C55FB00CBDCDD /* components */,
 			);
 			path = PrefView;
 			sourceTree = "<group>";
@@ -204,6 +195,7 @@
 		6E780A0827997DE300409480 /* shared components */ = {
 			isa = PBXGroup;
 			children = (
+				6E33F137279C54C300CBDCDD /* StartDatePicker.swift */,
 				6E780A0927997E1B00409480 /* TitleBar.swift */,
 				6E33F131279C13D800CBDCDD /* TwoWayDragButton.swift */,
 				6E780A172799A0D000409480 /* LabeledNumber.swift */,
