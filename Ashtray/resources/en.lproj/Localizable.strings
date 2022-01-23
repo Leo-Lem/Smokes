@@ -9,7 +9,7 @@
 //MARK: - Properties
 "app-title" = "Ashtray";
 "default-font" = "American Typewriter";
-"preferences-save-key" = "preferences";
+"default-export-filename" = "Ashtray-Data";
 
 //MARK: - Main
 "main-label" = "Ashtray";
@@ -42,8 +42,19 @@
 "prefs-label" = "Preferences";
 
 "pref-start-date-label" = "Start Date";
-"pref-import-label" = "Import";
-"pref-export-label" = "Export";
+"app-data-label" = "Transfer App Data";
+
+"import-failed-title" = "Import failed!";
+"export-failed-title" = "Export failed!";
+"import-success-title" = "Import successful!";
+"export-success-title" = "Export successful!";
+
+"import-failed-url" = "URL couldn't be found...";
+"import-failed-access" = "Access to file denied...";
+"import-failed-file" = "File is missing...";
+"import-failed-corrupted" = "File is corrupted...";
+"import-failed-decode" = "File is in unknown format!";
+"import-failed-unknown %@" = "Something Went Wrong: %@";
 
 //MARK: - Info
 "info-label" = "Info";
@@ -63,4 +74,5 @@ It started out as something I was missing on my iPhone: A way to gain insight in
 "main-label-symbol" = "house.circle";
 "history-label-symbol" = "calendar.circle";
 "stats-label-symbol" = "divide.circle";
-
+"import-button-symbol" = "square.and.arrow.down";
+"export-button-symbol" = "square.and.arrow.up";

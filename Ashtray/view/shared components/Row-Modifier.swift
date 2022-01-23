@@ -14,10 +14,11 @@ struct Row: ViewModifier {
             .frame(maxWidth: .infinity)
             .padding(.horizontal)
             .background(.bar)
-            .cornerRadius(10)
+            .cornerRadius(20)
             .padding(.horizontal)
-            .shadow(color: .accentColor, radius: 3, x: 3, y: 3)
-            .font("default-font"~, size: 25)
+            .shadow(color: .black, radius: 10)
+            .font("default-font"~, size: 25, padd: false)
+            .padding(.vertical, 5)
     }
 }
 

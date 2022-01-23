@@ -20,11 +20,16 @@ final class StateController: ObservableObject {
     
     let storageController: StorageControllerProtocol
     let calculationController: CalculationControllerProtocol
+    let transferController: TransferControllerProtocol
     
-    init(storageController: StorageControllerProtocol = LocalStorageController(),
-         calculationController: CalculationControllerProtocol = CalculationController()) {
+    init(
+        storageController: StorageControllerProtocol = LocalStorageController(),
+        calculationController: CalculationControllerProtocol = CalculationController(),
+        transferController: TransferControllerProtocol = TransferController()
+    ) {
         self.storageController = storageController
         self.calculationController = calculationController
+        self.transferController = transferController
         
         self.preferences ?= try? loadPrefs()
         self.entries ?= try? loadEntries()
@@ -56,7 +61,7 @@ extension StateController {
     }
     
     func loadEntries() throws -> [Entry] {
-        try storageController.loadEntries()
+        try storageController.load()
     }
     
     func savePrefs() throws {
@@ -64,7 +69,7 @@ extension StateController {
     }
     
     func loadPrefs() throws -> Preferences {
-        try storageController.loadPreferences()
+        try storageController.load()
     }
 }
 
@@ -148,4 +153,25 @@ extension StateController {
         
         try savePrefs()
     }
+}
+typealias Preferences = StateController.Preferences
+
+
+//MARK: - transfer
+extension StateController {
+    func getFile() -> JSONFile { JSONFile(self.preferences, self.entries) }
+    
+    func export(result: Result<URL, Error>) throws {
+        try transferController.export(result: result)
+    }
+    
+    func `import`(result: Result<[URL], Error>) throws {
+        let (prefs, entries) = try transferController.import(result: result)
+        
+        self.preferences = prefs
+        self.entries = entries
+        
+        throw TransferController.Status.importSuccess
+    }
+    
 }

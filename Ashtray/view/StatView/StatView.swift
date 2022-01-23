@@ -35,7 +35,7 @@ extension StateController.Average {
         }
     }
     
-    static var timespanCases: [Timespan] = [.alltime, .thismonth, .thisweek] //TODO: add this year
+    static var timespanCases: [Timespan] = [.thisweek, .thismonth, .alltime]
     
     static func timespanName(_ timespan: Timespan) -> String {
         switch timespan {

@@ -11,6 +11,8 @@
 		6E33F134279C362600CBDCDD /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E33F133279C362600CBDCDD /* CustomDatePicker.swift */; };
 		6E33F136279C39E900CBDCDD /* Row-Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E33F135279C39E900CBDCDD /* Row-Modifier.swift */; };
 		6E33F138279C54C300CBDCDD /* StartDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E33F137279C54C300CBDCDD /* StartDatePicker.swift */; };
+		6E6DD624279DA39100C7CB5A /* TransferController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD623279DA39100C7CB5A /* TransferController.swift */; };
+		6E6DD626279DB5AB00C7CB5A /* TransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD625279DB5AB00C7CB5A /* TransferView.swift */; };
 		6E7809E227996F8600409480 /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E127996F8600409480 /* StateController.swift */; };
 		6E7809E627996FCB00409480 /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E527996FCB00409480 /* StorageController.swift */; };
 		6E7809EA2799718200409480 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E92799718200409480 /* TestData.swift */; };
@@ -62,6 +64,8 @@
 		6E33F133279C362600CBDCDD /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		6E33F135279C39E900CBDCDD /* Row-Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Row-Modifier.swift"; sourceTree = "<group>"; };
 		6E33F137279C54C300CBDCDD /* StartDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartDatePicker.swift; sourceTree = "<group>"; };
+		6E6DD623279DA39100C7CB5A /* TransferController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferController.swift; sourceTree = "<group>"; };
+		6E6DD625279DB5AB00C7CB5A /* TransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferView.swift; sourceTree = "<group>"; };
 		6E7809E127996F8600409480 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		6E7809E527996FCB00409480 /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
 		6E7809E92799718200409480 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 				6E7809E127996F8600409480 /* StateController.swift */,
 				6E780A192799A6FD00409480 /* CalculationController.swift */,
 				6E7809E527996FCB00409480 /* StorageController.swift */,
+				6E6DD623279DA39100C7CB5A /* TransferController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				6E33F137279C54C300CBDCDD /* StartDatePicker.swift */,
+				6E6DD625279DB5AB00C7CB5A /* TransferView.swift */,
 				6E780A0927997E1B00409480 /* TitleBar.swift */,
 				6E33F131279C13D800CBDCDD /* TwoWayDragButton.swift */,
 				6E780A172799A0D000409480 /* LabeledNumber.swift */,
@@ -418,11 +424,13 @@
 				6E7809F927997BAC00409480 /* StatView.swift in Sources */,
 				6E780A0A27997E1B00409480 /* TitleBar.swift in Sources */,
 				6E849A742795D2160075C661 /* MainView.swift in Sources */,
+				6E6DD624279DA39100C7CB5A /* TransferController.swift in Sources */,
 				6E780A0327997C3B00409480 /* InfoView-Content.swift in Sources */,
 				6E7809F02799769000409480 /* MainView-Content.swift in Sources */,
 				6E780A0727997C6200409480 /* StatView-Content.swift in Sources */,
 				6E7809EA2799718200409480 /* TestData.swift in Sources */,
 				6E33F134279C362600CBDCDD /* CustomDatePicker.swift in Sources */,
+				6E6DD626279DB5AB00C7CB5A /* TransferView.swift in Sources */,
 				6E7809FD27997BFA00409480 /* InfoView.swift in Sources */,
 				6E780A182799A0D000409480 /* LabeledNumber.swift in Sources */,
 				6E33F138279C54C300CBDCDD /* StartDatePicker.swift in Sources */,

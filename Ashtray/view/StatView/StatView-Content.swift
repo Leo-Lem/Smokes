@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MyCustomUI
 
 extension StatView {
     struct Content: View {
@@ -14,18 +15,17 @@ extension StatView {
         
         var body: some View {
             VStack {
-                ForEach(Average.statCases(date, timespan), id:\.self) { average in
-                    LabeledNumber(label: average.intervalName, number: String(format: "%.2f", calc(average)))
-                        .rowItem().frame(maxHeight: 100)
+                ForEach(Average.statCases(date, timespan), id: \.self) { stat in
+                    LabeledNumber(label: stat.intervalName, number: String(format: "%.2f", calc(stat)))
+                        .rowItem().frame(maxHeight: 80)
+                        .hidden(hideStats(stat.kind))
+                        .transition(.opacity)
                 }
+                
                 Spacer()
                 
                 CustomDatePicker(.regular, date: $date, from: startDate)
                     .rowItem()
-                
-                Spacer()
-                
-                //TODO: Add Picker for selecting
                 
                 Picker("", selection: $timespan) {
                     ForEach(Average.timespanCases, id: \.self) { Text(Average.timespanName($0)) }
@@ -38,6 +38,15 @@ extension StatView {
         
         @State private var date = Date()
         @State private var timespan: Average.Timespan = .alltime
+        
+        private func hideStats(_ kind: (Average.Timespan, Average.Interval)) -> Bool {
+            switch kind {
+            case (.thisweek, .daily): return false
+            case (.thisweek, _): return true
+            case (.thismonth, .monthly): return true
+            default: return false
+            }
+        }
     }
 }
 

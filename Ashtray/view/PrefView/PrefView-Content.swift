@@ -12,8 +12,17 @@ extension PrefView {
     struct Content: View {
         let edit: (Date) -> Void
         
+        let createFile: () -> JSONFile
+        let export: (Result<URL, Error>) -> Void, `import`: (Result<[URL], Error>) -> Void
+        let alert: TransferAlert
+        
         var body: some View {
             VStack {
+                Section {
+                    TransferView(createFile: createFile, export: export, import: `import`)
+                        .rowItem()
+                }
+                
                 Section {
                     StartDatePicker(date: $startDate)
                         .rowItem()
@@ -25,14 +34,32 @@ extension PrefView {
             .toolbar {
                 ToolbarItem(placement: .principal) { Text("prefs-label"~).font("default-font"~, size: 30) }
             }
+            .alert(
+                alert.title ?? "",
+                isPresented: .constant(alert.title != nil),
+                actions: {},
+                message: { Text(alert.message ?? "") })
             .embedInNavigation()
             .blendMode(.lighten) //TODO: check if the background of the navView can be made transparent in less of a work-around
         }
         
         @State private var startDate: Date
-        init(startDate: Date, edit: @escaping (Date) -> Void) {
-            self._startDate = State(initialValue: startDate)
+        
+        init(
+            prefs: Preferences,
+            edit: @escaping (Date) -> Void,
+            createFile: @escaping () -> JSONFile,
+            export: @escaping (Result<URL, Error>) -> Void,
+            `import`: @escaping (Result<[URL], Error>) -> Void,
+            alert: TransferAlert
+        ) {
+            self._startDate = State(initialValue: prefs.startDate)
             self.edit = edit
+            
+            self.createFile = createFile
+            self.export = export
+            self.import = `import`
+            self.alert = alert
         }
     }
 }
@@ -40,6 +67,10 @@ extension PrefView {
 //MARK: - Previews
 struct PrefViewContent_Previews: PreviewProvider {
     static var previews: some View {
-        PrefView.Content(startDate: Date(), edit: {_ in})
+        PrefView.Content(
+            prefs: Preferences.default, edit: {_ in},
+            createFile: { JSONFile(Preferences.default, []) },
+            export: {_ in}, import: {_ in},
+            alert: PrefView.TransferAlert())
     }
 }

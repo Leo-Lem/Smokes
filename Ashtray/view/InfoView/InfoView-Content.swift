@@ -21,6 +21,7 @@ extension InfoView {
                 
                 Section("credits-label"~) {
                     Text("credits-text"~)
+                        .font(size: 15)
                         .rowItem()
                 }
                 

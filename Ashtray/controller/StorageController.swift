@@ -13,30 +13,34 @@ protocol StorageControllerProtocol {
     func save(_ entries: [Entry]) throws
     func save(_ preferences: Preferences) throws
     
-    func loadEntries() throws -> [Entry]
-    func loadPreferences() throws -> Preferences
+    func load() throws -> [Entry]
+    func load() throws -> Preferences
 }
 
 class LocalStorageController: StorageControllerProtocol {
-    enum StorageError: Error { case encode, notFound, decode } //TODO: implement error handling
+    enum StorageError: Error { case save, fetch, decode, encode }
     
+    private let dir = FileManager.documentsDirectory.appendingPathComponent("entries")
+    private let prefKey = "preferences"
     
     func save(_ entries: [Entry]) throws {
-        //TODO: implement saving
+        guard let data = try? JSONEncoder().encode(entries) else { throw StorageError.encode }
+        guard (try? data.write(to: dir)) != nil else { throw StorageError.save }
     }
     
-    func loadEntries() throws -> [Entry] {
-        //TODO: implement loading
-        return []
+    func load() throws -> [Entry] {
+        guard let data = try? Data(contentsOf: dir) else { throw StorageError.fetch }
+        guard let entries = try? JSONDecoder().decode([Entry].self, from: data) else { throw StorageError.decode }
+        return entries
     }
     
     func save(_ preferences: Preferences) throws {
-        guard let data = try? JSONEncoder().encode(preferences) else { throw StorageError.encode}
-        UserDefaults.standard.set(data, forKey: "preferences-save-key"~)
+        guard let data = try? JSONEncoder().encode(preferences) else { throw StorageError.encode }
+        UserDefaults.standard.set(data, forKey: prefKey)
     }
     
-    func loadPreferences() throws -> Preferences {
-        guard let data = UserDefaults.standard.object(forKey: "preferences-save-key"~) as? Data else { throw StorageError.notFound }
+    func load() throws -> Preferences {
+        guard let data = UserDefaults.standard.object(forKey: prefKey) as? Data else { throw StorageError.fetch }
         guard let prefs = try? JSONDecoder().decode(Preferences.self, from: data) else { throw StorageError.decode }
         
         return prefs

@@ -39,7 +39,7 @@ class AshtrayTests: XCTestCase {
     func testLoadingEntries() {
         let stateController = StateController()
         
-        XCTAssertNotNil(try? stateController.Entries())
+        XCTAssertNoThrow(try stateController.loadEntries())
     }
     
     //MARK: storage controller
@@ -95,7 +95,7 @@ class AshtrayTests: XCTestCase {
     }
     
     private func calculateTotal(
-        for timespan: CalculationController.Timespan
+        for timespan: CalculationTimespan
     ) -> Int {
         let cc = CalculationController()
         let entries = TestData.entries
@@ -104,8 +104,8 @@ class AshtrayTests: XCTestCase {
     }
     
     private func calculateAverage(
-        for timespan: CalculationController.Timespan,
-        with interval: CalculationController.Interval
+        for timespan: CalculationTimespan,
+        with interval: CalculationInterval
     ) -> Double {
         let cc = CalculationController()
         let entries = TestData.entries
