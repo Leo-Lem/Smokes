@@ -16,7 +16,6 @@ extension PrefView.Content {
         var body: some View {
             HStack {
                 SymbolButton("export-button-symbol"~, true: $exporter)
-                    .font()
                     .fileExporter(
                         isPresented: $exporter,
                         document: createFile(),
@@ -28,12 +27,10 @@ extension PrefView.Content {
                 Spacer()
                 
                 Text("app-data-label"~)
-                    .font("default-font"~)
                 
                 Spacer()
                 
                 SymbolButton("import-button-symbol"~, true: $importer)
-                    .font()
                     .fileImporter(
                         isPresented: $importer,
                         allowedContentTypes: [.json],

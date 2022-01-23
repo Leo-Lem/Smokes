@@ -16,9 +16,9 @@ struct Row: ViewModifier {
             .background(.bar)
             .cornerRadius(20)
             .padding(.horizontal)
-            .shadow(color: .black, radius: 10)
             .font("default-font"~, size: 25, padd: false)
             .padding(.vertical, 5)
+            
     }
 }
 

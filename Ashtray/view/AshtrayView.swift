@@ -28,21 +28,19 @@ struct AshtrayView: View {
             .tabViewStyle(.page)
             .labelStyle(.iconOnly)
             .modifier(TitleBar(selectedOverlay: $currentOverlay))
-            .backgroundImage("BackgroundImage", opacity: 0.6)
-            .embedInNavigation()
         }
+        .backgroundImage("BackgroundImage", opacity: 0.6)
+        .embedInNavigation()
+        
         .overlay {
             ZStack {
                 if currentOverlay != .none {
                     Color.black.opacity(0.8).ignoresSafeArea()
+                        .onTapGesture { currentOverlay = .none }
                     
                     Group {
                         if currentOverlay == .pref { PrefView() }
                         else if currentOverlay == .info { InfoView() }
-                    }
-                    .overlay(alignment: .bottom) {
-                        SymbolButton("dismiss-overlay-symbol"~) { currentOverlay = .none }
-                        .font(size: 30)
                     }
                     .transition(.move(edge: .top))
                 }

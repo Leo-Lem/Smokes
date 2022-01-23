@@ -10,12 +10,13 @@ import MyOthers
 
 final class StateController: ObservableObject {
     
-    var preferences: Preferences = .default {
+    private(set) var preferences: Preferences = .default {
         willSet { DispatchQueue.main.async { self.objectWillChange.send() } }
     }
     
-    var entries: [Entry] = [] {
+    private(set) var entries: [Entry] = [] {
         willSet { DispatchQueue.main.async { self.objectWillChange.send() } }
+        didSet { entries = entries.filter({ $0.amount > 0 }) }
     }
     
     let storageController: StorageControllerProtocol
@@ -33,6 +34,7 @@ final class StateController: ObservableObject {
         
         self.preferences ?= try? loadPrefs()
         self.entries ?= try? loadEntries()
+        self.entries = entries.map { Entry($0.id.startOfDay()!, amount: $0.amount) } //conversion from the old dates
     }
     
 }
@@ -170,6 +172,9 @@ extension StateController {
         
         self.preferences = prefs
         self.entries = entries
+        
+        try saveEntries()
+        try savePrefs()
         
         throw TransferController.Status.importSuccess
     }

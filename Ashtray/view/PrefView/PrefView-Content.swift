@@ -18,29 +18,29 @@ extension PrefView {
         
         var body: some View {
             VStack {
+                Text("prefs-label"~).font("default-font"~, size: 30)
+                
                 Section {
                     TransferView(createFile: createFile, export: export, import: `import`)
+                        .font(size: 15)
                         .rowItem()
                 }
                 
                 Section {
                     StartDatePicker(date: $startDate)
+                        .font(size: 15)
                         .rowItem()
                         .onChange(of: startDate, perform: edit)
                 }
                 
                 Spacer()
             }
-            .toolbar {
-                ToolbarItem(placement: .principal) { Text("prefs-label"~).font("default-font"~, size: 30) }
-            }
             .alert(
                 alert.title ?? "",
                 isPresented: .constant(alert.title != nil),
                 actions: {},
-                message: { Text(alert.message ?? "") })
-            .embedInNavigation()
-            .blendMode(.lighten) //TODO: check if the background of the navView can be made transparent in less of a work-around
+                message: { Text(alert.message ?? "") }
+            ) //FIXME: Alert is displayed again once you dismiss the view
         }
         
         @State private var startDate: Date

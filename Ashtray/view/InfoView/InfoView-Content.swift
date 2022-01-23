@@ -12,9 +12,11 @@ extension InfoView {
     struct Content: View {
         var body: some View {
             VStack {
+                Text("info-label"~).font("default-font"~, size: 30)
+                
                 Section {
                     Text("info-text"~)
-                        .font(size: 15)
+                        .font(size: 15, padd: false)
                         .multilineTextAlignment(.center)
                         .rowItem()
                 }
@@ -27,11 +29,6 @@ extension InfoView {
                 
                 Spacer()
             }
-            .toolbar {
-                ToolbarItem(placement: .principal) { Text("info-label"~).font("default-font"~, size: 30) }
-            }
-            .embedInNavigation()
-            .blendMode(.lighten)
         }
     }
 }
