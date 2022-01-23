@@ -10,7 +10,7 @@ import MyCustomUI
 
 extension MainView {
     struct Content: View {
-        let calc: (Total) -> Int, add: () -> Void, rem: () -> Void
+        let calc: () async -> [Total: Int], add: () -> Void, rem: () -> Void
         
         var body: some View {
             VStack {
@@ -18,26 +18,36 @@ extension MainView {
                     //NavigationLink {
                         //TODO: insert plots to visualize different counts
                     //} label: {
-                        LabeledNumber(label: total.mainName, number: calc(total))
-                            .rowItem().frame(maxHeight: 100)
+                    LabeledNumber(label: total.mainName, number: amounts[total] ?? 0)
+                        .rowItem().frame(maxHeight: 100)
                     //}
                 }
+                .task { amounts = await calc() }
                 
                 Spacer()
                 
-                TwoWayDragButton(left: rem, right: add)
-                    .font(size: 70)
+                TwoWayDragButton(left: {
+                    rem()
+                    Task { amounts = await calc() }
+                }, right: {
+                    add()
+                    Task { amounts = await calc() }
+                })
+                .font(size: 70)
                 
                 Spacer()
             }
+            .animation(amounts)
         }
+        
+        @State private var amounts = [Total: Int]()
     }
 }
 
 //MARK: - Previews
 struct MainViewContent_Previews: PreviewProvider {
     static var previews: some View {
-        MainView.Content(calc: { _ in 0}, add: {}, rem: {})
+        MainView.Content(calc: {[:]}, add: {}, rem: {})
     }
 }
 

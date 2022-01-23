@@ -11,11 +11,22 @@ import MyCustomUI
 struct MainView: View {
     @EnvironmentObject private var sc: StateController
     
-    var body: some View { Content(calc: calc, add: add, rem: rem) }
+    var body: some View {
+        Content(calc: calc, add: add, rem: rem)
+    }
     
     private func add() { try? sc.add(1, on: Date()) }
     private func rem() { try? sc.add(-1, on: Date()) }
-    private func calc(_ total: Total) -> Int { sc.calculate(total: total) }
+    
+    private func calc() async -> [Total: Int] {
+        var amounts = [Total: Int]()
+        
+        for total in Total.mainCases {
+            amounts[total] = await sc.calculate(total: total)
+        }
+        
+        return amounts
+    }
     
     typealias Total = StateController.Total
 }

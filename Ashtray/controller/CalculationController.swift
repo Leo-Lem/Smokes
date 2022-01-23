@@ -17,7 +17,7 @@ enum CalculationTimespan {
 }
 enum CalculationInterval { case daily, weekly, monthly }
 
-protocol CalculationControllerProtocol {
+protocol CalculationControllerProtocol: Actor {
     func calculateTotal(
         for timespan: CalculationTimespan,
         in entries: [Entry]
@@ -30,7 +30,7 @@ protocol CalculationControllerProtocol {
     ) -> Double
 }
 
-class CalculationController: CalculationControllerProtocol {
+actor CalculationController: CalculationControllerProtocol {
     
     func calculateTotal(
         for timespan: CalculationTimespan,

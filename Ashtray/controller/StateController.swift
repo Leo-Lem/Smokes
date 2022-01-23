@@ -32,9 +32,12 @@ final class StateController: ObservableObject {
         self.calculationController = calculationController
         self.transferController = transferController
         
-        self.preferences ?= try? loadPrefs()
-        self.entries ?= try? loadEntries()
-        self.entries = entries.map { Entry($0.id.startOfDay()!, amount: $0.amount) } //conversion from the old dates
+        Task {
+            self.preferences ?= try? await loadPrefs()
+            self.entries ?= try? await loadEntries()
+        }
+        
+        //self.entries = entries.map { Entry($0.id.startOfDay()!, amount: $0.amount) } //conversion from the old dates
     }
     
 }
@@ -59,19 +62,19 @@ extension StateController {
 //MARK: - storage
 extension StateController {
     func saveEntries() throws {
-        try storageController.save(self.entries)
-    }
-    
-    func loadEntries() throws -> [Entry] {
-        try storageController.load()
+        Task { try await storageController.save(self.entries) }
     }
     
     func savePrefs() throws {
-        try storageController.save(self.preferences)
+        Task { try await storageController.save(self.preferences) }
     }
     
-    func loadPrefs() throws -> Preferences {
-        try storageController.load()
+    func loadEntries() async throws -> [Entry] {
+        try await storageController.load()
+    }
+    
+    func loadPrefs() async throws -> Preferences {
+        try await storageController.load()
     }
 }
 
@@ -83,7 +86,7 @@ extension StateController {
         let kind: Timespan, date: Date
     }
     
-    func calculate(total: Total) -> Int {
+    func calculate(total: Total) async -> Int {
         let timespan: CalculationTimespan
         
         switch total.kind {
@@ -93,7 +96,7 @@ extension StateController {
         case .alltime: timespan = .alltime(total.date, preferences.startDate)
         }
         
-        return calculationController.calculateTotal(for: timespan, in: entries)
+        return await calculationController.calculateTotal(for: timespan, in: entries)
     }
     
     struct Average: Hashable {
@@ -111,7 +114,7 @@ extension StateController {
         }
     }
     
-    func calculate(average: Average) -> Double {
+    func calculate(average: Average) async -> Double {
         let timespan: CalculationTimespan, interval: CalculationInterval
         
         switch average.kind {
@@ -136,7 +139,7 @@ extension StateController {
         default: return 0
         }
         
-        return calculationController.calculateAverage(for: timespan, with: interval, in: entries)
+        return await calculationController.calculateAverage(for: timespan, with: interval, in: entries)
     }
 }
 

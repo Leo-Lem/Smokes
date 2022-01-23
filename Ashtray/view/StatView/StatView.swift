@@ -12,7 +12,15 @@ struct StatView: View {
     
     var body: some View { Content(startDate: sc.preferences.startDate, calc: calc) }
     
-    private func calc(_ average: Average) -> Double { sc.calculate(average: average) }
+    private func calc(_ date: Date, _ timespan: Average.Timespan) async -> [Average: Double] {
+        var averages = [Average: Double]()
+        
+        for average in Average.statCases(date, timespan) {
+            averages[average] = await sc.calculate(average: average)
+        }
+        
+        return averages
+    }
     
     typealias Average = StateController.Average
 }

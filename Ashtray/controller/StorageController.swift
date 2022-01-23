@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol StorageControllerProtocol {
+protocol StorageControllerProtocol: Actor {
     typealias Preferences = StateController.Preferences
     
     func save(_ entries: [Entry]) throws
@@ -17,7 +17,7 @@ protocol StorageControllerProtocol {
     func load() throws -> Preferences
 }
 
-class LocalStorageController: StorageControllerProtocol {
+actor LocalStorageController: StorageControllerProtocol {
     enum StorageError: Error { case save, fetch, decode, encode }
     
     private let dir = FileManager.documentsDirectory.appendingPathComponent("entries")

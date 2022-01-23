@@ -10,11 +10,22 @@ import SwiftUI
 struct HistView: View {
     @EnvironmentObject private var sc: StateController
     
-    var body: some View { Content(startDate: sc.preferences.startDate, calc: calc, add: add, rem: rem) }
+    var body: some View {
+        Content(startDate: sc.preferences.startDate, calc: calc, add: add, rem: rem)
+    }
     
     private func add(_ date: Date) { try? sc.add(1, on: date) }
     private func rem(_ date: Date) { try? sc.add(-1, on: date) }
-    private func calc(_ total: Total) -> Int { sc.calculate(total: total) }
+    
+    private func calc(_ date: Date) async -> [Total: Int] {
+        var amounts = [Total: Int]()
+        
+        for total in Total.histCases(date) {
+            amounts[total] = await sc.calculate(total: total)
+        }
+        
+        return amounts
+    }
     
     typealias Total = StateController.Total
 }
