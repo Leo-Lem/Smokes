@@ -166,18 +166,18 @@ typealias Preferences = StateController.Preferences
 extension StateController {
     func getFile() -> JSONFile { JSONFile(self.preferences, self.entries) }
     
-    func export(result: Result<URL, Error>) throws {
-        try transferController.export(result: result)
+    func export(result: Result<URL, Error>) async throws {
+        try await transferController.export(result: result)
     }
     
-    func `import`(result: Result<[URL], Error>) throws {
-        let (prefs, entries) = try transferController.import(result: result)
-        
+    func `import`(result: Result<[URL], Error>) async throws {
+        let (prefs, entries) = try await transferController.import(result: result)
+    
         self.preferences = prefs
         self.entries = entries
         
-        try saveEntries()
-        try savePrefs()
+        try self.saveEntries()
+        try self.savePrefs()
         
         throw TransferController.Status.importSuccess
     }

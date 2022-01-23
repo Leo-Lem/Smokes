@@ -13,22 +13,36 @@ extension PrefView {
         let edit: (Date) -> Void
         
         let createFile: () -> JSONFile
-        let export: (Result<URL, Error>) -> Void, `import`: (Result<[URL], Error>) -> Void
-        let alert: TransferAlert
+        let export: (Result<URL, Error>) async throws -> Void,
+            `import`: (Result<[URL], Error>) async throws -> Void
         
         var body: some View {
             VStack {
                 Text("prefs-label"~).font("default-font"~, size: 30)
                 
                 Section {
-                    TransferView(createFile: createFile, export: export, import: `import`)
-                        .font(size: 15)
+                    TransferView(createFile: createFile, export: { result in
+                        Task {
+                            do { try await export(result) }
+                            catch let status as TransferController.Status {
+                                self.alert = TransferAlert(status)
+                            } catch {}
+                        }
+                    }, import: { result in
+                        Task {
+                            do { try await `import`(result) }
+                            catch let status as TransferController.Status {
+                                self.alert = TransferAlert(status)
+                            } catch {}
+                        }
+                    })
+                        .font(size: 20)
                         .rowItem()
                 }
                 
                 Section {
                     StartDatePicker(date: $startDate)
-                        .font(size: 15)
+                        .font(size: 20)
                         .rowItem()
                         .onChange(of: startDate, perform: edit)
                 }
@@ -44,22 +58,22 @@ extension PrefView {
         }
         
         @State private var startDate: Date
+        @State private var alert = TransferAlert()
         
         init(
             prefs: Preferences,
             edit: @escaping (Date) -> Void,
             createFile: @escaping () -> JSONFile,
-            export: @escaping (Result<URL, Error>) -> Void,
-            `import`: @escaping (Result<[URL], Error>) -> Void,
-            alert: TransferAlert
+            export: @escaping (Result<URL, Error>) async throws -> Void,
+            `import`: @escaping (Result<[URL], Error>) async throws -> Void
         ) {
             self._startDate = State(initialValue: prefs.startDate)
             self.edit = edit
             
             self.createFile = createFile
+            
             self.export = export
             self.import = `import`
-            self.alert = alert
         }
     }
 }
@@ -70,7 +84,6 @@ struct PrefViewContent_Previews: PreviewProvider {
         PrefView.Content(
             prefs: Preferences.default, edit: {_ in},
             createFile: { JSONFile(Preferences.default, []) },
-            export: {_ in}, import: {_ in},
-            alert: PrefView.TransferAlert())
+            export: {_ in}, import: {_ in})
     }
 }

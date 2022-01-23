@@ -14,30 +14,15 @@ struct PrefView: View {
         Content(
             prefs: sc.preferences, edit: edit,
             createFile: createFile,
-            export: export, import: `import`,
-            alert: alert
+            export: sc.export, import: sc.import
         )
     }
     
-    @State private var alert = TransferAlert()
-}
-
-extension PrefView {
     private func edit(_ startDate: Date? = nil) {
         try? sc.editPreferences(startDate: startDate) //TODO: implement error handling
     }
     
     private func createFile() -> JSONFile { sc.getFile() }
-    
-    private func export(_ result: Result<URL, Error>) {
-        do { try sc.export(result: result) }
-        catch let status as TransferController.Status { alert = TransferAlert(status) } catch {}
-    }
-    
-    private func `import`(_ result: Result<[URL], Error>) {
-        do { try sc.import(result: result) }
-        catch let status as TransferController.Status { alert = TransferAlert(status) } catch {}
-    }
 }
 
 /*

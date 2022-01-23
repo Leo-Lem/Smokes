@@ -10,12 +10,12 @@ import MyStorage
 import SwiftUI
 import UniformTypeIdentifiers
 
-protocol TransferControllerProtocol {
+protocol TransferControllerProtocol: Actor {
     func export(result: Result<URL, Error>) throws
     func `import`(result: Result<[URL], Error>) throws -> (Preferences, [Entry])
 }
 
-class TransferController: TransferControllerProtocol {
+actor TransferController: TransferControllerProtocol {
     
     enum Status: Error {
         case importSuccess, importFailure(ImportError), exportSuccess, exportFailure(Error)
