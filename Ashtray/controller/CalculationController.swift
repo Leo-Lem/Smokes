@@ -9,27 +9,6 @@ import Foundation
 import MyDates
 import MyOthers
 
-enum CalculationTimespan {
-    case day(_ date: Date),
-         week(_ date: Date),
-         month(_ date: Date),
-         alltime(_ date: Date, _ startDate: Date)
-}
-enum CalculationInterval { case daily, weekly, monthly }
-
-protocol CalculationControllerProtocol: Actor {
-    func calculateTotal(
-        for timespan: CalculationTimespan,
-        in entries: [Entry]
-    ) -> Int
-    
-    func calculateAverage(
-        for timespan: CalculationTimespan,
-        with interval: CalculationInterval,
-        in entries: [Entry]
-    ) -> Double
-}
-
 actor CalculationController: CalculationControllerProtocol {
     
     func calculateTotal(

@@ -43,6 +43,7 @@
 
 "pref-start-date-label" = "Start Date";
 "app-data-label" = "Transfer App Data";
+"cloud-store-label" = "Cloud Storage";
 
 "import-failed-title" = "Import failed!";
 "export-failed-title" = "Export failed!";

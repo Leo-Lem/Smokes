@@ -18,7 +18,7 @@ extension MainView {
                     //NavigationLink {
                         //TODO: insert plots to visualize different counts
                     //} label: {
-                    LabeledNumber(label: total.mainName, number: amounts[total] ?? 0)
+                    LabeledNumber(label: total.mainName, number: amounts[total] != nil ? String(amounts[total]!) : "...")
                         .rowItem().frame(maxHeight: 100)
                     //}
                 }

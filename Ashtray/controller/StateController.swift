@@ -19,22 +19,32 @@ final class StateController: ObservableObject {
         didSet { entries = entries.filter({ $0.amount > 0 }) }
     }
     
-    let storageController: StorageControllerProtocol
     let calculationController: CalculationControllerProtocol
     let transferController: TransferControllerProtocol
+    let localStorageController: StorageControllerProtocol
+    let cloudStorageController: StorageControllerProtocol
     
     init(
-        storageController: StorageControllerProtocol = LocalStorageController(),
+        localStorageController: StorageControllerProtocol = LocalStorageController(),
         calculationController: CalculationControllerProtocol = CalculationController(),
-        transferController: TransferControllerProtocol = TransferController()
+        transferController: TransferControllerProtocol = TransferController(),
+        cloudStorageController: StorageControllerProtocol = CloudStorageController()
     ) {
-        self.storageController = storageController
         self.calculationController = calculationController
         self.transferController = transferController
+        self.localStorageController = localStorageController
+        self.cloudStorageController = cloudStorageController
         
         Task {
-            self.preferences ?= try? await loadPrefs()
-            self.entries ?= try? await loadEntries()
+            do {
+                self.preferences = try await loadPrefs()
+                self.entries = try await loadEntries()
+                
+                if preferences.cloudStore {
+                    self.preferences = try await loadPrefs(cloud: true)
+                    self.entries = try await loadEntries(cloud: true)
+                }
+            } catch { print(error) }
         }
         
         //self.entries = entries.map { Entry($0.id.startOfDay()!, amount: $0.amount) } //conversion from the old dates
@@ -53,7 +63,7 @@ extension StateController {
             entries.append(entry)
         }
         
-        try saveEntries()
+        do { try saveEntries() } catch { print(error) }
     }
     
     private func getIndex(_ entry: Entry) -> Int? { entries.firstIndex { $0.id == entry.id } }
@@ -62,19 +72,25 @@ extension StateController {
 //MARK: - storage
 extension StateController {
     func saveEntries() throws {
-        Task { try await storageController.save(self.entries) }
+        Task {
+            try await localStorageController.save(self.entries)
+            if preferences.cloudStore { try await cloudStorageController.save(self.entries) }
+        }
     }
     
     func savePrefs() throws {
-        Task { try await storageController.save(self.preferences) }
+        Task {
+            try await localStorageController.save(self.preferences)
+            if preferences.cloudStore { try await cloudStorageController.save(self.preferences) }
+        }
     }
     
-    func loadEntries() async throws -> [Entry] {
-        try await storageController.load()
+    func loadEntries(cloud: Bool = false) async throws -> [Entry] {
+        try await cloud ? cloudStorageController.load() : localStorageController.load()
     }
     
-    func loadPrefs() async throws -> Preferences {
-        try await storageController.load()
+    func loadPrefs(cloud: Bool = false) async throws -> Preferences {
+        try await cloud ? cloudStorageController.load() : localStorageController.load()
     }
 }
 
@@ -145,22 +161,27 @@ extension StateController {
 
 //MARK: - preferences
 extension StateController {
-    struct Preferences: Codable {
-        var startDate: Date
+    func editPreferences(
+        startDate: Date? = nil,
+        cloudStore: Bool? = nil
+    ) throws {
+        self.preferences.startDate ?= startDate
+        self.preferences.cloudStore ?= cloudStore
         
-        static let `default` = Preferences(startDate: Date())
+        do {
+        try savePrefs()
+        if cloudStore == true { try saveEntries() }
+        } catch { print(error) }
     }
     
-    func editPreferences(
-        startDate: Date? = nil
-    ) throws {
-        preferences.startDate ?= startDate
+    struct Preferences: Codable {
+        var startDate: Date
+        var cloudStore: Bool
         
-        try savePrefs()
+        static let `default` = Preferences(startDate: Date(), cloudStore: true)
     }
 }
 typealias Preferences = StateController.Preferences
-
 
 //MARK: - transfer
 extension StateController {

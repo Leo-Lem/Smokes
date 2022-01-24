@@ -16,7 +16,7 @@ extension StatView {
         var body: some View {
             VStack {
                 ForEach(Average.statCases(date, timespan), id: \.self) { stat in
-                    LabeledNumber(label: stat.intervalName, number: String(format: "%.2f", averages[stat] ?? 0))
+                    LabeledNumber(label: stat.intervalName, number: averages[stat] != nil ? String(format: "%.2f", averages[stat]!) : "...")
                         .rowItem().frame(maxHeight: 80)
                         .hidden(hideStats(stat.kind))
                         .transition(.opacity)

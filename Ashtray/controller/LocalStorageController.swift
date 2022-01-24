@@ -7,16 +7,6 @@
 
 import Foundation
 
-protocol StorageControllerProtocol: Actor {
-    typealias Preferences = StateController.Preferences
-    
-    func save(_ entries: [Entry]) throws
-    func save(_ preferences: Preferences) throws
-    
-    func load() throws -> [Entry]
-    func load() throws -> Preferences
-}
-
 actor LocalStorageController: StorageControllerProtocol {
     enum StorageError: Error { case save, fetch, decode, encode }
     

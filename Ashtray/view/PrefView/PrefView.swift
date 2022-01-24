@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+/*
+ //MARK: ideas for settable preferences
+ 
+ - start date (x)
+ - import / export (JSON) (x)
+ - cloud storage (x)
+ - default number of cigarettes to add per click
+ - pack price for spending calculation
+ 
+ */
+
+
 struct PrefView: View {
     @EnvironmentObject private var sc: StateController
     
@@ -18,23 +30,12 @@ struct PrefView: View {
         )
     }
     
-    private func edit(_ startDate: Date? = nil) {
-        try? sc.editPreferences(startDate: startDate) //TODO: implement error handling
+    private func edit(_ startDate: Date? = nil, cloudStore: Bool? = nil) {
+        try? sc.editPreferences(startDate: startDate, cloudStore: cloudStore) //TODO: implement error handling
     }
     
     private func createFile() -> JSONFile { sc.getFile() }
 }
-
-/*
- //MARK: ideas for settable preferences
- 
- - start date (x)
- - import / export (JSON) (x)
- - cloud storage
- - default number of cigarettes to add per click
- - ...
- 
- */
 
 //MARK: - alerts for notifying about importing and exporting
 extension PrefView {

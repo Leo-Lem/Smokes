@@ -10,11 +10,6 @@ import MyStorage
 import SwiftUI
 import UniformTypeIdentifiers
 
-protocol TransferControllerProtocol: Actor {
-    func export(result: Result<URL, Error>) throws
-    func `import`(result: Result<[URL], Error>) throws -> (Preferences, [Entry])
-}
-
 actor TransferController: TransferControllerProtocol {
     
     enum Status: Error {
@@ -42,10 +37,6 @@ actor TransferController: TransferControllerProtocol {
         }
     }
 
-}
-
-extension TransferController {
-    
     private func getFile(_ url: URL) throws -> FileWrapper {
         defer { url.stopAccessingSecurityScopedResource() }
         guard url.startAccessingSecurityScopedResource() else { throw Status.importFailure(.access) }
@@ -61,9 +52,7 @@ extension TransferController {
         
         return contents
     }
-    
 }
-
 
 //MARK: - JSONFile type
 struct JSONFile: FileDocument {

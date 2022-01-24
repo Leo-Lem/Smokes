@@ -7,6 +7,7 @@
 
 import Foundation
 import MyDates
+@testable import Ashtray
 
 struct TestData {
     //2021-01-01

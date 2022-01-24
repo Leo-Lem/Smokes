@@ -19,15 +19,16 @@ extension HistView {
                     //NavigationLink {
                         //TODO: insert plots to visualize different counts
                     //} label: {
-                        LabeledNumber(label: total.histName, number: amounts[total] ?? 0)
-                            .rowItem().frame(maxHeight: 100)
-                            .onTapGesture {} //making scrolling possible with the longpressgesture recognizer
-                            .onLongPressGesture { editing.toggle() }
-                            .opacity(editing ? 0.8 : 1)
-                            .animation(editing ? .linear(duration: 1).repeatForever() : .default, value: editing)
+                    LabeledNumber(label: total.histName, number: amounts[total] != nil ? String(amounts[total]!) : "...")
+                        .rowItem().frame(maxHeight: 100)
+                        .onTapGesture {} //making scrolling possible with the longpressgesture recognizer
+                        .onLongPressGesture { editing.toggle() }
+                        .opacity(editing ? 0.8 : 1)
+                        .animation(editing ? .linear(duration: 1).repeatForever() : .default, value: editing)
                     //}
                 }
                 .task { amounts = await calc(date) }
+                //TODO: add a cache so the values don't always have to be recalculated when the timespan changes
                 
                 Spacer()
                 
@@ -43,6 +44,7 @@ extension HistView {
                 })
                     .font(size: 70)
                     .hidden(!editing)
+                    .transition(.offset(y: 400))
                 
                 Spacer()
             }

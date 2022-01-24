@@ -10,7 +10,7 @@ import MyCustomUI
 
 extension PrefView {
     struct Content: View {
-        let edit: (Date) -> Void
+        let edit: (Date?, Bool?) -> Void
         
         let createFile: () -> JSONFile
         let export: (Result<URL, Error>) async throws -> Void,
@@ -44,7 +44,14 @@ extension PrefView {
                     StartDatePicker(date: $startDate)
                         .font(size: 20)
                         .rowItem()
-                        .onChange(of: startDate, perform: edit)
+                        .onChange(of: startDate) { edit($0, nil) }
+                }
+                
+                Section {
+                    Toggle("cloud-store-label"~, isOn: $cloudStore)
+                        .font(size: 20)
+                        .rowItem()
+                        .onChange(of: cloudStore) { edit(nil, $0) }
                 }
                 
                 Spacer()
@@ -58,16 +65,18 @@ extension PrefView {
         }
         
         @State private var startDate: Date
+        @State private var cloudStore: Bool
         @State private var alert = TransferAlert()
         
         init(
             prefs: Preferences,
-            edit: @escaping (Date) -> Void,
+            edit: @escaping (Date?, Bool?) -> Void,
             createFile: @escaping () -> JSONFile,
             export: @escaping (Result<URL, Error>) async throws -> Void,
             `import`: @escaping (Result<[URL], Error>) async throws -> Void
         ) {
             self._startDate = State(initialValue: prefs.startDate)
+            self._cloudStore = State(initialValue: prefs.cloudStore)
             self.edit = edit
             
             self.createFile = createFile
@@ -82,7 +91,7 @@ extension PrefView {
 struct PrefViewContent_Previews: PreviewProvider {
     static var previews: some View {
         PrefView.Content(
-            prefs: Preferences.default, edit: {_ in},
+            prefs: Preferences.default, edit: {_,_ in},
             createFile: { JSONFile(Preferences.default, []) },
             export: {_ in}, import: {_ in})
     }

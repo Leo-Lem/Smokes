@@ -10,7 +10,11 @@ import MyCustomUI
 
 struct AshtrayView: View {
     var body: some View {
-        Group {
+        VStack {
+            TitleBarView(selectedOverlay: $currentOverlay)
+                .font("default-font"~, size: 25)
+                .background(.bar)
+            
             TabView(selection: $currentPage) {
                 Group {
                     HistView()
@@ -27,11 +31,8 @@ struct AshtrayView: View {
             }
             .tabViewStyle(.page)
             .labelStyle(.iconOnly)
-            .modifier(TitleBar(selectedOverlay: $currentOverlay))
         }
-        .backgroundImage("BackgroundImage", opacity: 0.6)
-        .embedInNavigation()
-        
+        .backgroundImage("BackgroundImage", opacity: 1)
         .overlay {
             ZStack {
                 if currentOverlay != .none {
