@@ -1,36 +1,32 @@
-//
-//  TitleBar.swift
-//  Ashtray
-//
 //  Created by Leopold Lemmermann on 20.01.22.
-//
 
-import SwiftUI
 import MyCustomUI
+import SwiftUI
 
 extension AshtrayView {
-    struct TitleBarView: View {
-        @Binding var selectedOverlay: Overlay
+  struct TitleBarView: View {
+    @Binding var selectedOverlay: Overlay
         
-        var body: some View {
-            HStack {
-                SymbolButton("pref-button-symbol"~) { selectedOverlay = .pref }
+    var body: some View {
+      HStack {
+        SymbolButton("gear.circle") { selectedOverlay = .pref }
                 
-                Spacer()
+        Spacer()
                 
-                Text("app-title"~).hidden(selectedOverlay != .none )
+        Text(_appTitle).hidden(selectedOverlay != .none)
                 
-                Spacer()
+        Spacer()
                 
-                SymbolButton("info-button-symbol"~) { selectedOverlay = .info }
-            }
-        }
+        SymbolButton("info.circle") { selectedOverlay = .info }
+      }
     }
+  }
 }
 
-//MARK: - Previews
+// MARK: - Previews
+
 struct TitleBar_Previews: PreviewProvider {
-    static var previews: some View {
-        AshtrayView.TitleBarView(selectedOverlay: .constant(.none))
-    }
+  static var previews: some View {
+    AshtrayView.TitleBarView(selectedOverlay: .constant(.none))
+  }
 }

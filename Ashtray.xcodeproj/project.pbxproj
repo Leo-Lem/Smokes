@@ -13,13 +13,9 @@
 		6E33F138279C54C300CBDCDD /* StartDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E33F137279C54C300CBDCDD /* StartDatePicker.swift */; };
 		6E6DD624279DA39100C7CB5A /* TransferController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD623279DA39100C7CB5A /* TransferController.swift */; };
 		6E6DD626279DB5AB00C7CB5A /* TransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD625279DB5AB00C7CB5A /* TransferView.swift */; };
-		6E6DD628279DE95200C7CB5A /* NavigationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD627279DE95200C7CB5A /* NavigationConfigurator.swift */; };
 		6E6DD62A279E120800C7CB5A /* MockControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD629279E120800C7CB5A /* MockControllers.swift */; };
 		6E6DD62B279E162100C7CB5A /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E92799718200409480 /* TestData.swift */; };
 		6E6DD62D279E180000C7CB5A /* CloudStorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD62C279E180000C7CB5A /* CloudStorageController.swift */; };
-		6E6DD630279E182200C7CB5A /* StorageControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD62F279E182200C7CB5A /* StorageControllerProtocol.swift */; };
-		6E6DD632279E184600C7CB5A /* TransferControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD631279E184600C7CB5A /* TransferControllerProtocol.swift */; };
-		6E6DD634279E185500C7CB5A /* CalculationControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DD633279E185500C7CB5A /* CalculationControllerProtocol.swift */; };
 		6E6DD638279E1BCC00C7CB5A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6DD637279E1BCC00C7CB5A /* CloudKit.framework */; };
 		6E7809E227996F8600409480 /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E127996F8600409480 /* StateController.swift */; };
 		6E7809E627996FCB00409480 /* LocalStorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7809E527996FCB00409480 /* LocalStorageController.swift */; };
@@ -35,18 +31,17 @@
 		6E780A0527997C4A00409480 /* HistView-Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A0427997C4A00409480 /* HistView-Content.swift */; };
 		6E780A0727997C6200409480 /* StatView-Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A0627997C6200409480 /* StatView-Content.swift */; };
 		6E780A0A27997E1B00409480 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A0927997E1B00409480 /* TitleBarView.swift */; };
-		6E780A1127999B4300409480 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E780A0F2799816B00409480 /* Localizable.strings */; };
-		6E780A1327999BFA00409480 /* LocalizedOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A1227999BFA00409480 /* LocalizedOperator.swift */; };
 		6E780A182799A0D000409480 /* LabeledNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A172799A0D000409480 /* LabeledNumber.swift */; };
 		6E780A1A2799A6FD00409480 /* CalculationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E780A192799A6FD00409480 /* CalculationController.swift */; };
 		6E849A462795D14A0075C661 /* AshtrayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E849A452795D14A0075C661 /* AshtrayApp.swift */; };
-		6E849A4A2795D14B0075C661 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E849A492795D14B0075C661 /* Assets.xcassets */; };
-		6E849A4D2795D14B0075C661 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E849A4C2795D14B0075C661 /* Preview Assets.xcassets */; };
 		6E849A572795D14B0075C661 /* AshtrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E849A562795D14B0075C661 /* AshtrayTests.swift */; };
 		6E849A612795D14B0075C661 /* AshtrayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E849A602795D14B0075C661 /* AshtrayUITests.swift */; };
 		6E849A632795D14B0075C661 /* AshtrayUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E849A622795D14B0075C661 /* AshtrayUITestsLaunchTests.swift */; };
 		6E849A712795D1F80075C661 /* MyPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 6E849A702795D1F80075C661 /* MyPackage */; };
 		6E849A742795D2160075C661 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E849A732795D2160075C661 /* MainView.swift */; };
+		6EDE971F295DE8AB005EA032 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EDE9714295DE8AB005EA032 /* Localizable.strings */; };
+		6EDE9722295DE8AB005EA032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EDE971C295DE8AB005EA032 /* Assets.xcassets */; };
+		6EDE9723295DE8AB005EA032 /* defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE971D295DE8AB005EA032 /* defaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,15 +68,9 @@
 		6E33F137279C54C300CBDCDD /* StartDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartDatePicker.swift; sourceTree = "<group>"; };
 		6E6DD623279DA39100C7CB5A /* TransferController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferController.swift; sourceTree = "<group>"; };
 		6E6DD625279DB5AB00C7CB5A /* TransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferView.swift; sourceTree = "<group>"; };
-		6E6DD627279DE95200C7CB5A /* NavigationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationConfigurator.swift; path = ../../../../../../../../../../Documents/NavigationConfigurator.swift; sourceTree = "<group>"; };
 		6E6DD629279E120800C7CB5A /* MockControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockControllers.swift; sourceTree = "<group>"; };
 		6E6DD62C279E180000C7CB5A /* CloudStorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudStorageController.swift; sourceTree = "<group>"; };
-		6E6DD62F279E182200C7CB5A /* StorageControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageControllerProtocol.swift; sourceTree = "<group>"; };
-		6E6DD631279E184600C7CB5A /* TransferControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferControllerProtocol.swift; sourceTree = "<group>"; };
-		6E6DD633279E185500C7CB5A /* CalculationControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationControllerProtocol.swift; sourceTree = "<group>"; };
-		6E6DD635279E1B1800C7CB5A /* Ashtray.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ashtray.entitlements; sourceTree = "<group>"; };
 		6E6DD637279E1BCC00C7CB5A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		6E6DD639279E1BD300C7CB5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E7809E127996F8600409480 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		6E7809E527996FCB00409480 /* LocalStorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageController.swift; sourceTree = "<group>"; };
 		6E7809E92799718200409480 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
@@ -97,20 +86,22 @@
 		6E780A0427997C4A00409480 /* HistView-Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistView-Content.swift"; sourceTree = "<group>"; };
 		6E780A0627997C6200409480 /* StatView-Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StatView-Content.swift"; sourceTree = "<group>"; };
 		6E780A0927997E1B00409480 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
-		6E780A0E2799816B00409480 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6E780A1227999BFA00409480 /* LocalizedOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedOperator.swift; sourceTree = "<group>"; };
 		6E780A172799A0D000409480 /* LabeledNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledNumber.swift; sourceTree = "<group>"; };
 		6E780A192799A6FD00409480 /* CalculationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationController.swift; sourceTree = "<group>"; };
 		6E849A422795D14A0075C661 /* Ashtray.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ashtray.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E849A452795D14A0075C661 /* AshtrayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayApp.swift; sourceTree = "<group>"; };
-		6E849A492795D14B0075C661 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6E849A4C2795D14B0075C661 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6E849A522795D14B0075C661 /* AshtrayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AshtrayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E849A562795D14B0075C661 /* AshtrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayTests.swift; sourceTree = "<group>"; };
 		6E849A5C2795D14B0075C661 /* AshtrayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AshtrayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E849A602795D14B0075C661 /* AshtrayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayUITests.swift; sourceTree = "<group>"; };
 		6E849A622795D14B0075C661 /* AshtrayUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtrayUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6E849A732795D2160075C661 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6EDE9715295DE8AB005EA032 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6EDE9717295DE8AB005EA032 /* Ashtray.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Ashtray.entitlements; sourceTree = "<group>"; };
+		6EDE9718295DE8AB005EA032 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6EDE9719295DE8AB005EA032 /* Ashtray-Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Ashtray-Data.json"; sourceTree = "<group>"; };
+		6EDE971C295DE8AB005EA032 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6EDE971D295DE8AB005EA032 /* defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = defaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,16 +131,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E6DD62E279E180F00C7CB5A /* protocols */ = {
-			isa = PBXGroup;
-			children = (
-				6E6DD633279E185500C7CB5A /* CalculationControllerProtocol.swift */,
-				6E6DD631279E184600C7CB5A /* TransferControllerProtocol.swift */,
-				6E6DD62F279E182200C7CB5A /* StorageControllerProtocol.swift */,
-			);
-			path = protocols;
-			sourceTree = "<group>";
-		};
 		6E6DD636279E1BCC00C7CB5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,7 +147,6 @@
 				6E6DD623279DA39100C7CB5A /* TransferController.swift */,
 				6E7809E527996FCB00409480 /* LocalStorageController.swift */,
 				6E6DD62C279E180000C7CB5A /* CloudStorageController.swift */,
-				6E6DD62E279E180F00C7CB5A /* protocols */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -179,23 +159,12 @@
 			path = model;
 			sourceTree = "<group>";
 		};
-		6E7809ED279972E600409480 /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				6E6DD639279E1BD300C7CB5A /* Info.plist */,
-				6E6DD635279E1B1800C7CB5A /* Ashtray.entitlements */,
-				6E849A492795D14B0075C661 /* Assets.xcassets */,
-				6E780A0F2799816B00409480 /* Localizable.strings */,
-				6E849A4B2795D14B0075C661 /* previews */,
-			);
-			path = resources;
-			sourceTree = "<group>";
-		};
 		6E7809EE2799766400409480 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
 				6E849A732795D2160075C661 /* MainView.swift */,
 				6E7809EF2799769000409480 /* MainView-Content.swift */,
+				6E780A172799A0D000409480 /* LabeledNumber.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -223,6 +192,8 @@
 			children = (
 				6E7809FE27997BFF00409480 /* PrefView.swift */,
 				6E780A0027997C2900409480 /* PrefView-Content.swift */,
+				6E33F137279C54C300CBDCDD /* StartDatePicker.swift */,
+				6E6DD625279DB5AB00C7CB5A /* TransferView.swift */,
 			);
 			path = PrefView;
 			sourceTree = "<group>";
@@ -239,14 +210,9 @@
 		6E780A0827997DE300409480 /* shared components */ = {
 			isa = PBXGroup;
 			children = (
-				6E33F137279C54C300CBDCDD /* StartDatePicker.swift */,
-				6E6DD625279DB5AB00C7CB5A /* TransferView.swift */,
-				6E6DD627279DE95200C7CB5A /* NavigationConfigurator.swift */,
 				6E780A0927997E1B00409480 /* TitleBarView.swift */,
 				6E33F131279C13D800CBDCDD /* TwoWayDragButton.swift */,
-				6E780A172799A0D000409480 /* LabeledNumber.swift */,
 				6E33F135279C39E900CBDCDD /* Row-Modifier.swift */,
-				6E780A1227999BFA00409480 /* LocalizedOperator.swift */,
 				6E33F133279C362600CBDCDD /* CustomDatePicker.swift */,
 			);
 			path = "shared components";
@@ -280,17 +246,9 @@
 				6E7809E427996FBC00409480 /* model */,
 				6E7809E327996FB600409480 /* controller */,
 				6E849A722795D20A0075C661 /* view */,
-				6E7809ED279972E600409480 /* resources */,
+				6EDE9711295DE8AB005EA032 /* res */,
 			);
 			path = Ashtray;
-			sourceTree = "<group>";
-		};
-		6E849A4B2795D14B0075C661 /* previews */ = {
-			isa = PBXGroup;
-			children = (
-				6E849A4C2795D14B0075C661 /* Preview Assets.xcassets */,
-			);
-			path = previews;
 			sourceTree = "<group>";
 		};
 		6E849A552795D14B0075C661 /* AshtrayTests */ = {
@@ -324,6 +282,51 @@
 				6E780A0827997DE300409480 /* shared components */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		6EDE9711295DE8AB005EA032 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				6EDE971B295DE8AB005EA032 /* assets */,
+				6EDE9712295DE8AB005EA032 /* locale */,
+				6EDE9716295DE8AB005EA032 /* config */,
+				6EDE971A295DE8AB005EA032 /* previews */,
+				6EDE9719295DE8AB005EA032 /* Ashtray-Data.json */,
+			);
+			path = res;
+			sourceTree = "<group>";
+		};
+		6EDE9712295DE8AB005EA032 /* locale */ = {
+			isa = PBXGroup;
+			children = (
+				6EDE9714295DE8AB005EA032 /* Localizable.strings */,
+			);
+			path = locale;
+			sourceTree = "<group>";
+		};
+		6EDE9716295DE8AB005EA032 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				6EDE9717295DE8AB005EA032 /* Ashtray.entitlements */,
+				6EDE9718295DE8AB005EA032 /* Info.plist */,
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		6EDE971A295DE8AB005EA032 /* previews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = previews;
+			sourceTree = "<group>";
+		};
+		6EDE971B295DE8AB005EA032 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				6EDE971C295DE8AB005EA032 /* Assets.xcassets */,
+				6EDE971D295DE8AB005EA032 /* defaults.swift */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,9 +439,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E849A4D2795D14B0075C661 /* Preview Assets.xcassets in Resources */,
-				6E780A1127999B4300409480 /* Localizable.strings in Resources */,
-				6E849A4A2795D14B0075C661 /* Assets.xcassets in Resources */,
+				6EDE9722295DE8AB005EA032 /* Assets.xcassets in Resources */,
+				6EDE971F295DE8AB005EA032 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E7809F927997BAC00409480 /* StatView.swift in Sources */,
-				6E6DD634279E185500C7CB5A /* CalculationControllerProtocol.swift in Sources */,
+				6EDE9723295DE8AB005EA032 /* defaults.swift in Sources */,
 				6E780A0A27997E1B00409480 /* TitleBarView.swift in Sources */,
 				6E849A742795D2160075C661 /* MainView.swift in Sources */,
 				6E6DD624279DA39100C7CB5A /* TransferController.swift in Sources */,
@@ -479,11 +481,8 @@
 				6E849A462795D14A0075C661 /* AshtrayApp.swift in Sources */,
 				6E7809F727997B9C00409480 /* HistView.swift in Sources */,
 				6E780A0127997C2900409480 /* PrefView-Content.swift in Sources */,
-				6E6DD628279DE95200C7CB5A /* NavigationConfigurator.swift in Sources */,
-				6E780A1327999BFA00409480 /* LocalizedOperator.swift in Sources */,
 				6E780A1A2799A6FD00409480 /* CalculationController.swift in Sources */,
 				6E7809F327997A6B00409480 /* AshtrayView.swift in Sources */,
-				6E6DD630279E182200C7CB5A /* StorageControllerProtocol.swift in Sources */,
 				6E7809E227996F8600409480 /* StateController.swift in Sources */,
 				6E7809EC2799719000409480 /* Entry.swift in Sources */,
 				6E7809FF27997BFF00409480 /* PrefView.swift in Sources */,
@@ -492,7 +491,6 @@
 				6E33F136279C39E900CBDCDD /* Row-Modifier.swift in Sources */,
 				6E33F132279C13D800CBDCDD /* TwoWayDragButton.swift in Sources */,
 				6E780A0527997C4A00409480 /* HistView-Content.swift in Sources */,
-				6E6DD632279E184600C7CB5A /* TransferControllerProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,10 +529,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6E780A0F2799816B00409480 /* Localizable.strings */ = {
+		6EDE9714295DE8AB005EA032 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6E780A0E2799816B00409480 /* en */,
+				6EDE9715295DE8AB005EA032 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -665,14 +663,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Ashtray/resources/Ashtray.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Ashtray/res/config/Ashtray.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Ashtray/resources/previews\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Ashtray/res/previews\"";
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Ashtray/resources/Info.plist;
+				INFOPLIST_FILE = Ashtray/res/config/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -698,14 +696,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Ashtray/resources/Ashtray.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Ashtray/res/config/Ashtray.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Ashtray/resources/previews\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Ashtray/res/previews\"";
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Ashtray/resources/Info.plist;
+				INFOPLIST_FILE = Ashtray/res/config/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

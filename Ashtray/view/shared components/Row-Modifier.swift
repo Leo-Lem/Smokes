@@ -16,7 +16,7 @@ struct Row: ViewModifier {
             .background(.bar)
             .cornerRadius(20)
             .padding(.horizontal)
-            .font("default-font"~, size: 25, padd: false)
+            .font(_defaultFont, size: 25, padd: false)
             .padding(.vertical, 5)
             
     }
