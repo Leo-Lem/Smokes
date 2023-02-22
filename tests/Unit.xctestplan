@@ -1,0 +1,26 @@
+{
+  "configurations" : [
+    {
+      "id" : "D29083D0-E244-4F8B-93D7-747ACB61CC97",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ashtray.xcodeproj",
+        "identifier" : "6E05A50128F18F6600CA0287",
+        "name" : "SmokesTests"
+      }
+    }
+  ],
+  "version" : 1
+}
