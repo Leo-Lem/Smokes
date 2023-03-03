@@ -19,10 +19,13 @@
   "testTargets" : [
     {
       "parallelizable" : true,
+      "skippedTests" : [
+        "PerformanceTests"
+      ],
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",
         "identifier" : "6E05A50128F18F6600CA0287",
-        "name" : "ashtrayTests"
+        "name" : "SmokesTests"
       }
     },
     {
@@ -30,7 +33,7 @@
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",
         "identifier" : "6ED91E1F293FB7BB00728E2B",
-        "name" : "ashtrayUITests"
+        "name" : "SmokesUITests"
       }
     }
   ],

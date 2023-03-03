@@ -26,6 +26,7 @@
 		6E4C8A8529B1D39300C00204 /* Entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8429B1D39300C00204 /* Entries.swift */; };
 		6E4C8A8A29B1DED000C00204 /* amounts-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8829B1DE6400C00204 /* amounts-tests.swift */; };
 		6E4C8A8B29B1DED200C00204 /* entries-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8629B1DE5E00C00204 /* entries-tests.swift */; };
+		6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */; };
 		6E58EF9729A4253800181557 /* MainReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E58EF9629A4253800181557 /* MainReducer.swift */; };
 		6E58EF9A29A4276900181557 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E58EF9929A4276900181557 /* ComposableArchitecture */; };
 		6EAB8BFD29ADD01C002B08C2 /* perf-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAB8BFC29ADD01C002B08C2 /* perf-tests.swift */; };
@@ -78,6 +79,7 @@
 		6E4C8A8429B1D39300C00204 /* Entries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entries.swift; sourceTree = "<group>"; };
 		6E4C8A8629B1DE5E00C00204 /* entries-tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "entries-tests.swift"; sourceTree = "<group>"; };
 		6E4C8A8829B1DE6400C00204 /* amounts-tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "amounts-tests.swift"; sourceTree = "<group>"; };
+		6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Perf.xctestplan; sourceTree = "<group>"; };
 		6E58EF9629A4253800181557 /* MainReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainReducer.swift; sourceTree = "<group>"; };
 		6EAB8BFC29ADD01C002B08C2 /* perf-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "perf-tests.swift"; sourceTree = "<group>"; };
 		6EAB8C0029B0795A002B08C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				6ED91E2B293FB81300728E2B /* Full.xctestplan */,
 				6ED91E2C293FB82C00728E2B /* Unit.xctestplan */,
+				6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */,
 				6ED91E1A293FB7A100728E2B /* unit */,
 				6ED91E1B293FB7A500728E2B /* ui */,
 			);
@@ -394,6 +397,7 @@
 				6E05A4BD28F07FC300CA0287 /* .gitignore in Resources */,
 				6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */,
 				6E48379028ECA08F00B67CA4 /* Assets.xcassets in Resources */,
+				6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */,
 				6E48377128ECA06D00B67CA4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

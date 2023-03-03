@@ -14,9 +14,10 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "skippedTests" : [
-        "PerformanceTests"
+        "AmountsTests",
+        "EntriesTests",
+        "MainReducerTests"
       ],
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",
