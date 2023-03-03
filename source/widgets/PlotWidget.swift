@@ -4,8 +4,7 @@ import Charts
 import SwiftUI
 
 struct PlotWidget: View {
-  let description: String
-  var data: [Date: Int]
+  let data: [Date: Int], description: String?
   
   var body: some View {
     VStack {
@@ -16,9 +15,11 @@ struct PlotWidget: View {
       }
       .animation(.default, value: data)
       
-      Text(description)
-        .font(.subheadline)
-        .lineLimit(1)
+      if let description {
+        Text(description)
+          .font(.subheadline)
+          .lineLimit(1)
+      }
     }
     .padding()
     .widgetStyle()
@@ -28,12 +29,12 @@ struct PlotWidget: View {
 struct PlotWidget_Previews: PreviewProvider {
   static var previews: some View {
     PlotWidget(
-      description: "Some plot",
       data: [
         .now: 140,
         Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!: 70,
         Calendar.current.date(byAdding: .month, value: -1, to: .now)!: 110
-      ]
+      ],
+      description: "Some plot"
     )
     .padding()
   }

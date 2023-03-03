@@ -2,43 +2,32 @@ import ComposableArchitecture
 import SwiftUI
 
 struct DashboardView: View {
-  let store: StoreOf<MainReducer>
+  @EnvironmentObject private var store: StoreOf<MainReducer>
 
   var body: some View {
-    WithViewStore(store) { state in
-      ViewState(
-        day: state.amount(for: .now, in: .day),
-        before: state.amount(for: Calendar.current.date(byAdding: .day, value: -1, to: .now)!, in: .day),
-        week: state.amount(for: .now, in: .weekOfYear),
-        month: state.amount(for: .now, in: .month),
-        year: state.amount(for: .now, in: .year),
-        all: state.amount(),
-        daily: state.data(for: .now, in: .month, by: .day)
-      )
-    } send: { (action: ViewAction) in
-      switch action {
-      case .add: return .add(.now)
-      case .remove: return .remove(.now)
-      }
-    } content: { viewStore in
+    WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
       VStack {
-        HStack {
-          AmountWidget(viewStore.day, description: "today")
-          AmountWidget(viewStore.before, description: "yesterday")
-        }
-
-        PlotWidget(description: "this month", data: viewStore.daily)
-
-        HStack {
-          AmountWidget(viewStore.week, description: "this week")
-          AmountWidget(viewStore.month, description: "this month")
-          AmountWidget(viewStore.year, description: "this year")
+        VStack {
+          AmountWidget(viewStore.dayAmount, description: "today")
+            .onAppear { viewStore.send(.calculateDay) }
+          AmountWidget(viewStore.beforeAmount, description: "yesterday")
+            .onAppear { viewStore.send(.calculateBefore) }
         }
 
         HStack {
-          AmountWidget(viewStore.all, description: "until now")
+          AmountWidget(viewStore.weekAmount, description: "this week")
+            .onAppear { viewStore.send(.calculateWeek) }
+          AmountWidget(viewStore.monthAmount, description: "this month")
+            .onAppear { viewStore.send(.calculateMonth) }
+          AmountWidget(viewStore.yearAmount, description: "this year")
+            .onAppear { viewStore.send(.calculateYear) }
+        }
 
-          IncrementWidget(decrementDisabled: viewStore.day < 1) {
+        HStack {
+          AmountWidget(viewStore.allAmount, description: "until now")
+            .onAppear { viewStore.send(.calculateAll) }
+
+          IncrementWidget(decrementDisabled: viewStore.dayAmount ?? 0 < 1) {
             viewStore.send(.add)
           } remove: {
             viewStore.send(.remove)
@@ -46,18 +35,47 @@ struct DashboardView: View {
         }
       }
       .padding()
+      .animation(.default, value: viewStore.state)
     }
   }
 }
 
 extension DashboardView {
   struct ViewState: Equatable {
-    let day: Int, before: Int, week: Int, month: Int, year: Int, all: Int
-    let daily: [Date: Int]
+    var dayAmount: Int?, beforeAmount: Int?, weekAmount: Int?, monthAmount: Int?, yearAmount: Int?, allAmount: Int?
+
+    init(_ state: MainReducer.State) {
+      @Dependency(\.calendar) var cal: Calendar
+      @Dependency(\.date.now) var now: Date
+
+      dayAmount = state.amounts[cal.dateInterval(of: .day, for: now)!]
+      beforeAmount = state.amounts[cal.dateInterval(of: .day, for: now - 86400)!]
+      weekAmount = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
+      monthAmount = state.amounts[cal.dateInterval(of: .month, for: now)!]
+      yearAmount = state.amounts[cal.dateInterval(of: .year, for: now)!]
+      allAmount = state.amount(until: now)
+    }
   }
 
   enum ViewAction: Equatable {
     case add, remove
+    case calculateDay, calculateBefore, calculateWeek, calculateMonth, calculateYear, calculateAll
+
+    static func send(_ action: Self) -> MainReducer.Action {
+      @Dependency(\.calendar) var cal: Calendar
+      @Dependency(\.date.now) var now: Date
+
+      switch action {
+      case .add: return .add(now)
+      case .remove: return .remove(now)
+      case .calculateDay: return .calculateAmount(cal.dateInterval(of: .day, for: now)!)
+      case .calculateBefore: return .calculateAmount(cal.dateInterval(of: .day, for: now - 86400)!)
+      case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: now)!)
+      case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: now)!)
+      case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: now)!)
+      case .calculateAll: return .calculateAmountUntil(now)
+      }
+    }
   }
 }
 
@@ -65,6 +83,7 @@ extension DashboardView {
 
 struct DashboardView_Previews: PreviewProvider {
   static var previews: some View {
-    DashboardView(store: .preview)
+    DashboardView()
+      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
   }
 }

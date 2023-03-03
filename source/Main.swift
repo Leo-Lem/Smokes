@@ -3,15 +3,21 @@ import SwiftUI
 
 @main
 struct Main: App {
-  private let store: StoreOf<MainReducer>
+  let store: StoreOf<MainReducer>
   
   var body: some Scene {
     WindowGroup {
-      MainView(store: store)
+      MainView()
+        .environmentObject(store)
     }
   }
   
   init() {
-    store = .init(initialState: .init(), reducer: MainReducer())
+    store = .init(
+      initialState: .init((try? Dependency(\.persistor).wrappedValue.read(from: "entries")) ?? []),
+      reducer: MainReducer()
+    )
   }
 }
+
+extension Store: ObservableObject {}

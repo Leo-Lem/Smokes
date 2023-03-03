@@ -3,12 +3,22 @@
 import SwiftUI
 
 struct AmountWidget: View {
-  let amount: Double, description: String
+  let amount: Double?, description: String
 
   var body: some View {
     VStack {
-      Text(((amount*100).rounded() / 100).formatted())
-        .font(.largeTitle)
+      Spacer()
+      
+      if let formattedAmount {
+        Text(formattedAmount)
+          .font(.largeTitle)
+          .minimumScaleFactor(0.5)
+      } else {
+        ProgressView()
+          .scaleEffect(1.5)
+      }
+
+      Spacer()
 
       Text(description)
         .font(.subheadline)
@@ -19,12 +29,16 @@ struct AmountWidget: View {
     .widgetStyle()
   }
 
-  init(_ amount: Double, description: String) {
+  private var formattedAmount: String? {
+    amount.flatMap { (($0 * 100).rounded() / 100).formatted() }
+  }
+
+  init(_ amount: Double?, description: String) {
     (self.amount, self.description) = (amount, description)
   }
 
-  init(_ amount: Int, description: String) {
-    self.init(Double(amount), description: description)
+  init(_ amount: Int?, description: String) {
+    self.init(amount.flatMap(Double.init), description: description)
   }
 }
 
