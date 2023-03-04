@@ -1,5 +1,3 @@
-//	Created by Leopold Lemmermann on 06.12.22.
-
 import SwiftUI
 
 enum Config {

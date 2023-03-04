@@ -82,9 +82,11 @@ extension DashboardView {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct DashboardView_Previews: PreviewProvider {
   static var previews: some View {
     DashboardView()
       .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
   }
 }
+#endif

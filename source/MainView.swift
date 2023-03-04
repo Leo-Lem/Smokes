@@ -5,7 +5,7 @@ struct MainView: View {
   var body: some View {
     TabView(selection: $selectedTab) {
       HistoryView()
-        .tabItem { Label("History", systemImage: "calendar") }
+        .tabItem { Label("history", systemImage: "calendar") }
         .tag(0)
 
       DashboardView()
@@ -13,7 +13,7 @@ struct MainView: View {
         .tag(1)
 
       StatsView()
-        .tabItem { Label("Averages", systemImage: "percent") }
+        .tabItem { Label("stats", systemImage: "percent") }
         .tag(2)
     }
   }
@@ -23,9 +23,11 @@ struct MainView: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct MainView_Previews: PreviewProvider {
   static var previews: some View {
     MainView()
       .environmentObject(Store(initialState: .preview, reducer: MainReducer()))
   }
 }
+#endif

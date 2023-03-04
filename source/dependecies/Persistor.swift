@@ -14,20 +14,20 @@ private enum PersistorKey: DependencyKey {
 }
 
 protocol Persistor {
-  func write<T: Encodable>(_ encodable: T, to filename: String) throws
-  func read<T: Decodable>(from filename: String) throws -> T?
+  func write<T: Encodable>(_ encodable: T, id: String) throws
+  func read<T: Decodable>(id: String) throws -> T?
 }
 
 private struct ThePersistor: Persistor {
-  func write<T: Encodable>(_ encodable: T, to filename: String) throws {
+  func write<T: Encodable>(_ encodable: T, id: String) throws {
     try JSONEncoder()
       .encode(encodable)
-      .write(to: try getURL(filename))
+      .write(to: try getURL(id))
   }
   
-  func read<T: Decodable>(from filename: String) throws -> T? {
+  func read<T: Decodable>(id: String) throws -> T? {
     try JSONDecoder()
-      .decode(T.self, from: try Data(contentsOf: getURL(filename)))
+      .decode(T.self, from: try Data(contentsOf: getURL(id)))
     
   }
   
@@ -39,13 +39,16 @@ private struct ThePersistor: Persistor {
   }
 }
 
-private struct MockPersistor: Persistor {
-  func write<T: Encodable>(_ encodable: T, to filename: String) throws {
+private class MockPersistor: Persistor {
+  private var data = [String: Any]()
+  
+  func write<T: Encodable>(_ encodable: T, id: String) throws {
     debugPrint("No data written to persistent storage (testing/previewing).")
+    data[id] = encodable
   }
   
-  func read<T: Decodable>(from filename: String) throws -> T? {
+  func read<T: Decodable>(id: String) throws -> T? {
     debugPrint("No data read from persistent storage (testing/previewing).")
-    return nil
+    return data[id] as? T
   }
 }

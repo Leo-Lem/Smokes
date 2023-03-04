@@ -56,9 +56,11 @@ extension StatsView {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct AveragesView_Previews: PreviewProvider {
   static var previews: some View {
     StatsView()
       .environmentObject(Store(initialState: .preview, reducer: MainReducer()))
   }
 }
+#endif

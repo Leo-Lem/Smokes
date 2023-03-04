@@ -23,6 +23,8 @@ final class TrendPerformanceTests: XCTestCase {
   }
   
   private func subdivide(for interval: DateInterval, by component: Calendar.Component) -> [Date: Int] {
-    [interval.start: 1, interval.end: 1]
+    let date = Date.now
+    while Date.now < date + 2 {} // average time for 100_000 date entries
+    return [interval.start: 1, interval.end: 1]
   }
 }

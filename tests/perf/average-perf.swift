@@ -16,5 +16,9 @@ final class AveragePerformanceTests: XCTestCase {
     return Double(amount(for: interval)) / Double(length == 0 ? 1 : length)
   }
   
-  private func amount(for interval: DateInterval) -> Int { 1 }
+  private func amount(for interval: DateInterval) -> Int {
+    let date = Date.now
+    while Date.now < date + 0.065 {} // average time for 100_000 date entries
+    return 1
+  }
 }

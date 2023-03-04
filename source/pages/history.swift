@@ -113,9 +113,11 @@ extension HistoryView {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct HistoryView_Previews: PreviewProvider {
   static var previews: some View {
     HistoryView()
       .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
   }
 }
+#endif
