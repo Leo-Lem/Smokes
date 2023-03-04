@@ -66,7 +66,7 @@ extension DashboardView {
       
       all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
       
-      monthSubdivision = state.subdivisions[.day]?[cal.dateInterval(of: .month, for: now)!] ?? [:]
+      monthSubdivision = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
     }
   }
 
@@ -91,7 +91,7 @@ extension DashboardView {
       case .calculateAll:
         return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
       case .calculateMonthSubdivision:
-        return .calculateSubdivision(cal.dateInterval(of: .month, for: now)!, .day)
+        return .calculateAmountForSubdivision(cal.dateInterval(of: .month, for: now)!, .day)
       }
     }
   }

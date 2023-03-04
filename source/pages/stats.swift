@@ -8,16 +8,14 @@ struct StatsView: View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
       VStack {
         AmountWidget(viewStore.daily, description: "per day")
-          .onAppear { viewStore.send(.calculateDaily) }
-        
+
         HStack {
           AmountWidget(viewStore.weekly, description: "per week")
-            .onAppear { viewStore.send(.calculateWeekly) }
           AmountWidget(viewStore.monthly, description: "per month")
-            .onAppear { viewStore.send(.calculateMonthly) }
         }
       }
       .padding()
+      .onAppear { viewStore.send(.calculate) }
     }
   }
 }
@@ -38,18 +36,13 @@ extension StatsView {
   }
 
   enum ViewAction: Equatable {
-    case calculateDaily, calculateWeekly, calculateMonthly
+    case calculate
 
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.date.now) var now: Date
       @Dependency(\.calendar) var cal: Calendar
-      let date = cal.startOfDay(for: now + 86400)
-      
-      switch action {
-      case .calculateDaily: return .calculateAverageUntil(date, .day)
-      case .calculateWeekly: return .calculateAverageUntil(date, .weekOfYear)
-      case .calculateMonthly: return .calculateAverageUntil(date, .month)
-      }
+
+      return .calculateAmountForAverageUntil(cal.startOfDay(for: now + 86400))
     }
   }
 }
