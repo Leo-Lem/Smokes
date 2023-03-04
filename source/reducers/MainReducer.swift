@@ -4,22 +4,33 @@ import Foundation
 struct MainReducer: ReducerProtocol {
   struct State: Equatable {
     var entries: Entries.State
-    var amounts = Amounts.State()
+    var amounts = Amounts.State(), averages = Averages.State()
     
     init(_ entries: [Date]) { self.entries = .init(dates: entries) }
+    
+    func average(until date: Date, by subdivision: Calendar.Component) -> Double? {
+      DateInterval(start: entries.startDate, safeEnd: date).flatMap { averages[$0, by: subdivision] } ?? 0
+    }
   }
   
   enum Action {
+    case entries(Entries.Action), amounts(Amounts.Action), averages(Averages.Action)
+    
     case add(Date), remove(Date)
-    case calculateAmount(_ interval: DateInterval)
-    case entries(Entries.Action), amounts(Amounts.Action)
+    
+    case calculateAmount(DateInterval)
+    
+    case calculateAverageUntil(Date, Calendar.Component),
+         calculateAverage(DateInterval, Calendar.Component),
+         continueCalculatingAverage(DateInterval, Calendar.Component)
   }
   
   var body: some ReducerProtocol<State, Action> {
     Scope(state: \.entries, action: /Action.entries) { Entries() }
     Scope(state: \.amounts, action: /Action.amounts) { Amounts() }
+    Scope(state: \.averages, action: /Action.averages) { Averages() }
     
-    Reduce { state, action in
+    Reduce<State, Action> { state, action in
       switch action {
       case let .add(date):
         for interval in state.amounts.cache.keys where interval.contains(date) { state.amounts[interval]? += 1 }
@@ -30,15 +41,48 @@ struct MainReducer: ReducerProtocol {
           for interval in state.amounts.cache.keys where interval.contains(date) { state.amounts[interval]? -= 1 }
           return .send(.entries(.remove(date)))
         }
-          
-      case let .calculateAmount(interval):
-        return .send(.amounts(.calculate(interval, state.entries.dates)))
-          
+        
       default: break
       }
         
       return .none
     }
+    
+    Reduce<State, Action> { state, action in
+      if case let .calculateAmount(interval) = action {
+        return .send(.amounts(.calculate(interval, state.entries.dates)))
+      }
+        
+      return .none
+    }
+    
+    Reduce<State, Action> { state, action in
+      switch action {
+      case let .calculateAverageUntil(date, subdivision):
+        if let interval = DateInterval(start: state.entries.startDate, safeEnd: date) {
+          return .send(.calculateAverage(interval, subdivision))
+        }
+        
+      case let .calculateAverage(interval, subdivision):
+        return .run { actions in
+          await actions.send(.calculateAmount(interval))
+          await actions.send(.continueCalculatingAverage(interval, subdivision))
+        }
+        
+      case let .continueCalculatingAverage(interval, subdivision):
+        if let amount = state.amounts[interval] { return .send(.averages(.calculate(interval, subdivision, amount))) }
+        
+      default: break
+      }
+        
+      return .none
+    }
+  }
+}
+
+extension DateInterval {
+  init?(start: Date, safeEnd: Date) {
+    if start <= safeEnd { self.init(start: start, end: safeEnd) } else { return nil }
   }
 }
 

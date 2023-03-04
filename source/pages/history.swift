@@ -12,7 +12,7 @@ struct HistoryView: View {
     } content: { viewStore in
       VStack {
         Group {
-          AmountWidget(viewStore.dayAmount, description: "This Day")
+          AmountWidget(viewStore.day, description: "this day")
             .overlay(alignment: .topLeading) {
               if !isEditing {
                 Button { isEditing = true } label: {
@@ -26,15 +26,15 @@ struct HistoryView: View {
             .onAppear { viewStore.send(.calculateDay) }
 
           HStack {
-            AmountWidget(viewStore.weekAmount, description: "This Week")
+            AmountWidget(viewStore.week, description: "this week")
               .onAppear { viewStore.send(.calculateWeek) }
-            AmountWidget(viewStore.monthAmount, description: "This Month")
+            AmountWidget(viewStore.month, description: "this month")
               .onAppear { viewStore.send(.calculateMonth) }
-            AmountWidget(viewStore.yearAmount, description: "This Year")
+            AmountWidget(viewStore.year, description: "this year")
               .onAppear { viewStore.send(.calculateYear) }
           }
 
-          AmountWidget(viewStore.allAmount, description: "Until This Day")
+          AmountWidget(viewStore.all, description: "until this day")
             .onAppear { viewStore.send(.calculateAll) }
         }
         .onLongPressGesture { isEditing.toggle() }
@@ -43,7 +43,7 @@ struct HistoryView: View {
           .frame(maxHeight: 50)
           
         if isEditing {
-          IncrementWidget(decrementDisabled: viewStore.dayAmount ?? 0 < 1) {
+          IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
             viewStore.send(.add)
           } remove: {
             viewStore.send(.remove)
@@ -77,16 +77,16 @@ struct HistoryView: View {
 
 extension HistoryView {
   struct ViewState: Equatable {
-    var dayAmount: Int?, weekAmount: Int?, monthAmount: Int?, yearAmount: Int?, allAmount: Int?
+    var day: Int?, week: Int?, month: Int?, year: Int?, all: Int?
 
     init(_ state: MainReducer.State, selectedDate: Date) {
       @Dependency(\.calendar) var cal: Calendar
 
-      dayAmount = state.amounts[cal.dateInterval(of: .day, for: selectedDate)!]
-      weekAmount = state.amounts[cal.dateInterval(of: .weekOfYear, for: selectedDate)!]
-      monthAmount = state.amounts[cal.dateInterval(of: .month, for: selectedDate)!]
-      yearAmount = state.amounts[cal.dateInterval(of: .year, for: selectedDate)!]
-      allAmount = state.amounts[DateInterval(start: .distantPast, end: selectedDate)]
+      day = state.amounts[cal.dateInterval(of: .day, for: selectedDate)!]
+      week = state.amounts[cal.dateInterval(of: .weekOfYear, for: selectedDate)!]
+      month = state.amounts[cal.dateInterval(of: .month, for: selectedDate)!]
+      year = state.amounts[cal.dateInterval(of: .year, for: selectedDate)!]
+      all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: selectedDate + 86400))]
     }
   }
 
@@ -104,7 +104,8 @@ extension HistoryView {
       case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: selectedDate)!)
       case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: selectedDate)!)
       case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: selectedDate)!)
-      case .calculateAll: return .calculateAmount(DateInterval(start: .distantPast, end: selectedDate))
+      case .calculateAll:
+        return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: selectedDate + 86400)))
       }
     }
   }

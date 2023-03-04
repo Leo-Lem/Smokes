@@ -11,13 +11,13 @@ struct MainView: View {
       DashboardView()
         .tabItem { Label("", systemImage: "square") }
         .tag(1)
-//      
-//      AveragesView(store: store)
-//        .tabItem { Label("Averages", systemImage: "percent") }
-//        .tag(2)
+
+      StatsView()
+        .tabItem { Label("Averages", systemImage: "percent") }
+        .tag(2)
     }
   }
-  
+
   @State private var selectedTab = 1
 }
 

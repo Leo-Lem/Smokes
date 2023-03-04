@@ -8,26 +8,26 @@ struct DashboardView: View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
       VStack {
         VStack {
-          AmountWidget(viewStore.dayAmount, description: "today")
+          AmountWidget(viewStore.day, description: "today")
             .onAppear { viewStore.send(.calculateDay) }
-          AmountWidget(viewStore.beforeAmount, description: "yesterday")
+          AmountWidget(viewStore.before, description: "yesterday")
             .onAppear { viewStore.send(.calculateBefore) }
         }
 
         HStack {
-          AmountWidget(viewStore.weekAmount, description: "this week")
+          AmountWidget(viewStore.week, description: "this week")
             .onAppear { viewStore.send(.calculateWeek) }
-          AmountWidget(viewStore.monthAmount, description: "this month")
+          AmountWidget(viewStore.month, description: "this month")
             .onAppear { viewStore.send(.calculateMonth) }
-          AmountWidget(viewStore.yearAmount, description: "this year")
+          AmountWidget(viewStore.year, description: "this year")
             .onAppear { viewStore.send(.calculateYear) }
         }
 
         HStack {
-          AmountWidget(viewStore.allAmount, description: "until now")
+          AmountWidget(viewStore.all, description: "until now")
             .onAppear { viewStore.send(.calculateAll) }
 
-          IncrementWidget(decrementDisabled: viewStore.dayAmount ?? 0 < 1) {
+          IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
             viewStore.send(.add)
           } remove: {
             viewStore.send(.remove)
@@ -42,18 +42,18 @@ struct DashboardView: View {
 
 extension DashboardView {
   struct ViewState: Equatable {
-    var dayAmount: Int?, beforeAmount: Int?, weekAmount: Int?, monthAmount: Int?, yearAmount: Int?, allAmount: Int?
+    var day: Int?, before: Int?, week: Int?, month: Int?, year: Int?, all: Int?
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
       @Dependency(\.date.now) var now: Date
 
-      dayAmount = state.amounts[cal.dateInterval(of: .day, for: now)!]
-      beforeAmount = state.amounts[cal.dateInterval(of: .day, for: now - 86400)!]
-      weekAmount = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
-      monthAmount = state.amounts[cal.dateInterval(of: .month, for: now)!]
-      yearAmount = state.amounts[cal.dateInterval(of: .year, for: now)!]
-      allAmount = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
+      day = state.amounts[cal.dateInterval(of: .day, for: now)!]
+      before = state.amounts[cal.dateInterval(of: .day, for: now - 86400)!]
+      week = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
+      month = state.amounts[cal.dateInterval(of: .month, for: now)!]
+      year = state.amounts[cal.dateInterval(of: .year, for: now)!]
+      all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
     }
   }
 
