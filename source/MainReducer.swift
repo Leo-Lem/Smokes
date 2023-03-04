@@ -9,41 +9,18 @@ struct MainReducer: ReducerProtocol {
     var startDate: Date { entries.first ?? Dependency(\.date.now).wrappedValue }
     
     init(_ entries: [Date] = []) { self.entries = entries }
-    
-    func average(until date: Date, by subdivision: Calendar.Component) -> Double? {
-      DateInterval(start: startDate, safeEnd: date).flatMap { average($0, by: subdivision) } ?? 0
-    }
-    
-    func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
-      @Dependency(\.calendar) var cal: Calendar
-      let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end)
-        .value(for: subdivision) ?? 1
-      
-      return Double(amounts[interval] ?? 0) / Double(length == 0 ? 1 : length)
-    }
-    
-    func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int] {
-      @Dependency(\.calendar) var cal: Calendar
-      var subintervals = [DateInterval](), date = interval.start
-          
-      while date < interval.end {
-        let nextDate = cal.date(byAdding: subdivision, value: 1, to: date)!
-        subintervals.append(DateInterval(start: date, end: nextDate))
-        date = nextDate
-      }
-      
-      return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0] ?? 0) })
-    }
   }
   
   enum Action {
     case loadEntries, saveEntries
-    
+    case setEntries([Date]), addEntries([Date])
     case add(Date), remove(Date)
     
     case calculateAmount(DateInterval)
-    case calculateAmountForAverageUntil(Date)
-    case calculateAmountForSubdivision(DateInterval, Calendar.Component)
+    case calculateAmountForAverageUntil(Date),
+         calculateAmountForAverage(DateInterval)
+    case calculateAmountForSubdivisionUntil(Date, Calendar.Component),
+         calculateAmountForSubdivision(DateInterval, Calendar.Component)
   }
   
   var body: some ReducerProtocol<State, Action> {
@@ -55,6 +32,24 @@ struct MainReducer: ReducerProtocol {
         
       case .saveEntries:
         do { try persistor.write(state.entries, id: id) } catch { debugPrint(error) }
+      default: break
+      }
+      
+      switch action {
+      case let .setEntries(newEntries):
+        state.entries = newEntries
+        let intervals = state.amounts.keys
+        return .run { actions in
+          for interval in intervals { await actions.send(.calculateAmount(interval)) }
+        }
+        
+      case let .addEntries(newEntries):
+        state.entries += newEntries
+        let intervals = state.amounts.keys
+        return .run { actions in
+          for interval in intervals { await actions.send(.calculateAmount(interval)) }
+        }
+        
       default: break
       }
       
@@ -81,13 +76,21 @@ struct MainReducer: ReducerProtocol {
         
       case let .calculateAmountForAverageUntil(date):
         if let interval = DateInterval(start: state.startDate, safeEnd: date) {
-          return .send(.calculateAmount(interval))
+          return .send(.calculateAmountForAverage(interval))
+        }
+        
+      case let .calculateAmountForAverage(interval):
+        return .send(.calculateAmount(interval))
+        
+      case let .calculateAmountForSubdivisionUntil(date, component):
+        if let interval = DateInterval(start: state.startDate, safeEnd: date) {
+          return .send(.calculateAmountForSubdivision(interval, component))
         }
         
       case let .calculateAmountForSubdivision(interval, component):
         return .run { actions in
           @Dependency(\.calendar) var cal: Calendar
-          var date = interval.start
+          var date = cal.startOfDay(for: interval.start)
           while date < interval.end {
             let nextDate = cal.date(byAdding: component, value: 1, to: date)!
             await actions.send(.calculateAmount(DateInterval(start: date, end: nextDate)))
@@ -103,6 +106,37 @@ struct MainReducer: ReducerProtocol {
   }
   
   @Dependency(\.persistor) private var persistor
+}
+
+extension MainReducer.State {
+  func average(until date: Date, by subdivision: Calendar.Component) -> Double? {
+    DateInterval(start: startDate, safeEnd: date).flatMap { average($0, by: subdivision) } ?? 0
+  }
+  
+  func subdivide(until date: Date, by subdivision: Calendar.Component) -> [DateInterval: Int] {
+    DateInterval(start: startDate, safeEnd: date).flatMap { subdivide($0, by: subdivision) } ?? [:]
+  }
+  
+  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
+    @Dependency(\.calendar) var cal: Calendar
+    let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end)
+      .value(for: subdivision) ?? 1
+    
+    return Double(amounts[interval] ?? 0) / Double(length == 0 ? 1 : length)
+  }
+  
+  func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int] {
+    @Dependency(\.calendar) var cal: Calendar
+    var subintervals = [DateInterval](), date = cal.startOfDay(for: interval.start)
+        
+    while date < interval.end {
+      let nextDate = cal.date(byAdding: subdivision, value: 1, to: date)!
+      subintervals.append(DateInterval(start: date, end: nextDate))
+      date = nextDate
+    }
+    
+    return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0] ?? 0) })
+  }
 }
 
 extension DateInterval {

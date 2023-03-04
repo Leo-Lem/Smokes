@@ -34,29 +34,31 @@ struct HistoryView: View {
               .onAppear { viewStore.send(.calculateYear) }
           }
 
-          AmountWidget(viewStore.all, description: "until this day")
-            .onAppear { viewStore.send(.calculateAll) }
+          HStack {
+            AmountWidget(viewStore.all, description: "until this day")
+              .onAppear { viewStore.send(.calculateAll) }
+            
+            if isEditing {
+              IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
+                viewStore.send(.add)
+              } remove: {
+                viewStore.send(.remove)
+              }
+              .overlay(alignment: .topTrailing) {
+                Button { isEditing = false } label: {
+                  Image(systemName: "xmark.circle")
+                    .imageScale(.large)
+                    .font(.headline)
+                    .padding(5)
+                }
+              }
+            }
+          }
         }
         .onLongPressGesture { isEditing.toggle() }
           
         DatePickerWidget(selection: $selectedDate)
           .frame(maxHeight: 50)
-          
-        if isEditing {
-          IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
-            viewStore.send(.add)
-          } remove: {
-            viewStore.send(.remove)
-          }
-          .overlay(alignment: .topTrailing) {
-            Button { isEditing = false } label: {
-              Image(systemName: "xmark.circle")
-                .imageScale(.large)
-                .font(.headline)
-                .padding(5)
-            }
-          }
-        }
       }
       .padding()
       .animation(.default, value: isEditing)

@@ -10,11 +10,11 @@ struct DashboardView: View {
         VStack {
           AmountWidget(viewStore.day, description: "today")
             .attachPlot {
-              PlotWidget(data: viewStore.monthSubdivision, description: nil)
+              PlotWidget(data: viewStore.subdividedMonth, description: nil)
             }
             .onAppear {
               viewStore.send(.calculateDay)
-              viewStore.send(.calculateMonthSubdivision)
+              viewStore.send(.calculateSubdividedMonth)
             }
             .frame(minHeight: geo.size.height / 3)
           
@@ -32,7 +32,14 @@ struct DashboardView: View {
           
           HStack {
             AmountWidget(viewStore.all, description: "until now")
-              .onAppear { viewStore.send(.calculateAll) }
+              .attachPorter(
+                imported: viewStore.binding(get: \.entries, send: { ViewAction.addEntries($0) }),
+                exported: viewStore.subdividedAll
+              )
+              .onAppear {
+                viewStore.send(.calculateAll)
+                viewStore.send(.calculateSubdividedAll)
+              }
             
             IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
               viewStore.send(.add)
@@ -52,7 +59,8 @@ extension DashboardView {
   struct ViewState: Equatable {
     let day: Int?, before: Int?, week: Int?, month: Int?, year: Int?
     let all: Int?
-    let monthSubdivision: [DateInterval: Int]
+    let subdividedMonth: [DateInterval: Int], subdividedAll: [DateInterval: Int]
+    let entries: [Date]
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
@@ -66,7 +74,10 @@ extension DashboardView {
       
       all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
       
-      monthSubdivision = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
+      subdividedMonth = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
+      subdividedAll = state.subdivide(until: now, by: .day)
+      
+      entries = state.entries
     }
   }
 
@@ -74,7 +85,8 @@ extension DashboardView {
     case add, remove
     case calculateDay, calculateBefore, calculateWeek, calculateMonth, calculateYear
     case calculateAll
-    case calculateMonthSubdivision
+    case calculateSubdividedMonth, calculateSubdividedAll
+    case addEntries([Date])
 
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.calendar) var cal: Calendar
@@ -90,8 +102,10 @@ extension DashboardView {
       case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: now)!)
       case .calculateAll:
         return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
-      case .calculateMonthSubdivision:
+      case .calculateSubdividedMonth:
         return .calculateAmountForSubdivision(cal.dateInterval(of: .month, for: now)!, .day)
+      case .calculateSubdividedAll: return .calculateAmountForSubdivisionUntil(now, .day)
+      case let .addEntries(entries): return .setEntries(entries)
       }
     }
   }

@@ -4,20 +4,22 @@ import UniformTypeIdentifiers
 import SwiftUI
 
 extension View {
-  func attachPorter(_ data: [Date: Int]) -> some View {
-    modifier(PorterAttacher(data: data))
+  func attachPorter(imported: Binding<[Date]>, exported: [DateInterval: Int]) -> some View {
+    modifier(PorterAttacher(imported: imported, exported: exported))
   }
 }
 
 private struct PorterAttacher: ViewModifier {
-  let data: [Date: Int]
+  @Binding var imported: [Date]
+  let exported: [DateInterval: Int]
   
+  // FIXME: difference between exported and imported amounts (almost double...)
   func body(content: Content) -> some View {
     content
-      .overlay(alignment: .bottomLeading) {
+      .overlay(alignment: .topLeading) {
         HStack {
           Button(systemImage: "square.and.arrow.up") { showingExporter = true }
-//          Button(systemImage: "square.and.arrow.down") { showingImporter = true }
+          Button(systemImage: "square.and.arrow.down") { showingImporter = true }
         }
         .imageScale(.large)
         .font(.headline)
@@ -25,56 +27,68 @@ private struct PorterAttacher: ViewModifier {
       }
       .fileExporter(
         isPresented: $showingExporter,
-        document: TextDocument(contents),
+        document: createDoc(from: exported),
         contentType: .plainText,
-        defaultFilename: "Smokes Data"
+        defaultFilename: "SmokesData"
       ) {
         switch $0 {
         case .success(let url): debugPrint(url)
         case .failure(let error): debugPrint(error)
         }
       }
-//      .fileImporter(
-//        isPresented: $showingImporter,
-//        allowedContentTypes: [.plainText]
-//      ) {
-//        switch $0 {
-//        case .success(let url):
-//          do {
-//            let data = try String(contentsOf: url)
-//              .split(separator: ",\n")
-//              .compactMap {
-//                let keyValue = $0.split(separator: ": ")
-//                if let key = keyValue.first, let value = keyValue.last {
-//                  let date = try Date(key, strategy: .init(format: ))
-//                  return (key: date, value: value)
-//                } else { return nil }
-//              }
-//
-//            debugPrint(data)
-//          } catch { debugPrint(error) }
-//        case .failure(let error):
-//          debugPrint(error)
-//        }
-//      }
+      .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.plainText]) {
+        switch $0 {
+        case .success(let url): imported = parseFile(at: url)
+        case .failure(let error): debugPrint(error)
+        }
+      }
   }
 
   @State private var showingExporter = false
-//  @State private var showingImporter = false
+  @State private var showingImporter = false
   
-  private var contents: String {
+  private var dateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter
+  }
+  
+  // TODO: move into reducer
+  private func createDoc(from data: [DateInterval: Int]) -> SmokesDoc {
     let filtered = data.filter { $0.value > 0 }
     let sorted = filtered.sorted { $0.key < $1.key }
-    let formatted = sorted.map { (key: $0.key.formatted(date: .numeric, time: .omitted), value: $0.value) }
+    let formatted = sorted.map { (key: $0.key, value: $0.value) }
+    var text = formatted.reduce("") { $0 + "\(dateFormatter.string(from: $1.key.start)): \($1.value)\n" }
+    text = String(text.dropLast())
     
-    var text = formatted.reduce("") { $0 + "\($1.key): \($1.value),\n" }
-    text.removeLast(2)
+    return SmokesDoc(text)
+  }
+  
+  private func parseFile(at url: URL) -> [Date] {
+    var dates = [Date]()
     
-    return text
+    do {
+      guard url.startAccessingSecurityScopedResource() else { return [] }
+      let raw = try String(contentsOf: url)
+      url.stopAccessingSecurityScopedResource()
+      
+      let lines = raw.split(separator: "\n")
+      dates = Array(lines
+        .compactMap {
+          let comps = $0.split(separator: ": ").map(String.init)
+          if let date = comps.first.flatMap(dateFormatter.date), let amount = comps.last.flatMap(Int.init) {
+            return Array(repeating: date, count: amount)
+          } else { return nil }
+        }
+        .joined()
+      )
+    } catch { debugPrint(error) }
+    
+    return dates
   }
 }
 
-struct TextDocument: FileDocument {
+struct SmokesDoc: FileDocument {
   static let readableContentTypes = [UTType.plainText]
   
   private var contents = ""
@@ -84,20 +98,5 @@ struct TextDocument: FileDocument {
   
   func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
     FileWrapper(regularFileWithContents: contents.data(using: .utf8) ?? Data())
-  }
-}
-
-// MARK: - (PREVIEWS)
-
-struct PorterAttacher_Previews: PreviewProvider {
-  static var previews: some View {
-    AmountWidget(10, description: "Today")
-      .attachPorter(
-        [
-          .now: 140,
-          Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!: 70,
-          Calendar.current.date(byAdding: .month, value: -1, to: .now)!: 110
-        ]
-      )
   }
 }
