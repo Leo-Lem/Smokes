@@ -50,9 +50,9 @@ struct AmountWithPlotWidget_Previews: PreviewProvider {
     AmountWidget(10, description: "Today")
       .attachPlot {
         PlotWidget(data: [
-          .now: 140,
-          Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!: 70,
-          Calendar.current.date(byAdding: .month, value: -1, to: .now)!: 110
+          DateInterval(start: .now, duration: 86400): 140,
+          DateInterval(start: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!, duration: 86400): 70,
+          DateInterval(start: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, duration: 86400): 110
         ], description: nil)
       }
       .frame(maxHeight: 200)

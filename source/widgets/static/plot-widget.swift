@@ -4,13 +4,16 @@ import Charts
 import SwiftUI
 
 struct PlotWidget: View {
-  let data: [Date: Int], description: String?
+  let data: [DateInterval: Int], description: String?
   
   var body: some View {
     VStack {
       Chart {
         ForEach(Array(data.keys), id: \.self) { key in
-          BarMark(x: .value("Date", key), y: .value("Amount", data[key] ?? 0))
+          BarMark(
+            x: .value("Date", key.start),
+            y: .value("Amount", data[key] ?? 0)
+          )
         }
       }
       .animation(.default, value: data)
@@ -30,9 +33,9 @@ struct PlotWidget_Previews: PreviewProvider {
   static var previews: some View {
     PlotWidget(
       data: [
-        .now: 140,
-        Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!: 70,
-        Calendar.current.date(byAdding: .month, value: -1, to: .now)!: 110
+        DateInterval(start: .now, duration: 86400): 140,
+        DateInterval(start: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!, duration: 86400): 70,
+        DateInterval(start: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, duration: 86400): 110
       ],
       description: "Some plot"
     )

@@ -8,14 +8,16 @@ struct Main: App {
   
   var body: some Scene {
     WindowGroup {
-      WithViewStore(store) { viewStore in
-        MainView()
-          .onAppear { viewStore.send(.loadEntries) }
-          .onChange(of: scene) { newScene in
-            if newScene != .active { viewStore.send(.saveEntries) }
-          }
+      if !_XCTIsTesting {
+        WithViewStore(store) { viewStore in
+          MainView()
+            .onAppear { viewStore.send(.loadEntries) }
+            .onChange(of: scene) { newScene in
+              if newScene != .active { viewStore.send(.saveEntries) }
+            }
+            .environmentObject(store)
+        }
       }
-      .environmentObject(store)
     }
   }
 }

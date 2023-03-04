@@ -77,7 +77,7 @@ struct HistoryView: View {
 
 extension HistoryView {
   struct ViewState: Equatable {
-    var day: Int?, week: Int?, month: Int?, year: Int?, all: Int?
+    let day: Int?, week: Int?, month: Int?, year: Int?, all: Int?
 
     init(_ state: MainReducer.State, selectedDate: Date) {
       @Dependency(\.calendar) var cal: Calendar
