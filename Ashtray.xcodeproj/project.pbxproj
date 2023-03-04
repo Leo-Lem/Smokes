@@ -27,9 +27,13 @@
 		6E4C8A8A29B1DED000C00204 /* amounts-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8829B1DE6400C00204 /* amounts-tests.swift */; };
 		6E4C8A8B29B1DED200C00204 /* entries-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8629B1DE5E00C00204 /* entries-tests.swift */; };
 		6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */; };
+		6E4C8A9729B2B00900C00204 /* amount-perf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8F29B2AF8E00C00204 /* amount-perf.swift */; };
+		6E4C8A9829B2B00D00C00204 /* average-perf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A9129B2AF9300C00204 /* average-perf.swift */; };
+		6E4C8A9929B2B00F00C00204 /* subdivide-perf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A9329B2AF9F00C00204 /* subdivide-perf.swift */; };
+		6E4C8A9A29B2B01100C00204 /* trend-perf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A9529B2AFAF00C00204 /* trend-perf.swift */; };
+		6E4C8A9D29B2B03600C00204 /* perftest-utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A9B29B2B01500C00204 /* perftest-utils.swift */; };
 		6E58EF9729A4253800181557 /* MainReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E58EF9629A4253800181557 /* MainReducer.swift */; };
 		6E58EF9A29A4276900181557 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E58EF9929A4276900181557 /* ComposableArchitecture */; };
-		6EAB8BFD29ADD01C002B08C2 /* perf-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAB8BFC29ADD01C002B08C2 /* perf-tests.swift */; };
 		6EAB8BFE29ADEB3B002B08C2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A4B628F07F3A00CA0287 /* DashboardView.swift */; };
 		6EAB8C0129B07C10002B08C2 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D8C29A5D64B004EF7F5 /* HistoryView.swift */; };
 		6ED91E19293FB72600728E2B /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E18293FB72600728E2B /* config.swift */; };
@@ -80,8 +84,12 @@
 		6E4C8A8629B1DE5E00C00204 /* entries-tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "entries-tests.swift"; sourceTree = "<group>"; };
 		6E4C8A8829B1DE6400C00204 /* amounts-tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "amounts-tests.swift"; sourceTree = "<group>"; };
 		6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Perf.xctestplan; sourceTree = "<group>"; };
+		6E4C8A8F29B2AF8E00C00204 /* amount-perf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "amount-perf.swift"; sourceTree = "<group>"; };
+		6E4C8A9129B2AF9300C00204 /* average-perf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "average-perf.swift"; sourceTree = "<group>"; };
+		6E4C8A9329B2AF9F00C00204 /* subdivide-perf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "subdivide-perf.swift"; sourceTree = "<group>"; };
+		6E4C8A9529B2AFAF00C00204 /* trend-perf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "trend-perf.swift"; sourceTree = "<group>"; };
+		6E4C8A9B29B2B01500C00204 /* perftest-utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "perftest-utils.swift"; sourceTree = "<group>"; };
 		6E58EF9629A4253800181557 /* MainReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainReducer.swift; sourceTree = "<group>"; };
-		6EAB8BFC29ADD01C002B08C2 /* perf-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "perf-tests.swift"; sourceTree = "<group>"; };
 		6EAB8C0029B0795A002B08C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ED91E18293FB72600728E2B /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +145,7 @@
 				6ED91E2C293FB82C00728E2B /* Unit.xctestplan */,
 				6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */,
 				6ED91E1A293FB7A100728E2B /* unit */,
+				6E4C8A8E29B2AF7B00C00204 /* perf */,
 				6ED91E1B293FB7A500728E2B /* ui */,
 			);
 			path = tests;
@@ -250,6 +259,18 @@
 			path = reducers;
 			sourceTree = "<group>";
 		};
+		6E4C8A8E29B2AF7B00C00204 /* perf */ = {
+			isa = PBXGroup;
+			children = (
+				6E4C8A9B29B2B01500C00204 /* perftest-utils.swift */,
+				6E4C8A8F29B2AF8E00C00204 /* amount-perf.swift */,
+				6E4C8A9129B2AF9300C00204 /* average-perf.swift */,
+				6E4C8A9329B2AF9F00C00204 /* subdivide-perf.swift */,
+				6E4C8A9529B2AFAF00C00204 /* trend-perf.swift */,
+			);
+			path = perf;
+			sourceTree = "<group>";
+		};
 		6ED91E17293FB6EA00728E2B /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,7 +284,6 @@
 				6E05A50428F18F6600CA0287 /* main-tests.swift */,
 				6E4C8A8629B1DE5E00C00204 /* entries-tests.swift */,
 				6E4C8A8829B1DE6400C00204 /* amounts-tests.swift */,
-				6EAB8BFC29ADD01C002B08C2 /* perf-tests.swift */,
 			);
 			path = unit;
 			sourceTree = "<group>";
@@ -437,10 +457,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E4C8A9829B2B00D00C00204 /* average-perf.swift in Sources */,
 				6E4C8A8B29B1DED200C00204 /* entries-tests.swift in Sources */,
-				6EAB8BFD29ADD01C002B08C2 /* perf-tests.swift in Sources */,
+				6E4C8A9D29B2B03600C00204 /* perftest-utils.swift in Sources */,
+				6E4C8A9A29B2B01100C00204 /* trend-perf.swift in Sources */,
+				6E4C8A9729B2B00900C00204 /* amount-perf.swift in Sources */,
 				6E05A50528F18F6600CA0287 /* main-tests.swift in Sources */,
 				6E4C8A8A29B1DED000C00204 /* amounts-tests.swift in Sources */,
+				6E4C8A9929B2B00F00C00204 /* subdivide-perf.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

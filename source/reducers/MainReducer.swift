@@ -7,13 +7,11 @@ struct MainReducer: ReducerProtocol {
     var amounts = Amounts.State()
     
     init(_ entries: [Date]) { self.entries = .init(dates: entries) }
-    
-    func amount(until date: Date) -> Int? { amounts[until: date, entries.startDate] }
   }
   
   enum Action {
     case add(Date), remove(Date)
-    case calculateAmount(_ interval: DateInterval), calculateAmountUntil(Date)
+    case calculateAmount(_ interval: DateInterval)
     case entries(Entries.Action), amounts(Amounts.Action)
   }
   
@@ -36,9 +34,6 @@ struct MainReducer: ReducerProtocol {
       case let .calculateAmount(interval):
         return .send(.amounts(.calculate(interval, state.entries.dates)))
           
-      case let .calculateAmountUntil(date):
-        return .send(.amounts(.calculateUntil(date, state.entries.startDate, state.entries.dates)))
-          
       default: break
       }
         
@@ -49,6 +44,6 @@ struct MainReducer: ReducerProtocol {
 
 #if DEBUG
 extension MainReducer.State {
-  static var preview: Self { .init((0..<1000).map { _ in Date.now + Double.random(in: -1_000_000..<1_000_000) }) }
+  static var preview: Self { .init((0..<1000).map { _ in Date.now + Double.random(in: -1000_000..<1000_000) }) }
 }
 #endif

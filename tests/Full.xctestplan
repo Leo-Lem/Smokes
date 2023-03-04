@@ -9,7 +9,15 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ashtray.xcodeproj",
+          "identifier" : "6E48374428EC991100B67CA4",
+          "name" : "Smokes"
+        }
+      ]
+    },
     "targetForVariableExpansion" : {
       "containerPath" : "container:ashtray.xcodeproj",
       "identifier" : "6E48374428EC991100B67CA4",
@@ -20,7 +28,11 @@
     {
       "parallelizable" : true,
       "skippedTests" : [
-        "PerformanceTests"
+        "AmountPerformanceTests",
+        "AveragePerformanceTests",
+        "PerformanceTests",
+        "SubdividePerformanceTests",
+        "TrendPerformanceTests"
       ],
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",

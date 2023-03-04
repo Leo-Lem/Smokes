@@ -53,7 +53,7 @@ extension DashboardView {
       weekAmount = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
       monthAmount = state.amounts[cal.dateInterval(of: .month, for: now)!]
       yearAmount = state.amounts[cal.dateInterval(of: .year, for: now)!]
-      allAmount = state.amount(until: now)
+      allAmount = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
     }
   }
 
@@ -73,7 +73,8 @@ extension DashboardView {
       case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: now)!)
       case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: now)!)
       case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: now)!)
-      case .calculateAll: return .calculateAmountUntil(now)
+      case .calculateAll:
+        return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
       }
     }
   }

@@ -9,6 +9,7 @@ final class EntriesTests: XCTestCase {
     
     let date = Date.now
     await store.send(.add(date)) { $0.dates = [date] }
+    await store.send(.add(date)) { $0.dates = [date, date] }
   }
   
   func testRemoving() async {

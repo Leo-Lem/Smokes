@@ -86,7 +86,7 @@ extension HistoryView {
       weekAmount = state.amounts[cal.dateInterval(of: .weekOfYear, for: selectedDate)!]
       monthAmount = state.amounts[cal.dateInterval(of: .month, for: selectedDate)!]
       yearAmount = state.amounts[cal.dateInterval(of: .year, for: selectedDate)!]
-      allAmount = state.amount(until: selectedDate)
+      allAmount = state.amounts[DateInterval(start: .distantPast, end: selectedDate)]
     }
   }
 
@@ -104,7 +104,7 @@ extension HistoryView {
       case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: selectedDate)!)
       case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: selectedDate)!)
       case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: selectedDate)!)
-      case .calculateAll: return .calculateAmountUntil(selectedDate)
+      case .calculateAll: return .calculateAmount(DateInterval(start: .distantPast, end: selectedDate))
       }
     }
   }

@@ -13,6 +13,8 @@ struct AmountWidget: View {
         Text(formattedAmount)
           .font(.largeTitle)
           .minimumScaleFactor(0.5)
+          .id(formattedAmount)
+          .transition(.push(from: .top))
       } else {
         ProgressView()
           .scaleEffect(1.5)

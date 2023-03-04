@@ -9,6 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ashtray.xcodeproj",
+          "identifier" : "6E48374428EC991100B67CA4",
+          "name" : "Smokes"
+        }
+      ]
+    },
     "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true
   },
@@ -16,7 +25,11 @@
     {
       "parallelizable" : true,
       "skippedTests" : [
-        "PerformanceTests"
+        "AmountPerformanceTests",
+        "AveragePerformanceTests",
+        "PerformanceTests",
+        "SubdividePerformanceTests",
+        "TrendPerformanceTests"
       ],
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",
