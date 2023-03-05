@@ -10,78 +10,80 @@ struct HistoryView: View {
     } send: {
       ViewAction.send($0, selectedDate: selectedDate)
     } content: { viewStore in
-      VStack {
-        Group {
-          AmountWidget(viewStore.day, description: "this day")
-            .overlay(alignment: .topLeading) {
-              if !isEditing {
-                Button { isEditing = true } label: {
-                  Image(systemName: "square.and.pencil")
-                    .imageScale(.large)
-                    .font(.headline)
-                    .padding(5)
+      GeometryReader { _ in
+        VStack {
+          Group {
+            HStack {
+              AmountWidget(viewStore.day, description: "this day")
+                .overlay(alignment: .topTrailing) {
+                  if !isEditing {
+                    Button { isEditing = true } label: {
+                      Image(systemName: "square.and.pencil")
+                        .imageScale(.large)
+                        .font(.headline)
+                        .padding(5)
+                    }
+                  }
                 }
+                .widgetStyle()
+                .onAppear { viewStore.send(.calculateDay) }
+              
+              if isEditing {
+                IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
+                  viewStore.send(.add)
+                } remove: {
+                  viewStore.send(.remove)
+                }
+                .overlay(alignment: .topTrailing) {
+                  Button { isEditing = false } label: {
+                    Image(systemName: "xmark.circle")
+                      .imageScale(.large)
+                      .font(.headline)
+                      .padding(5)
+                  }
+                }
+                .widgetStyle()
               }
             }
-            .widgetStyle()
-            .onAppear { viewStore.send(.calculateDay) }
-
-          HStack {
-            AmountWidget(viewStore.week, description: "this week")
-              .widgetStyle()
-              .onAppear { viewStore.send(.calculateWeek) }
-            AmountWidget(viewStore.month, description: "this month")
-              .widgetStyle()
-              .onAppear { viewStore.send(.calculateMonth) }
-            AmountWidget(viewStore.year, description: "this year")
-              .widgetStyle()
-              .onAppear { viewStore.send(.calculateYear) }
-          }
-
-          HStack {
+            
+            HStack {
+              AmountWidget(viewStore.week, description: "this week")
+                .widgetStyle()
+                .onAppear { viewStore.send(.calculateWeek) }
+              AmountWidget(viewStore.month, description: "this month")
+                .widgetStyle()
+                .onAppear { viewStore.send(.calculateMonth) }
+              AmountWidget(viewStore.year, description: "this year")
+                .widgetStyle()
+                .onAppear { viewStore.send(.calculateYear) }
+            }
+            
             AmountWidget(viewStore.all, description: "until this day")
               .widgetStyle()
               .onAppear { viewStore.send(.calculateAll) }
-
-            if isEditing {
-              IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
-                viewStore.send(.add)
-              } remove: {
-                viewStore.send(.remove)
-              }
-              .overlay(alignment: .topTrailing) {
-                Button { isEditing = false } label: {
-                  Image(systemName: "xmark.circle")
-                    .imageScale(.large)
-                    .font(.headline)
-                    .padding(5)
-                }
-              }
-              .widgetStyle()
-            }
           }
-        }
-        .onLongPressGesture { isEditing.toggle() }
+          .onLongPressGesture { isEditing.toggle() }
           
-        DatePickerWidget(selection: $selectedDate)
-          .widgetStyle()
-          .frame(maxHeight: 50)
-          .padding(.vertical)
-      }
-      .padding()
-      .animation(.default, value: isEditing)
-      .animation(.default, value: viewStore.state)
-      .onChange(of: selectedDate) { _ in
-        viewStore.send(.calculateDay)
-        viewStore.send(.calculateWeek)
-        viewStore.send(.calculateMonth)
-        viewStore.send(.calculateYear)
-        viewStore.send(.calculateAll)
+          DatePickerWidget(selection: $selectedDate)
+            .widgetStyle()
+            .frame(maxHeight: 50)
+            .padding(.top)
+        }
+        .padding()
+        .animation(.default, value: isEditing)
+        .animation(.default, value: viewStore.state)
+        .onChange(of: selectedDate) { _ in
+          viewStore.send(.calculateDay)
+          viewStore.send(.calculateWeek)
+          viewStore.send(.calculateMonth)
+          viewStore.send(.calculateYear)
+          viewStore.send(.calculateAll)
+        }
       }
     }
   }
 
-  @State private var selectedDate = Dependency(\.date.now).wrappedValue
+  @State private var selectedDate = Dependency(\.date.now).wrappedValue - 86400
   @State private var isEditing = false
 }
 

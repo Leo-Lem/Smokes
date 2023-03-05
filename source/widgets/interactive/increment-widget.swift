@@ -32,7 +32,6 @@ struct IncrementWidget: View {
     }
     .imageScale(.large)
     .minimumScaleFactor(0.2)
-    .widgetStyle()
   }
 }
 

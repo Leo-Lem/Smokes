@@ -11,7 +11,7 @@ struct DashboardView: View {
           AmountWidget(viewStore.day, description: "today")
             .widgetStyle()
             .attachPlot { PlotWidget(data: viewStore.subdividedMonth, description: nil).widgetStyle() }
-            .frame(minHeight: geo.size.height / 3)
+            .frame(height: geo.size.height / 3)
             .onAppear {
               viewStore.send(.calculateDay)
               viewStore.send(.calculateSubdividedMonth)

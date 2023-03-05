@@ -19,15 +19,12 @@ struct SubdivisionPickerWidget: View {
   private func format(_ component: Calendar.Component) -> String {
     @Dependency(\.calendar) var cal: Calendar
     switch component {
-      case .year: return "year"
-      case .month: return "month"
-      case .day: return "day"
-      case .hour: return "hour"
-      case .minute: return "minute"
-      case .second: return "second"
-      case .quarter: return "quarter"
-      case .weekOfYear: return "week"
-      default: fatalError("Unavailable component: \(component)")
+    case .year: return "yearly"
+    case .month: return "monthly"
+    case .weekOfYear: return "weekly"
+    case .day: return "daily"
+    case .hour: return "hourly"
+    default: fatalError("Unavailable component: \(component)")
     }
   }
 

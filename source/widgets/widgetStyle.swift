@@ -5,8 +5,9 @@ import SwiftUI
 extension View {
   func widgetStyle() -> some View {
     self
-      .background(.ultraThinMaterial)
-      .cornerRadius(5)
+      .background(.thinMaterial)
+      .cornerRadius(10)
       .shadow(color: .primary, radius: 2)
+      .padding(2)
   }
 }

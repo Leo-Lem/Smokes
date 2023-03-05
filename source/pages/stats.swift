@@ -23,8 +23,8 @@ struct StatsView: View {
         // TODO: make this work
 //        AmountWidget(viewStore.monthOverMonth, description: "monthly trend")
       }
-      .animation(.default, value: viewStore.state)
       .padding()
+      .animation(.default, value: viewStore.state)
       .onAppear {
         viewStore.send(.calculateAverages)
         for subdivision in subdivisions { viewStore.send(.calculateSubdivision(subdivision))}

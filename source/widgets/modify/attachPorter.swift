@@ -9,7 +9,7 @@ extension View {
 private struct PorterAttacher: ViewModifier {
   func body(content: Content) -> some View {
     content
-      .overlay(alignment: .bottomLeading) {
+      .overlay(alignment: .topLeading) {
         Button(systemImage: "folder") { showingPorter = true }
           .padding(5)
       }
