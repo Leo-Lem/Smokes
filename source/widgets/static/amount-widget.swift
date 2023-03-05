@@ -44,6 +44,8 @@ struct AmountWidget: View {
   }
 }
 
+// MARK: - (PREVIEWS)
+
 struct AmountWidget_Previews: PreviewProvider {
   static var previews: some View {
     VStack {

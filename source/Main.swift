@@ -12,10 +12,14 @@ struct Main: App {
         WithViewStore(store) { viewStore in
           MainView()
             .onAppear { viewStore.send(.loadEntries) }
-            .onChange(of: scene) { newScene in
-              if newScene != .active { viewStore.send(.saveEntries) }
-            }
+            .onChange(of: scene) { if $0 != .active { viewStore.send(.saveEntries) } }
             .environmentObject(store)
+            .overlay(alignment: .top) {
+              #if DEBUG
+              Button("Reset") { viewStore.send(.setEntries([]))}
+                .buttonStyle(.borderedProminent)
+              #endif
+            }
         }
       }
     }

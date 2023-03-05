@@ -33,11 +33,13 @@ final class MainReducerTests: XCTestCase {
   }
 
   func testCalculatingAmount() async {
-    let interval = DateInterval(start: .now, duration: 86400 * 10)
+    let interval = DateInterval(start: .distantPast, duration: 86400 * 10),
+        amount = 1000,
+        dates = (0..<amount).map { _ in interval.start + Double.random(in: 0..<interval.duration) }
     
-    let store = TestStore(initialState: .init([interval.start]), reducer: MainReducer())
+    let store = TestStore(initialState: .init(dates), reducer: MainReducer())
 
-    await store.send(.calculateAmount(interval)) { $0.amounts = [interval: 1] }
+    await store.send(.calculateAmount(interval)) { $0.amounts = [interval: amount] }
   }
 
   func testCalculatingAverage() async {
@@ -50,6 +52,7 @@ final class MainReducerTests: XCTestCase {
     )
 
     await store.send(.calculateAmountForAverageUntil(interval.end))
+    await store.receive(/MainReducer.Action.calculateAmountForAverage)
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [interval: amount] }
     
     withDependencies { $0.calendar = .current } operation: {
@@ -60,7 +63,7 @@ final class MainReducerTests: XCTestCase {
   
   func testCalculatingSubdivision() async {
     let subdivision = Calendar.Component.day,
-        interval = DateInterval(start: .now, duration: 2 * 86400),
+        interval = DateInterval(start: Calendar.current.startOfDay(for: .now), duration: 2 * 86400),
         startInterval = DateInterval(start: interval.start, duration: 86400),
         endInterval = DateInterval(start: interval.start + 86400, duration: 86400)
     
@@ -68,7 +71,8 @@ final class MainReducerTests: XCTestCase {
       $0.calendar = .current
     }
     
-    await store.send(.calculateAmountForSubdivision(interval, subdivision))
+    await store.send(.calculateAmountForSubdivisionUntil(interval.end, subdivision))
+    await store.receive(/MainReducer.Action.calculateAmountForSubdivision)
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [startInterval: 1] }
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [startInterval: 1, endInterval: 1] }
     

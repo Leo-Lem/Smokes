@@ -5,6 +5,7 @@ struct MainReducer: ReducerProtocol {
   struct State: Equatable {
     var entries: [Date]
     var amounts = [DateInterval: Int]()
+    var filePorter = FilePorter.State()
     
     var startDate: Date { entries.first ?? Dependency(\.date.now).wrappedValue }
     
@@ -12,8 +13,8 @@ struct MainReducer: ReducerProtocol {
   }
   
   enum Action {
+    case setEntries([Date])
     case loadEntries, saveEntries
-    case setEntries([Date]), addEntries([Date])
     case add(Date), remove(Date)
     
     case calculateAmount(DateInterval)
@@ -21,58 +22,44 @@ struct MainReducer: ReducerProtocol {
          calculateAmountForAverage(DateInterval)
     case calculateAmountForSubdivisionUntil(Date, Calendar.Component),
          calculateAmountForSubdivision(DateInterval, Calendar.Component)
+    
+    case filePorter(FilePorter.Action),
+         importEntries(URL), _addImportedEntries
   }
   
   var body: some ReducerProtocol<State, Action> {
+    Scope(state: \.filePorter, action: /MainReducer.Action.filePorter, child: FilePorter.init)
+    
     Reduce<State, Action> { state, action in
-      let id = "entries"
       switch action {
+      case let .setEntries(entries):
+        state.entries = entries
+        let intervals = state.amounts.keys
+        return .run { actions in
+          for interval in intervals { await actions.send(.calculateAmount(interval)) }
+        }
+        
       case .loadEntries:
-        do { state.entries ?= try persistor.read(id: id) } catch { debugPrint(error) }
+        do {
+          if let entries: [Date] = try persistor.read(id: "entries") { return .send(.setEntries(entries)) }
+        } catch { debugPrint(error) }
         
       case .saveEntries:
-        do { try persistor.write(state.entries, id: id) } catch { debugPrint(error) }
-      default: break
-      }
-      
-      switch action {
-      case let .setEntries(newEntries):
-        state.entries = newEntries
-        let intervals = state.amounts.keys
-        return .run { actions in
-          for interval in intervals { await actions.send(.calculateAmount(interval)) }
-        }
+        do { try persistor.write(state.entries, id: "entries") } catch { debugPrint(error) }
         
-      case let .addEntries(newEntries):
-        state.entries += newEntries
-        let intervals = state.amounts.keys
-        return .run { actions in
-          for interval in intervals { await actions.send(.calculateAmount(interval)) }
-        }
-        
-      default: break
-      }
-      
-      switch action {
       case let .add(date):
+        state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
         for interval in state.amounts.keys where interval.contains(date) { state.amounts[interval]? += 1 }
         
-        state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
-        
       case let .remove(date):
-        if let index = state.entries.firstIndex(where: { $0 <= date }) {
-          for interval in state.amounts.keys where interval.contains(date) { state.amounts[interval]? -= 1 }
-          
+        if let index = state.entries.lastIndex(where: { $0 <= date }) {
           state.entries.remove(at: index)
+          for interval in state.amounts.keys where interval.contains(date) { state.amounts[interval]? -= 1 }
         }
         
-      default: break
-      }
-      
-      switch action {
       case let .calculateAmount(interval):
         state.amounts[interval] = (state.entries.firstIndex { interval.end < $0 } ?? state.entries.endIndex) -
-          (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
+        (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
         
       case let .calculateAmountForAverageUntil(date):
         if let interval = DateInterval(start: state.startDate, safeEnd: date) {
@@ -98,9 +85,19 @@ struct MainReducer: ReducerProtocol {
           }
         }
         
+      case let .importEntries(url):
+        return .run { actions in
+          await actions.send(.filePorter(.readFile(url)))
+          await actions.send(._addImportedEntries)
+        }
+        
+      case ._addImportedEntries:
+        if let entries = state.filePorter.file?.entries {
+          return .send(.setEntries((state.entries + entries).sorted()))
+        }
+        
       default: break
       }
-      
       return .none
     }
   }
@@ -136,18 +133,5 @@ extension MainReducer.State {
     }
     
     return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0] ?? 0) })
-  }
-}
-
-extension DateInterval {
-  init?(start: Date, safeEnd: Date) {
-    if start <= safeEnd { self.init(start: start, end: safeEnd) } else { return nil }
-  }
-}
-
-infix operator ?=: AssignmentPrecedence
-extension Optional {
-  static func ?= (lhs: inout Wrapped, rhs: Wrapped?) {
-    if let rhs { lhs = rhs }
   }
 }

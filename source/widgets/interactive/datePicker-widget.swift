@@ -35,7 +35,6 @@ struct DatePickerWidget: View {
 struct DatePickerWidget_Previews: PreviewProvider {
   static var previews: some View {
     DatePickerWidget(selection: .constant(.now))
-      
       .padding()
   }
 }

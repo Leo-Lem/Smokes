@@ -29,6 +29,8 @@ struct PlotWidget: View {
   }
 }
 
+// MARK: - (PREVIEWS)
+
 struct PlotWidget_Previews: PreviewProvider {
   static var previews: some View {
     PlotWidget(

@@ -36,6 +36,8 @@ struct IncrementWidget: View {
   }
 }
 
+// MARK: - (PREVIEWS)
+
 struct IncrementWidget_Previews: PreviewProvider {
   static var previews: some View {
     IncrementWidget(decrementDisabled: false) {} remove: {}

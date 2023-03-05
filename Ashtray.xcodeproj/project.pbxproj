@@ -13,11 +13,19 @@
 		6E014D9629A5E61B004EF7F5 /* widgetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9529A5E61B004EF7F5 /* widgetStyle.swift */; };
 		6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */; };
 		6E05A4BD28F07FC300CA0287 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BB28F07FC300CA0287 /* .gitignore */; };
-		6E05A50528F18F6600CA0287 /* main-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A50428F18F6600CA0287 /* main-tests.swift */; };
+		6E05A50528F18F6600CA0287 /* MainReducer-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */; };
 		6E09E64829A6BEA5006AF884 /* plot-widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E64729A6BEA5006AF884 /* plot-widget.swift */; };
 		6E09E64F29A6E3AE006AF884 /* attachPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E64E29A6E3AE006AF884 /* attachPlot.swift */; };
 		6E09E65229A6ECE3006AF884 /* persistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65129A6ECE3006AF884 /* persistor.swift */; };
 		6E09E65429A6FD00006AF884 /* attachPorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65329A6FD00006AF884 /* attachPorter.swift */; };
+		6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */; };
+		6E2CE6C229B4284D0082E2C6 /* FilePorter-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */; };
+		6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */; };
+		6E2CE6C829B43DE50082E2C6 /* SmokesFile-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C629B43DE00082E2C6 /* SmokesFile-tests.swift */; };
+		6E2CE6CC29B4456C0082E2C6 /* porter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6CB29B4456C0082E2C6 /* porter.swift */; };
+		6E2CE6CE29B4460B0082E2C6 /* Button(systemImage).swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6CD29B4460B0082E2C6 /* Button(systemImage).swift */; };
+		6E2CE6D029B446750082E2C6 /* OptionalAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */; };
+		6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */; };
 		6E34A48828F0367A00A95FD1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E34A48528F0367A00A95FD1 /* Main.swift */; };
 		6E34A48928F0367A00A95FD1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E34A48628F0367A00A95FD1 /* MainView.swift */; };
 		6E48377128ECA06D00B67CA4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E48376928ECA06D00B67CA4 /* Localizable.strings */; };
@@ -66,11 +74,19 @@
 		6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6E05A4BB28F07FC300CA0287 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6E05A50228F18F6600CA0287 /* SmokesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E05A50428F18F6600CA0287 /* main-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "main-tests.swift"; sourceTree = "<group>"; };
+		6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainReducer-tests.swift"; sourceTree = "<group>"; };
 		6E09E64729A6BEA5006AF884 /* plot-widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "plot-widget.swift"; sourceTree = "<group>"; };
 		6E09E64E29A6E3AE006AF884 /* attachPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = attachPlot.swift; sourceTree = "<group>"; };
 		6E09E65129A6ECE3006AF884 /* persistor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = persistor.swift; sourceTree = "<group>"; };
 		6E09E65329A6FD00006AF884 /* attachPorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = attachPorter.swift; sourceTree = "<group>"; };
+		6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePorter.swift; sourceTree = "<group>"; };
+		6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilePorter-tests.swift"; sourceTree = "<group>"; };
+		6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokesFile.swift; sourceTree = "<group>"; };
+		6E2CE6C629B43DE00082E2C6 /* SmokesFile-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SmokesFile-tests.swift"; sourceTree = "<group>"; };
+		6E2CE6CB29B4456C0082E2C6 /* porter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = porter.swift; sourceTree = "<group>"; };
+		6E2CE6CD29B4460B0082E2C6 /* Button(systemImage).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button(systemImage).swift"; sourceTree = "<group>"; };
+		6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalAssignment.swift; sourceTree = "<group>"; };
+		6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateInterval(safe).swift"; sourceTree = "<group>"; };
 		6E34A48528F0367A00A95FD1 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		6E34A48628F0367A00A95FD1 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		6E48374528EC991100B67CA4 /* Smokes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smokes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +164,7 @@
 				6E014D8C29A5D64B004EF7F5 /* history.swift */,
 				6E05A4B628F07F3A00CA0287 /* dashboard.swift */,
 				6E014D9729A5EC19004EF7F5 /* stats.swift */,
+				6E2CE6CB29B4456C0082E2C6 /* porter.swift */,
 			);
 			path = pages;
 			sourceTree = "<group>";
@@ -158,6 +175,16 @@
 				6E09E65129A6ECE3006AF884 /* persistor.swift */,
 			);
 			path = dependecies;
+			sourceTree = "<group>";
+		};
+		6E2CE6BF29B40BC70082E2C6 /* reducers */ = {
+			isa = PBXGroup;
+			children = (
+				6E58EF9629A4253800181557 /* MainReducer.swift */,
+				6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */,
+				6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */,
+			);
+			path = reducers;
 			sourceTree = "<group>";
 		};
 		6E48373C28EC991100B67CA4 = {
@@ -186,7 +213,7 @@
 			children = (
 				6E34A48528F0367A00A95FD1 /* Main.swift */,
 				6E34A48628F0367A00A95FD1 /* MainView.swift */,
-				6E58EF9629A4253800181557 /* MainReducer.swift */,
+				6E2CE6BF29B40BC70082E2C6 /* reducers */,
 				6E09E65029A6ECB3006AF884 /* dependecies */,
 				6E09E64929A6D5F4006AF884 /* pages */,
 				6E014D9229A5D94D004EF7F5 /* widgets */,
@@ -282,6 +309,9 @@
 		6ED91E17293FB6EA00728E2B /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				6E2CE6CD29B4460B0082E2C6 /* Button(systemImage).swift */,
+				6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */,
+				6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -289,7 +319,9 @@
 		6ED91E1A293FB7A100728E2B /* unit */ = {
 			isa = PBXGroup;
 			children = (
-				6E05A50428F18F6600CA0287 /* main-tests.swift */,
+				6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */,
+				6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */,
+				6E2CE6C629B43DE00082E2C6 /* SmokesFile-tests.swift */,
 			);
 			path = unit;
 			sourceTree = "<group>";
@@ -463,11 +495,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E2CE6C229B4284D0082E2C6 /* FilePorter-tests.swift in Sources */,
 				6E4C8A9829B2B00D00C00204 /* average-perf.swift in Sources */,
 				6E4C8A9D29B2B03600C00204 /* perftest-utils.swift in Sources */,
+				6E2CE6C829B43DE50082E2C6 /* SmokesFile-tests.swift in Sources */,
 				6E4C8A9A29B2B01100C00204 /* trend-perf.swift in Sources */,
 				6E4C8A9729B2B00900C00204 /* amount-perf.swift in Sources */,
-				6E05A50528F18F6600CA0287 /* main-tests.swift in Sources */,
+				6E05A50528F18F6600CA0287 /* MainReducer-tests.swift in Sources */,
 				6E4C8A9929B2B00F00C00204 /* subdivide-perf.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,10 +511,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E014D9129A5D87C004EF7F5 /* increment-widget.swift in Sources */,
+				6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */,
 				6E014D9429A5E513004EF7F5 /* datePicker-widget.swift in Sources */,
 				6E4C8A9F29B2CA3800C00204 /* stats.swift in Sources */,
 				6E014D8F29A5D66C004EF7F5 /* amount-widget.swift in Sources */,
+				6E2CE6CE29B4460B0082E2C6 /* Button(systemImage).swift in Sources */,
+				6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */,
 				6E09E65229A6ECE3006AF884 /* persistor.swift in Sources */,
+				6E2CE6CC29B4456C0082E2C6 /* porter.swift in Sources */,
 				6E4C8AA829B2E10B00C00204 /* main-previews.swift in Sources */,
 				6E34A48828F0367A00A95FD1 /* Main.swift in Sources */,
 				6E09E64F29A6E3AE006AF884 /* attachPlot.swift in Sources */,
@@ -489,7 +527,9 @@
 				6ED91E19293FB72600728E2B /* config.swift in Sources */,
 				6E58EF9729A4253800181557 /* MainReducer.swift in Sources */,
 				6E09E64829A6BEA5006AF884 /* plot-widget.swift in Sources */,
+				6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */,
 				6E09E65429A6FD00006AF884 /* attachPorter.swift in Sources */,
+				6E2CE6D029B446750082E2C6 /* OptionalAssignment.swift in Sources */,
 				6EAB8BFE29ADEB3B002B08C2 /* dashboard.swift in Sources */,
 				6E014D9629A5E61B004EF7F5 /* widgetStyle.swift in Sources */,
 			);

@@ -15,10 +15,11 @@
   },
   "testTargets" : [
     {
-      "skippedTests" : [
-        "AmountsTests",
-        "EntriesTests",
-        "MainReducerTests"
+      "selectedTests" : [
+        "AmountPerformanceTests\/testPerformance()",
+        "AveragePerformanceTests\/testPerformance()",
+        "SubdividePerformanceTests\/testPerformance()",
+        "TrendPerformanceTests\/testPerformance()"
       ],
       "target" : {
         "containerPath" : "container:ashtray.xcodeproj",

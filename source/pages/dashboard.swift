@@ -32,14 +32,8 @@ struct DashboardView: View {
           
           HStack {
             AmountWidget(viewStore.all, description: "until now")
-              .attachPorter(
-                imported: viewStore.binding(get: \.entries, send: { ViewAction.addEntries($0) }),
-                exported: viewStore.subdividedAll
-              )
-              .onAppear {
-                viewStore.send(.calculateAll)
-                viewStore.send(.calculateSubdividedAll)
-              }
+              .attachPorter()
+              .onAppear { viewStore.send(.calculateAll) }
             
             IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
               viewStore.send(.add)
@@ -59,8 +53,7 @@ extension DashboardView {
   struct ViewState: Equatable {
     let day: Int?, before: Int?, week: Int?, month: Int?, year: Int?
     let all: Int?
-    let subdividedMonth: [DateInterval: Int], subdividedAll: [DateInterval: Int]
-    let entries: [Date]
+    let subdividedMonth: [DateInterval: Int]
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
@@ -75,9 +68,6 @@ extension DashboardView {
       all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
       
       subdividedMonth = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
-      subdividedAll = state.subdivide(until: now, by: .day)
-      
-      entries = state.entries
     }
   }
 
@@ -85,8 +75,7 @@ extension DashboardView {
     case add, remove
     case calculateDay, calculateBefore, calculateWeek, calculateMonth, calculateYear
     case calculateAll
-    case calculateSubdividedMonth, calculateSubdividedAll
-    case addEntries([Date])
+    case calculateSubdividedMonth
 
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.calendar) var cal: Calendar
@@ -104,8 +93,6 @@ extension DashboardView {
         return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
       case .calculateSubdividedMonth:
         return .calculateAmountForSubdivision(cal.dateInterval(of: .month, for: now)!, .day)
-      case .calculateSubdividedAll: return .calculateAmountForSubdivisionUntil(now, .day)
-      case let .addEntries(entries): return .setEntries(entries)
       }
     }
   }

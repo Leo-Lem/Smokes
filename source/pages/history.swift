@@ -3,7 +3,7 @@ import SwiftUI
 
 struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
-  
+
   var body: some View {
     WithViewStore(store) {
       ViewState($0, selectedDate: selectedDate)
@@ -37,7 +37,7 @@ struct HistoryView: View {
           HStack {
             AmountWidget(viewStore.all, description: "until this day")
               .onAppear { viewStore.send(.calculateAll) }
-            
+
             if isEditing {
               IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
                 viewStore.send(.add)
@@ -59,6 +59,7 @@ struct HistoryView: View {
           
         DatePickerWidget(selection: $selectedDate)
           .frame(maxHeight: 50)
+          .padding(.vertical)
       }
       .padding()
       .animation(.default, value: isEditing)
@@ -72,7 +73,7 @@ struct HistoryView: View {
       }
     }
   }
-  
+
   @State private var selectedDate = Dependency(\.date.now).wrappedValue
   @State private var isEditing = false
 }

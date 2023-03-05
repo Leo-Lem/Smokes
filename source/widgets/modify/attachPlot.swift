@@ -36,13 +36,6 @@ private struct PlotAttacher<Plot: View>: ViewModifier {
 
   @State private var showingPlot = false
 }
-
-extension Button {
-  init(systemImage: String, action: @escaping () -> Void) where Label == Image {
-    self.init(action: action) { Image(systemName: systemImage) }
-  }
-}
-
 // MARK: - (PREVIEWS)
 
 struct AmountWithPlotWidget_Previews: PreviewProvider {
