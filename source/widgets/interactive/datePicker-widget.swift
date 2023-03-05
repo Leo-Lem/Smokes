@@ -23,7 +23,6 @@ struct DatePickerWidget: View {
     }
     .buttonStyle(.borderedProminent)
     .padding()
-    .widgetStyle()
   }
   
   @Dependency(\.calendar) private var cal

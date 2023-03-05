@@ -17,11 +17,10 @@ struct MainReducer: ReducerProtocol {
     case loadEntries, saveEntries
     case add(Date), remove(Date)
     
-    case calculateAmount(DateInterval)
-    case calculateAmountForAverageUntil(Date),
-         calculateAmountForAverage(DateInterval)
-    case calculateAmountForSubdivisionUntil(Date, Calendar.Component),
-         calculateAmountForSubdivision(DateInterval, Calendar.Component)
+    case calculateAmount(DateInterval),
+         calculateAmountUntil(Date),
+         calculateAmounts(DateInterval, Calendar.Component),
+         calculateAmountsUntil(Date, Calendar.Component)
     
     case filePorter(FilePorter.Action),
          importEntries(URL), _addImportedEntries
@@ -61,20 +60,12 @@ struct MainReducer: ReducerProtocol {
         state.amounts[interval] = (state.entries.firstIndex { interval.end < $0 } ?? state.entries.endIndex) -
         (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
         
-      case let .calculateAmountForAverageUntil(date):
+      case let .calculateAmountUntil(date):
         if let interval = DateInterval(start: state.startDate, safeEnd: date) {
-          return .send(.calculateAmountForAverage(interval))
+          return .send(.calculateAmount(interval))
         }
         
-      case let .calculateAmountForAverage(interval):
-        return .send(.calculateAmount(interval))
-        
-      case let .calculateAmountForSubdivisionUntil(date, component):
-        if let interval = DateInterval(start: state.startDate, safeEnd: date) {
-          return .send(.calculateAmountForSubdivision(interval, component))
-        }
-        
-      case let .calculateAmountForSubdivision(interval, component):
+      case let .calculateAmounts(interval, component):
         return .run { actions in
           @Dependency(\.calendar) var cal: Calendar
           var date = cal.startOfDay(for: interval.start)
@@ -83,6 +74,11 @@ struct MainReducer: ReducerProtocol {
             await actions.send(.calculateAmount(DateInterval(start: date, end: nextDate)))
             date = nextDate
           }
+        }
+
+      case let .calculateAmountsUntil(date, component):
+        if let interval = DateInterval(start: state.startDate, safeEnd: date) {
+          return .send(.calculateAmounts(interval, component))
         }
         
       case let .importEntries(url):
@@ -114,7 +110,11 @@ extension MainReducer.State {
     DateInterval(start: startDate, safeEnd: date).flatMap { subdivide($0, by: subdivision) } ?? [:]
   }
   
-  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
+  func trend(until date: Date, by subdivision: Calendar.Component) -> Double? {
+    DateInterval(start: startDate, safeEnd: date).flatMap { trend($0, by: subdivision) }
+  }
+  
+  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double {
     @Dependency(\.calendar) var cal: Calendar
     let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end)
       .value(for: subdivision) ?? 1
@@ -133,5 +133,17 @@ extension MainReducer.State {
     }
     
     return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0] ?? 0) })
+  }
+  
+  func trend(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double {
+    let amounts = Array(subdivide(interval, by: subdivision).values)
+    var trend = 0.0
+    
+    if amounts.count > 1 {
+      for i in 1..<amounts.count { trend += Double(amounts[i] - amounts[i - 1]) }
+      trend /= Double(amounts.count - 1)
+    }
+          
+    return trend
   }
 }

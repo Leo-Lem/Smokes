@@ -9,37 +9,38 @@ struct DashboardView: View {
       GeometryReader { geo in
         VStack {
           AmountWidget(viewStore.day, description: "today")
-            .attachPlot {
-              PlotWidget(data: viewStore.subdividedMonth, description: nil)
-            }
+            .widgetStyle()
+            .attachPlot { PlotWidget(data: viewStore.subdividedMonth, description: nil).widgetStyle() }
+            .frame(minHeight: geo.size.height / 3)
             .onAppear {
               viewStore.send(.calculateDay)
               viewStore.send(.calculateSubdividedMonth)
             }
-            .frame(minHeight: geo.size.height / 3)
-          
-          AmountWidget(viewStore.before, description: "yesterday")
+
+          AmountWidget(viewStore.before, description: "yesterday").widgetStyle()
             .onAppear { viewStore.send(.calculateBefore) }
-          
+
           HStack {
-            AmountWidget(viewStore.week, description: "this week")
+            AmountWidget(viewStore.week, description: "this week").widgetStyle()
               .onAppear { viewStore.send(.calculateWeek) }
-            AmountWidget(viewStore.month, description: "this month")
+            AmountWidget(viewStore.month, description: "this month").widgetStyle()
               .onAppear { viewStore.send(.calculateMonth) }
-            AmountWidget(viewStore.year, description: "this year")
+            AmountWidget(viewStore.year, description: "this year").widgetStyle()
               .onAppear { viewStore.send(.calculateYear) }
           }
-          
+
           HStack {
             AmountWidget(viewStore.all, description: "until now")
               .attachPorter()
+              .widgetStyle()
               .onAppear { viewStore.send(.calculateAll) }
-            
+
             IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
               viewStore.send(.add)
             } remove: {
               viewStore.send(.remove)
             }
+            .widgetStyle()
           }
         }
       }
@@ -64,9 +65,9 @@ extension DashboardView {
       week = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
       month = state.amounts[cal.dateInterval(of: .month, for: now)!]
       year = state.amounts[cal.dateInterval(of: .year, for: now)!]
-      
+
       all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
-      
+
       subdividedMonth = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
     }
   }
@@ -92,7 +93,7 @@ extension DashboardView {
       case .calculateAll:
         return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
       case .calculateSubdividedMonth:
-        return .calculateAmountForSubdivision(cal.dateInterval(of: .month, for: now)!, .day)
+        return .calculateAmounts(cal.dateInterval(of: .month, for: now)!, .day)
       }
     }
   }

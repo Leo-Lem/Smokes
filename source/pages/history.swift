@@ -23,19 +23,24 @@ struct HistoryView: View {
                 }
               }
             }
+            .widgetStyle()
             .onAppear { viewStore.send(.calculateDay) }
 
           HStack {
             AmountWidget(viewStore.week, description: "this week")
+              .widgetStyle()
               .onAppear { viewStore.send(.calculateWeek) }
             AmountWidget(viewStore.month, description: "this month")
+              .widgetStyle()
               .onAppear { viewStore.send(.calculateMonth) }
             AmountWidget(viewStore.year, description: "this year")
+              .widgetStyle()
               .onAppear { viewStore.send(.calculateYear) }
           }
 
           HStack {
             AmountWidget(viewStore.all, description: "until this day")
+              .widgetStyle()
               .onAppear { viewStore.send(.calculateAll) }
 
             if isEditing {
@@ -52,12 +57,14 @@ struct HistoryView: View {
                     .padding(5)
                 }
               }
+              .widgetStyle()
             }
           }
         }
         .onLongPressGesture { isEditing.toggle() }
           
         DatePickerWidget(selection: $selectedDate)
+          .widgetStyle()
           .frame(maxHeight: 50)
           .padding(.vertical)
       }

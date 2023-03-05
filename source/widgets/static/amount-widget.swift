@@ -28,7 +28,6 @@ struct AmountWidget: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .padding()
     .lineLimit(1)
-    .widgetStyle()
   }
 
   private var formattedAmount: String? {

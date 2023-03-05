@@ -40,6 +40,7 @@ extension SmokesFile {
 }
 
 // MARK: preview
+
 extension SmokesFile {
   var preview: String {
     guard !amounts.isEmpty else { return "No data" }
@@ -52,7 +53,7 @@ extension SmokesFile {
     case .json:
       do {
         let json = try JSONSerialization.jsonObject(with: try encode())
-        let data = try JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted, .sortedKeys])
+        let data = try JSONSerialization.data(withJSONObject: json, options: [.sortedKeys, .prettyPrinted])
         string = String(data: data, encoding: .utf8) ?? ""
       } catch { debugPrint(error) }
     default: break
@@ -90,9 +91,9 @@ extension SmokesFile {
 
 // MARK: CustomListCoder
 
+// TODO: group by week, month, year
 extension SmokesFile {
   struct CustomListCoder {
-    // TODO: reverse order of the dates
     func encode(_ amounts: [Date: Int]) throws -> Data { encodeToString(amounts).data(using: .utf8)! }
     
     func decode(from data: Data) throws -> [Date: Int] {
@@ -101,7 +102,7 @@ extension SmokesFile {
       for line in try decodeToString(data).split(separator: "\n") {
         let comps = line.split(separator: ": ").map(String.init)
         if let date = comps.first.flatMap(Self.dateFormatter.date), let amount = comps.last.flatMap(Int.init) {
-          amounts[date + 43200] = amount
+          amounts[date + 86399] = amount
         }
       }
       
@@ -110,7 +111,7 @@ extension SmokesFile {
     
     func encodeToString(_ amounts: [Date: Int]) -> String {
       var string = ""
-      for date in amounts.keys.sorted() {
+      for date in amounts.keys.sorted().reversed() {
         string.append("\(Self.dateFormatter.string(from: date)): \(amounts[date]!)\n")
       }
       return String(string.dropLast())

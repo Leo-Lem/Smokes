@@ -51,7 +51,7 @@ final class MainReducerTests: XCTestCase {
       initialState: .init([Date](repeating: interval.start, count: amount)), reducer: MainReducer()
     )
 
-    await store.send(.calculateAmountForAverageUntil(interval.end))
+    await store.send(.calculateAmountUntil(interval.end))
     await store.receive(/MainReducer.Action.calculateAmountForAverage)
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [interval: amount] }
     
@@ -71,8 +71,8 @@ final class MainReducerTests: XCTestCase {
       $0.calendar = .current
     }
     
-    await store.send(.calculateAmountForSubdivisionUntil(interval.end, subdivision))
-    await store.receive(/MainReducer.Action.calculateAmountForSubdivision)
+    await store.send(.calculateAmountsUntil(interval.end, subdivision))
+    await store.receive(/MainReducer.Action.calculateAmounts)
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [startInterval: 1] }
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [startInterval: 1, endInterval: 1] }
     

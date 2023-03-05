@@ -25,7 +25,6 @@ struct PlotWidget: View {
       }
     }
     .padding()
-    .widgetStyle()
   }
 }
 
