@@ -1,83 +1,60 @@
+// Created by Leopold Lemmermann on 12.03.23.
+
 import ComposableArchitecture
 import SwiftUI
 
 struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
-
+  
   var body: some View {
-    WithViewStore(store, observe: { ViewState($0, subdivision: subdivision) }, send: ViewAction.send) { viewStore in
-      VStack {
-        VStack {
-          PlotWidget(data: viewStore.subdivided, description: nil)
-          SubdivisionPickerWidget(subdivision: $subdivision, subdivisions: subdivisions)
-            .padding([.horizontal, .bottom])
+    VStack {
+      AmountsPlotView(interval: selection, subdivision: showingAlltime ? .weekOfYear : .day)
+      AveragesView(interval: selection)
+      
+      HStack {
+        Widget {
+          WithViewStore(store, observe: \.startDate) { startDate in
+            MonthPicker(selection: $selectedMonth, bounds: DateInterval(start: startDate.state, end: now))
+              .onChange(of: selectedMonth) { _ in showingAlltime = false }
+              .padding(10)
+          }
         }
-        .widgetStyle()
-        
-        HStack {
-          AmountWidget(viewStore.daily, description: "per day").widgetStyle()
-          AmountWidget(viewStore.weekly, description: "per week").widgetStyle()
-          AmountWidget(viewStore.monthly, description: "per month").widgetStyle()
-        }
+        .onTapGesture { showingAlltime = false }
 
-        // TODO: make this work
-//        AmountWidget(viewStore.monthOverMonth, description: "monthly trend")
+        Widget {
+          Button { showingAlltime.toggle() } label: { Label("Alltime", systemImage: "arrow.right.to.line") }
+            .labelStyle(.titleOnly)
+            .disabled(showingAlltime)
+            .padding(10)
+            .onTapGesture { showingAlltime.toggle() }
+        }
       }
-      .padding()
-      .animation(.default, value: viewStore.state)
-      .onAppear {
-        viewStore.send(.calculateAverages)
-        for subdivision in subdivisions { viewStore.send(.calculateSubdivision(subdivision))}
-      }
+      .buttonStyle(.borderedProminent)
+      .frame(maxHeight: 80)
+      .padding(.top)
     }
   }
+  
+  @State private var selectedMonth: DateInterval
+  @State private var showingAlltime = true
+  
+  private var selection: DateInterval? { showingAlltime ? nil : selectedMonth }
 
-  @State private var subdivision = Calendar.Component.month
-  private let subdivisions = [Calendar.Component.weekOfYear, .month]
-}
-
-extension StatsView {
-  struct ViewState: Equatable {
-    let daily: Double?, weekly: Double?, monthly: Double?
-    let monthOverMonth: Double?
-    let subdivided: [DateInterval: Int]
-
-    init(_ state: MainReducer.State, subdivision: Calendar.Component) {
-      @Dependency(\.date.now) var now: Date
-      @Dependency(\.calendar) var cal: Calendar
-      let date = cal.startOfDay(for: now + 86400)
-
-      daily = state.average(until: date, by: .day)
-      weekly = state.average(until: date, by: .weekOfYear)
-      monthly = state.average(until: date, by: .month)
-      monthOverMonth = state.trend(until: date, by: .month)
-      subdivided = state.subdivide(until: date, by: subdivision)
-    }
-  }
-
-  enum ViewAction: Equatable {
-    case calculateAverages, calculateSubdivision(Calendar.Component)
-
-    static func send(_ action: Self) -> MainReducer.Action {
-      @Dependency(\.date.now) var now: Date
-      @Dependency(\.calendar) var cal: Calendar
-      let date = cal.startOfDay(for: now + 86400)
-
-      switch action {
-      case .calculateAverages: return .calculateAmountUntil(date)
-      case let .calculateSubdivision(subdivision): return .calculateAmountsUntil(date, subdivision)
-      }
-    }
+  @Dependency(\.date.now) private var now: Date
+  
+  init() {
+    @Dependency(\.calendar) var cal: Calendar
+    @Dependency(\.date.now) var now: Date
+    _selectedMonth = State(initialValue: cal.dateInterval(of: .month, for: now)!)
   }
 }
 
 // MARK: - (PREVIEWS)
 
-#if DEBUG
-struct AveragesView_Previews: PreviewProvider {
+struct StatsView_Previews: PreviewProvider {
   static var previews: some View {
     StatsView()
-      .environmentObject(Store(initialState: .preview, reducer: MainReducer()))
+      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
+      .padding()
   }
 }
-#endif

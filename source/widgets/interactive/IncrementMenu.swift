@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct IncrementWidget: View {
+struct IncrementMenu: View {
   let decrementDisabled: Bool
   let add: () -> Void, remove: () -> Void
 
@@ -39,18 +39,18 @@ struct IncrementWidget: View {
 
 struct IncrementWidget_Previews: PreviewProvider {
   static var previews: some View {
-    IncrementWidget(decrementDisabled: false) {} remove: {}
+    IncrementMenu(decrementDisabled: false) {} remove: {}
       .frame(maxWidth: 100, maxHeight: 100)
       .previewDisplayName("Small")
     
-    IncrementWidget(decrementDisabled: false) {} remove: {}
+    IncrementMenu(decrementDisabled: false) {} remove: {}
       .frame(maxWidth: 200, maxHeight: 200)
       .previewDisplayName("Medium")
     
-    IncrementWidget(decrementDisabled: false) {} remove: {}
+    IncrementMenu(decrementDisabled: false) {} remove: {}
       .previewDisplayName("Large")
     
-    IncrementWidget(decrementDisabled: false) {} remove: {}
+    IncrementMenu(decrementDisabled: false) {} remove: {}
       .frame(maxHeight: 100)
       .previewDisplayName("Wide")
   }

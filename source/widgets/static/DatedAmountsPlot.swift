@@ -3,7 +3,7 @@
 import Charts
 import SwiftUI
 
-struct PlotWidget: View {
+struct DatedAmountsPlot: View {
   let data: [DateInterval: Int], description: String?
   
   var body: some View {
@@ -32,7 +32,7 @@ struct PlotWidget: View {
 
 struct PlotWidget_Previews: PreviewProvider {
   static var previews: some View {
-    PlotWidget(
+    DatedAmountsPlot(
       data: [
         DateInterval(start: .now, duration: 86400): 140,
         DateInterval(start: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!, duration: 86400): 70,

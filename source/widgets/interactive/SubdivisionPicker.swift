@@ -3,7 +3,7 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct SubdivisionPickerWidget: View {
+struct SubdivisionPicker: View {
   @Binding var subdivision: Calendar.Component
   let subdivisions: [Calendar.Component]
 

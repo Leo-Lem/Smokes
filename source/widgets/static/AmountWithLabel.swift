@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct AmountWidget: View {
+struct AmountWithLabel: View {
   let amount: Double?, description: String
 
   var body: some View {
@@ -23,9 +23,11 @@ struct AmountWidget: View {
       Spacer()
 
       Text(description)
+        .minimumScaleFactor(0.5)
         .font(.subheadline)
+        .italic()
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .frame(maxWidth: .infinity)
     .padding()
     .lineLimit(1)
   }
@@ -45,13 +47,13 @@ struct AmountWidget: View {
 
 // MARK: - (PREVIEWS)
 
-struct AmountWidget_Previews: PreviewProvider {
+struct AmountWithLabel_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      AmountWidget(0, description: "default")
-      AmountWidget(1000, description: "Large number")
-      AmountWidget(10, description: "Long description here, some more space")
-      AmountWidget(1.9890000, description: "Decimal")
+      AmountWithLabel(0, description: "default")
+      AmountWithLabel(1000, description: "Large number")
+      AmountWithLabel(10, description: "Long description here, some more space")
+      AmountWithLabel(1.9890000, description: "Decimal")
     }
   }
 }

@@ -3,5 +3,5 @@
 import Foundation
 
 extension MainReducer.State {
-  static var preview: Self { .init((0..<1000).map { _ in Date.now + Double.random(in: -10_000_000..<0) }) }
+  static var preview: Self { .init((0..<1000).map { _ in Date.now - Double.random(in: 0..<10_000_000) }) }
 }

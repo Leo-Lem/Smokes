@@ -40,9 +40,9 @@ private struct PlotAttacher<Plot: View>: ViewModifier {
 
 struct AmountWithPlotWidget_Previews: PreviewProvider {
   static var previews: some View {
-    AmountWidget(10, description: "Today")
+    AmountWithLabel(10, description: "Today")
       .attachPlot {
-        PlotWidget(data: [
+        DatedAmountsPlot(data: [
           DateInterval(start: .now, duration: 86400): 140,
           DateInterval(start: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now)!, duration: 86400): 70,
           DateInterval(start: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, duration: 86400): 110

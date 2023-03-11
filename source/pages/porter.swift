@@ -11,39 +11,42 @@ struct Porter: View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
       VStack {
         if let file = viewStore.file {
-          Text(file.preview)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .widgetStyle()
+          Widget {
+            Text(file.preview)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          }
             .animation(.default, value: file.preview)
           
           Spacer()
         
           HStack {
-            Button(systemImage: "square.and.arrow.down") { showingImporter = true }
-              .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
-                do { viewStore.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+            Widget {
+              Button(systemImage: "square.and.arrow.down") { showingImporter = true }
+                .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
+                  do { viewStore.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+                }
+                .padding()
+            }
+            
+            Widget {
+              HStack {
+                Picker("", selection: viewStore.binding(get: \.format, send: { ViewAction.setFormat($0) })) {
+                  ForEach(SmokesFile.readableContentTypes, id: \.self) { format in
+                    Text(format.localizedDescription ?? "")
+                  }
+                }
+                .pickerStyle(.segmented)
+                
+                Button(systemImage: "square.and.arrow.up") { showingExporter = true }
+                  .fileExporter(
+                    isPresented: $showingExporter,
+                    document: file, contentType: viewStore.format, defaultFilename: "SmokesData"
+                  ) {
+                    do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+                  }
               }
               .padding()
-              .widgetStyle()
-            
-            HStack {
-              Picker("", selection: viewStore.binding(get: \.format, send: { ViewAction.setFormat($0) })) {
-                ForEach(SmokesFile.readableContentTypes, id: \.self) { format in
-                  Text(format.localizedDescription ?? "")
-                }
-              }
-              .pickerStyle(.segmented)
-                
-              Button(systemImage: "square.and.arrow.up") { showingExporter = true }
-                .fileExporter(
-                  isPresented: $showingExporter,
-                  document: file, contentType: viewStore.format, defaultFilename: "SmokesData"
-                ) {
-                  do { debugPrint(try $0.get()) } catch { debugPrint(error) }
-                }
             }
-            .padding()
-            .widgetStyle()
           }
           .imageScale(.large)
           .font(.headline)

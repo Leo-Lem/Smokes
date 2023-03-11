@@ -3,7 +3,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct DatePickerWidget: View {
+struct DateMenu: View {
   @Binding var selection: Date
   
   var body: some View {
@@ -21,8 +21,6 @@ struct DatePickerWidget: View {
       Button(systemImage: "chevron.right") { selection = cal.date(byAdding: .day, value: 1, to: selection)! }
         .disabled(cal.isDate(selection, inSameDayAs: now))
     }
-    .buttonStyle(.borderedProminent)
-    .padding()
   }
   
   @Dependency(\.calendar) private var cal
@@ -31,9 +29,10 @@ struct DatePickerWidget: View {
 
 // MARK: (PREVIEWS) -
 
-struct DatePickerWidget_Previews: PreviewProvider {
+struct DateMenu_Previews: PreviewProvider {
   static var previews: some View {
-    DatePickerWidget(selection: .constant(.now))
-      .padding()
+    DateMenu(selection: .constant(.now))
+    .buttonStyle(.borderedProminent)
+    .padding()
   }
 }

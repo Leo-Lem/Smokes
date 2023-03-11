@@ -7,12 +7,7 @@ import UniformTypeIdentifiers
 struct SmokesFile: FileDocument, Equatable {
   static let readableContentTypes: [UTType] = [.plainText, .json]
   
-  var entries = [Date](), format: UTType
-  
-  var amounts: [Date: Int] {
-    get { entries.subdivide() }
-    set { entries = Array(subdivisions: newValue) }
-  }
+  var amounts = [Date: Int](), format: UTType
   
   init(configuration: ReadConfiguration) throws {
     guard let data = configuration.file.regularFileContents else { throw URLError(.resourceUnavailable) }
@@ -36,7 +31,7 @@ extension SmokesFile {
     try decode(try Data(contentsOf: url))
   }
   
-  init(_ entries: [Date], format: UTType) throws { (self.entries, self.format) = (entries.sorted(), format) }
+  init(_ amounts: [Date: Int], format: UTType) throws { (self.amounts, self.format) = (amounts, format) }
 }
 
 // MARK: preview
@@ -91,7 +86,6 @@ extension SmokesFile {
 
 // MARK: CustomListCoder
 
-// TODO: group by week, month, year
 extension SmokesFile {
   struct CustomListCoder {
     func encode(_ amounts: [Date: Int]) throws -> Data { encodeToString(amounts).data(using: .utf8)! }
@@ -127,36 +121,5 @@ extension SmokesFile {
       formatter.dateFormat = "yyyy-MM-dd"
       return formatter
     }
-  }
-}
-
-// MARK: subdividing date array
-
-extension Array where Element == Date {
-  init(subdivisions: [Date: Int]) {
-    self.init()
-    
-    @Dependency(\.calendar) var cal
-    for date in subdivisions.keys.sorted() {
-      self += Array(repeating: date, count: subdivisions[date]!)
-    }
-  }
-  
-  func subdivide(by component: Calendar.Component = .day) -> [Date: Int] {
-    let sorted = sorted()
-    
-    @Dependency(\.calendar) var cal
-    guard var date = sorted.first.flatMap(cal.startOfDay), let end = sorted.last else { return [:] }
-    
-    var subdivisions = [Date: Int]()
-    
-    while date < end {
-      let nextDate = cal.date(byAdding: component, value: 1, to: date)!
-      let amount = (sorted.firstIndex { nextDate < $0 } ?? endIndex) - (sorted.firstIndex { date <= $0 } ?? endIndex)
-      if amount > 0 { subdivisions[date + 43200] = amount }
-      date = nextDate
-    }
-    
-    return subdivisions
   }
 }

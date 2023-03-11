@@ -8,43 +8,51 @@ struct DashboardView: View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
       GeometryReader { geo in
         VStack {
-          AmountWidget(viewStore.day, description: "today")
-            .widgetStyle()
-            .attachPlot { PlotWidget(data: viewStore.subdividedMonth, description: nil).widgetStyle() }
-            .frame(height: geo.size.height / 3)
-            .onAppear {
-              viewStore.send(.calculateDay)
-              viewStore.send(.calculateSubdividedMonth)
-            }
+          Widget {
+            AmountWithLabel(viewStore.day, description: "today")
+              .attachPlot {
+                if let subdivided = viewStore.subdividedMonth {
+                  DatedAmountsPlot(data: subdivided, description: nil)
+                } else {
+                  ProgressView()
+                }
+              }
+              .frame(height: geo.size.height / 3)
+              .onAppear {
+                viewStore.send(.calculateDay)
+                viewStore.send(.calculateSubdividedMonth)
+              }
+          }
 
-          AmountWidget(viewStore.before, description: "yesterday").widgetStyle()
+          Widget { AmountWithLabel(viewStore.before, description: "yesterday") }
             .onAppear { viewStore.send(.calculateBefore) }
 
           HStack {
-            AmountWidget(viewStore.week, description: "this week").widgetStyle()
+            Widget { AmountWithLabel(viewStore.week, description: "week") }
               .onAppear { viewStore.send(.calculateWeek) }
-            AmountWidget(viewStore.month, description: "this month").widgetStyle()
+            Widget { AmountWithLabel(viewStore.month, description: "month") }
               .onAppear { viewStore.send(.calculateMonth) }
-            AmountWidget(viewStore.year, description: "this year").widgetStyle()
+            Widget { AmountWithLabel(viewStore.year, description: "year") }
               .onAppear { viewStore.send(.calculateYear) }
           }
 
           HStack {
-            AmountWidget(viewStore.all, description: "until now")
-              .attachPorter()
-              .widgetStyle()
-              .onAppear { viewStore.send(.calculateAll) }
-
-            IncrementWidget(decrementDisabled: viewStore.day ?? 0 < 1) {
-              viewStore.send(.add)
-            } remove: {
-              viewStore.send(.remove)
+            Widget {
+              AmountWithLabel(viewStore.all, description: "until now")
+                .attachPorter()
             }
-            .widgetStyle()
+            .onAppear { viewStore.send(.calculateAll) }
+
+            Widget {
+              IncrementMenu(decrementDisabled: viewStore.day ?? 0 < 1) {
+                viewStore.send(.add)
+              } remove: {
+                viewStore.send(.remove)
+              }
+            }
           }
         }
       }
-      .padding()
       .animation(.default, value: viewStore.state)
     }
   }
@@ -54,7 +62,7 @@ extension DashboardView {
   struct ViewState: Equatable {
     let day: Int?, before: Int?, week: Int?, month: Int?, year: Int?
     let all: Int?
-    let subdividedMonth: [DateInterval: Int]
+    let subdividedMonth: [DateInterval: Int]?
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
@@ -66,9 +74,12 @@ extension DashboardView {
       month = state.amounts[cal.dateInterval(of: .month, for: now)!]
       year = state.amounts[cal.dateInterval(of: .year, for: now)!]
 
-      all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400))]
+      let tomorrow = cal.startOfDay(for: now + 86400)
 
-      subdividedMonth = state.subdivide(cal.dateInterval(of: .month, for: now)!, by: .day)
+      all = state.amounts[DateInterval(start: .distantPast, end: tomorrow)]
+
+      let interval = DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: tomorrow)
+      subdividedMonth = state.subdivide(interval, by: .day)
     }
   }
 
@@ -106,6 +117,7 @@ struct DashboardView_Previews: PreviewProvider {
   static var previews: some View {
     DashboardView()
       .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
+      .padding()
   }
 }
 #endif

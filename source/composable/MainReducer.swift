@@ -58,7 +58,7 @@ struct MainReducer: ReducerProtocol {
         
       case let .calculateAmount(interval):
         state.amounts[interval] = (state.entries.firstIndex { interval.end < $0 } ?? state.entries.endIndex) -
-        (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
+          (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
         
       case let .calculateAmountUntil(date):
         if let interval = DateInterval(start: state.startDate, safeEnd: date) {
@@ -88,7 +88,7 @@ struct MainReducer: ReducerProtocol {
         }
         
       case ._addImportedEntries:
-        if let entries = state.filePorter.file?.entries {
+        if let entries = state.filePorter.file?.amounts.flatMap(Array.init) {
           return .send(.setEntries((state.entries + entries).sorted()))
         }
         
@@ -102,45 +102,41 @@ struct MainReducer: ReducerProtocol {
 }
 
 extension MainReducer.State {
-  func average(until date: Date, by subdivision: Calendar.Component) -> Double? {
-    DateInterval(start: startDate, safeEnd: date).flatMap { average($0, by: subdivision) } ?? 0
-  }
-  
-  func subdivide(until date: Date, by subdivision: Calendar.Component) -> [DateInterval: Int] {
-    DateInterval(start: startDate, safeEnd: date).flatMap { subdivide($0, by: subdivision) } ?? [:]
-  }
-  
-  func trend(until date: Date, by subdivision: Calendar.Component) -> Double? {
-    DateInterval(start: startDate, safeEnd: date).flatMap { trend($0, by: subdivision) }
-  }
-  
-  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double {
+  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
     @Dependency(\.calendar) var cal: Calendar
-    let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end)
-      .value(for: subdivision) ?? 1
     
-    return Double(amounts[interval] ?? 0) / Double(length == 0 ? 1 : length)
+    guard
+      let amount = amounts[interval],
+      let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end).value(for: subdivision)
+    else { return nil }
+    
+    return Double(amount) / Double(length == 0 ? 1 : length)
   }
   
-  func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int] {
+  func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int]? {
     @Dependency(\.calendar) var cal: Calendar
     var subintervals = [DateInterval](), date = cal.startOfDay(for: interval.start)
         
     while date < interval.end {
       let nextDate = cal.date(byAdding: subdivision, value: 1, to: date)!
-      subintervals.append(DateInterval(start: date, end: nextDate))
+      let interval = DateInterval(start: date, end: nextDate)
+      if amounts.keys.contains(interval) { subintervals.append(interval) }
       date = nextDate
     }
     
-    return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0] ?? 0) })
+    guard !subintervals.isEmpty else { return nil }
+    
+    return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0]!) })
   }
   
-  func trend(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double {
-    let amounts = Array(subdivide(interval, by: subdivision).values)
+  func trend(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
+    guard let subdivisions = subdivide(interval, by: subdivision) else { return nil }
+    let amounts = Array(subdivisions.values)
+    
     var trend = 0.0
     
     if amounts.count > 1 {
-      for i in 1..<amounts.count { trend += Double(amounts[i] - amounts[i - 1]) }
+      for i in 1 ..< amounts.count { trend += Double(amounts[i] - amounts[i - 1]) }
       trend /= Double(amounts.count - 1)
     }
           
