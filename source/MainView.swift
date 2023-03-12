@@ -6,19 +6,18 @@ struct MainView: View {
     TabView(selection: $selectedTab) {
       Group {
         HistoryView()
-          .tabItem { Label("history", systemImage: "calendar") }
+          .tabItem { Label("HISTORY", systemImage: "calendar") }
           .tag(0)
 
         DashboardView()
-          .tabItem { Image(systemName: "square.split.2x2.fill") }
+          .tabItem { Label("DASHBOARD", systemImage: "square.split.2x2.fill") }
           .tag(1)
 
         StatsView()
-          .tabItem { Label("stats", systemImage: "percent") }
+          .tabItem { Label("STATS", systemImage: "percent") }
           .tag(2)
       }
       .padding(10)
-      .padding(.bottom)
       .toolbarBackground(.hidden, for: .tabBar)
       .background {
         Image("smokingarea")

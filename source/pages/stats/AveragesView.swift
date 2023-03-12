@@ -78,10 +78,10 @@ extension AveragesView {
 
     var body: some View {
       HStack {
-        Widget { AmountWithLabel(averages[.day]?.optional, description: "per day") }
-        Widget { AmountWithLabel(averages[.weekOfYear]?.optional, description: "per week") }
+        Widget { AmountWithLabel(averages[.day]?.optional, description: "PER_DAY") }
+        Widget { AmountWithLabel(averages[.weekOfYear]?.optional, description: "PER_WEEK") }
         if showMonth {
-          Widget { AmountWithLabel(averages[.month]?.optional, description: "per month") }
+          Widget { AmountWithLabel(averages[.month]?.optional, description: "PER_MONTH") }
             .transition(.move(edge: .trailing))
         }
       }

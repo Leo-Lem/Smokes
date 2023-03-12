@@ -61,7 +61,7 @@ extension Porter {
         
           HStack {
             Widget {
-              Button(systemImage: "square.and.arrow.down") { showingImporter = true }
+              Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
                 .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
                   do { importFile(try $0.get()) } catch { debugPrint(error) }
                 }
@@ -76,10 +76,10 @@ extension Porter {
                 }
                 .pickerStyle(.segmented)
                 
-                Button(systemImage: "square.and.arrow.up") { showingExporter = true }
+                Button{ showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up")}
                   .fileExporter(
                     isPresented: $showingExporter,
-                    document: file, contentType: format, defaultFilename: "SmokesData"
+                    document: file, contentType: format, defaultFilename: String(localized: "SMOKES_FILENAME")
                   ) {
                     do { debugPrint(try $0.get()) } catch { debugPrint(error) }
                   }
@@ -92,6 +92,7 @@ extension Porter {
           ProgressView()
         }
       }
+      .labelStyle(.iconOnly)
       .presentationDetents([.medium])
     }
     

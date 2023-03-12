@@ -11,8 +11,8 @@ struct DatedAmountsPlot: View {
       Chart {
         ForEach(Array(data.keys), id: \.self) { key in
           BarMark(
-            x: .value("Date", key.start),
-            y: .value("Amount", data[key] ?? 0)
+            x: .value("DATE", key.start),
+            y: .value("AMOUNT", data[key] ?? 0)
           )
         }
       }

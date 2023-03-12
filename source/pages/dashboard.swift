@@ -86,7 +86,7 @@ extension DashboardView {
       GeometryReader { geo in
         VStack {
           Widget {
-            AmountWithLabel(amounts[.day]?.optional, description: "today")
+            AmountWithLabel(amounts[.day]?.optional, description: "TODAY")
               .attachPlot {
                 if let subdividedMonth {
                   DatedAmountsPlot(data: subdividedMonth, description: nil)
@@ -95,17 +95,17 @@ extension DashboardView {
               .frame(height: geo.size.height / 3)
           }
 
-          Widget { AmountWithLabel(amounts[.before]?.optional, description: "yesterday") }
+          Widget { AmountWithLabel(amounts[.before]?.optional, description: "YESTERDAY") }
 
           HStack {
-            Widget { AmountWithLabel(amounts[.week]?.optional, description: "week") }
-            Widget { AmountWithLabel(amounts[.month]?.optional, description: "month") }
-            Widget { AmountWithLabel(amounts[.year]?.optional, description: "year") }
+            Widget { AmountWithLabel(amounts[.week]?.optional, description: "THIS_WEEK") }
+            Widget { AmountWithLabel(amounts[.month]?.optional, description: "THIS_MONTH") }
+            Widget { AmountWithLabel(amounts[.year]?.optional, description: "THIS_YEAR") }
           }
 
           HStack {
             Widget {
-              AmountWithLabel(amounts[.all]?.optional, description: "until now")
+              AmountWithLabel(amounts[.all]?.optional, description: "UNTIL_NOW")
                 .attachPorter()
             }
 
@@ -114,6 +114,7 @@ extension DashboardView {
             }
           }
         }
+        .labelStyle(.iconOnly)
       }
     }
   }

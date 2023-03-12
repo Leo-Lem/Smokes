@@ -10,7 +10,7 @@ private struct PorterAttacher: ViewModifier {
   func body(content: Content) -> some View {
     content
       .overlay(alignment: .topLeading) {
-        Button(systemImage: "folder") { showingPorter = true }
+        Button { showingPorter = true } label: { Label("OPEN_PORTER", systemImage: "folder") }
       }
       .sheet(isPresented: $showingPorter) { Porter().padding() }
   }

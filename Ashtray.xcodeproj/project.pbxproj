@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6E014D8F29A5D66C004EF7F5 /* AmountWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D8E29A5D66C004EF7F5 /* AmountWithLabel.swift */; };
 		6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9029A5D87C004EF7F5 /* IncrementMenu.swift */; };
-		6E014D9429A5E513004EF7F5 /* DateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9329A5E513004EF7F5 /* DateMenu.swift */; };
+		6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9329A5E513004EF7F5 /* DayPicker.swift */; };
 		6E014D9629A5E61B004EF7F5 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9529A5E61B004EF7F5 /* Widget.swift */; };
 		6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */; };
 		6E05A4BD28F07FC300CA0287 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BB28F07FC300CA0287 /* .gitignore */; };
@@ -20,6 +20,7 @@
 		6E09E65429A6FD00006AF884 /* attachPorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65329A6FD00006AF884 /* attachPorter.swift */; };
 		6E1F8B6829BD6AB10025CBCC /* SF-Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */; };
 		6E1F8B6A29BD6AD60025CBCC /* SF-Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */; };
+		6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6D29BD90910025CBCC /* Localizable.strings */; };
 		6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */; };
 		6E2CE6C229B4284D0082E2C6 /* FilePorter-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */; };
 		6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */; };
@@ -33,7 +34,6 @@
 		6E34A48928F0367A00A95FD1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E34A48628F0367A00A95FD1 /* MainView.swift */; };
 		6E4173F229BD26AF00A3660E /* AmountsPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4173F129BD26AF00A3660E /* AmountsPlotView.swift */; };
 		6E4173F529BD44B200A3660E /* stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4173F429BD44B200A3660E /* stats.swift */; };
-		6E48377128ECA06D00B67CA4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E48376928ECA06D00B67CA4 /* Localizable.strings */; };
 		6E48379028ECA08F00B67CA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E48378F28ECA08F00B67CA4 /* Assets.xcassets */; };
 		6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */; };
 		6E4C8A9729B2B00900C00204 /* amount-perf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C8A8F29B2AF8E00C00204 /* amount-perf.swift */; };
@@ -73,7 +73,7 @@
 		6E014D8C29A5D64B004EF7F5 /* history.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = history.swift; sourceTree = "<group>"; };
 		6E014D8E29A5D66C004EF7F5 /* AmountWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountWithLabel.swift; sourceTree = "<group>"; };
 		6E014D9029A5D87C004EF7F5 /* IncrementMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementMenu.swift; sourceTree = "<group>"; };
-		6E014D9329A5E513004EF7F5 /* DateMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMenu.swift; sourceTree = "<group>"; };
+		6E014D9329A5E513004EF7F5 /* DayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPicker.swift; sourceTree = "<group>"; };
 		6E014D9529A5E61B004EF7F5 /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
 		6E05A4B628F07F3A00CA0287 /* dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashboard.swift; sourceTree = "<group>"; };
 		6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
@@ -86,6 +86,8 @@
 		6E09E65329A6FD00006AF884 /* attachPorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = attachPorter.swift; sourceTree = "<group>"; };
 		6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Coder.swift"; sourceTree = "<group>"; };
 		6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Previewer.swift"; sourceTree = "<group>"; };
+		6E1F8B6C29BD90910025CBCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6E1F8B6E29BD90A00025CBCC /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePorter.swift; sourceTree = "<group>"; };
 		6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilePorter-tests.swift"; sourceTree = "<group>"; };
 		6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokesFile.swift; sourceTree = "<group>"; };
@@ -100,7 +102,6 @@
 		6E4173F129BD26AF00A3660E /* AmountsPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountsPlotView.swift; sourceTree = "<group>"; };
 		6E4173F429BD44B200A3660E /* stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stats.swift; sourceTree = "<group>"; };
 		6E48374528EC991100B67CA4 /* Smokes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smokes.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E48376928ECA06D00B67CA4 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		6E48378F28ECA08F00B67CA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E4C8A8C29B2AC6E00C00204 /* Perf.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Perf.xctestplan; sourceTree = "<group>"; };
 		6E4C8A8F29B2AF8E00C00204 /* amount-perf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "amount-perf.swift"; sourceTree = "<group>"; };
@@ -149,10 +150,10 @@
 		6E014D9229A5D94D004EF7F5 /* widgets */ = {
 			isa = PBXGroup;
 			children = (
+				6E014D9529A5E61B004EF7F5 /* Widget.swift */,
 				6E4C8AAA29B2F83900C00204 /* static */,
 				6E4C8AA929B2F82C00C00204 /* interactive */,
 				6E4C8AAB29B2F9D800C00204 /* modification */,
-				6E014D9529A5E61B004EF7F5 /* Widget.swift */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -185,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				6E09E65129A6ECE3006AF884 /* Persistor.swift */,
-				6E1F8B6629BD6AA70025CBCC /* file */,
 			);
 			path = dependecies;
 			sourceTree = "<group>";
@@ -205,6 +205,7 @@
 			children = (
 				6E58EF9629A4253800181557 /* MainReducer.swift */,
 				6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */,
+				6E1F8B6629BD6AA70025CBCC /* file */,
 				6E09E65029A6ECB3006AF884 /* dependecies */,
 			);
 			path = composable;
@@ -278,7 +279,7 @@
 		6E48376728ECA06D00B67CA4 /* locale */ = {
 			isa = PBXGroup;
 			children = (
-				6E48376928ECA06D00B67CA4 /* Localizable.strings */,
+				6E1F8B6D29BD90910025CBCC /* Localizable.strings */,
 			);
 			path = locale;
 			sourceTree = "<group>";
@@ -315,7 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				6E014D9029A5D87C004EF7F5 /* IncrementMenu.swift */,
-				6E014D9329A5E513004EF7F5 /* DateMenu.swift */,
+				6E014D9329A5E513004EF7F5 /* DayPicker.swift */,
 				6E4E666A29B8450400ED0B9C /* MonthPicker.swift */,
 				6E2CE6D329B4826B0082E2C6 /* SubdivisionPicker.swift */,
 			);
@@ -458,6 +459,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 6E48373C28EC991100B67CA4;
 			packageReferences = (
@@ -490,7 +492,7 @@
 				6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */,
 				6E48379028ECA08F00B67CA4 /* Assets.xcassets in Resources */,
 				6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */,
-				6E48377128ECA06D00B67CA4 /* Localizable.strings in Resources */,
+				6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +548,7 @@
 			files = (
 				6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */,
 				6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */,
-				6E014D9429A5E513004EF7F5 /* DateMenu.swift in Sources */,
+				6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */,
 				6E014D8F29A5D66C004EF7F5 /* AmountWithLabel.swift in Sources */,
 				6E2CE6CE29B4460B0082E2C6 /* Button(systemImage).swift in Sources */,
 				6E4173F229BD26AF00A3660E /* AmountsPlotView.swift in Sources */,
@@ -598,6 +600,18 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		6E1F8B6D29BD90910025CBCC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E1F8B6C29BD90910025CBCC /* en */,
+				6E1F8B6E29BD90A00025CBCC /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		6E05A50828F18F6600CA0287 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -645,6 +659,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -704,6 +719,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

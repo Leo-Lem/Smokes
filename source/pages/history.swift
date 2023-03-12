@@ -80,11 +80,11 @@ extension HistoryView {
       VStack {
         Widget {
           HStack {
-            AmountWithLabel(amounts[.day]?.optional, description: "this day")
+            AmountWithLabel(amounts[.day]?.optional, description: "THIS_DAY")
               .overlay(alignment: .topTrailing) {
                 if !isEditing {
                   Button { isEditing = true } label: {
-                    Image(systemName: "square.and.pencil")
+                    Label("MODIFY", systemImage: "square.and.pencil")
                       .font(.title2)
                   }
                 }
@@ -94,7 +94,7 @@ extension HistoryView {
               IncrementMenu(decrementDisabled: amounts[.day]?.optional ?? 0 < 1, add: add, remove: remove)
                 .overlay(alignment: .topTrailing) {
                   Button { isEditing = false } label: {
-                    Image(systemName: "xmark.circle")
+                    Label("DISMISS", systemImage: "xmark.circle")
                       .font(.title2)
                   }
                 }
@@ -105,22 +105,26 @@ extension HistoryView {
         .onLongPressGesture { isEditing.toggle() }
 
         HStack {
-          Widget { AmountWithLabel(amounts[.week]?.optional, description: "week") }
-          Widget { AmountWithLabel(amounts[.month]?.optional, description: "month") }
-          Widget { AmountWithLabel(amounts[.year]?.optional, description: "year") }
+          Widget { AmountWithLabel(amounts[.week]?.optional, description: "THIS_WEEK") }
+          Widget { AmountWithLabel(amounts[.month]?.optional, description: "THIS_MONTH") }
+          Widget { AmountWithLabel(amounts[.year]?.optional, description: "THIS_YEAR") }
         }
 
         Widget {
-          AmountWithLabel(amounts[.all]?.optional, description: "until this day")
+          AmountWithLabel(amounts[.all]?.optional, description: "UNTIL_THIS_DAY")
         }
 
         Widget {
-          DateMenu(selection: $selectedDate)
-            .buttonStyle(.borderedProminent)
-            .padding(10)
+          DayPicker(
+            selection: $selectedDate,
+            bounds: DateInterval(start: .distantPast, end: Dependency(\.date.now).wrappedValue)
+          )
+          .buttonStyle(.borderedProminent)
+          .padding(10)
         }
         .frame(maxHeight: 80)
       }
+      .labelStyle(.iconOnly)
     }
   }
 }
@@ -131,7 +135,7 @@ extension HistoryView {
 struct HistoryView_Previews: PreviewProvider {
   static var previews: some View {
     let amounts: [HistoryView.Interval: Int?] = [.day: 10, .week: 45, .month: 87, .year: 890, .all: 2450]
-    
+
     Group {
       HistoryView.Render(
         selectedDate: .constant(.now - 86400), isEditing: .constant(false), amounts: amounts, add: {}, remove: {}
@@ -141,7 +145,7 @@ struct HistoryView_Previews: PreviewProvider {
         selectedDate: .constant(.now - 86400), isEditing: .constant(true), amounts: amounts, add: {}, remove: {}
       )
       .previewDisplayName("Editing")
-      
+
       HistoryView.Render(
         selectedDate: .constant(.now), isEditing: .constant(true), amounts: amounts, add: {}, remove: {}
       )

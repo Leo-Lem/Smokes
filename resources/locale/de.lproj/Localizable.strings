@@ -1,0 +1,48 @@
+// MARK: - (TABS)
+"HISTORY" = "Bericht";
+"DASHBOARD" = " ";
+"STATS" = "Statistik";
+
+
+
+// MARK: - (AMOUNTS)
+"TODAY" = "Heute";
+"THIS_DAY" = "Dieser Tag";
+"YESTERDAY" = "Gestern";
+"THIS_WEEK" = "Diese Woche";
+"THIS_MONTH" = "Dieser Monat";
+"THIS_YEAR" = "Dieses Jahr";
+"UNTIL_NOW" = "Bis hierhin";
+"UNTIL_THIS_DAY" = "Bis hierhin";
+
+
+
+// MARK: - (AVERAGES)
+"PER_DAY" = "pro Tag";
+"PER_WEEK" = "pro Woche";
+"PER_MONTH" = "pro Monat";
+
+
+
+// MARK: - (ACTIONS)
+
+"MODIFY" = "Bearbeiten";
+"DISMISS" = "Ausblenden";
+"SELECT_ALLTIME" = "Bis hierhin";
+"EXPORT" = "Exportieren";
+"IMPORT" = "Importieren";
+"ADD" = "Hinzufügen";
+"REMOVE" = "Entfernen";
+"PREVIOUS_DAY" = "Voriger Tag";
+"NEXT_DAY" = "Nächster Tag";
+"PREVIOUS_MONTH" = "Voriger Monat";
+"NEXT_MONTH" = "Nächster Monat";
+"OPEN_PORTER" = "Exporter öffnen";
+"SHOW_PLOT" = "Graph anzeigen";
+
+
+
+// MARK: - (OTHERS)
+"SMOKES_FILENAME" = "Smokes-Daten";
+"DATE" = "Datum";
+"AMOUNT" = "Anzahl";

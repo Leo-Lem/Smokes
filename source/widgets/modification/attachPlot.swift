@@ -16,7 +16,7 @@ private struct PlotAttacher<Plot: View>: ViewModifier {
       HStack {
         content
           .overlay(alignment: .topTrailing) {
-            Button(systemImage: "chart.bar.xaxis") { showingPlot.toggle() }
+            Button { showingPlot.toggle() } label: { Label("SHOW_PLOT", systemImage: "chart.bar.xaxis")}
               .imageScale(.large)
               .font(.headline)
           }

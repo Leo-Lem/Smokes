@@ -22,7 +22,7 @@ struct StatsView: View {
         .onTapGesture { showingAlltime = false }
 
         Widget {
-          Button { showingAlltime.toggle() } label: { Label("Alltime", systemImage: "arrow.right.to.line") }
+          Button { showingAlltime.toggle() } label: { Label("SELECT_ALLTIME", systemImage: "arrow.right.to.line") }
             .labelStyle(.titleOnly)
             .disabled(showingAlltime)
             .padding(10)
@@ -31,7 +31,6 @@ struct StatsView: View {
       }
       .buttonStyle(.borderedProminent)
       .frame(maxHeight: 80)
-      .padding(.top)
     }
   }
   

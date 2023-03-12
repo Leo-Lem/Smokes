@@ -12,23 +12,26 @@ struct IncrementMenu: View {
       
       ZStack(alignment: .topLeading) {
         Button(action: add) {
-          Image(systemName: "plus")
+          Label("ADD", systemImage: "plus")
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .font(.largeTitle)
+            .accessibilityIdentifier("add-button")
         }
         
         Button(action: remove) {
-          Image(systemName: "minus")
+          Label("REMOVE", systemImage: "minus")
             .frame(maxWidth: size / 4, maxHeight: size / 4)
             .background(.ultraThickMaterial)
             .cornerRadius(5)
             .shadow(radius: 3)
             .padding(5)
             .font(.headline)
+            .accessibilityIdentifier("remove-button")
         }
         .disabled(decrementDisabled)
       }
+      .labelStyle(.iconOnly)
     }
     .imageScale(.large)
     .minimumScaleFactor(0.2)

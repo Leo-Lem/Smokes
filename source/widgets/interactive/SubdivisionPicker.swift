@@ -10,9 +10,11 @@ struct SubdivisionPicker: View {
   var body: some View {
     Picker("", selection: $subdivision) {
       ForEach(subdivisions, id: \.self) { subdivision in
-        Text(format(subdivision)).tag(subdivision)
+        Text(format(subdivision))
+          .tag(subdivision)
       }
     }
+    .labelsHidden()
     .pickerStyle(.segmented)
   }
 

@@ -3,7 +3,7 @@
 import SwiftUI
 
 struct AmountWithLabel: View {
-  let amount: Double?, description: String
+  let amount: Double?, description: LocalizedStringKey
 
   var body: some View {
     VStack {
@@ -36,11 +36,11 @@ struct AmountWithLabel: View {
     amount.flatMap { (($0 * 100).rounded() / 100).formatted() }
   }
 
-  init(_ amount: Double?, description: String) {
+  init(_ amount: Double?, description: LocalizedStringKey) {
     (self.amount, self.description) = (amount, description)
   }
 
-  init(_ amount: Int?, description: String) {
+  init(_ amount: Int?, description: LocalizedStringKey) {
     self.init(amount.flatMap(Double.init), description: description)
   }
 }

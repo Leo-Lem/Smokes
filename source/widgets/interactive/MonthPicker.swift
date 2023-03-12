@@ -9,10 +9,9 @@ struct MonthPicker: View {
   
   var body: some View {
     HStack {
-      Button { selection = cal.dateInterval(of: .month, for: selection.start - 1)! } label: {
-        Label("Previous", systemImage: "chevron.left")
-      }
-      .disabled(selection.start <= bounds.start)
+      Button { selection = previousMonth } label: { Label("PREVIOUS_MONTH", systemImage: "chevron.left") }
+        .disabled(previousMonth.end <= bounds.start)
+        .accessibilityIdentifier("previous-month-button")
       
       Spacer()
       
@@ -25,18 +24,21 @@ struct MonthPicker: View {
           .lineLimit(1)
           .truncationMode(.tail)
       }
+      .accessibilityIdentifier("month-picker")
       
       Spacer()
       
-      Button { selection = cal.dateInterval(of: .month, for: selection.end + 1)! } label: {
-        Label("Next", systemImage: "chevron.right")
-      }
-      .disabled(selection.end >= bounds.end)
+      Button { selection = nextMonth } label: { Label("NEXT_MONTH", systemImage: "chevron.right") }
+        .disabled(nextMonth.start >= bounds.end)
+        .accessibilityIdentifier("next-month-button")
     }
     .labelStyle(.iconOnly)
   }
   
   @Dependency(\.calendar) private var cal: Calendar
+  
+  private var previousMonth: DateInterval { cal.dateInterval(of: .month, for: selection.start - 1)! }
+  private var nextMonth: DateInterval { cal.dateInterval(of: .month, for: selection.end + 1)! }
   
   private var months: [DateInterval] {
     var months = [DateInterval](), date = bounds.start
