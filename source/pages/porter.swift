@@ -12,10 +12,10 @@ struct Porter: View {
       VStack {
         if let file = viewStore.file {
           Widget {
-            Text(file.preview)
+            Text(file.generatePreview(for: format))
               .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
-            .animation(.default, value: file.preview)
+          .animation(.default, value: file.generatePreview(for: format))
           
           Spacer()
         
@@ -25,12 +25,11 @@ struct Porter: View {
                 .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
                   do { viewStore.send(.importFile(try $0.get())) } catch { debugPrint(error) }
                 }
-                .padding()
             }
             
             Widget {
               HStack {
-                Picker("", selection: viewStore.binding(get: \.format, send: { ViewAction.setFormat($0) })) {
+                Picker("", selection: $format) {
                   ForEach(SmokesFile.readableContentTypes, id: \.self) { format in
                     Text(format.localizedDescription ?? "")
                   }
@@ -40,12 +39,11 @@ struct Porter: View {
                 Button(systemImage: "square.and.arrow.up") { showingExporter = true }
                   .fileExporter(
                     isPresented: $showingExporter,
-                    document: file, contentType: viewStore.format, defaultFilename: "SmokesData"
+                    document: file, contentType: format, defaultFilename: "SmokesData"
                   ) {
                     do { debugPrint(try $0.get()) } catch { debugPrint(error) }
                   }
               }
-              .padding()
             }
           }
           .imageScale(.large)
@@ -54,7 +52,6 @@ struct Porter: View {
           ProgressView()
         }
       }
-      .padding()
       .presentationDetents([.medium])
       .onAppear { viewStore.send(.createFile(viewStore.entries)) }
       .onChange(of: viewStore.entries) { viewStore.send(.createFile($0)) }
@@ -63,29 +60,27 @@ struct Porter: View {
   
   @State private var showingExporter = false
   @State private var showingImporter = false
+  
+  @State private var format = UTType.json
 }
 
 extension Porter {
   struct ViewState: Equatable {
     let entries: [Date]
-    let format: UTType
     let file: SmokesFile?
     
     init(_ state: MainReducer.State) {
       entries = state.entries
-      format = state.filePorter.format
       file = state.filePorter.file
     }
   }
   
   enum ViewAction {
-    case setFormat(UTType)
     case createFile([Date])
     case importFile(URL)
     
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
-      case let .setFormat(format): return .filePorter(.setFormat(format))
       case let .createFile(entries): return .filePorter(.createFile(entries))
       case let .importFile(url): return .importEntries(url)
       }

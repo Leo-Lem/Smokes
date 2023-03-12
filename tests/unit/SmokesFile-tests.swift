@@ -7,24 +7,13 @@ import XCTest
 
 final class SmokesFileTests: XCTestCase {
   func testCreatingTextFile() throws {
-    try withDependencies { $0.calendar = .current } operation: {
-      let entries = [Date.distantPast, .now, .distantFuture], format = UTType.utf8PlainText
+    withDependencies { $0.calendar = .current } operation: {
+      let amounts = [Date.now - 86400: 10, .now: 8, .now + 86400: 7]
       
-      let file = try SmokesFile(entries, format: format)
-      XCTAssertEqual(file.format, format)
-      XCTAssertEqual(file.entries, entries)
-      XCTAssertTrue(file.preview.split(separator: "\n").count == entries.count)
-    }
-  }
-  
-  func testCreatingJSONFile() throws {
-    try withDependencies { $0.calendar = .current } operation: {
-      let entries = [Date.distantPast, .now, .distantFuture], format = UTType.json
-      
-      let file = try SmokesFile(entries, format: format)
-      XCTAssertEqual(file.format, format)
-      XCTAssertEqual(file.entries, entries)
-      XCTAssertTrue(file.preview.split(separator: "\n").count == 10)
+      let file = SmokesFile(amounts)
+      XCTAssertEqual(file.amounts, amounts)
+      XCTAssertFalse(file.generatePreview(for: .plainText).isEmpty)
+      XCTAssertFalse(file.generatePreview(for: .json).isEmpty)
     }
   }
 }

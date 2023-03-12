@@ -1,12 +1,12 @@
 // Created by Leopold Lemmermann on 23.02.23.
 
 import ComposableArchitecture
+import Foundation
 
 extension DependencyValues {
   var persistor: Persistor { self[PersistorKey.self] }
 }
 
-import Foundation
 private enum PersistorKey: DependencyKey {
   static let liveValue: any Persistor = ThePersistor()
   static let testValue: any Persistor = MockPersistor()

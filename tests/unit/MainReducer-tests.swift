@@ -29,7 +29,8 @@ final class MainReducerTests: XCTestCase {
     
     await store.send(.saveEntries)
     await store.send(.remove(date)) { $0.entries = [] }
-    await store.send(.loadEntries) { $0.entries = [date] }
+    await store.send(.loadEntries)
+    await store.receive(/.setEntries([date])) { $0.entries = [date] }
   }
 
   func testCalculatingAmount() async {
@@ -52,12 +53,14 @@ final class MainReducerTests: XCTestCase {
     )
 
     await store.send(.calculateAmountUntil(interval.end))
-    await store.receive(/MainReducer.Action.calculateAmountForAverage)
     await store.receive(/MainReducer.Action.calculateAmount) { $0.amounts = [interval: amount] }
     
     withDependencies { $0.calendar = .current } operation: {
       XCTAssertEqual(store.state.average(interval, by: subdivision), Double(amount / length))
-      XCTAssertEqual(store.state.average(until: interval.end, by: subdivision), Double(amount / length))
+      XCTAssertEqual(
+        store.state.average(.init(start: store.state.startDate, end: interval.end), by: subdivision),
+        Double(amount / length)
+      )
     }
   }
   

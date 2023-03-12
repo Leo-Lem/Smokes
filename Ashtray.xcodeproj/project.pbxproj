@@ -16,8 +16,10 @@
 		6E05A50528F18F6600CA0287 /* MainReducer-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */; };
 		6E09E64829A6BEA5006AF884 /* DatedAmountsPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E64729A6BEA5006AF884 /* DatedAmountsPlot.swift */; };
 		6E09E64F29A6E3AE006AF884 /* attachPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E64E29A6E3AE006AF884 /* attachPlot.swift */; };
-		6E09E65229A6ECE3006AF884 /* persistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65129A6ECE3006AF884 /* persistor.swift */; };
+		6E09E65229A6ECE3006AF884 /* Persistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65129A6ECE3006AF884 /* Persistor.swift */; };
 		6E09E65429A6FD00006AF884 /* attachPorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65329A6FD00006AF884 /* attachPorter.swift */; };
+		6E1F8B6829BD6AB10025CBCC /* SF-Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */; };
+		6E1F8B6A29BD6AD60025CBCC /* SF-Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */; };
 		6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */; };
 		6E2CE6C229B4284D0082E2C6 /* FilePorter-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */; };
 		6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */; };
@@ -80,8 +82,10 @@
 		6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainReducer-tests.swift"; sourceTree = "<group>"; };
 		6E09E64729A6BEA5006AF884 /* DatedAmountsPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatedAmountsPlot.swift; sourceTree = "<group>"; };
 		6E09E64E29A6E3AE006AF884 /* attachPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = attachPlot.swift; sourceTree = "<group>"; };
-		6E09E65129A6ECE3006AF884 /* persistor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = persistor.swift; sourceTree = "<group>"; };
+		6E09E65129A6ECE3006AF884 /* Persistor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistor.swift; sourceTree = "<group>"; };
 		6E09E65329A6FD00006AF884 /* attachPorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = attachPorter.swift; sourceTree = "<group>"; };
+		6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Coder.swift"; sourceTree = "<group>"; };
+		6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Previewer.swift"; sourceTree = "<group>"; };
 		6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePorter.swift; sourceTree = "<group>"; };
 		6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilePorter-tests.swift"; sourceTree = "<group>"; };
 		6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokesFile.swift; sourceTree = "<group>"; };
@@ -181,9 +185,20 @@
 		6E09E65029A6ECB3006AF884 /* dependecies */ = {
 			isa = PBXGroup;
 			children = (
-				6E09E65129A6ECE3006AF884 /* persistor.swift */,
+				6E09E65129A6ECE3006AF884 /* Persistor.swift */,
+				6E1F8B6629BD6AA70025CBCC /* file */,
 			);
 			path = dependecies;
+			sourceTree = "<group>";
+		};
+		6E1F8B6629BD6AA70025CBCC /* file */ = {
+			isa = PBXGroup;
+			children = (
+				6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */,
+				6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */,
+				6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */,
+			);
+			path = file;
 			sourceTree = "<group>";
 		};
 		6E2CE6BF29B40BC70082E2C6 /* composable */ = {
@@ -191,7 +206,6 @@
 			children = (
 				6E58EF9629A4253800181557 /* MainReducer.swift */,
 				6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */,
-				6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */,
 				6E09E65029A6ECB3006AF884 /* dependecies */,
 			);
 			path = composable;
@@ -537,14 +551,16 @@
 				6E2CE6CE29B4460B0082E2C6 /* Button(systemImage).swift in Sources */,
 				6E4173F229BD26AF00A3660E /* AmountsPlotView.swift in Sources */,
 				6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */,
-				6E09E65229A6ECE3006AF884 /* persistor.swift in Sources */,
+				6E09E65229A6ECE3006AF884 /* Persistor.swift in Sources */,
 				6E2CE6CC29B4456C0082E2C6 /* porter.swift in Sources */,
 				6E66701329BD1F5C0015136A /* AveragesView.swift in Sources */,
 				6E4C8AA829B2E10B00C00204 /* main-previews.swift in Sources */,
+				6E1F8B6829BD6AB10025CBCC /* SF-Coder.swift in Sources */,
 				6E34A48828F0367A00A95FD1 /* Main.swift in Sources */,
 				6E09E64F29A6E3AE006AF884 /* attachPlot.swift in Sources */,
 				6E2CE6D429B4826B0082E2C6 /* SubdivisionPicker.swift in Sources */,
 				6E34A48928F0367A00A95FD1 /* MainView.swift in Sources */,
+				6E1F8B6A29BD6AD60025CBCC /* SF-Previewer.swift in Sources */,
 				6EAB8C0129B07C10002B08C2 /* history.swift in Sources */,
 				6ED91E19293FB72600728E2B /* config.swift in Sources */,
 				6E4E666B29B8450400ED0B9C /* MonthPicker.swift in Sources */,
