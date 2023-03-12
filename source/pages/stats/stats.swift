@@ -22,11 +22,12 @@ struct StatsView: View {
         .onTapGesture { showingAlltime = false }
 
         Widget {
-          Button { showingAlltime.toggle() } label: { Label("SELECT_ALLTIME", systemImage: "arrow.right.to.line") }
+          Button { showingAlltime = true } label: { Label("SELECT_ALLTIME", systemImage: "arrow.right.to.line") }
             .labelStyle(.titleOnly)
             .disabled(showingAlltime)
             .padding(10)
-            .onTapGesture { showingAlltime.toggle() }
+            .onTapGesture { showingAlltime = false }
+            .accessibilityIdentifier("select-alltime-button")
         }
       }
       .buttonStyle(.borderedProminent)

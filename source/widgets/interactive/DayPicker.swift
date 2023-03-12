@@ -17,7 +17,9 @@ struct DayPicker: View {
       
       DatePicker("", selection: $selection, in: bounds.start ... bounds.end, displayedComponents: .date)
         .labelsHidden()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement()
+        .accessibilityLabel("PICK_DAY")
+        .accessibilityValue(selection.formatted(date: .numeric, time: .omitted))
         .accessibilityIdentifier("day-picker")
       
       Spacer()

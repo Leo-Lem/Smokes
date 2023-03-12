@@ -30,6 +30,10 @@ struct AmountWithLabel: View {
     .frame(maxWidth: .infinity)
     .padding()
     .lineLimit(1)
+    .accessibilityElement()
+    .accessibilityLabel(description)
+    .accessibilityValue(formattedAmount ?? "LOADING")
+    .accessibilityAddTraits(.isStaticText)
   }
 
   private var formattedAmount: String? {

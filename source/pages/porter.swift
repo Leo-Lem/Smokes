@@ -62,6 +62,7 @@ extension Porter {
           HStack {
             Widget {
               Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
+                .accessibilityIdentifier("import-button")
                 .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
                   do { importFile(try $0.get()) } catch { debugPrint(error) }
                 }
@@ -75,8 +76,14 @@ extension Porter {
                   }
                 }
                 .pickerStyle(.segmented)
+                .accessibilityElement()
+                .accessibilityLabel("PICK_FORMAT")
+                .accessibilityValue(format.localizedDescription ?? "")
+                .accessibilityIdentifier("format-picker")
+                .accessibilityAction(named: "TOGGLE_FORMAT") { format = format == .json ? .plainText : .json }
                 
                 Button{ showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up")}
+                  .accessibilityIdentifier("export-button")
                   .fileExporter(
                     isPresented: $showingExporter,
                     document: file, contentType: format, defaultFilename: String(localized: "SMOKES_FILENAME")

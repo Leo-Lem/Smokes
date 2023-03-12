@@ -39,6 +39,9 @@
 "NEXT_MONTH" = "next month";
 "OPEN_PORTER" = "open exporter";
 "SHOW_PLOT" = "show plot";
+"PICK_FORMAT" = "pick format";
+"TOGGLE_FORMAT" = "toggle format";
+"PICK_DAY" = "pick day";
 
 
 
@@ -46,3 +49,5 @@
 "SMOKES_FILENAME" = "Smokes-Data";
 "DATE" = "date";
 "AMOUNT" = "amount";
+"LOADING" = "loading";
+"NO_DESCRIPTION" = "no description";

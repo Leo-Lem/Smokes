@@ -86,6 +86,7 @@ extension HistoryView {
                   Button { isEditing = true } label: {
                     Label("MODIFY", systemImage: "square.and.pencil")
                       .font(.title2)
+                      .accessibilityIdentifier("start-modifying-button")
                   }
                 }
               }
@@ -96,6 +97,7 @@ extension HistoryView {
                   Button { isEditing = false } label: {
                     Label("DISMISS", systemImage: "xmark.circle")
                       .font(.title2)
+                      .accessibilityIdentifier("dismiss-modifying-button")
                   }
                 }
                 .transition(.move(edge: .trailing))

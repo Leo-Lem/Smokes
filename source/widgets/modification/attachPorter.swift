@@ -11,6 +11,7 @@ private struct PorterAttacher: ViewModifier {
     content
       .overlay(alignment: .topLeading) {
         Button { showingPorter = true } label: { Label("OPEN_PORTER", systemImage: "folder") }
+          .accessibilityIdentifier("show-porter-button")
       }
       .sheet(isPresented: $showingPorter) { Porter().padding() }
   }

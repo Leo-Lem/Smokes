@@ -24,6 +24,7 @@ struct DatedAmountsPlot: View {
           .lineLimit(1)
       }
     }
+    .accessibilityLabel(description ?? String(localized: "NO_DESCRIPTION"))
     .padding()
   }
 }
