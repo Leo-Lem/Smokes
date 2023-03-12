@@ -97,7 +97,7 @@ extension HistoryView {
                   Button { isEditing = false } label: {
                     Label("DISMISS", systemImage: "xmark.circle")
                       .font(.title2)
-                      .accessibilityIdentifier("dismiss-modifying-button")
+                      .accessibilityIdentifier("stop-modifying-button")
                   }
                 }
                 .transition(.move(edge: .trailing))

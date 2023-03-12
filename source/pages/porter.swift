@@ -79,8 +79,8 @@ extension Porter {
                 .accessibilityElement()
                 .accessibilityLabel("PICK_FORMAT")
                 .accessibilityValue(format.localizedDescription ?? "")
-                .accessibilityIdentifier("format-picker")
                 .accessibilityAction(named: "TOGGLE_FORMAT") { format = format == .json ? .plainText : .json }
+                .accessibilityIdentifier("format-picker")
                 
                 Button{ showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up")}
                   .accessibilityIdentifier("export-button")

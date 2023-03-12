@@ -18,6 +18,7 @@
         }
       ]
     },
+    "language" : "en",
     "targetForVariableExpansion" : {
       "containerPath" : "container:ashtray.xcodeproj",
       "identifier" : "6E48374428EC991100B67CA4",

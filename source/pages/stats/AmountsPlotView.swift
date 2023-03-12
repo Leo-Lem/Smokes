@@ -72,6 +72,7 @@ extension AmountsPlotView {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct AmountsPlotWidget_Previews: PreviewProvider {
   static var previews: some View {
     AmountsPlotView(interval: nil, subdivision: .month)
@@ -79,3 +80,4 @@ struct AmountsPlotWidget_Previews: PreviewProvider {
       .padding()
   }
 }
+#endif
