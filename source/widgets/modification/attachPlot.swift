@@ -19,7 +19,6 @@ private struct PlotAttacher<Plot: View>: ViewModifier {
             Button(systemImage: "chart.bar.xaxis") { showingPlot.toggle() }
               .imageScale(.large)
               .font(.headline)
-              .padding(5)
           }
 
         if showingPlot {

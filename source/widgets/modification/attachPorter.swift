@@ -11,9 +11,8 @@ private struct PorterAttacher: ViewModifier {
     content
       .overlay(alignment: .topLeading) {
         Button(systemImage: "folder") { showingPorter = true }
-          .padding(5)
       }
-      .sheet(isPresented: $showingPorter, content: Porter.init)
+      .sheet(isPresented: $showingPorter) { Porter().padding() }
   }
   
   @State private var showingPorter = false

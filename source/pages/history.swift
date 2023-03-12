@@ -10,69 +10,16 @@ struct HistoryView: View {
     } send: {
       ViewAction.send($0, selectedDate: selectedDate)
     } content: { viewStore in
-      VStack {
-        Widget {
-          HStack {
-            AmountWithLabel(viewStore.day, description: "this day")
-              .overlay(alignment: .topTrailing) {
-                if !isEditing {
-                  Button { isEditing = true } label: {
-                    Image(systemName: "square.and.pencil")
-                      .font(.title2)
-                  }
-                }
-              }
-              .onAppear { viewStore.send(.calculateDay) }
-
-            if isEditing {
-              IncrementMenu(decrementDisabled: viewStore.day ?? 0 < 1) {
-                viewStore.send(.add)
-              } remove: {
-                viewStore.send(.remove)
-              }
-              .overlay(alignment: .topTrailing) {
-                Button { isEditing = false } label: {
-                  Image(systemName: "xmark.circle")
-                    .font(.title2)
-                }
-              }
-              .transition(.move(edge: .trailing))
-            }
-          }
-        }
-        .onLongPressGesture { isEditing.toggle() }
-
-        HStack {
-          Widget { AmountWithLabel(viewStore.week, description: "week") }
-            .onAppear { viewStore.send(.calculateWeek) }
-
-          Widget { AmountWithLabel(viewStore.month, description: "month") }
-            .onAppear { viewStore.send(.calculateMonth) }
-
-          Widget { AmountWithLabel(viewStore.year, description: "year") }
-            .onAppear { viewStore.send(.calculateYear) }
-        }
-
-        Widget {
-          AmountWithLabel(viewStore.all, description: "until this day")
-            .onAppear { viewStore.send(.calculateAll) }
-        }
-
-        Widget {
-          DateMenu(selection: $selectedDate)
-            .buttonStyle(.borderedProminent)
-            .padding(10)
-        }
-        .frame(maxHeight: 80)
+      Render(selectedDate: $selectedDate, isEditing: $isEditing, amounts: viewStore.amounts) {
+        viewStore.send(.add)
+      } remove: {
+        viewStore.send(.remove)
       }
       .animation(.default, value: isEditing)
       .animation(.default, value: viewStore.state)
+      .onAppear { Interval.allCases.forEach { viewStore.send(.calculate($0)) } }
       .onChange(of: selectedDate) { _ in
-        viewStore.send(.calculateDay)
-        viewStore.send(.calculateWeek)
-        viewStore.send(.calculateMonth)
-        viewStore.send(.calculateYear)
-        viewStore.send(.calculateAll)
+        Interval.allCases.forEach { viewStore.send(.calculate($0)) }
       }
     }
   }
@@ -82,36 +29,97 @@ struct HistoryView: View {
 }
 
 extension HistoryView {
+  enum Interval: CaseIterable {
+    case day, week, month, year, all
+
+    func dateInterval(selectedDate: Date) -> DateInterval {
+      @Dependency(\.calendar) var cal: Calendar
+      let tomorrow = cal.startOfDay(for: selectedDate + 86400)
+
+      switch self {
+      case .day: return cal.dateInterval(of: .day, for: selectedDate)!
+      case .week: return cal.dateInterval(of: .weekOfYear, for: selectedDate)!
+      case .month: return cal.dateInterval(of: .month, for: selectedDate)!
+      case .year: return cal.dateInterval(of: .year, for: selectedDate)!
+      case .all: return DateInterval(start: .distantPast, end: tomorrow)
+      }
+    }
+  }
+
   struct ViewState: Equatable {
-    let day: Int?, week: Int?, month: Int?, year: Int?, all: Int?
+    let amounts: [Interval: Int?]
 
     init(_ state: MainReducer.State, selectedDate: Date) {
-      @Dependency(\.calendar) var cal: Calendar
-
-      day = state.amounts[cal.dateInterval(of: .day, for: selectedDate)!]
-      week = state.amounts[cal.dateInterval(of: .weekOfYear, for: selectedDate)!]
-      month = state.amounts[cal.dateInterval(of: .month, for: selectedDate)!]
-      year = state.amounts[cal.dateInterval(of: .year, for: selectedDate)!]
-      all = state.amounts[DateInterval(start: .distantPast, end: cal.startOfDay(for: selectedDate + 86400))]
+      amounts = Dictionary(uniqueKeysWithValues: Interval.allCases.map {
+        ($0, state.amounts[$0.dateInterval(selectedDate: selectedDate)])
+      })
     }
   }
 
   enum ViewAction: Equatable {
-    case add, remove
-    case calculateDay, calculateWeek, calculateMonth, calculateYear, calculateAll
+    case add, remove, calculate(Interval)
 
     static func send(_ action: Self, selectedDate: Date) -> MainReducer.Action {
-      @Dependency(\.calendar) var cal: Calendar
-
       switch action {
       case .add: return .add(selectedDate)
       case .remove: return .remove(selectedDate)
-      case .calculateDay: return .calculateAmount(cal.dateInterval(of: .day, for: selectedDate)!)
-      case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: selectedDate)!)
-      case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: selectedDate)!)
-      case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: selectedDate)!)
-      case .calculateAll:
-        return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: selectedDate + 86400)))
+      case let .calculate(interval): return .calculateAmount(interval.dateInterval(selectedDate: selectedDate))
+      }
+    }
+  }
+}
+
+extension HistoryView {
+  struct Render: View {
+    @Binding var selectedDate: Date
+    @Binding var isEditing: Bool
+    let amounts: [HistoryView.Interval: Int?]
+    let add: () -> Void, remove: () -> Void
+
+    var body: some View {
+      VStack {
+        Widget {
+          HStack {
+            AmountWithLabel(amounts[.day]?.optional, description: "this day")
+              .overlay(alignment: .topTrailing) {
+                if !isEditing {
+                  Button { isEditing = true } label: {
+                    Image(systemName: "square.and.pencil")
+                      .font(.title2)
+                  }
+                }
+              }
+
+            if isEditing {
+              IncrementMenu(decrementDisabled: amounts[.day]?.optional ?? 0 < 1, add: add, remove: remove)
+                .overlay(alignment: .topTrailing) {
+                  Button { isEditing = false } label: {
+                    Image(systemName: "xmark.circle")
+                      .font(.title2)
+                  }
+                }
+                .transition(.move(edge: .trailing))
+            }
+          }
+        }
+        .onLongPressGesture { isEditing.toggle() }
+
+        HStack {
+          Widget { AmountWithLabel(amounts[.week]?.optional, description: "week") }
+          Widget { AmountWithLabel(amounts[.month]?.optional, description: "month") }
+          Widget { AmountWithLabel(amounts[.year]?.optional, description: "year") }
+        }
+
+        Widget {
+          AmountWithLabel(amounts[.all]?.optional, description: "until this day")
+        }
+
+        Widget {
+          DateMenu(selection: $selectedDate)
+            .buttonStyle(.borderedProminent)
+            .padding(10)
+        }
+        .frame(maxHeight: 80)
       }
     }
   }
@@ -122,9 +130,24 @@ extension HistoryView {
 #if DEBUG
 struct HistoryView_Previews: PreviewProvider {
   static var previews: some View {
-    HistoryView()
-      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
-      .padding()
+    let amounts: [HistoryView.Interval: Int?] = [.day: 10, .week: 45, .month: 87, .year: 890, .all: 2450]
+    
+    Group {
+      HistoryView.Render(
+        selectedDate: .constant(.now - 86400), isEditing: .constant(false), amounts: amounts, add: {}, remove: {}
+      )
+
+      HistoryView.Render(
+        selectedDate: .constant(.now - 86400), isEditing: .constant(true), amounts: amounts, add: {}, remove: {}
+      )
+      .previewDisplayName("Editing")
+      
+      HistoryView.Render(
+        selectedDate: .constant(.now), isEditing: .constant(true), amounts: amounts, add: {}, remove: {}
+      )
+      .previewDisplayName("Date is now")
+    }
+    .padding()
   }
 }
 #endif

@@ -6,87 +6,59 @@ struct DashboardView: View {
 
   var body: some View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
-      GeometryReader { geo in
-        VStack {
-          Widget {
-            AmountWithLabel(viewStore.day, description: "today")
-              .attachPlot {
-                if let subdivided = viewStore.subdividedMonth {
-                  DatedAmountsPlot(data: subdivided, description: nil)
-                } else {
-                  ProgressView()
-                }
-              }
-              .frame(height: geo.size.height / 3)
-              .onAppear {
-                viewStore.send(.calculateDay)
-                viewStore.send(.calculateSubdividedMonth)
-              }
-          }
-
-          Widget { AmountWithLabel(viewStore.before, description: "yesterday") }
-            .onAppear { viewStore.send(.calculateBefore) }
-
-          HStack {
-            Widget { AmountWithLabel(viewStore.week, description: "week") }
-              .onAppear { viewStore.send(.calculateWeek) }
-            Widget { AmountWithLabel(viewStore.month, description: "month") }
-              .onAppear { viewStore.send(.calculateMonth) }
-            Widget { AmountWithLabel(viewStore.year, description: "year") }
-              .onAppear { viewStore.send(.calculateYear) }
-          }
-
-          HStack {
-            Widget {
-              AmountWithLabel(viewStore.all, description: "until now")
-                .attachPorter()
-            }
-            .onAppear { viewStore.send(.calculateAll) }
-
-            Widget {
-              IncrementMenu(decrementDisabled: viewStore.day ?? 0 < 1) {
-                viewStore.send(.add)
-              } remove: {
-                viewStore.send(.remove)
-              }
-            }
-          }
-        }
+      Render(amounts: viewStore.amounts, subdividedMonth: viewStore.subdividedMonth) {
+        viewStore.send(.add)
+      } remove: {
+        viewStore.send(.remove)
       }
       .animation(.default, value: viewStore.state)
+      .onAppear {
+        Interval.allCases.forEach { viewStore.send(.calculate($0)) }
+        viewStore.send(.calculateSubdividedMonth)
+      }
     }
   }
 }
 
 extension DashboardView {
+  enum Interval: CaseIterable {
+    case day, before, week, month, year, all
+
+    var dateInterval: DateInterval {
+      @Dependency(\.calendar) var cal: Calendar
+      @Dependency(\.date.now) var now: Date
+      let tomorrow = cal.startOfDay(for: now + 86400)
+
+      switch self {
+      case .day: return cal.dateInterval(of: .day, for: now)!
+      case .before: return cal.dateInterval(of: .day, for: now - 86400)!
+      case .week: return cal.dateInterval(of: .weekOfYear, for: now)!
+      case .month: return cal.dateInterval(of: .month, for: now)!
+      case .year: return cal.dateInterval(of: .year, for: now)!
+      case .all: return DateInterval(start: .distantPast, end: tomorrow)
+      }
+    }
+  }
+
   struct ViewState: Equatable {
-    let day: Int?, before: Int?, week: Int?, month: Int?, year: Int?
-    let all: Int?
+    let amounts: [Interval: Int?]
     let subdividedMonth: [DateInterval: Int]?
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
       @Dependency(\.date.now) var now: Date
 
-      day = state.amounts[cal.dateInterval(of: .day, for: now)!]
-      before = state.amounts[cal.dateInterval(of: .day, for: now - 86400)!]
-      week = state.amounts[cal.dateInterval(of: .weekOfYear, for: now)!]
-      month = state.amounts[cal.dateInterval(of: .month, for: now)!]
-      year = state.amounts[cal.dateInterval(of: .year, for: now)!]
-
-      let tomorrow = cal.startOfDay(for: now + 86400)
-
-      all = state.amounts[DateInterval(start: .distantPast, end: tomorrow)]
-
-      let interval = DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: tomorrow)
-      subdividedMonth = state.subdivide(interval, by: .day)
+      amounts = Dictionary(uniqueKeysWithValues: Interval.allCases.map { ($0, state.amounts[$0.dateInterval]) })
+      subdividedMonth = state.subdivide(
+        DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: cal.startOfDay(for: now + 86400)),
+        by: .day
+      )
     }
   }
 
   enum ViewAction: Equatable {
     case add, remove
-    case calculateDay, calculateBefore, calculateWeek, calculateMonth, calculateYear
-    case calculateAll
+    case calculate(Interval)
     case calculateSubdividedMonth
 
     static func send(_ action: Self) -> MainReducer.Action {
@@ -96,15 +68,52 @@ extension DashboardView {
       switch action {
       case .add: return .add(now)
       case .remove: return .remove(now)
-      case .calculateDay: return .calculateAmount(cal.dateInterval(of: .day, for: now)!)
-      case .calculateBefore: return .calculateAmount(cal.dateInterval(of: .day, for: now - 86400)!)
-      case .calculateWeek: return .calculateAmount(cal.dateInterval(of: .weekOfYear, for: now)!)
-      case .calculateMonth: return .calculateAmount(cal.dateInterval(of: .month, for: now)!)
-      case .calculateYear: return .calculateAmount(cal.dateInterval(of: .year, for: now)!)
-      case .calculateAll:
-        return .calculateAmount(DateInterval(start: .distantPast, end: cal.startOfDay(for: now + 86400)))
+      case let .calculate(interval): return .calculateAmount(interval.dateInterval)
       case .calculateSubdividedMonth:
         return .calculateAmounts(cal.dateInterval(of: .month, for: now)!, .day)
+      }
+    }
+  }
+}
+
+extension DashboardView {
+  struct Render: View {
+    let amounts: [DashboardView.Interval: Int?]
+    let subdividedMonth: [DateInterval: Int]?
+    let add: () -> Void, remove: () -> Void
+
+    var body: some View {
+      GeometryReader { geo in
+        VStack {
+          Widget {
+            AmountWithLabel(amounts[.day]?.optional, description: "today")
+              .attachPlot {
+                if let subdividedMonth {
+                  DatedAmountsPlot(data: subdividedMonth, description: nil)
+                } else { ProgressView() }
+              }
+              .frame(height: geo.size.height / 3)
+          }
+
+          Widget { AmountWithLabel(amounts[.before]?.optional, description: "yesterday") }
+
+          HStack {
+            Widget { AmountWithLabel(amounts[.week]?.optional, description: "week") }
+            Widget { AmountWithLabel(amounts[.month]?.optional, description: "month") }
+            Widget { AmountWithLabel(amounts[.year]?.optional, description: "year") }
+          }
+
+          HStack {
+            Widget {
+              AmountWithLabel(amounts[.all]?.optional, description: "until now")
+                .attachPorter()
+            }
+
+            Widget {
+              IncrementMenu(decrementDisabled: amounts[.day]?.optional ?? 0 < 1, add: add, remove: remove)
+            }
+          }
+        }
       }
     }
   }
@@ -115,9 +124,23 @@ extension DashboardView {
 #if DEBUG
 struct DashboardView_Previews: PreviewProvider {
   static var previews: some View {
-    DashboardView()
-      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
-      .padding()
+    let amounts: [DashboardView.Interval: Int?] = [.day: 10, .before: 8, .week: 45, .month: 87, .year: 890, .all: 2450]
+    let subdividedMonth = [
+      DateInterval(start: .now - 86400, duration: 86400): 10,
+      DateInterval(start: .now, duration: 86400): 8,
+      DateInterval(start: .now + 86400, duration: 86400): 4
+    ]
+
+    Group {
+      DashboardView.Render(amounts: amounts, subdividedMonth: [:], add: {}, remove: {})
+      
+      DashboardView.Render(amounts: [:], subdividedMonth: [:], add: {}, remove: {})
+        .previewDisplayName("Loading")
+      
+      DashboardView.Render(amounts: amounts, subdividedMonth: subdividedMonth, add: {}, remove: {})
+        .previewDisplayName("With plot data")
+    }
+    .padding()
   }
 }
 #endif

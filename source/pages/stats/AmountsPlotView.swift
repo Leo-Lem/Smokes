@@ -17,10 +17,10 @@ struct AmountsPlotView: View {
     } content: { viewStore in
       Widget {
         DatedAmountsPlot(data: viewStore.subdivided, description: nil)
-          .onAppear { viewStore.send(.calculateSubdivision(nil, subdivision)) }
-          .onChange(of: interval) { viewStore.send(.calculateSubdivision($0, subdivision)) }
       }
       .animation(.default, value: viewStore.state)
+      .onAppear { viewStore.send(.calculateSubdivision(nil, subdivision)) }
+      .onChange(of: interval) { viewStore.send(.calculateSubdivision($0, subdivision)) }
     }
   }
 }

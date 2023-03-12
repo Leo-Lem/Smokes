@@ -175,7 +175,6 @@
 			children = (
 				6E05A4B628F07F3A00CA0287 /* dashboard.swift */,
 				6E014D8C29A5D64B004EF7F5 /* history.swift */,
-				6E4173F429BD44B200A3660E /* stats.swift */,
 				6E4173F329BD367200A3660E /* stats */,
 				6E2CE6CB29B4456C0082E2C6 /* porter.swift */,
 			);
@@ -214,6 +213,7 @@
 		6E4173F329BD367200A3660E /* stats */ = {
 			isa = PBXGroup;
 			children = (
+				6E4173F429BD44B200A3660E /* stats.swift */,
 				6E66701229BD1F5C0015136A /* AveragesView.swift */,
 				6E4173F129BD26AF00A3660E /* AmountsPlotView.swift */,
 			);

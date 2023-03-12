@@ -14,14 +14,10 @@ struct AveragesView: View {
     } send: {
       ViewAction.send($0)
     } content: { viewStore in
-      HStack {
-        Widget { AmountWithLabel(viewStore.averages[.day]?.optional, description: "per day") }
-        Widget { AmountWithLabel(viewStore.averages[.weekOfYear]?.optional, description: "per week") }
-        Widget { AmountWithLabel(viewStore.averages[.month]?.optional, description: "per month") }
-      }
-      .onAppear { viewStore.send(.calculateAverages(interval)) }
-      .onChange(of: interval) { viewStore.send(.calculateAverages($0)) }
-      .animation(.default, value: viewStore.state)
+      Render(averages: viewStore.averages, showMonth: interval == nil)
+        .animation(.default, value: viewStore.state)
+        .onAppear { viewStore.send(.calculateAverages(interval)) }
+        .onChange(of: interval) { viewStore.send(.calculateAverages($0)) }
     }
   }
 }
@@ -75,12 +71,37 @@ extension AveragesView {
   }
 }
 
+extension AveragesView {
+  struct Render: View {
+    var averages: [Calendar.Component: Double?]
+    let showMonth: Bool
+
+    var body: some View {
+      HStack {
+        Widget { AmountWithLabel(averages[.day]?.optional, description: "per day") }
+        Widget { AmountWithLabel(averages[.weekOfYear]?.optional, description: "per week") }
+        if showMonth {
+          Widget { AmountWithLabel(averages[.month]?.optional, description: "per month") }
+            .transition(.move(edge: .trailing))
+        }
+      }
+    }
+  }
+}
+
 // MARK: - (PREVIEWS)
 
-struct AveragesWidget_Previews: PreviewProvider {
+struct AveragesView_Previews: PreviewProvider {
   static var previews: some View {
-    AveragesView(interval: nil)
-      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
-      .padding()
+    Group {
+      AveragesView.Render(averages: [.day: 3.45, .weekOfYear: 16.675, .month: 100.989], showMonth: true)
+
+      AveragesView.Render(averages: [.day: 3.45, .weekOfYear: 16.675, .month: 100.989], showMonth: false)
+        .previewDisplayName("With month")
+      
+      AveragesView.Render(averages: [:], showMonth: true)
+        .previewDisplayName("Loading")
+    }
+    .padding()
   }
 }
