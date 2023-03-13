@@ -4,7 +4,7 @@ import Charts
 import SwiftUI
 
 struct DatedAmountsPlot: View {
-  let data: [DateInterval: Int], description: String?
+  let data: [DateInterval: Int], description: LocalizedStringKey?
   
   var body: some View {
     VStack {
@@ -24,7 +24,7 @@ struct DatedAmountsPlot: View {
           .lineLimit(1)
       }
     }
-    .accessibilityLabel(description ?? String(localized: "NO_DESCRIPTION"))
+    .accessibilityLabel(Text(description ?? "NO_DESCRIPTION"))
     .padding()
   }
 }

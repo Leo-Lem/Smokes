@@ -19,7 +19,6 @@
 		6E09E65229A6ECE3006AF884 /* Persistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65129A6ECE3006AF884 /* Persistor.swift */; };
 		6E09E65429A6FD00006AF884 /* attachPorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09E65329A6FD00006AF884 /* attachPorter.swift */; };
 		6E1F8B6829BD6AB10025CBCC /* SF-Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */; };
-		6E1F8B6A29BD6AD60025CBCC /* SF-Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */; };
 		6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6D29BD90910025CBCC /* Localizable.strings */; };
 		6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */; };
 		6E2CE6C229B4284D0082E2C6 /* FilePorter-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C029B428420082E2C6 /* FilePorter-tests.swift */; };
@@ -45,6 +44,7 @@
 		6E58EF9729A4253800181557 /* MainReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E58EF9629A4253800181557 /* MainReducer.swift */; };
 		6E58EF9A29A4276900181557 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E58EF9929A4276900181557 /* ComposableArchitecture */; };
 		6E66701329BD1F5C0015136A /* AveragesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E66701229BD1F5C0015136A /* AveragesView.swift */; };
+		6E9A158A29BF110100BD89AB /* Date.endOfDay().swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A158929BF110100BD89AB /* Date.endOfDay().swift */; };
 		6EAB8BFE29ADEB3B002B08C2 /* dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A4B628F07F3A00CA0287 /* dashboard.swift */; };
 		6EAB8C0129B07C10002B08C2 /* history.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D8C29A5D64B004EF7F5 /* history.swift */; };
 		6ED91E19293FB72600728E2B /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E18293FB72600728E2B /* config.swift */; };
@@ -84,7 +84,6 @@
 		6E09E65129A6ECE3006AF884 /* Persistor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistor.swift; sourceTree = "<group>"; };
 		6E09E65329A6FD00006AF884 /* attachPorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = attachPorter.swift; sourceTree = "<group>"; };
 		6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Coder.swift"; sourceTree = "<group>"; };
-		6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SF-Previewer.swift"; sourceTree = "<group>"; };
 		6E1F8B6C29BD90910025CBCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E1F8B6E29BD90A00025CBCC /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePorter.swift; sourceTree = "<group>"; };
@@ -111,6 +110,7 @@
 		6E4E666A29B8450400ED0B9C /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		6E58EF9629A4253800181557 /* MainReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainReducer.swift; sourceTree = "<group>"; };
 		6E66701229BD1F5C0015136A /* AveragesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AveragesView.swift; sourceTree = "<group>"; };
+		6E9A158929BF110100BD89AB /* Date.endOfDay().swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date.endOfDay().swift"; sourceTree = "<group>"; };
 		6EAB8C0029B0795A002B08C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ED91E18293FB72600728E2B /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,12 +180,12 @@
 			path = pages;
 			sourceTree = "<group>";
 		};
-		6E09E65029A6ECB3006AF884 /* dependecies */ = {
+		6E09E65029A6ECB3006AF884 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
 				6E09E65129A6ECE3006AF884 /* Persistor.swift */,
 			);
-			path = dependecies;
+			path = dependencies;
 			sourceTree = "<group>";
 		};
 		6E1F8B6629BD6AA70025CBCC /* file */ = {
@@ -193,7 +193,6 @@
 			children = (
 				6E2CE6C329B43C260082E2C6 /* SmokesFile.swift */,
 				6E1F8B6729BD6AB10025CBCC /* SF-Coder.swift */,
-				6E1F8B6929BD6AD60025CBCC /* SF-Previewer.swift */,
 			);
 			path = file;
 			sourceTree = "<group>";
@@ -204,7 +203,7 @@
 				6E58EF9629A4253800181557 /* MainReducer.swift */,
 				6E2CE6BB29B3F5470082E2C6 /* FilePorter.swift */,
 				6E1F8B6629BD6AA70025CBCC /* file */,
-				6E09E65029A6ECB3006AF884 /* dependecies */,
+				6E09E65029A6ECB3006AF884 /* dependencies */,
 			);
 			path = composable;
 			sourceTree = "<group>";
@@ -344,6 +343,7 @@
 				6E2CE6CD29B4460B0082E2C6 /* Button(systemImage).swift */,
 				6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */,
 				6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */,
+				6E9A158929BF110100BD89AB /* Date.endOfDay().swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -543,6 +543,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E9A158A29BF110100BD89AB /* Date.endOfDay().swift in Sources */,
 				6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */,
 				6E2CE6C429B43C260082E2C6 /* SmokesFile.swift in Sources */,
 				6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */,
@@ -558,7 +559,6 @@
 				6E34A48828F0367A00A95FD1 /* Main.swift in Sources */,
 				6E09E64F29A6E3AE006AF884 /* attachPlot.swift in Sources */,
 				6E34A48928F0367A00A95FD1 /* MainView.swift in Sources */,
-				6E1F8B6A29BD6AD60025CBCC /* SF-Previewer.swift in Sources */,
 				6EAB8C0129B07C10002B08C2 /* history.swift in Sources */,
 				6ED91E19293FB72600728E2B /* config.swift in Sources */,
 				6E4E666B29B8450400ED0B9C /* MonthPicker.swift in Sources */,

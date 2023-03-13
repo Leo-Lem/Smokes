@@ -29,16 +29,16 @@ extension AveragesView {
     init(_ state: MainReducer.State, month: DateInterval?) {
       @Dependency(\.date.now) var now: Date
       @Dependency(\.calendar) var cal: Calendar
-      let tomorrow = cal.startOfDay(for: now + 86400)
+      let endOfDay = cal.endOfDay(for: now)
 
       let comps = [Calendar.Component.day, .weekOfYear, .month]
 
       var interval: DateInterval {
         switch month {
         case .none:
-          return DateInterval(start: state.startDate, end: tomorrow)
-        case let .some(month) where month.end >= tomorrow:
-          return DateInterval(start: month.start, end: tomorrow)
+          return DateInterval(start: state.startDate, end: endOfDay)
+        case let .some(month) where month.end >= endOfDay:
+          return DateInterval(start: month.start, end: endOfDay)
         case let .some(month):
           return month
         }
@@ -54,15 +54,15 @@ extension AveragesView {
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.date.now) var now: Date
       @Dependency(\.calendar) var cal: Calendar
-      let tomorrow = cal.startOfDay(for: now + 86400)
+      let endOfDay = cal.endOfDay(for: now)
 
       switch action {
       case let .calculateAverages(month):
         switch month {
         case .none:
-          return .calculateAmountUntil(tomorrow)
-        case let .some(month) where month.end >= tomorrow:
-          return .calculateAmount(.init(start: month.start, end: tomorrow))
+          return .calculateAmountUntil(endOfDay)
+        case let .some(month) where month.end >= endOfDay:
+          return .calculateAmount(.init(start: month.start, end: endOfDay))
         case let .some(month):
           return .calculateAmount(month)
         }

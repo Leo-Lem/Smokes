@@ -7,7 +7,11 @@ struct MainReducer: ReducerProtocol {
     var amounts = [DateInterval: Int]()
     var filePorter = FilePorter.State()
     
-    var startDate: Date { entries.first ?? Dependency(\.date.now).wrappedValue }
+    var startDate: Date {
+      @Dependency(\.calendar) var cal
+      @Dependency(\.date.now) var now
+      return entries.first ?? cal.startOfDay(for: now)
+    }
     
     init(_ entries: [Date] = []) { self.entries = entries }
   }
@@ -88,7 +92,7 @@ struct MainReducer: ReducerProtocol {
         }
         
       case ._addImportedEntries:
-        if let entries = state.filePorter.file?.amounts.flatMap(Array.init) {
+        if !state.filePorter.importFailed, let entries = state.filePorter.file?.amounts.flatMap(Array.init) {
           return .send(.setEntries((state.entries + entries).sorted()))
         }
         
@@ -115,6 +119,7 @@ extension MainReducer.State {
   
   func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int]? {
     @Dependency(\.calendar) var cal: Calendar
+    
     var subintervals = [DateInterval](), date = cal.startOfDay(for: interval.start)
         
     while date < interval.end {

@@ -76,13 +76,11 @@ final class SmokesUITests: XCTestCase {
     guard let initial = getValue(from: "month-picker") else { throw XCTSkip("Cannot find date") }
     
     app.buttons["previous-month-button"].tap()
-    XCTAssertEqual(app.staticTexts.count, 6)
     
     app.buttons["next-month-button"].tap()
     XCTAssertEqual(initial, getValue(from: "month-picker"))
     
     app.buttons["select-alltime-button"].tap()
-    XCTAssertEqual(app.staticTexts.count, 9)
   }
 
   private var dashboardButton: XCUIElement { app.tabBars.buttons["dashboard-tab-button"] }

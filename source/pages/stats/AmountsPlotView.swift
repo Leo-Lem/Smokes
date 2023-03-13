@@ -16,10 +16,10 @@ struct AmountsPlotView: View {
       ViewAction.send($0)
     } content: { viewStore in
       Widget {
-        DatedAmountsPlot(data: viewStore.subdivided, description: nil)
+        DatedAmountsPlot(data: viewStore.subdivided, description: subdivision == .day ? "DAILY" : "WEEKLY")
       }
       .animation(.default, value: viewStore.state)
-      .onAppear { viewStore.send(.calculateSubdivision(nil, subdivision)) }
+      .onAppear { viewStore.send(.calculateSubdivision(interval, subdivision)) }
       .onChange(of: interval) { viewStore.send(.calculateSubdivision($0, subdivision)) }
     }
   }
@@ -31,14 +31,15 @@ extension AmountsPlotView {
 
     init(_ state: MainReducer.State, interval: DateInterval?, subdivision: Calendar.Component) {
       @Dependency(\.calendar) var cal: Calendar
-      let tomorrow = cal.startOfDay(for: Dependency(\.date.now).wrappedValue + 86400)
+      @Dependency(\.date.now) var now: Date
+      let endOfDay = cal.endOfDay(for: now)
 
       var subdivisionInterval: DateInterval {
         switch interval {
         case .none:
-          return DateInterval(start: state.startDate, end: tomorrow)
-        case let .some(interval) where interval.end >= tomorrow:
-          return DateInterval(start: interval.start, end: tomorrow)
+          return DateInterval(start: state.startDate, end: endOfDay)
+        case let .some(interval) where interval.end >= endOfDay:
+          return DateInterval(start: interval.start, end: endOfDay)
         case let .some(interval):
           return interval
         }
@@ -53,15 +54,16 @@ extension AmountsPlotView {
 
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.calendar) var cal: Calendar
-      let tomorrow = cal.startOfDay(for: Dependency(\.date.now).wrappedValue + 86400)
-
+      @Dependency(\.date.now) var now: Date
+      let endOfDay = cal.endOfDay(for: now)
+      
       switch action {
       case let .calculateSubdivision(interval, subdivision):
         switch interval {
         case .none:
-          return .calculateAmountsUntil(tomorrow, subdivision)
-        case let .some(interval) where interval.end >= tomorrow:
-          return .calculateAmounts(DateInterval(start: interval.start, end: tomorrow), subdivision)
+          return .calculateAmountsUntil(endOfDay, subdivision)
+        case let .some(interval) where interval.end >= endOfDay:
+          return .calculateAmounts(DateInterval(start: interval.start, end: endOfDay), subdivision)
         case let .some(interval):
           return .calculateAmounts(interval, subdivision)
         }

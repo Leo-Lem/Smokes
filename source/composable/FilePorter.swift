@@ -6,25 +6,32 @@ import UniformTypeIdentifiers
 struct FilePorter: ReducerProtocol {
   struct State: Equatable {
     var file: SmokesFile?
+    var importFailed = false
   }
   
   enum Action {
     case createFile([Date]), readFile(URL)
+    case dismissImportFailed
   }
   
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-    do {
-      switch action {
-      case let .createFile(entries):
-        state.file = SmokesFile(entries.subdivide(by: .day))
+    switch action {
+    case let .createFile(entries):
+      state.file = SmokesFile(entries.subdivide(by: .day))
         
-      case let .readFile(url):
-        if url.startAccessingSecurityScopedResource() {
-          defer { url.stopAccessingSecurityScopedResource() }
+    case let .readFile(url):
+      if url.startAccessingSecurityScopedResource() {
+        defer { url.stopAccessingSecurityScopedResource() }
+        do {
           state.file = try SmokesFile(at: url)
+        } catch {
+          state.importFailed = true
         }
       }
-    } catch { assertionFailure(error.localizedDescription) }
+        
+    case .dismissImportFailed:
+      state.importFailed = false
+    }
     
     return .none
   }

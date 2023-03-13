@@ -27,7 +27,6 @@ extension DashboardView {
     var dateInterval: DateInterval {
       @Dependency(\.calendar) var cal: Calendar
       @Dependency(\.date.now) var now: Date
-      let tomorrow = cal.startOfDay(for: now + 86400)
 
       switch self {
       case .day: return cal.dateInterval(of: .day, for: now)!
@@ -35,7 +34,7 @@ extension DashboardView {
       case .week: return cal.dateInterval(of: .weekOfYear, for: now)!
       case .month: return cal.dateInterval(of: .month, for: now)!
       case .year: return cal.dateInterval(of: .year, for: now)!
-      case .all: return DateInterval(start: .distantPast, end: tomorrow)
+      case .all: return DateInterval(start: .distantPast, end: cal.endOfDay(for: now))
       }
     }
   }
@@ -50,7 +49,7 @@ extension DashboardView {
 
       amounts = Dictionary(uniqueKeysWithValues: Interval.allCases.map { ($0, state.amounts[$0.dateInterval]) })
       subdividedMonth = state.subdivide(
-        DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: cal.startOfDay(for: now + 86400)),
+        DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: cal.endOfDay(for: now)),
         by: .day
       )
     }

@@ -34,14 +34,13 @@ extension HistoryView {
 
     func dateInterval(selectedDate: Date) -> DateInterval {
       @Dependency(\.calendar) var cal: Calendar
-      let tomorrow = cal.startOfDay(for: selectedDate + 86400)
 
       switch self {
       case .day: return cal.dateInterval(of: .day, for: selectedDate)!
       case .week: return cal.dateInterval(of: .weekOfYear, for: selectedDate)!
       case .month: return cal.dateInterval(of: .month, for: selectedDate)!
       case .year: return cal.dateInterval(of: .year, for: selectedDate)!
-      case .all: return DateInterval(start: .distantPast, end: tomorrow)
+      case .all: return DateInterval(start: .distantPast, end: cal.endOfDay(for: selectedDate))
       }
     }
   }

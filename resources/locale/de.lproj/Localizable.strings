@@ -21,6 +21,8 @@
 "PER_DAY" = "pro Tag";
 "PER_WEEK" = "pro Woche";
 "PER_MONTH" = "pro Monat";
+"DAILY" = "täglich";
+"WEEKLY" = "wöchentlich";
 
 
 
@@ -51,3 +53,4 @@
 "AMOUNT" = "Anzahl";
 "LOADING" = "Wird geladen";
 "NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
+"IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt...";

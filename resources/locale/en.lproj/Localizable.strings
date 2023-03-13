@@ -17,10 +17,12 @@
 
 
 
-// MARK: - (AVERAGES)
+// MARK: - (STATS)
 "PER_DAY" = "per day";
 "PER_WEEK" = "per week";
 "PER_MONTH" = "per month";
+"DAILY" = "daily";
+"WEEKLY" = "weekly";
 
 
 
@@ -51,3 +53,4 @@
 "AMOUNT" = "amount";
 "LOADING" = "loading";
 "NO_DESCRIPTION" = "no description";
+"IMPORT_FAILED" = "Sorry, this format is unknown...";

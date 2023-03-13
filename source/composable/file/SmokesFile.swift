@@ -19,13 +19,41 @@ struct SmokesFile: FileDocument, Equatable {
   
   init(configuration: ReadConfiguration) throws {
     guard let data = configuration.file.regularFileContents else { throw URLError(.resourceUnavailable) }
-    amounts = try Coder(contentType: configuration.contentType).decode(data)
+    
+    do {
+      amounts = try Coder(contentType: configuration.contentType).decode(data)
+    } catch {
+      debugPrint(error)
+    }
   }
   
   func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-    let data = try Coder(contentType: configuration.contentType).encode(amounts)
-    return FileWrapper(regularFileWithContents: data)
+    do {
+      let data = try Coder(contentType: configuration.contentType).encode(amounts)
+      return FileWrapper(regularFileWithContents: data)
+    } catch {
+      debugPrint(error)
+    }
+    
+    return FileWrapper(regularFileWithContents: Data())
   }
   
-  func generatePreview(for type: UTType) -> String { Previewer().generatePreview(from: amounts, for: type) }
+  func generatePreview(for type: UTType) -> String {
+    guard !amounts.isEmpty else { return "No data" }
+    
+    let previewData = (try? Coder(contentType: type).encode(
+      Dictionary(uniqueKeysWithValues: Array(amounts.sorted(by: >).prefix(8)))
+    ))
+    
+    let preview = previewData.flatMap { String(data: $0, encoding: .utf8) } ?? "No data"
+    
+    return trimLines(preview, limit: 10)
+  }
+  
+  private func trimLines(_ string: String, limit: Int) -> String {
+    let lines = string.split(separator: "\n")
+    var trimmed = lines.prefix(limit).joined(separator: "\n")
+    if lines.count > limit { trimmed.append("\n...") }
+    return trimmed
+  }
 }
