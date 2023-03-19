@@ -49,7 +49,10 @@ extension DashboardView {
 
       amounts = Dictionary(uniqueKeysWithValues: Interval.allCases.map { ($0, state.amounts[$0.dateInterval]) })
       subdividedMonth = state.subdivide(
-        DateInterval(start: cal.dateInterval(of: .month, for: now)!.start, end: cal.endOfDay(for: now)),
+        DateInterval(
+          start: cal.date(byAdding: .month, value: -1, to: cal.startOfDay(for: now))!,
+          end: cal.endOfDay(for: now)
+        ),
         by: .day
       )
     }

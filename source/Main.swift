@@ -3,9 +3,9 @@ import SwiftUI
 
 @main
 struct Main: App {
-  private let store = Store(initialState: .init(), reducer: MainReducer() )
+  private let store = Store(initialState: .init(), reducer: MainReducer())
   @Environment(\.scenePhase) private var scene
-  
+
   var body: some Scene {
     WindowGroup {
       if !_XCTIsTesting {
@@ -20,6 +20,7 @@ struct Main: App {
                 .buttonStyle(.borderedProminent)
               #endif
             }
+            .preferredColorScheme(.dark)
         }
       }
     }

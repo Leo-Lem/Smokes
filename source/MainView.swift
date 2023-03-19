@@ -27,7 +27,6 @@ struct MainView: View {
           .tag(2)
       }
       .padding(10)
-      .toolbarBackground(.hidden, for: .tabBar)
       .background {
         Image(decorative: "smokingarea")
           .resizable()

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "smokingarea@1x.jpg",
+      "filename" : "launchimage@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "smokingarea@2x.jpg",
+      "filename" : "launchimage@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "smokingarea@3x.jpg",
+      "filename" : "launchimage@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

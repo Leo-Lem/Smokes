@@ -43,7 +43,7 @@ struct MonthPicker: View {
   private var months: [DateInterval] {
     var months = [DateInterval](), date = bounds.start
     
-    while date < bounds.end {
+    while date <= bounds.end {
       months.append(cal.dateInterval(of: .month, for: date)!)
       date = cal.date(byAdding: .month, value: 1, to: date)!
     }
