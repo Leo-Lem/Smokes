@@ -47,6 +47,7 @@
 		6EA97A0429CE59BA0098CC61 /* AverageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA97A0329CE59BA0098CC61 /* AverageInfo.swift */; };
 		6EA97A0729CE5F8B0098CC61 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 6EA97A0929CE5F8B0098CC61 /* Localizable.stringsdict */; };
 		6EA97A0E29CE6B860098CC61 /* TimeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA97A0D29CE6B860098CC61 /* TimeInfo.swift */; };
+		6EA97A1129CE8C4B0098CC61 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA97A1029CE8C4B0098CC61 /* Background.swift */; };
 		6EAB8BFE29ADEB3B002B08C2 /* dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A4B628F07F3A00CA0287 /* dashboard.swift */; };
 		6EAB8C0129B07C10002B08C2 /* history.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D8C29A5D64B004EF7F5 /* history.swift */; };
 		6ED91E19293FB72600728E2B /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E18293FB72600728E2B /* config.swift */; };
@@ -116,6 +117,7 @@
 		6EA97A0829CE5F8B0098CC61 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6EA97A0C29CE695E0098CC61 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6EA97A0D29CE6B860098CC61 /* TimeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInfo.swift; sourceTree = "<group>"; };
+		6EA97A1029CE8C4B0098CC61 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		6EAB8C0029B0795A002B08C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ED91E18293FB72600728E2B /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,7 +152,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E014D9229A5D94D004EF7F5 /* widgets */ = {
+		6E014D9229A5D94D004EF7F5 /* components */ = {
 			isa = PBXGroup;
 			children = (
 				6E014D9529A5E61B004EF7F5 /* Widget.swift */,
@@ -158,8 +160,9 @@
 				6E4C8AAA29B2F83900C00204 /* plots */,
 				6E4C8AA929B2F82C00C00204 /* controls */,
 				6E4C8AAB29B2F9D800C00204 /* modifiers */,
+				6EA97A1029CE8C4B0098CC61 /* Background.swift */,
 			);
-			path = widgets;
+			path = components;
 			sourceTree = "<group>";
 		};
 		6E05A50328F18F6600CA0287 /* tests */ = {
@@ -242,7 +245,7 @@
 				6E34A48628F0367A00A95FD1 /* MainView.swift */,
 				6E2CE6BF29B40BC70082E2C6 /* composable */,
 				6E09E64929A6D5F4006AF884 /* pages */,
-				6E014D9229A5D94D004EF7F5 /* widgets */,
+				6E014D9229A5D94D004EF7F5 /* components */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				6ED91E19293FB72600728E2B /* config.swift in Sources */,
 				6E4E666B29B8450400ED0B9C /* MonthPicker.swift in Sources */,
 				6E58EF9729A4253800181557 /* MainReducer.swift in Sources */,
+				6EA97A1129CE8C4B0098CC61 /* Background.swift in Sources */,
 				6E09E64829A6BEA5006AF884 /* DatedAmountsPlot.swift in Sources */,
 				6E2CE6BC29B3F5470082E2C6 /* FilePorter.swift in Sources */,
 				6EA97A0429CE59BA0098CC61 /* AverageInfo.swift in Sources */,
@@ -797,7 +801,6 @@
 				INFOPLIST_FILE = config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -833,7 +836,6 @@
 				INFOPLIST_FILE = config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

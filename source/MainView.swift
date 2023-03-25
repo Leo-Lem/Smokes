@@ -27,12 +27,7 @@ struct MainView: View {
           .tag(2)
       }
       .padding(10)
-      .background {
-        Image(decorative: "smokingarea")
-          .resizable()
-          .ignoresSafeArea()
-          .scaledToFill()
-      }
+      .background { Background() }
     }
   }
 
