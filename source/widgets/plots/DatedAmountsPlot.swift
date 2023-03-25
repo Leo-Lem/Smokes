@@ -8,15 +8,21 @@ struct DatedAmountsPlot: View {
   
   var body: some View {
     VStack {
-      Chart {
-        ForEach(Array(data.keys), id: \.self) { key in
-          BarMark(
-            x: .value("DATE", key.start),
-            y: .value("AMOUNT", data[key] ?? 0)
-          )
+      if containsNoData {
+        Text("NO_DATA")
+          .font(.largeTitle)
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+      } else {
+        Chart {
+          ForEach(Array(data.keys), id: \.self) { key in
+            BarMark(
+              x: .value("DATE", key.start),
+              y: .value("AMOUNT", data[key] ?? 0)
+            )
+          }
         }
+        .animation(.default, value: data)
       }
-      .animation(.default, value: data)
       
       if let description {
         Text(description)
@@ -26,6 +32,10 @@ struct DatedAmountsPlot: View {
     }
     .accessibilityLabel(Text(description ?? "NO_DESCRIPTION"))
     .padding()
+  }
+  
+  private var containsNoData: Bool {
+    data.allSatisfy { $0.value == 0 }
   }
 }
 

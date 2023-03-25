@@ -14,6 +14,7 @@
 "THIS_YEAR" = "Dieses Jahr";
 "UNTIL_NOW" = "Bis hierhin";
 "UNTIL_THIS_DAY" = "Bis hierhin";
+"SINCE_LAST_SMOKE" = "rauchfrei seit";
 
 
 
@@ -23,6 +24,7 @@
 "PER_MONTH" = "pro Monat";
 "DAILY" = "täglich";
 "WEEKLY" = "wöchentlich";
+"AVERAGE_TIME_BETWEEN" = "Zeit zwischen Ziggis";
 
 
 
@@ -54,3 +56,4 @@
 "LOADING" = "Wird geladen";
 "NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
 "IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt...";
+"NO_DATA" = "Keine Daten";

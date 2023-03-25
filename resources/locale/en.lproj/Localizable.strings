@@ -14,6 +14,7 @@
 "THIS_YEAR" = "this year";
 "UNTIL_NOW" = "until now";
 "UNTIL_THIS_DAY" = "until this day";
+"SINCE_LAST_SMOKE" = "smokefree for";
 
 
 
@@ -23,6 +24,7 @@
 "PER_MONTH" = "per month";
 "DAILY" = "daily";
 "WEEKLY" = "weekly";
+"AVERAGE_TIME_BETWEEN" = "time between smokes";
 
 
 
@@ -54,3 +56,4 @@
 "LOADING" = "loading";
 "NO_DESCRIPTION" = "no description";
 "IMPORT_FAILED" = "Sorry, this format is unknown...";
+"NO_DATA" = "No data";

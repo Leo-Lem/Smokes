@@ -106,6 +106,18 @@ struct MainReducer: ReducerProtocol {
 }
 
 extension MainReducer.State {
+  func timeSinceLast(for date: Date) -> TimeInterval {
+    entries
+      .last { $0 < date }
+      .flatMap { DateInterval(start: $0, safeEnd: date) }.optional?
+      .duration
+    ?? 0
+  }
+  
+  func averageTimeBetween(_ interval: DateInterval) -> TimeInterval? {
+    amounts[interval].flatMap { (interval.duration * 0.66) / Double($0) }
+  }
+  
   func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
     @Dependency(\.calendar) var cal: Calendar
     

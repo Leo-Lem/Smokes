@@ -79,7 +79,7 @@ extension HistoryView {
       VStack {
         Widget {
           HStack {
-            AmountWithLabel(amounts[.day]?.optional, description: "THIS_DAY")
+            AmountInfo(amounts[.day]?.optional, description: "THIS_DAY")
               .overlay(alignment: .topTrailing) {
                 if !isEditing {
                   Button { isEditing = true } label: {
@@ -106,13 +106,13 @@ extension HistoryView {
         .onLongPressGesture { isEditing.toggle() }
 
         HStack {
-          Widget { AmountWithLabel(amounts[.week]?.optional, description: "THIS_WEEK") }
-          Widget { AmountWithLabel(amounts[.month]?.optional, description: "THIS_MONTH") }
-          Widget { AmountWithLabel(amounts[.year]?.optional, description: "THIS_YEAR") }
+          Widget { AmountInfo(amounts[.week]?.optional, description: "THIS_WEEK") }
+          Widget { AmountInfo(amounts[.month]?.optional, description: "THIS_MONTH") }
         }
 
-        Widget {
-          AmountWithLabel(amounts[.all]?.optional, description: "UNTIL_THIS_DAY")
+        HStack {
+          Widget { AmountInfo(amounts[.year]?.optional, description: "THIS_YEAR") }
+          Widget { AmountInfo(amounts[.all]?.optional, description: "UNTIL_THIS_DAY") }
         }
 
         Widget {

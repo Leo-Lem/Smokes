@@ -6,7 +6,11 @@ struct DashboardView: View {
 
   var body: some View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
-      Render(amounts: viewStore.amounts, subdividedMonth: viewStore.subdividedMonth) {
+      Render(
+        amounts: viewStore.amounts,
+        subdividedMonth: viewStore.subdividedMonth,
+        timeSinceLast: viewStore.timeSinceLast
+      ) {
         viewStore.send(.add)
       } remove: {
         viewStore.send(.remove)
@@ -42,6 +46,7 @@ extension DashboardView {
   struct ViewState: Equatable {
     let amounts: [Interval: Int?]
     let subdividedMonth: [DateInterval: Int]?
+    let timeSinceLast: TimeInterval
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
@@ -55,6 +60,7 @@ extension DashboardView {
         ),
         by: .day
       )
+      timeSinceLast = state.timeSinceLast(for: .now)
     }
   }
 
@@ -82,13 +88,14 @@ extension DashboardView {
   struct Render: View {
     let amounts: [DashboardView.Interval: Int?]
     let subdividedMonth: [DateInterval: Int]?
+    let timeSinceLast: TimeInterval
     let add: () -> Void, remove: () -> Void
 
     var body: some View {
       GeometryReader { geo in
         VStack {
           Widget {
-            AmountWithLabel(amounts[.day]?.optional, description: "TODAY")
+            AmountInfo(amounts[.day]?.optional, description: "TODAY")
               .attachPlot {
                 if let subdividedMonth {
                   DatedAmountsPlot(data: subdividedMonth, description: nil)
@@ -97,17 +104,14 @@ extension DashboardView {
               .frame(height: geo.size.height / 3)
           }
 
-          Widget { AmountWithLabel(amounts[.before]?.optional, description: "YESTERDAY") }
-
           HStack {
-            Widget { AmountWithLabel(amounts[.week]?.optional, description: "THIS_WEEK") }
-            Widget { AmountWithLabel(amounts[.month]?.optional, description: "THIS_MONTH") }
-            Widget { AmountWithLabel(amounts[.year]?.optional, description: "THIS_YEAR") }
+            Widget { AmountInfo(amounts[.before]?.optional, description: "YESTERDAY") }
+            Widget { TimeInfo(timeSinceLast, description: "SINCE_LAST_SMOKE") }
           }
 
           HStack {
             Widget {
-              AmountWithLabel(amounts[.all]?.optional, description: "UNTIL_NOW")
+              AmountInfo(amounts[.all]?.optional, description: "UNTIL_NOW")
                 .attachPorter()
             }
 
@@ -135,12 +139,12 @@ struct DashboardView_Previews: PreviewProvider {
     ]
 
     Group {
-      DashboardView.Render(amounts: amounts, subdividedMonth: [:], add: {}, remove: {})
-      
-      DashboardView.Render(amounts: [:], subdividedMonth: [:], add: {}, remove: {})
+      DashboardView.Render(amounts: amounts, subdividedMonth: [:], timeSinceLast: 10) {} remove: {}
+
+      DashboardView.Render(amounts: [:], subdividedMonth: [:], timeSinceLast: 1000) {} remove: {}
         .previewDisplayName("Loading")
-      
-      DashboardView.Render(amounts: amounts, subdividedMonth: subdividedMonth, add: {}, remove: {})
+
+      DashboardView.Render(amounts: amounts, subdividedMonth: subdividedMonth, timeSinceLast: 100) {} remove: {}
         .previewDisplayName("With plot data")
     }
     .padding()
