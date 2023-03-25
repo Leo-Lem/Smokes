@@ -10,7 +10,7 @@ struct Main: App {
     WindowGroup {
       if !_XCTIsTesting {
         WithViewStore(store) { viewStore in
-          if loadingProgress >= 1 {
+          if loadingProgress >= 0.99 {
             MainView()
               .onChange(of: scene) { if $0 != .active { viewStore.send(.saveEntries) } }
               .environmentObject(store)
@@ -22,28 +22,23 @@ struct Main: App {
               }
               .preferredColorScheme(.dark)
           } else {
-            VStack {
-              Spacer()
-              ProgressView(value: loadingProgress)
-                .padding()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background { Background() }
-            .onAppear {
-              viewStore.send(.loadEntries)
-
-              @Dependency(\.date.now) var now: Date
-              @Dependency(\.calendar) var cal: Calendar
-              let endOfDay = cal.endOfDay(for: now)
-              viewStore.send(.calculateAmountUntil(endOfDay))
-              viewStore.send(.calculateAmountsUntil(endOfDay, .weekOfYear))
-            }
-            .task {
-              for _ in 0 ..< 100 {
-                loadingProgress += 0.01
-                try? await Task.sleep(for: .milliseconds(5))
+            LoadingPage(progress: $loadingProgress)
+              .onAppear {
+                @Dependency(\.date.now) var now: Date
+                @Dependency(\.calendar) var cal: Calendar
+                
+                viewStore.send(.loadEntries)
+                viewStore.send(.calculateAmountUntil(cal.endOfDay(for: now)))
+                viewStore.send(.calculateAmountsUntil(cal.endOfDay(for: now), .weekOfYear))
               }
-            }
+              .task {
+                let seconds = 3
+                
+                for _ in 0 ..< 99 where loadingProgress < 1 {
+                  loadingProgress += 0.01
+                  try? await Task.sleep(for: .milliseconds(seconds * 10))
+                }
+              }
           }
         }
       }

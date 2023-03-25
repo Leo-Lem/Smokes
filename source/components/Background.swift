@@ -7,14 +7,12 @@ struct Background: View {
     ZStack {
       Color("BackgroundColor")
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
       
       Image(decorative: "no-smoking")
         .resizable()
-        .ignoresSafeArea()
         .scaledToFit()
-        .padding()
     }
+    .ignoresSafeArea()
   }
 }
 

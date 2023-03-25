@@ -38,5 +38,39 @@
 			<string>Ziggis</string>
 		</dict>
 	</dict>
+	<key>%lf SMOKES_PLURAL_VALUE</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>.2f</string>
+			<key>zero</key>
+			<string>Keine</string>
+			<key>other</key>
+			<string>%.2f</string>
+		</dict>
+	</dict>
+	<key>%lf SMOKES_PLURAL_LABEL</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lf</string>
+			<key>zero</key>
+			<string> </string>
+			<key>one</key>
+			<string>Ziggi</string>
+			<key>other</key>
+			<string>Ziggis</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

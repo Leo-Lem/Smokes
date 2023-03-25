@@ -57,3 +57,5 @@
 "NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
 "IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt...";
 "NO_DATA" = "Keine Daten";
+"FACT_OF_THE_DAY" = "Fakt des Tages";
+"SKIP" = "überspringen";

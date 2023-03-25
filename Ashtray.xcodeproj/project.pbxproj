@@ -11,6 +11,9 @@
 		6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9029A5D87C004EF7F5 /* IncrementMenu.swift */; };
 		6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9329A5E513004EF7F5 /* DayPicker.swift */; };
 		6E014D9629A5E61B004EF7F5 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9529A5E61B004EF7F5 /* Widget.swift */; };
+		6E04699C29CF921C00000123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E04699B29CF921C00000123 /* LaunchScreen.storyboard */; };
+		6E04699E29CF978300000123 /* loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04699D29CF978300000123 /* loading.swift */; };
+		6E0469A129CF9C0B00000123 /* SmokingFacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E0469A329CF9C0B00000123 /* SmokingFacts.json */; };
 		6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */; };
 		6E05A4BD28F07FC300CA0287 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6E05A4BB28F07FC300CA0287 /* .gitignore */; };
 		6E05A50528F18F6600CA0287 /* MainReducer-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A50428F18F6600CA0287 /* MainReducer-tests.swift */; };
@@ -77,6 +80,11 @@
 		6E014D9029A5D87C004EF7F5 /* IncrementMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementMenu.swift; sourceTree = "<group>"; };
 		6E014D9329A5E513004EF7F5 /* DayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPicker.swift; sourceTree = "<group>"; };
 		6E014D9529A5E61B004EF7F5 /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		6E04699B29CF921C00000123 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6E04699D29CF978300000123 /* loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loading.swift; sourceTree = "<group>"; };
+		6E0469A229CF9C0B00000123 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/SmokingFacts.json; sourceTree = "<group>"; };
+		6E0469A529CF9C1E00000123 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/SmokingFacts.json; sourceTree = "<group>"; };
+		6E0469A629CFA4D700000123 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6E05A4B628F07F3A00CA0287 /* dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashboard.swift; sourceTree = "<group>"; };
 		6E05A4BA28F07FC300CA0287 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6E05A4BB28F07FC300CA0287 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
@@ -115,7 +123,6 @@
 		6EA97A0129CE584D0098CC61 /* AmountInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountInfo.swift; sourceTree = "<group>"; };
 		6EA97A0329CE59BA0098CC61 /* AverageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AverageInfo.swift; sourceTree = "<group>"; };
 		6EA97A0829CE5F8B0098CC61 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
-		6EA97A0C29CE695E0098CC61 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6EA97A0D29CE6B860098CC61 /* TimeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInfo.swift; sourceTree = "<group>"; };
 		6EA97A1029CE8C4B0098CC61 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		6EAB8C0029B0795A002B08C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -181,6 +188,7 @@
 		6E09E64929A6D5F4006AF884 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				6E04699D29CF978300000123 /* loading.swift */,
 				6E05A4B628F07F3A00CA0287 /* dashboard.swift */,
 				6E014D8C29A5D64B004EF7F5 /* history.swift */,
 				6E4173F429BD44B200A3660E /* stats.swift */,
@@ -293,6 +301,8 @@
 			isa = PBXGroup;
 			children = (
 				6E48378F28ECA08F00B67CA4 /* Assets.xcassets */,
+				6E04699B29CF921C00000123 /* LaunchScreen.storyboard */,
+				6E0469A329CF9C0B00000123 /* SmokingFacts.json */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -497,8 +507,10 @@
 			files = (
 				6E05A4BD28F07FC300CA0287 /* .gitignore in Resources */,
 				6E05A4BC28F07FC300CA0287 /* .swiftlint.yml in Resources */,
+				6E0469A129CF9C0B00000123 /* SmokingFacts.json in Resources */,
 				6E48379028ECA08F00B67CA4 /* Assets.xcassets in Resources */,
 				6E4C8A8D29B2AC6E00C00204 /* Perf.xctestplan in Resources */,
+				6E04699C29CF921C00000123 /* LaunchScreen.storyboard in Resources */,
 				6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */,
 				6EA97A0729CE5F8B0098CC61 /* Localizable.stringsdict in Resources */,
 			);
@@ -562,6 +574,7 @@
 				6E2CE6CE29B4460B0082E2C6 /* Button(systemImage).swift in Sources */,
 				6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */,
 				6EA97A0E29CE6B860098CC61 /* TimeInfo.swift in Sources */,
+				6E04699E29CF978300000123 /* loading.swift in Sources */,
 				6E09E65229A6ECE3006AF884 /* Persistor.swift in Sources */,
 				6E2CE6CC29B4456C0082E2C6 /* porter.swift in Sources */,
 				6E4C8AA829B2E10B00C00204 /* main-previews.swift in Sources */,
@@ -610,6 +623,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6E0469A329CF9C0B00000123 /* SmokingFacts.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E0469A229CF9C0B00000123 /* en */,
+				6E0469A529CF9C1E00000123 /* de */,
+			);
+			name = SmokingFacts.json;
+			sourceTree = "<group>";
+		};
 		6E1F8B6D29BD90910025CBCC /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -623,7 +645,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6EA97A0829CE5F8B0098CC61 /* en */,
-				6EA97A0C29CE695E0098CC61 /* de */,
+				6E0469A629CFA4D700000123 /* de */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
@@ -801,7 +823,8 @@
 				INFOPLIST_FILE = config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -836,7 +859,8 @@
 				INFOPLIST_FILE = config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
