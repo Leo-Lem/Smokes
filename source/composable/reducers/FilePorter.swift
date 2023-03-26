@@ -10,7 +10,9 @@ struct FilePorter: ReducerProtocol {
   }
   
   enum Action {
-    case createFile([Date]), readFile(URL)
+    case createFile([Date])
+    case importFile(URL)
+    case addEntries([Date])
     case dismissImportFailed
   }
   
@@ -19,11 +21,12 @@ struct FilePorter: ReducerProtocol {
     case let .createFile(entries):
       state.file = SmokesFile(entries.subdivide(by: .day))
         
-    case let .readFile(url):
+    case let .importFile(url):
       if url.startAccessingSecurityScopedResource() {
         defer { url.stopAccessingSecurityScopedResource() }
         do {
-          state.file = try SmokesFile(at: url)
+          let entries = try SmokesFile(at: url).amounts.flatMap(Array.init)
+          return .send(.addEntries(entries))
         } catch {
           state.importFailed = true
         }
@@ -31,6 +34,9 @@ struct FilePorter: ReducerProtocol {
         
     case .dismissImportFailed:
       state.importFailed = false
+      
+    default:
+      break
     }
     
     return .none

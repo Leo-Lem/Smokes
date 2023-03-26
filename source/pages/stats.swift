@@ -55,12 +55,12 @@ extension StatsView {
       @Dependency(\.calendar) var cal: Calendar
       let endOfDay = cal.endOfDay(for: now)
       
-      startDate = state.startDate
+      startDate = state.entries.startDate
 
       var adjustedInterval: DateInterval {
         switch interval {
         case .none:
-          return DateInterval(start: state.startDate, end: endOfDay)
+          return DateInterval(start: state.entries.startDate, end: endOfDay)
         case let .some(interval) where interval.end >= endOfDay:
           return DateInterval(start: interval.start, end: endOfDay)
         case let .some(interval):
@@ -94,11 +94,11 @@ extension StatsView {
       case let (.calculateAverages, .some(interval)):
         return .calculateAmount(interval)
       case (.calculateSubdivision, .none):
-        return .calculateAmountsUntil(endOfDay, subdivision)
+        return .calculateAmountsUntil(endOfDay, subdivision: subdivision)
       case let (.calculateSubdivision, .some(interval)) where interval.end >= endOfDay:
-        return .calculateAmounts(DateInterval(start: interval.start, end: endOfDay), subdivision)
+        return .calculateAmounts(DateInterval(start: interval.start, end: endOfDay), subdivision: subdivision)
       case let (.calculateSubdivision, .some(interval)):
-        return .calculateAmounts(interval, subdivision)
+        return .calculateAmounts(interval, subdivision: subdivision)
       }
     }
   }
@@ -167,7 +167,7 @@ extension StatsView {
 struct StatsView_Previews: PreviewProvider {
   static var previews: some View {
     StatsView()
-      .environmentObject(StoreOf<MainReducer>(initialState: .preview, reducer: MainReducer()))
+      .environmentObject(StoreOf<MainReducer>(initialState: .init(), reducer: MainReducer()))
       .padding()
   }
 }

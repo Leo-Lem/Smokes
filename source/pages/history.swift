@@ -60,8 +60,8 @@ extension HistoryView {
 
     static func send(_ action: Self, selectedDate: Date) -> MainReducer.Action {
       switch action {
-      case .add: return .add(selectedDate)
-      case .remove: return .remove(selectedDate)
+      case .add: return .entries(.add(selectedDate))
+      case .remove: return .entries(.remove(selectedDate))
       case let .calculate(interval): return .calculateAmount(interval.dateInterval(selectedDate: selectedDate))
       }
     }

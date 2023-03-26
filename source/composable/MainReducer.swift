@@ -2,70 +2,29 @@ import ComposableArchitecture
 import Foundation
 
 struct MainReducer: ReducerProtocol {
-  struct State: Equatable {
-    var entries: [Date]
-    var amounts = [DateInterval: Int]()
-    var filePorter = FilePorter.State()
-    
-    var startDate: Date {
-      @Dependency(\.calendar) var cal
-      @Dependency(\.date.now) var now
-      return entries.first ?? cal.startOfDay(for: now)
-    }
-    
-    init(_ entries: [Date] = []) { self.entries = entries }
-  }
-  
-  enum Action {
-    case setEntries([Date])
-    case loadEntries, saveEntries
-    case add(Date), remove(Date)
-    
-    case calculateAmount(DateInterval),
-         calculateAmountUntil(Date),
-         calculateAmounts(DateInterval, Calendar.Component),
-         calculateAmountsUntil(Date, Calendar.Component)
-    
-    case filePorter(FilePorter.Action),
-         importEntries(URL), _addImportedEntries
-  }
-  
   var body: some ReducerProtocol<State, Action> {
+    Scope(state: \.entries, action: /MainReducer.Action.entries, child: Entries.init)
     Scope(state: \.filePorter, action: /MainReducer.Action.filePorter, child: FilePorter.init)
     
     Reduce<State, Action> { state, action in
       switch action {
-      case let .setEntries(entries):
-        state.entries = entries
+      case let .entries(.updateAmounts(date)):
         let intervals = state.amounts.keys
         return .run { actions in
-          for interval in intervals { await actions.send(.calculateAmount(interval)) }
-        }
-        
-      case .loadEntries:
-        do {
-          if let entries: [Date] = try persistor.read(id: "entries") { return .send(.setEntries(entries)) }
-        } catch { debugPrint(error) }
-        
-      case .saveEntries:
-        do { try persistor.write(state.entries, id: "entries") } catch { debugPrint(error) }
-        
-      case let .add(date):
-        state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
-        for interval in state.amounts.keys where interval.contains(date) { state.amounts[interval]? += 1 }
-        
-      case let .remove(date):
-        if let index = state.entries.lastIndex(where: { $0 <= date }) {
-          state.entries.remove(at: index)
-          for interval in state.amounts.keys where interval.contains(date) { state.amounts[interval]? -= 1 }
+          if let date {
+            for interval in intervals where interval.contains(date) { await actions.send(.calculateAmount(interval)) }
+          } else {
+            for interval in intervals { await actions.send(.calculateAmount(interval)) }
+          }
         }
         
       case let .calculateAmount(interval):
-        state.amounts[interval] = (state.entries.firstIndex { interval.end < $0 } ?? state.entries.endIndex) -
-          (state.entries.firstIndex { interval.start <= $0 } ?? state.entries.endIndex)
+        let entries = state.entries.unwrapped
+        state.amounts[interval] = (entries.firstIndex { interval.end < $0 } ?? entries.endIndex) -
+          (entries.firstIndex { interval.start <= $0 } ?? entries.endIndex)
         
       case let .calculateAmountUntil(date):
-        if let interval = DateInterval(start: state.startDate, safeEnd: date) {
+        if let interval = DateInterval(start: state.entries.startDate, safeEnd: date) {
           return .send(.calculateAmount(interval))
         }
         
@@ -80,83 +39,89 @@ struct MainReducer: ReducerProtocol {
           }
         }
 
-      case let .calculateAmountsUntil(date, component):
-        if let interval = DateInterval(start: state.startDate, safeEnd: date) {
-          return .send(.calculateAmounts(interval, component))
+      case let .calculateAmountsUntil(date, subdivision):
+        if let interval = DateInterval(start: state.entries.startDate, safeEnd: date) {
+          return .send(.calculateAmounts(interval, subdivision: subdivision))
         }
         
-      case let .importEntries(url):
-        return .run { actions in
-          await actions.send(.filePorter(.readFile(url)))
-          await actions.send(._addImportedEntries)
-        }
-        
-      case ._addImportedEntries:
-        if !state.filePorter.importFailed, let entries = state.filePorter.file?.amounts.flatMap(Array.init) {
-          return .send(.setEntries((state.entries + entries).sorted()))
-        }
+      case let .filePorter(.addEntries(entries)):
+        return .send(.entries(.set((state.entries.unwrapped + entries).sorted())))
         
       default: break
       }
       return .none
     }
   }
-  
-  @Dependency(\.persistor) private var persistor
 }
 
-extension MainReducer.State {
-  func timeSinceLast(for date: Date) -> TimeInterval {
-    entries
-      .last { $0 < date }
-      .flatMap { DateInterval(start: $0, safeEnd: date) }.optional?
-      .duration
-    ?? 0
-  }
-  
-  func averageTimeBetween(_ interval: DateInterval) -> TimeInterval? {
-    amounts[interval].flatMap { (interval.duration * 0.66) / Double($0) }
-  }
-  
-  func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
-    @Dependency(\.calendar) var cal: Calendar
+extension MainReducer {
+  struct State: Equatable {
+    var entries = Entries.State()
+    var amounts = [DateInterval: Int]()
+    var filePorter = FilePorter.State()
     
-    guard
-      let amount = amounts[interval],
-      let length = cal.dateComponents([subdivision], from: interval.start, to: interval.end).value(for: subdivision)
-    else { return nil }
-    
-    return Double(amount) / Double(length == 0 ? 1 : length)
-  }
-  
-  func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int]? {
-    @Dependency(\.calendar) var cal: Calendar
-    
-    var subintervals = [DateInterval](), date = cal.startOfDay(for: interval.start)
-        
-    while date < interval.end {
-      let nextDate = cal.date(byAdding: subdivision, value: 1, to: date)!
-      let interval = DateInterval(start: date, end: nextDate)
-      if amounts.keys.contains(interval) { subintervals.append(interval) }
-      date = nextDate
+    var validInterval: DateInterval {
+      @Dependency(\.date.now) var now
+      @Dependency(\.calendar) var cal
+      return DateInterval(start: entries.startDate, end: cal.endOfDay(for: now))
     }
     
-    guard !subintervals.isEmpty else { return nil }
-    
-    return .init(uniqueKeysWithValues: subintervals.map { ($0, amounts[$0]!) })
-  }
-  
-  func trend(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
-    guard let subdivisions = subdivide(interval, by: subdivision) else { return nil }
-    let amounts = Array(subdivisions.values)
-    
-    var trend = 0.0
-    
-    if amounts.count > 1 {
-      for i in 1 ..< amounts.count { trend += Double(amounts[i] - amounts[i - 1]) }
-      trend /= Double(amounts.count - 1)
+    func average(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
+      guard let clamped = validInterval.intersection(with: interval) else { return 0 }
+      @Dependency(\.calculator.average) var average
+      return average(amounts[interval], clamped, subdivision)
     }
-          
-    return trend
+    
+    func subdivide(_ interval: DateInterval, by subdivision: Calendar.Component) -> [DateInterval: Int]? {
+      guard let clamped = validInterval.intersection(with: interval) else { return [:] }
+      @Dependency(\.calculator.subdivide) var subdivide
+      return subdivide(amounts, clamped, subdivision)
+    }
+    
+    func trend(_ interval: DateInterval, by subdivision: Calendar.Component) -> Double? {
+      @Dependency(\.calculator.trend) var trend
+      guard let subdivisions = subdivide(interval, by: subdivision) else { return nil }
+      return trend(Array(subdivisions.values))
+    }
+    
+    func determineTimeSinceLast(for date: Date) -> TimeInterval? {
+      @Dependency(\.calculator.determineTimeSinceLast) var determineTimeSinceLast
+      return determineTimeSinceLast(entries.unwrapped, date)
+    }
+    
+    func averageTimeBetween(_ interval: DateInterval) -> TimeInterval? {
+      guard let clamped = validInterval.intersection(with: interval) else { return 0 }
+      @Dependency(\.calculator.averageTimeBetween) var averageTimeBetween
+      return averageTimeBetween(amounts[interval], clamped)
+    }
+  }
+}
+
+extension MainReducer {
+  enum Action {
+    case entries(Entries.Action)
+    
+    case calculateAmount(_ interval: DateInterval),
+         calculateAmountUntil(_ date: Date),
+         calculateAmounts(_ interval: DateInterval, subdivision: Calendar.Component),
+         calculateAmountsUntil(_ date: Date, subdivision: Calendar.Component)
+    
+    case filePorter(FilePorter.Action)
+    
+    static func prepareAveraging(_ interval: DateInterval) -> Self {
+      .calculateAmount(interval)
+    }
+    
+    static func prepareSubdividing(_ interval: DateInterval, by subdivision: Calendar.Component) -> Self {
+      .calculateAmounts(interval, subdivision: subdivision)
+    }
+    
+    static func prepareTrending(_ interval: DateInterval, by subdivision: Calendar.Component) -> Self {
+      .prepareSubdividing(interval, by: subdivision)
+    }
+    
+    static func prepareAveragingTimeBetween(_ interval: DateInterval) -> Self {
+      .calculateAmount(interval)
+    }
   }
 }

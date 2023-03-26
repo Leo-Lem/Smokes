@@ -46,7 +46,7 @@ extension DashboardView {
   struct ViewState: Equatable {
     let amounts: [Interval: Int?]
     let subdividedMonth: [DateInterval: Int]?
-    let timeSinceLast: TimeInterval
+    let timeSinceLast: TimeInterval?
 
     init(_ state: MainReducer.State) {
       @Dependency(\.calendar) var cal: Calendar
@@ -60,7 +60,7 @@ extension DashboardView {
         ),
         by: .day
       )
-      timeSinceLast = state.timeSinceLast(for: .now)
+      timeSinceLast = state.determineTimeSinceLast(for: now)
     }
   }
 
@@ -74,11 +74,10 @@ extension DashboardView {
       @Dependency(\.date.now) var now: Date
 
       switch action {
-      case .add: return .add(now)
-      case .remove: return .remove(now)
+      case .add: return .entries(.add(now))
+      case .remove: return .entries(.remove(now))
       case let .calculate(interval): return .calculateAmount(interval.dateInterval)
-      case .calculateSubdividedMonth:
-        return .calculateAmounts(cal.dateInterval(of: .month, for: now)!, .day)
+      case .calculateSubdividedMonth: return .prepareSubdividing(cal.dateInterval(of: .month, for: now)!, by: .day)
       }
     }
   }
@@ -88,7 +87,7 @@ extension DashboardView {
   struct Render: View {
     let amounts: [DashboardView.Interval: Int?]
     let subdividedMonth: [DateInterval: Int]?
-    let timeSinceLast: TimeInterval
+    let timeSinceLast: TimeInterval?
     let add: () -> Void, remove: () -> Void
 
     var body: some View {
@@ -141,7 +140,7 @@ struct DashboardView_Previews: PreviewProvider {
     Group {
       DashboardView.Render(amounts: amounts, subdividedMonth: [:], timeSinceLast: 10) {} remove: {}
 
-      DashboardView.Render(amounts: [:], subdividedMonth: [:], timeSinceLast: 1000) {} remove: {}
+      DashboardView.Render(amounts: [:], subdividedMonth: nil, timeSinceLast: nil) {} remove: {}
         .previewDisplayName("Loading")
 
       DashboardView.Render(amounts: amounts, subdividedMonth: subdividedMonth, timeSinceLast: 100) {} remove: {}

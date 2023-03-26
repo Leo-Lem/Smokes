@@ -29,7 +29,7 @@ extension Porter {
     let importFailed: Bool
     
     init(_ state: MainReducer.State) {
-      entries = state.entries
+      entries = state.entries.unwrapped
       file = state.filePorter.file
       importFailed = state.filePorter.importFailed
     }
@@ -43,7 +43,7 @@ extension Porter {
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
       case let .createFile(entries): return .filePorter(.createFile(entries))
-      case let .importFile(url): return .importEntries(url)
+      case let .importFile(url): return .filePorter(.importFile(url))
       case .dismissImportFailed: return .filePorter(.dismissImportFailed)
       }
     }
