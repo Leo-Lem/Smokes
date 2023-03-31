@@ -3,35 +3,58 @@ import SwiftUI
 
 struct MainView: View {
   var body: some View {
-    TabView(selection: $selectedTab) {
-      Group {
-        HistoryView()
-          .tabItem {
-            Label("HISTORY", systemImage: "calendar")
-              .accessibilityIdentifier("history-tab-button")
-          }
-          .tag(0)
-
-        DashboardView()
-          .tabItem {
-            Label("DASHBOARD", systemImage: "square.split.2x2.fill")
-              .accessibilityIdentifier("dashboard-tab-button")
-          }
-          .tag(1)
-
-        StatsView()
-          .tabItem {
-            Label("STATS", systemImage: "percent")
-              .accessibilityIdentifier("stats-tab-button")
-          }
-          .tag(2)
-      }
+    TabView(selection: $selectedTab)
       .padding(10)
       .background { Background() }
-    }
   }
 
-  @State private var selectedTab = 1
+  @State private var selectedTab = MainTab.dashboard
+}
+
+enum MainTab: String, Tabbable {
+  case history = "HISTORY", dashboard = "DASHBOARD", stats = "STATS"
+
+  var tab: some View {
+    GeometryReader { _ in
+      switch self {
+      case .history: HistoryView()
+      case .dashboard: DashboardView()
+      case .stats: StatsView()
+      }
+    }
+  }
+  
+  var tabItem: some View {
+    VStack {
+      Image(systemName: icon)
+        .imageScale(.large)
+      
+      Text(title)
+        .lineLimit(1)
+        .minimumScaleFactor(0.5)
+    }
+    .foregroundColor(.primary)
+    .padding()
+    .accessibilityIdentifier(a11yID)
+  }
+  
+  private var title: LocalizedStringKey { LocalizedStringKey(rawValue) }
+  
+  private var icon: String {
+    switch self {
+    case .history: return "calendar"
+    case .dashboard: return "square"
+    case .stats: return "percent"
+    }
+  }
+  
+  private var a11yID: String {
+    switch self {
+    case .history: return "history-tab-button"
+    case .dashboard: return "dashboard-tab-button"
+    case .stats: return "stats-tab-button"
+    }
+  }
 }
 
 // MARK: - (PREVIEWS)

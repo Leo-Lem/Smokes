@@ -2,7 +2,9 @@
 
 import SwiftUI
 
-struct LoadingPage: View {
+// TODO: add landscape
+
+struct LaunchPage: View {
   @Binding var progress: Double
 
   var body: some View {
@@ -55,6 +57,6 @@ struct LoadingPage: View {
 
 struct LoadingPage_Previews: PreviewProvider {
   static var previews: some View {
-    LoadingPage(progress: .constant(0.1))
+    LaunchPage(progress: .constant(0.1))
   }
 }

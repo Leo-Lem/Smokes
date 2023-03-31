@@ -7,24 +7,43 @@
 
 // MARK: - (AMOUNTS)
 "TODAY" = "Heute";
-"THIS_DAY" = "Dieser Tag";
 "YESTERDAY" = "Gestern";
+
+"THIS_DAY" = "Dieser Tag";
 "THIS_WEEK" = "Diese Woche";
-"THIS_MONTH" = "Dieser Monat";
+"THIS_MONTH" = "Diesen Monat";
 "THIS_YEAR" = "Dieses Jahr";
+
 "UNTIL_NOW" = "Bis hierhin";
 "UNTIL_THIS_DAY" = "Bis hierhin";
+
+
+
+// MARK: - (TIME)
 "SINCE_LAST_SMOKE" = "rauchfrei seit";
+"LONGEST_SMOKE_BREAK" = "längste Pause";
+"AVERAGE_TIME_BETWEEN" = "Zeit zwischen Ziggis";
 
 
 
-// MARK: - (AVERAGES)
+// MARK: - (STATS)
 "PER_DAY" = "pro Tag";
 "PER_WEEK" = "pro Woche";
 "PER_MONTH" = "pro Monat";
-"DAILY" = "täglich";
-"WEEKLY" = "wöchentlich";
-"AVERAGE_TIME_BETWEEN" = "Zeit zwischen Ziggis";
+"PER_YEAR" = "pro Jahr";
+"(TREND)" = "(Trend)";
+
+
+
+// MARK: - (PLOTS)
+"SHOW_PLOT" = "Graph anzeigen";
+"DATE" = "Datum";
+"SMOKES" = "Ziggis";
+"WEEKDAY" = "Wochentag";
+"DAY" = "Tag";
+"WEEK" = "Woche";
+"MONTH" = "Monat";
+"YEAR" = "Jahr";
 
 
 
@@ -39,10 +58,9 @@
 "REMOVE" = "Entfernen";
 "PREVIOUS_DAY" = "Voriger Tag";
 "NEXT_DAY" = "Nächster Tag";
-"PREVIOUS_MONTH" = "Voriger Monat";
-"NEXT_MONTH" = "Nächster Monat";
+"PREVIOUS" = "Rückwärts";
+"NEXT" = "Vorwärts";
 "OPEN_PORTER" = "Exporter öffnen";
-"SHOW_PLOT" = "Graph anzeigen";
 "PICK_FORMAT" = "Format auswählen";
 "TOGGLE_FORMAT" = "Format umschalten";
 "PICK_DAY" = "Tag auswählen";
@@ -51,11 +69,10 @@
 
 // MARK: - (OTHERS)
 "SMOKES_FILENAME" = "Smokes-Daten";
-"DATE" = "Datum";
-"AMOUNT" = "Anzahl";
 "LOADING" = "Wird geladen";
 "NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
 "IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt...";
 "NO_DATA" = "Keine Daten";
 "FACT_OF_THE_DAY" = "Fakt des Tages";
 "SKIP" = "überspringen";
+"CONFIGURE" = "Konfigurieren";

@@ -1,6 +1,6 @@
 // Created by Leopold Lemmermann on 23.02.23.
 
-import ComposableArchitecture
+import Dependencies
 import Foundation
 
 extension DependencyValues {

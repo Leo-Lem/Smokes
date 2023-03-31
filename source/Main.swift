@@ -22,15 +22,8 @@ struct Main: App {
               }
               .preferredColorScheme(.dark)
           } else {
-            LoadingPage(progress: $progress)
-              .onAppear {
-                @Dependency(\.date.now) var now: Date
-                @Dependency(\.calendar) var cal: Calendar
-                
-                viewStore.send(.entries(.load))
-                viewStore.send(.calculateAmountUntil(cal.endOfDay(for: now)))
-                viewStore.send(.calculateAmountsUntil(cal.endOfDay(for: now), subdivision: .weekOfYear))
-              }
+            LaunchPage(progress: $progress)
+              .onAppear { viewStore.send(.entries(.load)) }
               .task {
                 let seconds = 3
                 

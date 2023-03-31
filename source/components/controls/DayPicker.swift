@@ -15,7 +15,7 @@ struct DayPicker: View {
       
       Spacer()
       
-      DatePicker("", selection: $selection, in: bounds.start ... bounds.end, displayedComponents: .date)
+      DatePicker("", selection: $selection, in: bounds.start ... bounds.end)
         .labelsHidden()
         .accessibilityElement()
         .accessibilityLabel("PICK_DAY")
@@ -51,6 +51,7 @@ struct DayPicker_Previews: PreviewProvider {
         .previewDisplayName("Lower bound")
     }
     .buttonStyle(.borderedProminent)
+    .labelStyle(.iconOnly)
     .padding()
   }
 }
