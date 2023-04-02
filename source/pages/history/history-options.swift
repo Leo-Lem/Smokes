@@ -7,11 +7,11 @@ extension HistoryView {
   enum IntervalOption: String, ConfigurableWidgetOption {
     case week = "THIS_WEEK", month = "THIS_MONTH", year = "THIS_YEAR"
     
-    func interval(_ date: Date) -> DateInterval {
+    func interval(_ date: Date) -> Interval {
       switch self {
-      case .week: return .week(of: date)
-      case .month: return .month(of: date)
-      case .year: return .year(of: date)
+      case .week: return .week(date)
+      case .month: return .month(date)
+      case .year: return .year(date)
       }
     }
     
@@ -24,12 +24,12 @@ extension HistoryView {
     }
     
     func domain(_ date: Date) -> [String] {
-      let interval = interval(date)
-      return interval.start.enumerate(until: interval.end, by: .day)
+      interval(date).enumerate(by: .day)?
         .reduce(into: [String]()) { result, next in
-          let grouped = next.formatted(grouping)
+          let grouped = next.dateInterval.start.formatted(grouping)
           if !result.contains(grouped) { result.append(grouped) }
         }
+      ?? []
     }
     
     var xLabel: LocalizedStringKey {

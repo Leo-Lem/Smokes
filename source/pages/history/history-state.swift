@@ -10,13 +10,13 @@ extension HistoryView {
     let configurableEntries: [IntervalOption: [Date]?]
 
     init(_ state: MainReducer.State, selectedDate: Date) {
-      dayAmount = state.amounts[.day(of: selectedDate)]
-      untilHereAmount = state.amounts[.untilEndOfDay(of: selectedDate)]
+      dayAmount = state.amount(for: .day(selectedDate))
+      untilHereAmount = state.amount(for: .to(selectedDate))
       configurableAmounts = Dictionary(
-        uniqueKeysWithValues: IntervalOption.allCases.compactMap { ($0, state.amounts[$0.interval(selectedDate)]) }
+        uniqueKeysWithValues: IntervalOption.allCases.compactMap { ($0, state.amount(for: $0.interval(selectedDate))) }
       )
       configurableEntries = Dictionary(
-        uniqueKeysWithValues: IntervalOption.allCases.compactMap { ($0, state.entries(in: $0.interval(selectedDate))) }
+        uniqueKeysWithValues: IntervalOption.allCases.compactMap { ($0, state.entries(for: $0.interval(selectedDate))) }
       )
     }
   }

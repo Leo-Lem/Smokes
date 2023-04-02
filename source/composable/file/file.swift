@@ -3,7 +3,7 @@
 import ComposableArchitecture
 import UniformTypeIdentifiers
 
-struct FilePorter: ReducerProtocol {
+struct File: ReducerProtocol {
   struct State: Equatable {
     var file: SmokesFile?
     var importFailed = false

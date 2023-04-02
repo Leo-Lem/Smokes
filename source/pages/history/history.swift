@@ -57,14 +57,14 @@ struct HistoryView: View {
       .animation(.default, value: isEditing)
       .animation(.default, value: intervalOption)
       .onAppear {
-        vs.send(.calculateDayAmount())
-        vs.send(.calculateUntilHereAmount())
-        IntervalOption.allCases.forEach { vs.send(.calculateOptionAmount($0)) }
+        vs.send(.loadDay())
+        vs.send(.loadUntilHere())
+        IntervalOption.allCases.forEach { vs.send(.loadOption($0)) }
       }
       .onChange(of: selectedDate) { new in
-        vs.send(.calculateDayAmount(new))
-        vs.send(.calculateUntilHereAmount(new))
-        IntervalOption.allCases.forEach { vs.send(.calculateOptionAmount($0, new)) }
+        vs.send(.loadDay(new))
+        vs.send(.loadUntilHere(new))
+        IntervalOption.allCases.forEach { vs.send(.loadOption($0, date: new)) }
       }
     }
   }
@@ -81,7 +81,7 @@ struct HistoryView: View {
 extension HistoryView {
   private func dayPickerWidget(_ selectedDate: Binding<Date>) -> some View {
     Widget {
-      DayPicker(selection: selectedDate, bounds: .untilEndOfDay)
+      DayPicker(selection: selectedDate, bounds: Interval.to(.endOfToday).dateInterval)
         .labelStyle(.iconOnly)
         .buttonStyle(.borderedProminent)
     }
@@ -127,16 +127,17 @@ extension HistoryView {
 
   private func amountsPlotWidget(_ entries: [Date]?, option: IntervalOption) -> some View {
     Widget {
-      DescriptedChartContent(data: entries, description: Text(option.description)) { data in
-        Chart(option.groups(from: data), id: \.self) { group in
-          BarMark(
-            x: .value("DATE", group),
-            y: .value("AMOUNT", option.amount(from: data, for: group))
-          )
-        }
-        .chartXScale(domain: option.domain(selectedDate))
-        .chartXAxisLabel(option.xLabel)
-        .chartYAxisLabel(LocalizedStringKey("SMOKES"))
+      DescriptedChartContent(data: entries, description: Text(option.description)) { _ in
+        Text("Chart is coming soon")
+//        Chart(option.groups(from: data), id: \.self) { group in
+//          BarMark(
+//            x: .value("DATE", group),
+//            y: .value("AMOUNT", option.amount(from: data, for: group))
+//          )
+//        }
+//        .chartXScale(domain: option.domain(selectedDate))
+//        .chartXAxisLabel(option.xLabel)
+//        .chartYAxisLabel(LocalizedStringKey("SMOKES"))
       }
     }
   }

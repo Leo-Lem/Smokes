@@ -29,7 +29,7 @@ extension Porter {
     let importFailed: Bool
     
     init(_ state: MainReducer.State) {
-      entries = state.entries.unwrapped
+      entries = state.entries.entries
       file = state.filePorter.file
       importFailed = state.filePorter.importFailed
     }

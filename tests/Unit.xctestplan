@@ -28,7 +28,6 @@
       "skippedTests" : [
         "AmountPerformanceTests",
         "AveragePerformanceTests",
-        "PerformanceTests",
         "SubdividePerformanceTests",
         "TrendPerformanceTests"
       ],

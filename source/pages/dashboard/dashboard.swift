@@ -37,15 +37,15 @@ struct DashboardView: View {
       .animation(.default, value: amountOption)
       .animation(.default, value: timeOption)
       .onAppear {
-        vs.send(.calculateDay)
-        vs.send(.calculateUntilHere)
-        IntervalOption.allCases.forEach { vs.send(.calculateOption($0)) }
+        vs.send(.loadDay)
+        vs.send(.loadUntilNow)
+        AmountOption.allCases.forEach { vs.send(.loadOption($0)) }
       }
     }
   }
   
   @State private var showingPorter = false
-  @AppStorage("dashboard_amountOption") private var amountOption = IntervalOption.week
+  @AppStorage("dashboard_amountOption") private var amountOption = AmountOption.week
   @AppStorage("dashboard_timeOption") private var timeOption = TimeOption.sinceLast
   
   @Environment(\.verticalSizeClass) private var vSize
@@ -66,7 +66,7 @@ extension DashboardView {
     }
   }
   
-  private func configurableAmountWidget(_ amount: @escaping (IntervalOption) -> Int?) -> some View {
+  private func configurableAmountWidget(_ amount: @escaping (AmountOption) -> Int?) -> some View {
     ConfigurableWidget(selection: $amountOption) { option in
       DescriptedValueContent(formatter.format(amount: amount(option)), description: option.description)
     }

@@ -25,11 +25,9 @@ struct Main: App {
             LaunchPage(progress: $progress)
               .onAppear { viewStore.send(.entries(.load)) }
               .task {
-                let seconds = 3
-                
                 for _ in 0 ..< 99 where progress < 1 {
                   progress += 0.01
-                  try? await Task.sleep(for: .milliseconds(seconds * 10))
+                  try? await Task.sleep(for: .milliseconds(30))
                 }
               }
           }

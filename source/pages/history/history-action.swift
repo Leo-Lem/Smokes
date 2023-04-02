@@ -6,9 +6,9 @@ import Foundation
 extension HistoryView {
   enum ViewAction: Equatable {
     case add, remove
-    case calculateDayAmount(Date? = nil)
-    case calculateUntilHereAmount(Date? = nil)
-    case calculateOptionAmount(IntervalOption, Date? = nil)
+    case loadDay(_ date: Date? = nil)
+    case loadUntilHere(_ date: Date? = nil)
+    case loadOption(IntervalOption, date: Date? = nil)
 
     static func send(_ action: Self, selectedDate: Date) -> MainReducer.Action {
       @Dependency(\.calendar) var cal
@@ -18,12 +18,12 @@ extension HistoryView {
         return .entries(.add(selectedDate))
       case .remove:
         return .entries(.remove(selectedDate))
-      case let .calculateDayAmount(date):
-        return .calculateAmount(.day(of: date ?? selectedDate))
-      case let .calculateUntilHereAmount(date):
-        return .calculateAmount(.untilEndOfDay(of: date ?? selectedDate))
-      case let .calculateOptionAmount(option, date):
-        return .calculateAmount(option.interval(date ?? selectedDate))
+      case let .loadDay(date):
+        return .load(.day(date ?? selectedDate))
+      case let .loadUntilHere(date):
+        return .load(.to(date ?? selectedDate))
+      case let .loadOption(option, date):
+        return .load(option.interval(date ?? selectedDate))
       }
     }
   }

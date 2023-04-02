@@ -4,13 +4,13 @@ import ComposableArchitecture
 import SwiftUI
 
 extension StatsView {
-  enum AverageOption: String, ConfigurableWidgetOption {
+  enum Option: String, ConfigurableWidgetOption {
     case perday = "PER_DAY", perweek = "PER_WEEK", permonth = "PER_MONTH", peryear = "PER_YEAR"
     
-    var comp: Calendar.Component {
+    var subdivision: Subdivision {
       switch self {
       case .perday: return .day
-      case .perweek: return .weekOfYear
+      case .perweek: return .week
       case .permonth: return .month
       case .peryear: return .year
       }
@@ -25,12 +25,13 @@ extension StatsView {
       }
     }
     
-    func domain(_ interval: DateInterval) -> [String] {
-      interval.start.enumerate(until: interval.end, by: .day)
+    func domain(_ interval: Interval) -> [String] {
+      interval.enumerate(by: .day)?
         .reduce(into: [String]()) { result, next in
-          let grouped = next.formatted(grouping)
+          let grouped = next.dateInterval.start.formatted(grouping)
           if !result.contains(grouped) { result.append(grouped) }
         }
+      ?? []
     }
     
     var xLabel: LocalizedStringKey {
@@ -54,7 +55,7 @@ extension StatsView {
         let last = data.lastIndex(where: { $0.formatted(grouping) == group }),
         let first = data.firstIndex(where: { $0.formatted(grouping) == group })
       {
-        return 1 + last - first
+        return last - first + 1
       } else { return 0 }
     }
   }

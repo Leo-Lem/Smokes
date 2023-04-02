@@ -6,9 +6,9 @@ import Foundation
 extension DashboardView {
   enum ViewAction {
     case add, remove
-    case calculateDay
-    case calculateUntilHere
-    case calculateOption(IntervalOption)
+    case loadDay
+    case loadUntilNow
+    case loadOption(AmountOption)
     
     static func send(_ action: Self) -> MainReducer.Action {
       @Dependency(\.date.now) var now: Date
@@ -16,9 +16,9 @@ extension DashboardView {
       switch action {
       case .add: return .entries(.add(now))
       case .remove: return .entries(.remove(now))
-      case .calculateDay: return .calculateAmount(.day)
-      case let .calculateOption(option): return .calculateAmount(option.interval)
-      case .calculateUntilHere: return .calculateAmount(.untilEndOfDay)
+      case .loadDay: return .load(.day(now))
+      case let .loadOption(option): return .load(option.interval)
+      case .loadUntilNow: return .load(.to(.endOfToday))
       }
     }
   }

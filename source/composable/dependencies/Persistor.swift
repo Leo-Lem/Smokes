@@ -16,10 +16,15 @@ struct Persistor {
 }
 
 extension Persistor: DependencyKey {
-  static let liveValue = Self { dates in
-    try JSONEncoder().encode(dates)
+  static var liveValue = Self(writeDates: writeDates, readDates: readDates)
+  
+  private static func writeDates(_ dates: [Date]) async throws {
+    try JSONEncoder()
+      .encode(dates)
       .write(to: try getURL())
-  } readDates: {
+  }
+  
+  private static func readDates() async throws -> [Date]? {
     try JSONDecoder()
       .decode([Date].self, from: try Data(contentsOf: getURL()))
   }

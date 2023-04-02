@@ -8,36 +8,34 @@ struct Entries: ReducerProtocol {
   
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
+    case .setAreLoaded:
+      state.areLoaded = true
+      
     case let .set(entries):
-      state.unwrapped = entries
-      return .send(.updateAmounts())
+      state.entries = entries
       
     case .load:
-      return .task {
-        .set(try await persistor.readDates() ?? [])
-      } catch: { error in
+      return .run { actions in
+        if let loaded = try await persistor.readDates() { await actions.send(.set(loaded)) }
+        await actions.send(.setAreLoaded)
+      } catch: { error, actions in
         debugPrint(error)
-        return .set([])
+        await actions.send(.setAreLoaded)
       }
       
     case .save:
-      let entries = state.unwrapped
+      let entries = state.entries
       return .fireAndForget {
         do { try await persistor.writeDates(entries) } catch { debugPrint(error) }
       }
       
     case let .add(date):
-      state.unwrapped.insert(date, at: state.unwrapped.firstIndex { date < $0 } ?? state.unwrapped.endIndex)
-      return .send(.updateAmounts(date))
+      state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
       
     case let .remove(date):
-      if let index = state.unwrapped.lastIndex(where: { $0 <= date }) {
-        state.unwrapped.remove(at: index)
-        return .send(.updateAmounts(date))
+      if let index = state.entries.lastIndex(where: { $0 <= date }) {
+        state.entries.remove(at: index)
       }
-      
-    default:
-      break
     }
     
     return .none
@@ -46,28 +44,23 @@ struct Entries: ReducerProtocol {
 
 extension Entries {
   struct State: Equatable {
-    private var value: [Date]?
+    var entries = [Date]()
     
-    var unwrapped: [Date] {
-      get { value ?? [] }
-      set { value = newValue }
-    }
-
-    var areLoaded: Bool { value != nil }
+    var areLoaded = false
+    
     var startDate: Date {
       @Dependency(\.calendar) var cal: Calendar
       @Dependency(\.date.now) var now: Date
       
-      return value?.first ?? cal.startOfDay(for: now)
+      return cal.startOfDay(for: entries.first ?? now)
     }
   }
 }
 
 extension Entries {
   enum Action {
-    case set(_ entries: [Date])
+    case set(_ entries: [Date]), setAreLoaded
     case load, save
     case add(_ date: Date), remove(_ date: Date)
-    case updateAmounts(_ date: Date? = nil)
   }
 }

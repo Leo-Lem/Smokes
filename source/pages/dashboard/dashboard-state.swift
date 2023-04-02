@@ -8,17 +8,15 @@ extension DashboardView {
     
     let dayAmount: Int?, untilHereAmount: Int?
     let sinceLast: TimeInterval?, longestBreak: TimeInterval?
-    let configurableAmounts: [IntervalOption: Int?]
+    let configurableAmounts: [AmountOption: Int?]
     
     init(_ state: MainReducer.State) {
-      @Dependency(\.date.now) var now: Date
-      
-      dayAmount = state.amounts[.day]
-      untilHereAmount = state.amounts[.untilEndOfDay]
-      sinceLast = state.determineTimeSinceLast(for: now)
-      longestBreak = state.determineLongestBreak(until: now)
+      dayAmount = state.amount(for: .day(.today))
+      untilHereAmount = state.amount(for: .to(.endOfToday))
+      sinceLast = state.determineTimeSinceLast(for: .today)
+      longestBreak = state.determineLongestBreak(until: .today)
       configurableAmounts = Dictionary(
-        uniqueKeysWithValues: IntervalOption.allCases.map { ($0, state.amounts[$0.interval]) }
+        uniqueKeysWithValues: AmountOption.allCases.map { ($0, state.amount(for: $0.interval)) }
       )
     }
   }
