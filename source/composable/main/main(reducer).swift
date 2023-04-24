@@ -14,7 +14,6 @@ struct MainReducer: ReducerProtocol {
         
       case let .entries(.add(date)), let .entries(.remove(date)):
         return .send(.cache(.reload(state.entries.entries, date: date)))
-        // TODO: verify this does not use the old entries
         
       case let .load(interval):
         return .send(.cache(.load(state.entries.entries, interval: interval)))

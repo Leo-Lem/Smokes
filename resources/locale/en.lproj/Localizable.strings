@@ -35,15 +35,15 @@
 
 
 
+
 // MARK: - (PLOTS)
 "SHOW_PLOT" = "show plot";
 "DATE" = "date";
 "SMOKES" = "smokes";
-"WEEKDAY" = "weekday";
-"DAY" = "day";
-"WEEK" = "week";
-"MONTH" = "month";
-"YEAR" = "year";
+"BY_DAY" = "by day";
+"BY_WEEK" = "by week";
+"BY_MONTH" = "by month";
+"BY_YEAR" = "by year";
 
 
 // MARK: - (ACTIONS)

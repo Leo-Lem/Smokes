@@ -23,9 +23,12 @@ struct HistoryView: View {
           Widget {
             HStack {
               dayAmount(vs.dayAmount)
+                .overlay(alignment: .topTrailing, content: editButton)
+
               if isEditing {
                 increment(decrementDisabled: vs.dayAmount ?? 0 < 1) { vs.send(.add) } remove: { vs.send(.remove) }
                   .transition(.move(edge: .trailing))
+                  .overlay(alignment: .topTrailing, content: stopEditButton)
               }
             }
           }
@@ -41,11 +44,14 @@ struct HistoryView: View {
             }
 
             Widget {
+              dayAmount(vs.dayAmount)
+                .overlay(alignment: .bottomTrailing, content: editButton)
+
               if isEditing {
                 increment(decrementDisabled: vs.dayAmount ?? 0 < 1) { vs.send(.add) } remove: { vs.send(.remove) }
-                  .transition(.move(edge: .top))
+                  .transition(.move(edge: .bottom))
+                  .overlay(alignment: .bottomTrailing, content: stopEditButton)
               }
-              dayAmount(vs.dayAmount)
             }
           }
         }
@@ -89,28 +95,12 @@ extension HistoryView {
 
   private func dayAmount(_ amount: Int?) -> some View {
     DescriptedValueContent(formatter.format(amount: amount), description: "THIS_DAY")
-      .overlay(alignment: .topTrailing) {
-        if !isEditing {
-          Button { isEditing = true } label: {
-            Label("MODIFY", systemImage: "square.and.pencil")
-              .font(.title2)
-              .accessibilityIdentifier("start-modifying-button")
-          }
-        }
-      }
   }
 
   private func increment(
     decrementDisabled: Bool, add: @escaping () -> Void, remove: @escaping () -> Void
   ) -> some View {
     IncrementMenu(decrementDisabled: decrementDisabled, add: add, remove: remove)
-      .overlay(alignment: .topTrailing) {
-        Button { isEditing = false } label: {
-          Label("DISMISS", systemImage: "xmark.circle")
-            .font(.title2)
-            .accessibilityIdentifier("stop-modifying-button")
-        }
-      }
   }
 
   private func untilHereAmountWidget(_ amount: Int?) -> some View {
@@ -127,17 +117,31 @@ extension HistoryView {
 
   private func amountsPlotWidget(_ entries: [Date]?, option: IntervalOption) -> some View {
     Widget {
-      DescriptedChartContent(data: entries, description: Text(option.description)) { _ in
-        Text("Chart is coming soon")
-//        Chart(option.groups(from: data), id: \.self) { group in
-//          BarMark(
-//            x: .value("DATE", group),
-//            y: .value("AMOUNT", option.amount(from: data, for: group))
-//          )
-//        }
-//        .chartXScale(domain: option.domain(selectedDate))
-//        .chartXAxisLabel(option.xLabel)
-//        .chartYAxisLabel(LocalizedStringKey("SMOKES"))
+      AmountsChart(
+        entries: entries,
+        bounds: option.interval(selectedDate),
+        subdivision: option.subdivision,
+        description: Text(option.description)
+      )
+    }
+  }
+
+  @ViewBuilder private func editButton() -> some View {
+    if !isEditing {
+      Button { isEditing = true } label: {
+        Label("MODIFY", systemImage: "square.and.pencil")
+          .font(.title2)
+          .accessibilityIdentifier("start-modifying-button")
+      }
+    }
+  }
+
+  @ViewBuilder private func stopEditButton() -> some View {
+    if isEditing {
+      Button { isEditing = false } label: {
+        Label("DISMISS", systemImage: "xmark.circle")
+          .font(.title2)
+          .accessibilityIdentifier("stop-modifying-button")
       }
     }
   }

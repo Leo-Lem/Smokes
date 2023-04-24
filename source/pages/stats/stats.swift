@@ -8,43 +8,58 @@ struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
 
   var body: some View {
-    WithViewStore(store) {
-      ViewState($0, interval: selection)
-    } send: {
-      ViewAction.send($0)
-    } content: { vs in
+    WithViewStore(store) { ViewState($0, interval: selection) } send: { ViewAction.send($0) } content: { vs in
       Grid {
         if vSize == .regular {
-          configurableAverageWidget { vs.configurableAverages[$0]?.optional }
-
-          amountsPlotWidget(vs.configurableEntries[option]?.optional, option: option, bounds: selection)
+          configurableAverageWidget { vs.configurableAverages[$0.subdivision]?.optional }
+          amountsPlotWidget(vs.configurableEntries[plotOption.subdivision]?.optional, bounds: vs.bounds)
+            .gridCellColumns(2)
 
           GridRow {
             averageTimeBetweenWidget(vs.averageTimeBetween)
-            trendWidget(vs.configurableTrends[option]?.optional)
+            trendWidget(vs.configurableTrends[option.subdivision]?.optional)
           }
         } else {
-          configurableAverageWidget { vs.configurableAverages[$0]?.optional }
-          averageTimeBetweenWidget(vs.averageTimeBetween)
-          trendWidget(vs.configurableTrends[option]?.optional)
+          GridRow {
+            amountsPlotWidget(vs.configurableEntries[plotOption.subdivision]?.optional, bounds: vs.bounds)
+              .gridCellColumns(2)
+            averageTimeBetweenWidget(vs.averageTimeBetween)
+          }
+
+          GridRow {
+            trendWidget(vs.configurableTrends[option.subdivision]?.optional)
+            configurableAverageWidget { vs.configurableAverages[$0.subdivision]?.optional }.gridCellColumns(2)
+          }
         }
 
         intervalPicker($selection, bounds: vs.bounds)
       }
       .animation(.default, value: vs.state)
+      .animation(.default, value: selection)
+      .animation(.default, value: option)
+      .animation(.default, value: plotOption)
       .onAppear {
         vs.send(.loadAverage(selection))
-        Option.allCases.forEach { vs.send(.loadTrend($0, interval: selection)) }
+        Option.enabledCases(selection).forEach { vs.send(.loadTrend($0.subdivision, interval: selection)) }
       }
-      .onChange(of: selection) { _ in
-        vs.send(.loadAverage(selection))
-        Option.allCases.forEach { vs.send(.loadTrend($0, interval: selection)) }
+      .onChange(of: selection) { newInterval in
+        vs.send(.loadAverage(newInterval))
+        
+        Option.enabledCases(newInterval).forEach { vs.send(.loadTrend($0.subdivision, interval: newInterval)) }
+        if !Option.enabledCases(newInterval).contains(option) {
+          option = Option.enabledCases(newInterval).first!
+        }
+        
+        if !PlotOption.enabledCases(newInterval).contains(plotOption) {
+          plotOption = PlotOption.enabledCases(newInterval).first!
+        }
       }
     }
   }
 
-  @State private var selection = Interval.alltime  // TODO: add @AppStorage("history_selection")
-  @AppStorage("history_averageOption") private var option = Option.perday
+  @CodableAppStorage("stats_selection") private var selection = Interval.alltime
+  @AppStorage("stats_option") private var option = Option.perday
+  @AppStorage("stats_plotOption") private var plotOption = PlotOption.byyear
 
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.formatter) private var formatter
@@ -60,7 +75,7 @@ extension StatsView {
   }
 
   private func configurableAverageWidget(_ average: @escaping (Option) -> Double?) -> some View {
-    ConfigurableWidget(selection: $option) { option in
+    ConfigurableWidget(selection: $option, enabled: Option.enabledCases(selection)) { option in
       DescriptedValueContent(formatter.format(average: average(option)), description: option.description)
     }
   }
@@ -79,20 +94,14 @@ extension StatsView {
     }
   }
 
-  private func amountsPlotWidget(_ entries: [Date]?, option: Option, bounds: Interval) -> some View {
-    Widget {
-      DescriptedChartContent(data: entries, description: nil) { _ in
-        Text("Chart is coming soon")
-//        Chart(option.groups(from: data), id: \.self) { group in
-//          BarMark(
-//            x: .value("DATE", group),
-//            y: .value("AMOUNT", option.amount(from: data, for: group))
-//          )
-//        }
-//        .chartXScale(domain: option.domain(bounds))
-//        .chartXAxisLabel(option.xLabel)
-//        .chartYAxisLabel(LocalizedStringKey("SMOKES"))
-      }
+  private func amountsPlotWidget(_ entries: [Date]?, bounds: Interval) -> some View {
+    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
+      AmountsChart(
+        entries: entries,
+        bounds: selection == .alltime ? bounds : selection,
+        subdivision: option.subdivision,
+        description: Text(plotOption.description)
+      )
     }
   }
 }

@@ -7,9 +7,9 @@ extension StatsView {
   struct ViewState: Equatable {
     let bounds: Interval
     let averageTimeBetween: TimeInterval?
-    let configurableAverages: [Option: Double?]
-    let configurableTrends: [Option: Double?]
-    let configurableEntries: [Option: [Date]?]
+    let configurableAverages: [Subdivision: Double?]
+    let configurableTrends: [Subdivision: Double?]
+    let configurableEntries: [Subdivision: [Date]?]
 
     init(_ state: MainReducer.State, interval: Interval) {
       bounds = Interval.fromTo(.init(start: state.entries.startDate, end: .endOfToday))
@@ -17,15 +17,15 @@ extension StatsView {
       averageTimeBetween = state.averageTimeBetween(interval)
       
       configurableAverages = Dictionary(
-        uniqueKeysWithValues: Option.allCases.map { ($0, state.average(for: interval, by: $0.subdivision)) }
+        uniqueKeysWithValues: Subdivision.allCases.map { ($0, state.average(for: interval, by: $0)) }
       )
       
       configurableTrends = Dictionary(
-        uniqueKeysWithValues: Option.allCases.map { ($0, state.trend(for: interval, by: $0.subdivision)) }
+        uniqueKeysWithValues: Subdivision.allCases.map { ($0, state.trend(for: interval, by: $0)) }
       )
       
       configurableEntries = Dictionary(
-        uniqueKeysWithValues: Option.allCases.map { ($0, state.entries(for: interval)) }
+        uniqueKeysWithValues: Subdivision.allCases.map { ($0, state.entries(for: interval)) }
       )
     }
   }

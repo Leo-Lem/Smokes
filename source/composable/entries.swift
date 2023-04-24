@@ -33,7 +33,12 @@ struct Entries: ReducerProtocol {
       state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
       
     case let .remove(date):
-      if let index = state.entries.lastIndex(where: { $0 <= date }) {
+      @Dependency(\.calendar) var cal: Calendar
+      let entriesInSameDay = state.entries.filter { cal.isDate($0, inSameDayAs: date) }
+      
+      if let index = entriesInSameDay.firstIndex(of: date) ??
+        entriesInSameDay.map({ abs($0.distance(to: date)) }).enumerated().min(by: { $0.element < $1.element })?.offset
+      {
         state.entries.remove(at: index)
       }
     }

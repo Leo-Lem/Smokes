@@ -52,6 +52,10 @@ extension Interval {
       date = Self.cal.date(byAdding: subdivision.comp, value: 1, to: date)!
     }
     
+    if Self.cal.isDate(date, equalTo: min(end, bounds?.end ?? end), toGranularity: subdivision.comp) {
+      intervals.append(Interval(subdivision, date: date))
+    }
+    
     return intervals
   }
 }

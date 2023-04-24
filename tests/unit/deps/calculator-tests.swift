@@ -49,7 +49,7 @@ final class CalculatorTests: XCTestCase {
         0, .day(.now), .day
       )
       
-      XCTAssertEqual(average, 0)
+      XCTAssertEqual(average, .infinity)
     }
   }
   
@@ -99,7 +99,7 @@ final class CalculatorTests: XCTestCase {
         .day
       )
       
-      XCTAssertEqual(trend, 0)
+      XCTAssertEqual(trend, .infinity)
     }
   }
   

@@ -10,6 +10,10 @@ extension DependencyValues {
   }
 }
 
+extension Formatter: DependencyKey {
+  static let liveValue = Formatter()
+}
+
 struct Formatter {
   func format(amount: Int) -> Text {
     Text("\(amount) SMOKES_PLURAL_VALUE")
@@ -18,6 +22,8 @@ struct Formatter {
   }
   
   func format(average: Double) -> Text {
+    if average == .infinity { return Text("NO_DATA") }
+    
     let rounded = (average * 100).rounded() / 100
     
     return Text("\(rounded) SMOKES_PLURAL_VALUE")
@@ -35,8 +41,8 @@ struct Formatter {
   }
   
   func format(trend: Double) -> Text {
-    if trend != 0 {
-      return Text(trend > 0 ? "+" : "") + format(average: trend)
+    if trend != .infinity {
+      return Text(trend >= 0 ? "+" : "") + format(average: trend)
     } else {
       return Text("NO_DATA")
     }
@@ -53,8 +59,4 @@ struct Formatter {
   
   @_disfavoredOverload
   func format(trend: Double?) -> Text? { trend.flatMap { format(trend: $0) } }
-}
-
-extension Formatter: DependencyKey {
-  static var liveValue = Formatter()
 }

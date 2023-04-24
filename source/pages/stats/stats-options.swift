@@ -1,11 +1,19 @@
-// Created by Leopold Lemmermann on 01.04.23.
+// Created by Leopold Lemmermann on 24.04.23.
 
-import ComposableArchitecture
-import SwiftUI
+import Foundation
 
 extension StatsView {
   enum Option: String, ConfigurableWidgetOption {
     case perday = "PER_DAY", perweek = "PER_WEEK", permonth = "PER_MONTH", peryear = "PER_YEAR"
+    
+    static func enabledCases(_ interval: Interval) -> [Self] {
+      switch interval {
+      case .month: return [.perday, .perweek]
+      case .year: return [.perday, .perweek, .permonth]
+      case .alltime: return [.perday, .perweek, .permonth, .peryear]
+      default: return []
+      }
+    }
     
     var subdivision: Subdivision {
       switch self {
@@ -15,48 +23,29 @@ extension StatsView {
       case .peryear: return .year
       }
     }
+  }
+}
+
+extension StatsView {
+  enum PlotOption: String, ConfigurableWidgetOption {
+    case byday = "BY_DAY", byweek = "BY_WEEK", bymonth = "BY_MONTH", byyear = "BY_YEAR"
     
-    var grouping: Date.FormatStyle {
+    static func enabledCases(_ interval: Interval) -> [Self] {
+      switch interval {
+      case .month: return [.byday, .byweek]
+      case .year: return [.byweek, .bymonth]
+      case .alltime: return [.byweek, .bymonth, .byyear]
+      default: return []
+      }
+    }
+    
+    var subdivision: Subdivision {
       switch self {
-      case .perday: return .init().day(.defaultDigits)
-      case .perweek: return .init().week(.twoDigits)
-      case .permonth: return .init().month(.abbreviated)
-      case .peryear: return .init().year(.twoDigits)
+      case .byday: return .day
+      case .byweek: return .week
+      case .bymonth: return .month
+      case .byyear: return .year
       }
-    }
-    
-    func domain(_ interval: Interval) -> [String] {
-      interval.enumerate(by: .day)?
-        .reduce(into: [String]()) { result, next in
-          let grouped = next.dateInterval.start.formatted(grouping)
-          if !result.contains(grouped) { result.append(grouped) }
-        }
-      ?? []
-    }
-    
-    var xLabel: LocalizedStringKey {
-      switch self {
-      case .perday: return "DAY"
-      case .perweek: return "WEEK"
-      case .permonth: return "MONTH"
-      case .peryear: return "YEAR"
-      }
-    }
-    
-    func groups(from data: [Date]) -> [String] {
-      data.reduce(into: [String]()) { result, next in
-        let next = next.formatted(grouping)
-        if !result.contains(next) { result.append(next) }
-      }
-    }
-    
-    func amount(from data: [Date], for group: String) -> Int {
-      if
-        let last = data.lastIndex(where: { $0.formatted(grouping) == group }),
-        let first = data.firstIndex(where: { $0.formatted(grouping) == group })
-      {
-        return last - first + 1
-      } else { return 0 }
     }
   }
 }

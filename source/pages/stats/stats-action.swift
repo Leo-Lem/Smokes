@@ -6,14 +6,14 @@ import Foundation
 extension StatsView {
   enum ViewAction: Equatable {
     case loadAverage(_ interval: Interval)
-    case loadTrend(Option, interval: Interval)
+    case loadTrend(Subdivision, interval: Interval)
 
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
       case let .loadAverage(interval):
         return .load(interval)
-      case let .loadTrend(option, interval):
-        return .loadAll(interval, subdivision: option.subdivision)
+      case let .loadTrend(subdivision, interval):
+        return .loadAll(interval, subdivision: subdivision)
       }
     }
   }

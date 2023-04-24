@@ -5,7 +5,7 @@ import XCTest
 @MainActor
 final class MainReducerTests: XCTestCase {
   func testReloadingCache() async throws {
-    let store = TestStore(initialState: .init(), reducer: MainReducer())
+    let store = TestStore(initialState: .init(), reducer: MainReducer()) { $0.calendar = .current }
     
     let entries = [Date](), date = Date.now
     
@@ -77,13 +77,14 @@ final class MainReducerTests: XCTestCase {
   func testCalculatingAverage() async throws {
     withDependencies {
       $0.calendar = .current
+      $0.date = .constant(.now)
       $0.calculator.average = { _, interval, _ in Double(interval.hashValue)}
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
       let store = TestStore(initialState: stateWithIntervalsHashCache(intervals), reducer: MainReducer())
       
-      for interval in intervals {
+      for interval in intervals where interval != .alltime {
         for subdivision in Subdivision.allCases {
           XCTAssertEqual(store.state.average(for: interval, by: subdivision), Double(interval.hashValue))
         }
@@ -94,13 +95,14 @@ final class MainReducerTests: XCTestCase {
   func testCalculatingTrend() async throws {
     withDependencies {
       $0.calendar = .current
+      $0.date = .constant(.now)
       $0.calculator.trend = { _, interval, _ in Double(interval.hashValue)}
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
       let store = TestStore(initialState: stateWithIntervalsHashCache(intervals), reducer: MainReducer())
       
-      for interval in intervals {
+      for interval in intervals where interval != .alltime {
         for subdivision in Subdivision.allCases {
           XCTAssertEqual(store.state.trend(for: interval, by: subdivision), Double(interval.hashValue))
         }

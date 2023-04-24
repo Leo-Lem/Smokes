@@ -20,7 +20,7 @@ final class IntervalTests: XCTestCase {
     withDependencies { $0.calendar = .current} operation: {
       let interval = Interval.fromTo(.init(start: Date(timeIntervalSince1970: 0), duration: 86400 * 800))
       
-      for (subdivision, value) in zip(Subdivision.allCases, [800, 115, 27, 3]) {
+      for (subdivision, value) in zip(Subdivision.allCases, [801, 115, 27, 3]) {
         let enumerated = interval.enumerate(by: subdivision)
         XCTAssertEqual(enumerated?.count, value)
       }

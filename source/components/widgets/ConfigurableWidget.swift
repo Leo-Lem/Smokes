@@ -14,13 +14,15 @@ extension ConfigurableWidgetOption where Self: RawRepresentable<String> {
 
 struct ConfigurableWidget<Option: ConfigurableWidgetOption, Content: View>: View {
   @Binding var selection: Option
-  @ViewBuilder let content: (Option) -> Content
+  let enabledOptions: [Option]
+  let menuAlignment: Alignment
+  let content: (Option) -> Content
   
   var body: some View {
     Widget { content(selection) }
-      .overlay(alignment: .topLeading) {
+      .overlay(alignment: menuAlignment) {
         Menu {
-          ForEach(Array(Option.allCases), id: \.self) { selection in
+          ForEach(enabledOptions, id: \.self) { selection in
             Button { self.selection = selection } label: { selection.label }
           }
         } label: {
@@ -30,6 +32,18 @@ struct ConfigurableWidget<Option: ConfigurableWidgetOption, Content: View>: View
         .padding(10)
         .labelStyle(.iconOnly)
       }
+  }
+  
+  init(
+    selection: Binding<Option>,
+    enabled: [Option] = Array(Option.allCases),
+    menuAlignment: Alignment = .topLeading,
+    @ViewBuilder content: @escaping (Option) -> Content
+  ) {
+    _selection = selection
+    enabledOptions = enabled
+    self.menuAlignment = menuAlignment
+    self.content = content
   }
 }
 

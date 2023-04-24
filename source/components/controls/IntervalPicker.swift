@@ -80,7 +80,7 @@ extension IntervalPicker {
   }
   
   private var years: [Int] {
-    bounds.enumerate(by: .year)?.map { cal.component(.year, from: $0.start ?? upperBound) } ?? []
+    bounds.enumerate(by: .year)?.map { cal.component(.year, from: $0.start ?? lowerBound) } ?? []
   }
   
   private var monthBinding: Binding<Int?> {

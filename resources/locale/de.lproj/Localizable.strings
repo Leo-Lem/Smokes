@@ -39,11 +39,10 @@
 "SHOW_PLOT" = "Graph anzeigen";
 "DATE" = "Datum";
 "SMOKES" = "Ziggis";
-"WEEKDAY" = "Wochentag";
-"DAY" = "Tag";
-"WEEK" = "Woche";
-"MONTH" = "Monat";
-"YEAR" = "Jahr";
+"BY_DAY" = "nach Tagen";
+"BY_WEEK" = "nach Wochen";
+"BY_MONTH" = "nach Monaten";
+"BY_YEAR" = "nach Jahren";
 
 
 

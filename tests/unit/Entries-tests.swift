@@ -18,7 +18,7 @@ final class EntriesTests: XCTestCase {
   func testRemoving() async throws {
     let now = Date.now
     
-    let store = TestStore(initialState: .init(entries: [now]), reducer: Entries())
+    let store = TestStore(initialState: .init(entries: [now]), reducer: Entries()) { $0.calendar = .current }
     
     await store.send(.remove(now)) { $0.entries = [] }
   }
@@ -84,7 +84,7 @@ final class EntriesTests: XCTestCase {
     withDependencies {
       $0.calendar = .current
       $0.date.now = now
-    } operation: {  
+    } operation: {
       let store = TestStore(initialState: .init(entries: [now, now+1]), reducer: Entries())
       
       XCTAssertEqual(store.state.startDate, .startOfToday)

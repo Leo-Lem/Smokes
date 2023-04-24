@@ -51,3 +51,6 @@ extension Interval {
     }
   }
 }
+
+extension Interval: Codable {
+}

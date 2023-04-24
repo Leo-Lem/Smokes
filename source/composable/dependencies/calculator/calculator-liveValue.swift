@@ -12,17 +12,25 @@ extension Calculator: DependencyKey {
   @Dependency(\.calendar) private static var cal: Calendar
   
   private static func amount(_ entries: [Date], _ interval: Interval) -> Int {
-    (entries.firstIndex { interval.dateInterval.end - 1 < $0 } ?? entries.endIndex) -
-    (entries.firstIndex { interval.dateInterval.start <= $0 } ?? entries.endIndex)
+    (entries.firstIndex { interval.dateInterval.end < $0 } ?? entries.endIndex) -
+      (entries.firstIndex { interval.dateInterval.start <= $0 } ?? entries.endIndex)
   }
   
   private static func average(_ amount: Int, _ interval: Interval, _ subdivision: Subdivision) -> Double {
-    guard let length = interval.count(by: subdivision, onlyComplete: true) else { return .infinity }
-    return Double(amount) / Double(length == 0 ? 1 : length)
+    guard
+      let length = interval.count(by: subdivision, onlyComplete: true),
+      length > 0
+    else { return .infinity }
+    
+    return Double(amount) / Double(length)
   }
   
   private static func trend(_ amounts: [Interval: Int], _ interval: Interval, _ subdivision: Subdivision) -> Double {
-    let amounts = interval.enumerate(by: subdivision)?.map { amounts[$0] ?? 0 } ?? []
+    guard
+      let amounts = interval.enumerate(by: subdivision)?.map({ amounts[$0] ?? 0 }),
+      amounts.allSatisfy({ $0 != 0 }),
+      amounts.count > 1
+    else { return .infinity }
     
     var trend = 0.0
     
@@ -45,6 +53,11 @@ extension Calculator: DependencyKey {
   private static func longestBreak(_ entries: [Date]) -> TimeInterval {
     guard let first = entries.first else { return .infinity }
     
+    if entries.count == 1 {
+      @Dependency(\.date.now) var now: Date
+      return first.distance(to: now)
+    }
+    
     return entries.reduce(
       (previousDate: first, longestInterval: TimeInterval.zero)
     ) { result, date in
@@ -53,6 +66,8 @@ extension Calculator: DependencyKey {
   }
   
   private static func averageTimeBetween(_ amount: Int, _ interval: Interval) -> TimeInterval {
-    amount == 0 ? .infinity : interval.dateInterval.duration / Double(amount)
+    guard amount > 1 else { return .infinity }
+    
+    return interval.dateInterval.duration / Double(amount)
   }
 }
