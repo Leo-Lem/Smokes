@@ -46,7 +46,7 @@
 "SMOKES_FILENAME" = "Smokes-Daten";
 "IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt…";
 "NO_PREVIEW" = "Keine Vorschau";
-"INVALID_FORMAT_IMPORTERROR" = "Unbekanntes Format…";
+"INVALID_FORMAT_IMPORTERROR" = "Falsches Format…";
 "INVALID_URL_IMPORTERROR" = "URL Fehler… Bitte versuche es erneut";
 "MISSING_PERMISSION_IMPORTERROR" = "Zugriff verweigert…";
 

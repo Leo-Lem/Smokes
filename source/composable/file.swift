@@ -64,9 +64,9 @@ struct File: ReducerProtocol {
     
     var errorDescription: String? {
       switch self {
-      case .invalidFormat: return "INVALID_FORMAT_IMPORTERROR"
-      case .invalidURL: return "INVALID_URL_IMPORTERROR"
-      case .missingPermission: return "MISSING_PERMISSION_IMPORTERROR"
+      case .invalidFormat: return String(localized: "INVALID_FORMAT_IMPORTERROR")
+      case .invalidURL: return String(localized: "INVALID_URL_IMPORTERROR")
+      case .missingPermission: return String(localized: "MISSING_PERMISSION_IMPORTERROR")
       }
     }
   }

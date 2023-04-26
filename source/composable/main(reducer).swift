@@ -21,11 +21,13 @@ struct MainReducer: ReducerProtocol {
       case let .loadAll(interval, subdivision: subdivision):
         return .send(.cache(.loadAll(state.entries.entries, interval: interval, subdivision: subdivision)))
         
-      case .file(.create):
+      case .createFile:
         return .send(.file(.setEntries(state.entries.entries)))
         
       case .file(.import):
-        return .send(.entries(.set((state.entries.entries + state.file.entries).sorted())))
+        if state.file.importError == nil {
+          return .send(.entries(.set((state.entries.entries + state.file.entries).sorted())))
+        }
         
       case let .cache(.reload(entries, _)):
         if state.file.file != nil { return .send(.file(.setEntries(entries))) }
@@ -46,5 +48,7 @@ extension MainReducer {
     
     case load(_ interval: Interval)
     case loadAll(_ interval: Interval, subdivision: Subdivision)
+    
+    case createFile
   }
 }

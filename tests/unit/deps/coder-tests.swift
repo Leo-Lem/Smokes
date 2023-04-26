@@ -5,28 +5,28 @@ import XCTest
 @MainActor
 final class CoderTests: XCTestCase {
   func testEncodingToExactFile() throws {
-    withDependencies {
+    try withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = ExactCoder()
       
-      let data = coder.encode([.now, .endOfToday, .startOfToday])
+      let data = try coder.encode([.now, .endOfToday, .startOfToday])
       
       XCTAssertFalse(data.isEmpty)
     }
   }
   
   func testDecodingFromExactFile() throws {
-    withDependencies {
+    try withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = ExactCoder()
       let entries = [Date.now, .endOfToday, .startOfToday]
-      let encoded = coder.encode(entries)
+      let encoded = try coder.encode(entries)
       
-      let decoded = coder.decode(encoded)
+      let decoded = try coder.decode(encoded)
       
       for (entry, decodedValue) in zip(entries.sorted(by: >), decoded) {
         XCTAssertEqual(
@@ -39,28 +39,28 @@ final class CoderTests: XCTestCase {
   }
   
   func testEncodingToDailyFile() throws {
-    withDependencies {
+   try  withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = DailyCoder()
       
-      let data = coder.encode([.now, .endOfToday, .startOfToday])
+      let data = try coder.encode([.now, .endOfToday, .startOfToday])
       
       XCTAssertFalse(data.isEmpty)
     }
   }
   
   func testDecodingFromDailyFile() throws {
-    withDependencies {
+    try withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = DailyCoder()
       let entries = [Date.now, .endOfToday, .startOfToday]
-      let encoded = coder.encode(entries)
+      let encoded = try coder.encode(entries)
       
-      let decoded = coder.decode(encoded)
+      let decoded = try coder.decode(encoded)
       
       XCTAssertFalse(decoded.isEmpty)
       
@@ -71,28 +71,28 @@ final class CoderTests: XCTestCase {
   }
   
   func testEncodingToGroupedFile() throws {
-    withDependencies {
+    try withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = GroupedCoder()
       
-      let data = coder.encode([.now, .endOfToday, .startOfToday])
+      let data = try coder.encode([.now, .endOfToday, .startOfToday])
       
       XCTAssertFalse(data.isEmpty)
     }
   }
   
   func testDecodingFromGroupedFile() throws {
-    withDependencies {
+    try withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
     } operation: {
       let coder = GroupedCoder()
       let entries = [Date.now, .endOfToday, .startOfToday]
-      let encoded = coder.encode(entries)
+      let encoded = try coder.encode(entries)
       
-      let decoded = coder.decode(encoded)
+      let decoded = try coder.decode(encoded)
       
       XCTAssertFalse(decoded.isEmpty)
       

@@ -13,22 +13,23 @@ struct Porter: View {
         Widget {
           displayPreview()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .if(let: vs.file) { view, file in view
-              .fileExporter(
-                isPresented: $showingExporter,
-                document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
-              ) {
-                do { debugPrint(try $0.get()) } catch { debugPrint(error) }
-              }
-              .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
-                do { vs.send(.importFile(try $0.get())) } catch { debugPrint(error) }
-              }
-            }
         }
+        .animation(.default, value: preview)
         .alert(
           isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
           error: vs.importError
         ) {}
+          .if(let: vs.file) { view, file in view
+            .fileExporter(
+              isPresented: $showingExporter,
+              document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
+            ) {
+              do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+            }
+            .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
+              do { vs.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+            }
+          }
 
         Spacer()
 
@@ -113,13 +114,13 @@ extension Porter {
 }
 
 enum FileCoders: String, CaseIterable {
-  case daily = "DAILY_FORMAT", exact = "EXACT_FORMAT", grouped = "GROUPED_FORMAT"
+  case daily = "DAILY_FORMAT", grouped = "GROUPED_FORMAT", exact = "EXACT_FORMAT"
 
   var coder: Coder {
     switch self {
     case .daily: return .daily
-    case .exact: return .exact
     case .grouped: return .grouped
+    case .exact: return .exact
     }
   }
 }

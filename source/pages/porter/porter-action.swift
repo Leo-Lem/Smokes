@@ -12,7 +12,7 @@ extension Porter {
     
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
-      case .createFile: return .file(.create)
+      case .createFile: return .createFile
       case let .selectCoder(coder): return .file(.setCoder(coder.coder))
       case let .importFile(url): return .file(.import(url))
       case .dismissImportError: return .file(.clearError)
