@@ -10,16 +10,16 @@ extension Coder where Self == ExactCoder {
 struct ExactCoder: Coder {
   static let utType = UTType.json
   
-  func encode(_ entries: [Date]) -> Data {
+  func encode(_ entries: [Date]) throws -> Data {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = .iso8601
     encoder.outputFormatting = .prettyPrinted
-    return (try? encoder.encode(entries.sorted(by: >))) ?? Data()
+    return try encoder.encode(entries.sorted(by: >))
   }
   
-  func decode(_ data: Data) -> [Date] {
+  func decode(_ data: Data) throws -> [Date] {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601
-    return (try? decoder.decode([Date].self, from: data)) ?? []
+    return try decoder.decode([Date].self, from: data)
   }
 }

@@ -6,7 +6,7 @@ import UniformTypeIdentifiers
 protocol Coder {
   static var utType: UTType { get }
   
-  func encode(_ entries: [Date]) -> Data
+  func encode(_ entries: [Date]) throws -> Data
   
-  func decode(_ data: Data) -> [Date]
+  func decode(_ data: Data) throws -> [Date]
 }

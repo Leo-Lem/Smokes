@@ -11,26 +11,17 @@ extension Coder where Self == GroupedCoder {
 struct GroupedCoder: Coder {
   static let utType = UTType.json
   
-  func encode(_ entries: [Date]) -> Data {
-    do {
-      return try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
-    } catch {
-      debugPrint(error)
-      return Data()
-    }
+  func encode(_ entries: [Date]) throws -> Data {
+    try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
   }
   
-  func decode(_ data: Data) -> [Date] {
-    do {
-      guard
-        let decoded = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: [String: Int]]]
-      else { return [] }
-      return unprepare(decoded)
-    } catch {
-      debugPrint(error)
-      return []
-    }
+  func decode(_ data: Data) throws -> [Date] {
+    guard
+      let decoded = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: [String: Int]]]
+    else { throw CocoaError(.coderReadCorrupt) }
+    return unprepare(decoded)
   }
+  
   private func prepare(_ entries: [Date]) -> [String: [String: [String: Int]]] {
     var counts = [String: [String: [String: Int]]]()
           

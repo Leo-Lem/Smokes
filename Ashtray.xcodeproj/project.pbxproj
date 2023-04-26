@@ -512,8 +512,8 @@
 			isa = PBXGroup;
 			children = (
 				6EA4B64229F7AE0900C85612 /* Coder.swift */,
-				6EA4B64929F7B64000C85612 /* DailyCoder.swift */,
 				6EA4B64729F7B04B00C85612 /* ExactCoder.swift */,
+				6EA4B64929F7B64000C85612 /* DailyCoder.swift */,
 				6EA4B64B29F7BEE000C85612 /* GroupedCoder.swift */,
 			);
 			path = coder;

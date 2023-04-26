@@ -29,7 +29,7 @@ struct File: ReducerProtocol {
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
     case .create:
-      state.file = DataFile(state.coder.encode(state.entries))
+      state.file = DataFile((try? state.coder.encode(state.entries)) ?? Data())
       
     case let .setEntries(entries):
       state.entries = entries
@@ -41,11 +41,15 @@ struct File: ReducerProtocol {
       
     case let .import(url):
       do {
-        state.file = try DataFile(at: url)
+        let file = try DataFile(at: url)
+        state.entries = try state.coder.decode(file.content)
+        state.file = file
       } catch let error as URLError where error.code == .noPermissionsToReadFile {
         state.importError = .missingPermission
-      } catch {
+      } catch is URLError {
         state.importError = .invalidURL
+      } catch {
+        state.importError = .invalidFormat
       }
       
     case .clearError:
