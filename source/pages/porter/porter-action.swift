@@ -6,7 +6,7 @@ import SwiftUI
 extension Porter {
   enum ViewAction {
     case createFile
-    case selectCoder(FileCoders)
+    case selectCoder(Format)
     case importFile(URL)
     case dismissImportError
     

@@ -9,58 +9,60 @@ struct Porter: View {
 
   var body: some View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { vs in
-      VStack {
-        Widget {
-          displayPreview()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .animation(.default, value: preview)
-        .alert(
-          isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
-          error: vs.importError
-        ) {}
-          .if(let: vs.file) { view, file in view
-            .fileExporter(
-              isPresented: $showingExporter,
-              document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
-            ) {
-              do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+      addBackground {
+        VStack {
+          Widget {
+            displayPreview()
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          }
+          .animation(.default, value: preview)
+          .alert(
+            isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
+            error: vs.importError
+          ) {}
+            .if(let: vs.file) { view, file in view
+                .fileExporter(
+                  isPresented: $showingExporter,
+                  document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
+                ) {
+                  do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+                }
+                .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
+                  do { vs.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+                }
             }
-            .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
-              do { vs.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+          
+          Spacer()
+          
+          Widget {
+            HStack {
+              importer(isLoading: vs.file == nil && showingImporter)
+              formatPicker()
+              exporter(isLoading: vs.file == nil && showingExporter)
             }
           }
-
-        Spacer()
-
-        Widget {
-          HStack {
-            importer(isLoading: vs.file == nil && showingImporter)
-            formatPicker()
-            exporter(isLoading: vs.file == nil && showingExporter)
-          }
+          .imageScale(.large)
+          .font(.headline)
         }
-        .imageScale(.large)
-        .font(.headline)
-      }
-      .overlay(alignment: .topLeading) {
-        Button(action: dismiss.callAsFunction) { Label("DISMISS", systemImage: "xmark") }
-          .buttonStyle(.borderless)
-          .padding()
-      }
-      .labelStyle(.iconOnly)
-      .presentationDetents([.medium])
-      // .presentationBackground(.clear) only for iOS 16.4
-      .onAppear {
-        vs.send(.selectCoder(coder))
-        vs.send(.createFile)
-        Task { preview = vs.file.flatMap { String(data: $0.content, encoding: .utf8) } }
-      }
-      .onChange(of: coder) { vs.send(.selectCoder($0)) }
-      .onChange(of: vs.file) { newFile in
-        Task {
-          preview = nil
-          preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
+        .overlay(alignment: .topLeading) {
+          Button(action: dismiss.callAsFunction) { Label("DISMISS", systemImage: "xmark") }
+            .buttonStyle(.borderless)
+            .padding()
+        }
+        .labelStyle(.iconOnly)
+        .presentationDetents([.medium])
+        // .presentationBackground(.clear) only for iOS 16.4
+        .onAppear {
+          vs.send(.selectCoder(coder))
+          vs.send(.createFile)
+          Task { preview = vs.file.flatMap { String(data: $0.content, encoding: .utf8) } }
+        }
+        .onChange(of: coder) { vs.send(.selectCoder($0)) }
+        .onChange(of: vs.file) { newFile in
+          Task {
+            preview = nil
+            preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
+          }
         }
       }
     }
@@ -69,7 +71,7 @@ struct Porter: View {
   @State private var preview: String?
   @State private var showingExporter = false
   @State private var showingImporter = false
-  @AppStorage("porter_fileCoder") private var coder: FileCoders = .daily
+  @AppStorage("porter_fileCoder") private var coder: Format = .daily
 
   @Environment(\.dismiss) private var dismiss
 }
@@ -95,7 +97,7 @@ extension Porter {
 
   @ViewBuilder private func formatPicker() -> some View {
     Picker("", selection: $coder) {
-      ForEach(FileCoders.allCases, id: \.self) { coder in
+      ForEach(Format.allCases, id: \.self) { coder in
         Text(LocalizedStringKey(coder.rawValue))
       }
     }
@@ -111,16 +113,24 @@ extension Porter {
       Text(preview).lineLimit(10)
     } else { ProgressView() }
   }
-}
+  
+  @ViewBuilder private func addBackground<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    if #available(iOS 16.4, *) {
+      content().presentationBackground(.ultraThinMaterial)
+    } else {
+      content().background(Color("BackgroundColor"))
+    }
+  }
+  
+  enum Format: String, CaseIterable {
+    case daily = "DAILY_FORMAT", grouped = "GROUPED_FORMAT", exact = "EXACT_FORMAT"
 
-enum FileCoders: String, CaseIterable {
-  case daily = "DAILY_FORMAT", grouped = "GROUPED_FORMAT", exact = "EXACT_FORMAT"
-
-  var coder: Coder {
-    switch self {
-    case .daily: return .daily
-    case .grouped: return .grouped
-    case .exact: return .exact
+    var coder: Coder {
+      switch self {
+      case .daily: return .daily
+      case .grouped: return .grouped
+      case .exact: return .exact
+      }
     }
   }
 }

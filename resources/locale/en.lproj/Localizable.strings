@@ -2,6 +2,8 @@
 "HISTORY" = "history";
 "DASHBOARD" = "dashboard";
 "STATS" = "stats";
+"FACT" = "fact";
+"INFO" = "about";
 
 
 
