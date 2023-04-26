@@ -4,8 +4,6 @@ import Dependencies
 import Foundation
 
 extension Interval {
-  @Dependency(\.calendar) private static var cal
-  
   init(_ subdivision: Subdivision, date: Date) {
     switch subdivision {
     case .day: self = .day(date)
@@ -25,34 +23,29 @@ extension Interval {
     }
   }
   
-  func count(by subdivision: Subdivision, onlyComplete: Bool = false) -> Int? {
+  func count(by subdivision: Subdivision) -> Int? {
+    @Dependency(\.calendar) var cal
+    
     guard let start, let end else { return nil }
     
-    if onlyComplete {
-      return Self.cal.dateComponents([subdivision.comp], from: start, to: end).value(for: subdivision.comp)
-    } else {
-      var count = 0, date = start
-      
-      while date < end {
-        count += 1
-        date = Self.cal.date(byAdding: subdivision.comp, value: 1, to: date)!
-      }
-      
-      return count
-    }
+    return cal.dateComponents([subdivision.comp], from: start, to: end).value(for: subdivision.comp)
   }
 
   func enumerate(by subdivision: Subdivision, in bounds: Interval? = nil) -> [Interval]? {
-    guard let start, let end else { return nil }
+    @Dependency(\.calendar) var cal
     
-    var intervals = [Interval](), date = max(start, bounds?.start ?? start)
+    guard var start, var end else { return nil }
+    start = max(start, bounds?.start ?? start)
+    end = min(end, bounds?.end ?? end)
     
-    while date < min(end, bounds?.end ?? end) {
+    var intervals = [Interval](), date = start
+    
+    while date < end {
       intervals.append(Interval(subdivision, date: date))
-      date = Self.cal.date(byAdding: subdivision.comp, value: 1, to: date)!
+      date = cal.date(byAdding: subdivision.comp, value: 1, to: date)!
     }
     
-    if Self.cal.isDate(date, equalTo: min(end, bounds?.end ?? end), toGranularity: subdivision.comp) {
+    if cal.isDate(date, equalTo: end, toGranularity: subdivision.comp) {
       intervals.append(Interval(subdivision, date: date))
     }
     

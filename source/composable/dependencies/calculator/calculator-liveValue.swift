@@ -18,7 +18,7 @@ extension Calculator: DependencyKey {
   
   private static func average(_ amount: Int, _ interval: Interval, _ subdivision: Subdivision) -> Double {
     guard
-      let length = interval.count(by: subdivision, onlyComplete: true),
+      let length = interval.count(by: subdivision),
       length > 0
     else { return .infinity }
     
@@ -27,19 +27,17 @@ extension Calculator: DependencyKey {
   
   private static func trend(_ amounts: [Interval: Int], _ interval: Interval, _ subdivision: Subdivision) -> Double {
     guard
-      let amounts = interval.enumerate(by: subdivision)?.map({ amounts[$0] ?? 0 }),
-      amounts.allSatisfy({ $0 != 0 }),
-      amounts.count > 1
+      amounts.count > 0,
+      let intervals = interval.enumerate(by: subdivision),
+      intervals.count > 1
     else { return .infinity }
     
-    var trend = 0.0
-    
-    if amounts.count > 1 {
-      for i in 1 ..< amounts.count { trend += Double(amounts[i] - amounts[i - 1]) }
-      trend /= Double(amounts.count - 1)
-    }
-    
-    return trend
+    return intervals.dropFirst()
+      .reduce(into: (trend: 0.0, previous: amounts[intervals.first!] ?? 0)) { result, interval in
+        let amount = amounts[interval] ?? 0
+        result = (result.trend + Double(amount - result.previous), amount)
+      }.trend
+    / Double(intervals.count - 1)
   }
   
   private static func sinceLast(_ entries: [Date], _ date: Date) -> TimeInterval {

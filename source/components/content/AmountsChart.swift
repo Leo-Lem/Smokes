@@ -8,19 +8,39 @@ struct AmountsChart: View {
   let bounds: Interval
   let subdivision: Subdivision
   let description: Text?
-  
+
   var body: some View {
-    DescriptedChartContent(data: entries, description: description) { data in
-      Chart(groups(data), id: \.self) { group in
-        BarMark(x: .value("DATE", group), y: .value("AMOUNT", amount(data, group: group)))
+    ZStack {
+      if let domain {
+        DescriptedChartContent(data: entries, description: description) { _ in
+          Chart(Array(amounts ?? [:]), id: \.key) { group, amount in
+            BarMark(x: .value("DATE", group), y: .value("AMOUNT", amount))
+          }
+          .chartXScale(domain: domain)
+          .minimumScaleFactor(0.5)
+          .chartYAxisLabel(LocalizedStringKey("SMOKES"))
+        }
+      } else { ProgressView() }
+    }
+    .task {
+      domain = await calculateDomain(grouping: grouping)
+      amounts = await calculateAmounts(entries ?? [], grouping: grouping)
+    }
+    .onChange(of: entries) { newEntries in
+      Task { amounts = await calculateAmounts(newEntries ?? [], grouping: grouping) }
+    }
+    .onChange(of: grouping) { newGrouping in
+      Task {
+        domain = await calculateDomain(grouping: newGrouping)
+        amounts = await calculateAmounts(entries ?? [], grouping: newGrouping)
       }
-      .chartXScale(domain: domain)
-      .minimumScaleFactor(0.5)
-      .chartYAxisLabel(LocalizedStringKey("SMOKES"))
     }
   }
-  
-  var grouping: Date.FormatStyle {
+
+  @State private var amounts: [String: Int]?
+  @State private var domain: [String]?
+
+  private var grouping: Date.FormatStyle {
     switch (bounds, subdivision) {
     case (.week, .day): return .init().weekday(.abbreviated)
     case (.month, .day): return .init().day(.twoDigits)
@@ -34,30 +54,17 @@ struct AmountsChart: View {
     case (_, .year): return .init().year(.defaultDigits)
     }
   }
-  
-  var domain: [String] {
-    bounds.enumerate(by: subdivision)?
-      .reduce(into: [String]()) { result, next in
-        let grouped = next.dateInterval.start.formatted(grouping)
-        if !result.contains(grouped) { result.append(grouped) }
-      }
-      ?? []
-  }
-  
-  func groups(_ data: [Date]) -> [String] {
-    data.reduce(into: [String]()) { result, next in
-      let next = next.formatted(grouping)
-      if !result.contains(next) { result.append(next) }
+
+  private func calculateAmounts(_ entries: [Date], grouping: Date.FormatStyle) async -> [String: Int] {
+    entries.reduce(into: [String: Int]()) { counts, entry in
+      counts[entry.formatted(grouping), default: 0] += 1
     }
   }
-                
-  func amount(_ data: [Date], group: String) -> Int {
-    if
-      let last = data.lastIndex(where: { $0.formatted(grouping) == group }),
-      let first = data.firstIndex(where: { $0.formatted(grouping) == group })
-    {
-      return last - first + 1
-    } else { return 0 }
+
+  private func calculateDomain(grouping: Date.FormatStyle) async -> [String] {
+    NSOrderedSet(
+      array: (bounds.enumerate(by: subdivision) ?? []).map { $0.dateInterval.start.formatted(grouping) }
+    ).array as? [String] ?? []
   }
 }
 
@@ -66,15 +73,15 @@ struct AmountsChart: View {
 struct AmountsChart_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      AmountsChart(entries: nil, bounds: .alltime, subdivision: .day, description: nil)
-        .previewDisplayName("Loading")
-      
       AmountsChart(
         entries: [.startOfYesterday, .startOfToday, .startOfToday],
         bounds: .fromTo(.init(start: .startOfYesterday, end: .endOfToday)),
-        subdivision: .week,
+        subdivision: .day,
         description: nil
       )
+
+      AmountsChart(entries: nil, bounds: .alltime, subdivision: .day, description: nil)
+        .previewDisplayName("Loading")
     }
     .padding()
   }

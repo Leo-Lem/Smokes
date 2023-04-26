@@ -11,7 +11,7 @@ struct MainView: View {
       .overlay {
         if selection == .fact {
           FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
-            .transition(.move(edge: .top))
+            .transition(.move(edge: vSize == .regular ? .top : .leading))
         }
       }
       .padding(10)

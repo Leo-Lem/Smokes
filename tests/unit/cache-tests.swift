@@ -18,16 +18,18 @@ final class CacheTests: XCTestCase {
   }
   
   func testLoadingAll() async throws {
-    let interval = Interval.week(.now), subdivision = Subdivision.day
-    
-    let store = TestStore(initialState: .init(), reducer: Cache()) {
-      $0.calculator.amount = { _, _ in 1 }
-      $0.calendar = .current
-    }
-    
-    await store.send(.loadAll([], interval: interval, subdivision: subdivision))
-    for interval in interval.enumerate(by: subdivision) ?? [] {
-      await store.receive(/.load([], interval: interval), timeout: 1) { $0.amounts[interval] = 1 }
+    await withDependencies { $0.calendar = .current } operation: {
+      let interval = Interval.week(.now), subdivision = Subdivision.day
+      
+      let store = TestStore(initialState: .init(), reducer: Cache()) {
+        $0.calculator.amount = { _, _ in 1 }
+        $0.calendar = .current
+      }
+      
+      await store.send(.loadAll([], interval: interval, subdivision: subdivision))
+      for interval in interval.enumerate(by: subdivision) ?? [] {
+        await store.receive(/.load([], interval: interval), timeout: 1) { $0.amounts[interval] = 1 }
+      }
     }
   }
   

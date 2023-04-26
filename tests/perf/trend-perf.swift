@@ -1,11 +1,19 @@
 // Created by Leopold Lemmermann on 28.02.23.
 
+@testable import Smokes
+import ComposableArchitecture
 import XCTest
 
 final class TrendPerformanceTests: XCTestCase {
   func testPerformance() {
-    measure {
-      _ = trend(for: .example, by: .day)
+    withDependencies { $0.calendar = .current } operation: {
+      let amounts = Dictionary(
+        uniqueKeysWithValues: (0..<300).map { (Interval.day(.now + Double($0 * 86400)), Int.random(in: 0..<50)) }
+      )
+      
+      measure {
+        _ = Calculator.liveValue.trend(amounts, .year(amounts.first!.key.start!), .day)
+      }
     }
   }
   
