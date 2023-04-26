@@ -54,6 +54,18 @@
 
 
 
+// MARK: - (INFO)
+"APP_DESCRIPTION" = "We're here to help you get an overview of your smoking habit, and help you to overcome it!";
+"LINKS" = "Links";
+"WEBPAGE %@" = "Webpage > %@";
+"SUPPORT %@" = "Support > %@";
+"PRIVACY_POLICY %@" = "Privacy Policy > %@";
+"CREDITS" = "Credits";
+"DEVELOPERS %@" = "Developed by %@";
+"DESIGNERS %@" = "Designed by %@";
+
+
+
 // MARK: - (PLOTS)
 "SHOW_PLOT" = "show plot";
 "DATE" = "date";
@@ -86,3 +98,4 @@
 "FACT_OF_THE_DAY" = "Fact of the day";
 "SKIP" = "skip";
 "CONFIGURE" = "Configure";
+"COMING_SOON" = "Coming Soon";

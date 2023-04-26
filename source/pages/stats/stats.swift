@@ -4,8 +4,6 @@ import Charts
 import ComposableArchitecture
 import SwiftUI
 
-// FIXME: when selecting last month, crashes sometimes
-
 struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
 

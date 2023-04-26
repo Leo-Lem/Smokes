@@ -4,21 +4,51 @@ import SwiftUI
 
 struct InfoView: View {
   var body: some View {
-    addBackground {
-      Text("Info coming soon")
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .presentationDetents([.medium])
+    VStack {
+      Text(INFO.APPNAME)
+        .font(.largeTitle)
+        .bold()
+        .padding()
+      
+      Text("APP_DESCRIPTION")
+        .multilineTextAlignment(.center)
+    
+    Spacer()
+      Divider()
+      
+      Section("LINKS") {
+        VStack {
+          Link(destination: INFO.LINKS.WEBPAGE) {
+            Label("WEBPAGE \(INFO.LINKS.WEBPAGE)", systemImage: "safari")
+          }
+          
+          Link(destination: INFO.LINKS.SUPPORT) {
+            Label("SUPPORT \(INFO.LINKS.SUPPORT)", systemImage: "questionmark.circle")
+          }
+          
+          Link(destination: INFO.LINKS.PRIVACY_POLICY) {
+            Label("PRIVACY_POLICY \(INFO.LINKS.PRIVACY_POLICY)", systemImage: "person.badge.key")
+          }
+        }
+        .font(.caption)
+      }
+      .lineLimit(1)
+      
+      Divider()
+      
+      Section("CREDITS") {
+        VStack {
+          Text("DEVELOPERS \(INFO.CREDITS.DEVELOPERS.joined(separator: ", "))")
+          Text("DESIGNERS \(INFO.CREDITS.DESIGNERS.joined(separator: ", "))")
+        }
+        .font(.caption)
+      }
     }
-  }
-}
-
-extension InfoView {
-  @ViewBuilder private func addBackground<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-    if #available(iOS 16.4, *) {
-      content().presentationBackground(.ultraThinMaterial)
-    } else {
-      content().background(Color("BackgroundColor"))
-    }
+    .padding()
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .presentationDetents([.medium])
+    .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
+    .compactDismissButton()
   }
 }
 
@@ -26,7 +56,7 @@ extension InfoView {
 
 struct InfoView_Previews: PreviewProvider {
   static var previews: some View {
-    Text("")
-      .sheet(isPresented: .constant(true), content: InfoView.init)
+    InfoView().previewInSheet()
+      .environment(\.locale, .init(identifier: "de"))
   }
 }

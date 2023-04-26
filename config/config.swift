@@ -1,21 +1,23 @@
-import SwiftUI
+import Foundation
 
-enum Config {
-  static let id = (
-    bundle: "LeoLem.ashtray",
-    group: "group.LeoLem.ashtray"
-  )
-  
-  static let style = (
-    fontName: "Helvetica",
-    background: Color.black
-  )
+let ID = (
+  BUNDLE: "LeoLem.ashtray",
+  GROUP: "group.LeoLem.ashtray"
+)
 
-  static var containerURL: URL {
-    FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Config.id.group)!
-  }
-
-  static var appname: String {
-    (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!
-  }
+var CONTAINER_URL: URL {
+  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: ID.GROUP)!
 }
+
+let INFO = (
+  APPNAME: (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!,
+  LINKS: (
+    WEBPAGE: URL(string: "https://smokes.leolem.dev")!,
+    SUPPORT: URL(string: "https://github.com/Leo-Lem/Ashtray")!,
+    PRIVACY_POLICY: URL(string: "https://smokes.leolem.dev/privacy")!
+  ),
+  CREDITS: (
+    DEVELOPERS: ["Leopold Lemmermann"],
+    DESIGNERS: ["Leopold Lemmermann"]
+  )
+)

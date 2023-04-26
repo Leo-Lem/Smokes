@@ -54,6 +54,18 @@
 
 
 
+// MARK: - (INFO)
+"APP_DESCRIPTION" = "Der erste Schritt zum aufhören ist Erkenntnis!";
+"LINKS" = "Links";
+"WEBPAGE %@" = "Webseite > %@";
+"SUPPORT %@" = "Support > %@";
+"PRIVACY_POLICY %@" = "Datenschutz > %@";
+"CREDITS" = "Team";
+"DEVELOPERS %@" = "Entwickelt von %@";
+"DESIGNERS %@" = "Design von %@";
+
+
+
 // MARK: - (PLOTS)
 "SHOW_PLOT" = "Graph anzeigen";
 "DATE" = "Datum";
@@ -86,3 +98,4 @@
 "FACT_OF_THE_DAY" = "Fakt des Tages";
 "SKIP" = "überspringen";
 "CONFIGURE" = "Konfigurieren";
+"COMING_SOON" = "Demnächst Verfügbar";
