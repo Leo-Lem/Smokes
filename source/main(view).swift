@@ -3,34 +3,21 @@ import SwiftUI
 
 struct MainView: View {
   var body: some View {
-    ZStack {
-      switch selection {
-      case .fact:
-        FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
-          .zIndex(1)
-          .ignoresSafeArea()
-          .transition(.move(edge: .top))
-      case .info, .tab:
-        TabView(selection: $selectedTab)
-          .zIndex(0)
-          .transition(.scale(scale: 0.01, anchor: .bottom))
-          .sheet(isPresented: Binding { selection == .info } set: { _ in selection = .tab }) { InfoView() }
-          .overlay(alignment: vSize == .regular ? .bottomLeading : .bottomTrailing) {
-            Button { selection = .info } label: { Label("INFO", systemImage: "info") }
-              .labelStyle(.iconOnly)
-              .buttonStyle(.borderedProminent)
-          }
-          .overlay(alignment: vSize == .regular ? .bottomTrailing : .topTrailing) {
-            Button { selection = .fact } label: { Label("FACT", systemImage: "lightbulb") }
-              .labelStyle(.iconOnly)
-              .buttonStyle(.borderedProminent)
-          }
+    TabView(selection: $selectedTab)
+      .overlay(alignment: vSize == .regular ? .bottomLeading : .bottomTrailing, content: showInfoButton)
+      .overlay(alignment: vSize == .regular ? .bottomTrailing : .topTrailing, content: showFactButton)
+      .if(selection == .fact) { $0.hidden() }
+      .sheet(isPresented: Binding { selection == .info } set: { _ in selection = .tab }) { InfoView() }
+      .overlay {
+        if selection == .fact {
+          FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
+            .transition(.move(edge: .top))
+        }
       }
-    }
-    .animation(.default, value: selection)
-    .animation(.default, value: selectedTab)
-    .padding(10)
-    .background { Background() }
+      .padding(10)
+      .background { Background() }
+      .animation(.default, value: selection)
+      .animation(.default, value: selectedTab)
   }
 
   @State private var selection = Selection.fact
@@ -39,6 +26,20 @@ struct MainView: View {
   @Environment(\.verticalSizeClass) private var vSize
 
   enum Selection { case tab, fact, info }
+}
+
+extension MainView {
+  @ViewBuilder private func showInfoButton() -> some View {
+    Button { selection = .info } label: { Label("INFO", systemImage: "info") }
+      .labelStyle(.iconOnly)
+      .buttonStyle(.borderedProminent)
+  }
+  
+  @ViewBuilder private func showFactButton() -> some View {
+    Button { selection = .fact } label: { Label("FACT", systemImage: "lightbulb") }
+      .labelStyle(.iconOnly)
+      .buttonStyle(.borderedProminent)
+  }
 }
 
 enum MainTab: String, Tabbable {

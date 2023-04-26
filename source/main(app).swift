@@ -12,7 +12,6 @@ struct Main: App {
           MainView()
             .environmentObject(store)
             .onChange(of: scene) { if $0 != .active { vs.send(.entries(.save)) } }
-            .preferredColorScheme(.dark) // TODO: add light mode
           
 #if DEBUG
           Button("Reset") { vs.send(.entries(.set([]))) }
