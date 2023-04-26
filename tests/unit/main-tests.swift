@@ -78,7 +78,7 @@ final class MainReducerTests: XCTestCase {
     withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
-      $0.calculator.average = { _, interval, _ in Double(interval.hashValue)}
+      $0.calculator.average = { _, interval, _ in Double(interval.hashValue) }
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
@@ -96,7 +96,7 @@ final class MainReducerTests: XCTestCase {
     withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
-      $0.calculator.trend = { _, interval, _ in Double(interval.hashValue)}
+      $0.calculator.trend = { _, interval, _ in Double(interval.hashValue) }
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
@@ -109,7 +109,9 @@ final class MainReducerTests: XCTestCase {
       }
     }
   }
-  
+}
+
+extension MainReducerTests {
   private func stateWithIntervalsHashCache(_ intervals: [Interval]) -> MainReducer.State {
     .init(cache: .init(amounts: .init(uniqueKeysWithValues: intervals.map { ($0, $0.hashValue) })))
   }

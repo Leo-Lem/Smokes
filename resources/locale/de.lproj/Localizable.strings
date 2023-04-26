@@ -35,6 +35,23 @@
 
 
 
+// MARK: - (FILE)
+"EXPORT" = "Exportieren";
+"IMPORT" = "Importieren";
+"OPEN_PORTER" = "Exporter öffnen";
+"PICK_FORMAT" = "Format auswählen";
+"DAILY_FORMAT" = "Täglich";
+"EXACT_FORMAT" = "Exakt";
+"GROUPED_FORMAT" = "Übersicht";
+"SMOKES_FILENAME" = "Smokes-Daten";
+"IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt…";
+"NO_PREVIEW" = "Keine Vorschau";
+"INVALID_FORMAT_IMPORTERROR" = "Falsches Format…";
+"INVALID_URL_IMPORTERROR" = "URL Fehler… Bitte versuche es erneut";
+"MISSING_PERMISSION_IMPORTERROR" = "Zugriff verweigert…";
+
+
+
 // MARK: - (PLOTS)
 "SHOW_PLOT" = "Graph anzeigen";
 "DATE" = "Datum";
@@ -47,30 +64,22 @@
 
 
 // MARK: - (ACTIONS)
-
 "MODIFY" = "Bearbeiten";
 "DISMISS" = "Ausblenden";
 "SELECT_ALLTIME" = "Bis hierhin";
-"EXPORT" = "Exportieren";
-"IMPORT" = "Importieren";
 "ADD" = "Hinzufügen";
 "REMOVE" = "Entfernen";
 "PREVIOUS_DAY" = "Voriger Tag";
 "NEXT_DAY" = "Nächster Tag";
 "PREVIOUS" = "Rückwärts";
 "NEXT" = "Vorwärts";
-"OPEN_PORTER" = "Exporter öffnen";
-"PICK_FORMAT" = "Format auswählen";
-"TOGGLE_FORMAT" = "Format umschalten";
 "PICK_DAY" = "Tag auswählen";
 
 
 
 // MARK: - (OTHERS)
-"SMOKES_FILENAME" = "Smokes-Daten";
 "LOADING" = "Wird geladen";
 "NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
-"IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt...";
 "NO_DATA" = "Keine Daten";
 "FACT_OF_THE_DAY" = "Fakt des Tages";
 "SKIP" = "überspringen";

@@ -6,115 +6,122 @@ import UniformTypeIdentifiers
 
 struct Porter: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
-  
+
   var body: some View {
-    WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { viewStore in
-      Render(
-        format: $format,
-        importFailed: viewStore.binding(get: \.importFailed) { _ in .dismissImportFailed },
-        file: viewStore.file
-      ) { viewStore.send(.importFile($0)) }
-        .onAppear { viewStore.send(.createFile(viewStore.entries)) }
-        .onChange(of: viewStore.entries) { viewStore.send(.createFile($0)) }
-    }
-  }
-  
-  @State private var format = UTType.json
-}
-
-extension Porter {
-  struct ViewState: Equatable {
-    let entries: [Date]
-    let file: SmokesFile?
-    let importFailed: Bool
-    
-    init(_ state: MainReducer.State) {
-      entries = state.entries.entries
-      file = state.filePorter.file
-      importFailed = state.filePorter.importFailed
-    }
-  }
-  
-  enum ViewAction {
-    case createFile([Date])
-    case importFile(URL)
-    case dismissImportFailed
-    
-    static func send(_ action: Self) -> MainReducer.Action {
-      switch action {
-      case let .createFile(entries): return .filePorter(.createFile(entries))
-      case let .importFile(url): return .filePorter(.importFile(url))
-      case .dismissImportFailed: return .filePorter(.dismissImportFailed)
-      }
-    }
-  }
-}
-
-extension Porter {
-  struct Render: View {
-    @Binding var format: UTType
-    @Binding var importFailed: Bool
-    let file: SmokesFile?
-    let importFile: (URL) -> Void
-    
-    var body: some View {
+    WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { vs in
       VStack {
-        if let file {
-          Widget {
-            Text(file.generatePreview(for: format))
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          }
-          .animation(.default, value: file.generatePreview(for: format))
-          
-          Spacer()
-        
-          HStack {
-            Widget {
-              Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
-                .accessibilityIdentifier("import-button")
-                .fileImporter(isPresented: $showingImporter, allowedContentTypes: SmokesFile.readableContentTypes) {
-                  do { importFile(try $0.get()) } catch { debugPrint(error) }
-                }
-                .alert("IMPORT_FAILED", isPresented: $importFailed) {}
-            }
-            
-            Widget {
-              HStack {
-                Picker("", selection: $format) {
-                  ForEach(SmokesFile.readableContentTypes, id: \.self) { format in
-                    Text(format.localizedDescription ?? "")
-                  }
-                }
-                .pickerStyle(.segmented)
-                .accessibilityElement()
-                .accessibilityLabel("PICK_FORMAT")
-                .accessibilityValue(format.localizedDescription ?? "")
-                .accessibilityAction(named: "TOGGLE_FORMAT") { format = format == .json ? .plainText : .json }
-                .accessibilityIdentifier("format-picker")
-                
-                Button{ showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up")}
-                  .accessibilityIdentifier("export-button")
-                  .fileExporter(
-                    isPresented: $showingExporter,
-                    document: file, contentType: format, defaultFilename: String(localized: "SMOKES_FILENAME")
-                  ) {
-                    do { debugPrint(try $0.get()) } catch { debugPrint(error) }
-                  }
-              }
-            }
-          }
-          .imageScale(.large)
-          .font(.headline)
-        } else {
-          ProgressView()
+        Widget {
+          displayPreview()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .animation(.default, value: preview)
+        .alert(
+          isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
+          error: vs.importError
+        ) {}
+          .if(let: vs.file) { view, file in view
+            .fileExporter(
+              isPresented: $showingExporter,
+              document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
+            ) {
+              do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+            }
+            .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
+              do { vs.send(.importFile(try $0.get())) } catch { debugPrint(error) }
+            }
+          }
+
+        Spacer()
+
+        Widget {
+          HStack {
+            importer(isLoading: vs.file == nil && showingImporter)
+            formatPicker()
+            exporter(isLoading: vs.file == nil && showingExporter)
+          }
+        }
+        .imageScale(.large)
+        .font(.headline)
+      }
+      .overlay(alignment: .topLeading) {
+        Button(action: dismiss.callAsFunction) { Label("DISMISS", systemImage: "xmark") }
+          .buttonStyle(.borderless)
+          .padding()
       }
       .labelStyle(.iconOnly)
       .presentationDetents([.medium])
+      // .presentationBackground(.clear) only for iOS 16.4
+      .onAppear {
+        vs.send(.selectCoder(coder))
+        vs.send(.createFile)
+        Task { preview = vs.file.flatMap { String(data: $0.content, encoding: .utf8) } }
+      }
+      .onChange(of: coder) { vs.send(.selectCoder($0)) }
+      .onChange(of: vs.file) { newFile in
+        Task {
+          preview = nil
+          preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
+        }
+      }
     }
-    
-    @State private var showingExporter = false
-    @State private var showingImporter = false
+  }
+
+  @State private var preview: String?
+  @State private var showingExporter = false
+  @State private var showingImporter = false
+  @AppStorage("porter_fileCoder") private var coder: FileCoders = .daily
+
+  @Environment(\.dismiss) private var dismiss
+}
+
+extension Porter {
+  @ViewBuilder private func exporter(isLoading: Bool) -> some View {
+    Button { showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
+      .accessibilityIdentifier("export-button")
+      .if(isLoading) { $0
+        .hidden()
+        .overlay(content: ProgressView.init)
+      }
+  }
+
+  @ViewBuilder private func importer(isLoading: Bool) -> some View {
+    Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
+      .accessibilityIdentifier("import-button")
+      .if(isLoading) { $0
+        .hidden()
+        .overlay(content: ProgressView.init)
+      }
+  }
+
+  @ViewBuilder private func formatPicker() -> some View {
+    Picker("", selection: $coder) {
+      ForEach(FileCoders.allCases, id: \.self) { coder in
+        Text(LocalizedStringKey(coder.rawValue))
+      }
+    }
+    .pickerStyle(.segmented)
+    .accessibilityElement()
+    .accessibilityLabel("PICK_FORMAT")
+    .accessibilityValue(LocalizedStringKey(coder.rawValue))
+    .accessibilityIdentifier("format-picker")
+  }
+
+  @ViewBuilder private func displayPreview() -> some View {
+    if let preview {
+      Text(preview).lineLimit(10)
+    } else { ProgressView() }
+  }
+}
+
+enum FileCoders: String, CaseIterable {
+  case daily = "DAILY_FORMAT", grouped = "GROUPED_FORMAT", exact = "EXACT_FORMAT"
+
+  var coder: Coder {
+    switch self {
+    case .daily: return .daily
+    case .grouped: return .grouped
+    case .exact: return .exact
+    }
   }
 }
 
@@ -122,21 +129,7 @@ extension Porter {
 
 struct Porter_Previews: PreviewProvider {
   static var previews: some View {
-    let amounts = [Date.now - 86400: 10, .now: 8, .now + 86400: 14]
-    
-    Group {
-      Porter.Render(format: .constant(.plainText), importFailed: .constant(false), file: .init(amounts)) { _ in }
-        .previewDisplayName("Text")
-      
-      Porter.Render(format: .constant(.json), importFailed: .constant(false), file: .init(amounts)) { _ in }
-        .previewDisplayName("JSON")
-      
-      Porter.Render(format: .constant(.json), importFailed: .constant(true), file: .init(amounts)) { _ in }
-        .previewDisplayName("Failed import")
-      
-      Porter.Render(format: .constant(.json), importFailed: .constant(false), file: nil) { _ in }
-        .previewDisplayName("Loading")
-    }
-    .padding()
+    Porter()
+      .environmentObject(Store(initialState: .init(), reducer: MainReducer()))
   }
 }

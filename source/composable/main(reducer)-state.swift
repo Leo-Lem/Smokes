@@ -5,7 +5,7 @@ extension MainReducer {
   struct State: Equatable {
     var entries = Entries.State()
     var cache = Cache.State()
-    var filePorter = File.State()
+    var file = File.State()
   }
 }
 

@@ -9,14 +9,14 @@ struct DashboardView: View {
       Grid {
         if vSize == .regular {
           dayAmountWidget(vs.dayAmount)
-          
+
           GridRow {
             configurableAmountWidget { vs.configurableAmounts[$0]?.optional }
             configurableTimeWidget(timeOption == .sinceLast ? vs.sinceLast : vs.longestBreak)
           }
           
           GridRow {
-            untilNowAmountWidget(vs.untilHereAmount)
+            untilNowAmountWidget(vs.untilHereAmount, porterButtonAlignment: .bottomLeading)
             incrementWidget(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
           }
         } else {
@@ -26,7 +26,7 @@ struct DashboardView: View {
           }
             
           GridRow {
-            untilNowAmountWidget(vs.untilHereAmount)
+            untilNowAmountWidget(vs.untilHereAmount, porterButtonAlignment: .bottomLeading)
             configurableTimeWidget(timeOption == .sinceLast ? vs.sinceLast : vs.longestBreak)
             incrementWidget(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
           }
@@ -60,9 +60,15 @@ extension DashboardView {
     }
   }
   
-  private func untilNowAmountWidget(_ amount: Int?) -> some View {
+  private func untilNowAmountWidget(_ amount: Int?, porterButtonAlignment: Alignment) -> some View {
     Widget {
       DescriptedValueContent(formatter.format(amount: amount), description: "UNTIL_NOW")
+        .overlay(alignment: porterButtonAlignment) {
+          Button { showingPorter = true } label: { Label("OPEN_PORTER", systemImage: "folder") }
+            .labelStyle(.iconOnly)
+            .accessibilityIdentifier("show-porter-button")
+        }
+        .sheet(isPresented: $showingPorter) { Porter().padding() }
     }
   }
   
