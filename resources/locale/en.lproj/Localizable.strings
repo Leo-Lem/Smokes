@@ -35,6 +35,19 @@
 
 
 
+// MARK: - (FILE)
+"EXPORT" = "export";
+"IMPORT" = "import";
+"OPEN_PORTER" = "open exporter";
+"PICK_FORMAT" = "pick format";
+"DAILY_FORMAT" = "daily";
+"EXACT_FORMAT" = "exact";
+"GROUPED_FORMAT" = "grouped";
+"SMOKES_FILENAME" = "Smokes-Data";
+"IMPORT_FAILED" = "Sorry, this format is unknown...";
+"NO_PREVIEW" = "No Preview";
+
+
 
 // MARK: - (PLOTS)
 "SHOW_PLOT" = "show plot";
@@ -46,31 +59,24 @@
 "BY_YEAR" = "by year";
 
 
-// MARK: - (ACTIONS)
 
+// MARK: - (ACTIONS)
 "ADD" = "add";
 "REMOVE" = "remove";
 "MODIFY" = "modify";
 "DISMISS" = "dismiss";
 "SELECT_ALLTIME" = "alltime";
-"EXPORT" = "export";
-"IMPORT" = "import";
 "PREVIOUS_DAY" = "previous day";
 "NEXT_DAY" = "next day";
 "PREVIOUS" = "previous";
 "NEXT" = "next";
-"OPEN_PORTER" = "open exporter";
-"PICK_FORMAT" = "pick format";
-"TOGGLE_FORMAT" = "toggle format";
 "PICK_DAY" = "pick day";
 
 
 
 // MARK: - (OTHERS)
-"SMOKES_FILENAME" = "Smokes-Data";
 "LOADING" = "loading";
 "NO_DESCRIPTION" = "no description";
-"IMPORT_FAILED" = "Sorry, this format is unknown...";
 "NO_DATA" = "No data";
 "FACT_OF_THE_DAY" = "Fact of the day";
 "SKIP" = "skip";

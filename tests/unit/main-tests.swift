@@ -78,7 +78,7 @@ final class MainReducerTests: XCTestCase {
     withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
-      $0.calculator.average = { _, interval, _ in Double(interval.hashValue)}
+      $0.calculator.average = { _, interval, _ in Double(interval.hashValue) }
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
@@ -96,7 +96,7 @@ final class MainReducerTests: XCTestCase {
     withDependencies {
       $0.calendar = .current
       $0.date = .constant(.now)
-      $0.calculator.trend = { _, interval, _ in Double(interval.hashValue)}
+      $0.calculator.trend = { _, interval, _ in Double(interval.hashValue) }
     } operation: {
       let intervals = exampleIntervals(for: Date(timeIntervalSinceReferenceDate: 0))
       
@@ -110,6 +110,25 @@ final class MainReducerTests: XCTestCase {
     }
   }
   
+  func testFileReload_givenFileExists_whenReloadingCache_thenUpdatesFile() async throws {
+    let store = TestStore(
+      initialState: .init(file: .init(file: DataFile(Data()))),
+      reducer: MainReducer()
+    ) { $0.calendar = .current }
+    
+    store.exhaustivity = .off(showSkippedAssertions: true)
+    
+    let entries = [Date.now]
+    
+    await store.send(.entries(.set(entries))) { $0.entries.entries = entries }
+    await store.receive(/.cache(.reload(entries)), timeout: 1)
+    await store.receive(/.file(.create(entries)), timeout: 1)
+    
+    XCTAssertFalse(store.state.file.file?.content.isEmpty ?? true)
+  }
+}
+
+extension MainReducerTests {
   private func stateWithIntervalsHashCache(_ intervals: [Interval]) -> MainReducer.State {
     .init(cache: .init(amounts: .init(uniqueKeysWithValues: intervals.map { ($0, $0.hashValue) })))
   }
