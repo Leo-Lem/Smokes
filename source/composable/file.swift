@@ -7,6 +7,9 @@ struct File: ReducerProtocol {
   struct State: Equatable {
     var file: DataFile?
     var coder: Coder = .daily
+    
+    // TODO: keep entries cached here
+    // TODO: convert to import error with description
     var importFailed = false
     
     var entries: [Date]? { file.flatMap { coder.decode($0.content) } }

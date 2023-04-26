@@ -11,19 +11,22 @@ struct DailyCoder: Coder {
   static let utType = UTType.json
   
   func encode(_ entries: [Date]) -> Data {
-    (try? JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)) ?? Data()
+    do {
+      return try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
+    } catch {
+      debugPrint(error)
+      return Data()
+    }
   }
   
-  private let decoder = JSONDecoder()
   func decode(_ data: Data) -> [Date] {
-    guard let decoded = try? decoder.decode([String: Int].self, from: data) else { return [] }
-    
-    let entries = decoded
-      .compactMap { entry in formatter.date(from: entry.key).flatMap { (key: $0, value: entry.value) } }
-      .sorted { entry1, entry2 in entry1.key > entry2.key }
-      .flatMap { Array(repeating: $0.key, count: $0.value) }
-    
-    return entries
+    do {
+      guard let decoded = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Int] else { return [] }
+      return unprepare(decoded)
+    } catch {
+      debugPrint(error)
+      return []
+    }
   }
   
   private func prepare(_ entries: [Date]) -> [String: Int] {
@@ -31,6 +34,13 @@ struct DailyCoder: Coder {
       let key = formatter.string(from: entry)
       counts[key, default: 0] += 1
     }
+  }
+  
+  private func unprepare(_ prepared: [String: Int]) -> [Date] {
+    prepared
+      .compactMap { entry in formatter.date(from: entry.key).flatMap { (key: $0, value: entry.value) } }
+      .sorted { entry1, entry2 in entry1.key > entry2.key }
+      .flatMap { Array(repeating: $0.key, count: $0.value) }
   }
   
   private var formatter: DateFormatter {

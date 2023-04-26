@@ -1,5 +1,6 @@
 // Created by Leopold Lemmermann on 25.04.23.
 
+import Dependencies
 import Foundation
 import UniformTypeIdentifiers
 
@@ -7,22 +8,66 @@ extension Coder where Self == GroupedCoder {
   static var grouped: Self { GroupedCoder() }
 }
 
-// TODO: implement grouping by year, month and day
-
 struct GroupedCoder: Coder {
   static let utType = UTType.json
   
   func encode(_ entries: [Date]) -> Data {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    return (try? encoder.encode(prepare(entries))) ?? Data()
+    do {
+      return try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
+    } catch {
+      debugPrint(error)
+      return Data()
+    }
   }
   
   func decode(_ data: Data) -> [Date] {
-    return []
+    do {
+      guard
+        let decoded = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: [String: Int]]]
+      else { return [] }
+      return unprepare(decoded)
+    } catch {
+      debugPrint(error)
+      return []
+    }
   }
-  
   private func prepare(_ entries: [Date]) -> [String: [String: [String: Int]]] {
-    return .init()
+    var counts = [String: [String: [String: Int]]]()
+          
+    for entry in entries {
+      let dateString = formatter.string(from: entry)
+      let components = dateString.split(separator: " ")
+      let year = String(components[0])
+      let month = String(components[1])
+      let day = String(components[2])
+          
+      if counts[year] == nil { counts[year] = [:] }
+      if counts[year]![month] == nil { counts[year]![month] = [:] }
+      counts[year]![month]![day, default: 0] += 1
+    }
+          
+    return counts
+  }
+
+  private func unprepare(_ prepared: [String: [String: [String: Int]]]) -> [Date] {
+    @Dependency(\.calendar) var cal
+    var dates: [Date] = []
+          
+    prepared.forEach { year, months in
+      months.forEach { month, days in
+        days.forEach { day, count in
+          guard let date = formatter.date(from: "\(year) \(month) \(day)") else { return }
+          dates.append(contentsOf: Array(repeating: date, count: count))
+        }
+      }
+    }
+          
+    return dates.sorted()
+  }
+
+  private var formatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy MMMM d"
+    return formatter
   }
 }

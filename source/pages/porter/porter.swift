@@ -29,9 +29,12 @@ struct Porter: View {
 
         Spacer()
 
-        HStack {
-          importer(isLoading: vs.file == nil && showingImporter)
-          exporter(isLoading: vs.file == nil && showingExporter)
+        Widget {
+          HStack {
+            importer(isLoading: vs.file == nil && showingImporter)
+            formatPicker()
+            exporter(isLoading: vs.file == nil && showingExporter)
+          }
         }
         .imageScale(.large)
         .font(.headline)
@@ -53,7 +56,8 @@ struct Porter: View {
       .onChange(of: vs.file) { newFile in
         Task {
           preview = nil
-          preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) } }
+          preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
+        }
       }
     }
   }
@@ -68,39 +72,34 @@ struct Porter: View {
 
 extension Porter {
   @ViewBuilder private func exporter(isLoading: Bool) -> some View {
-    Widget {
-      HStack {
-        Picker("", selection: $coder) {
-          ForEach(FileCoders.allCases, id: \.self) { coder in
-            Text(LocalizedStringKey(coder.rawValue))
-          }
-        }
-        .pickerStyle(.segmented)
-        .accessibilityElement()
-        .accessibilityLabel("PICK_FORMAT")
-        .accessibilityValue(LocalizedStringKey(coder.rawValue))
-        .accessibilityIdentifier("format-picker")
-
-        Button { showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
-          .accessibilityIdentifier("export-button")
-          .if(isLoading) { $0
-            .hidden()
-            .overlay(content: ProgressView.init)
-          }
+    Button { showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
+      .accessibilityIdentifier("export-button")
+      .if(isLoading) { $0
+        .hidden()
+        .overlay(content: ProgressView.init)
       }
-    }
   }
 
   @ViewBuilder private func importer(isLoading: Bool) -> some View {
-    Widget {
-      Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
-        .accessibilityIdentifier("import-button")
-        .if(isLoading) { $0
-          .hidden()
-          .overlay(content: ProgressView.init)
-        }
+    Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
+      .accessibilityIdentifier("import-button")
+      .if(isLoading) { $0
+        .hidden()
+        .overlay(content: ProgressView.init)
+      }
+  }
+
+  @ViewBuilder private func formatPicker() -> some View {
+    Picker("", selection: $coder) {
+      ForEach(FileCoders.allCases, id: \.self) { coder in
+        Text(LocalizedStringKey(coder.rawValue))
+      }
     }
-    .fixedSize()
+    .pickerStyle(.segmented)
+    .accessibilityElement()
+    .accessibilityLabel("PICK_FORMAT")
+    .accessibilityValue(LocalizedStringKey(coder.rawValue))
+    .accessibilityIdentifier("format-picker")
   }
 
   @ViewBuilder private func displayPreview() -> some View {
@@ -111,13 +110,13 @@ extension Porter {
 }
 
 enum FileCoders: String, CaseIterable {
-  case daily = "DAILY_FORMAT", exact = "EXACT_FORMAT" // , grouped = "GROUPED_FORMAT"
+  case daily = "DAILY_FORMAT", exact = "EXACT_FORMAT", grouped = "GROUPED_FORMAT"
 
   var coder: Coder {
     switch self {
     case .daily: return .daily
     case .exact: return .exact
-//    case .grouped: return .grouped
+    case .grouped: return .grouped
     }
   }
 }
