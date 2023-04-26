@@ -6,16 +6,16 @@ import SwiftUI
 extension Porter {
   enum ViewAction {
     case createFile
-    case changeCoder(FileCoders)
+    case selectCoder(FileCoders)
     case importFile(URL)
-    case dismissImportFailed
+    case dismissImportError
     
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
-      case .createFile: return .createFile
-      case let changeCoder(coder): return .file(.changeCoder(coder.coder))
+      case .createFile: return .file(.create)
+      case let .selectCoder(coder): return .file(.setCoder(coder.coder))
       case let .importFile(url): return .file(.import(url))
-      case .dismissImportFailed: return .file(.dismissImportFailed)
+      case .dismissImportError: return .file(.clearError)
       }
     }
   }

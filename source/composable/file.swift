@@ -6,53 +6,64 @@ import UniformTypeIdentifiers
 struct File: ReducerProtocol {
   struct State: Equatable {
     var file: DataFile?
+    
     var coder: Coder = .daily
-    
-    // TODO: keep entries cached here
-    // TODO: convert to import error with description
-    var importFailed = false
-    
-    var entries: [Date]? { file.flatMap { coder.decode($0.content) } }
+    var entries = [Date]()
+    var importError: ImportError?
     
     static func == (lhs: File.State, rhs: File.State) -> Bool {
-      lhs.file == rhs.file && lhs.importFailed == rhs.importFailed && type(of: lhs.coder) == type(of: rhs.coder)
+      lhs.file == rhs.file
+      && type(of: lhs.coder) == type(of: rhs.coder)
+      && lhs.entries == rhs.entries
+      && lhs.importError == rhs.importError
     }
   }
   
   enum Action {
-    case create([Date])
-    case changeCoder(Coder)
+    case create
+    case setEntries([Date]), setCoder(Coder)
     case `import`(URL)
-    case dismissImportFailed
+    case clearError
   }
   
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
-    case let .create(entries):
-      state.file = nil
-      state.file = DataFile(state.coder.encode(entries))
+    case .create:
+      state.file = DataFile(state.coder.encode(state.entries))
       
-    case let .changeCoder(coder):
-      if let content = state.file?.content {
-        state.file = nil
-        let entries = state.coder.decode(content)
-        state.file = DataFile(coder.encode(entries))
-      }
+    case let .setEntries(entries):
+      state.entries = entries
+      return .send(.create)
+      
+    case let .setCoder(coder):
       state.coder = coder
-        
+      return .send(.create)
+      
     case let .import(url):
       do {
-        state.file = nil
         state.file = try DataFile(at: url)
+      } catch let error as URLError where error.code == .noPermissionsToReadFile {
+        state.importError = .missingPermission
       } catch {
-        debugPrint(error)
-        state.importFailed = true
+        state.importError = .invalidURL
       }
-        
-    case .dismissImportFailed:
-      state.importFailed = false
+      
+    case .clearError:
+      state.importError = nil
     }
     
     return .none
+  }
+  
+  enum ImportError: Error, LocalizedError {
+    case invalidFormat, invalidURL, missingPermission
+    
+    var errorDescription: String? {
+      switch self {
+      case .invalidFormat: return "INVALID_FORMAT_IMPORTERROR"
+      case .invalidURL: return "INVALID_URL_IMPORTERROR"
+      case .missingPermission: return "MISSING_PERMISSION_IMPORTERROR"
+      }
+    }
   }
 }

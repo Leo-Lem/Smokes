@@ -6,34 +6,28 @@ import XCTest
 
 @MainActor
 final class FileTests: XCTestCase {
-  func testCreatingFile() async throws {
-    let entries = [Date()]
+  func testSettingEntries() async throws {
+    let entries = [Date.now]
     
     let store = TestStore(initialState: .init(), reducer: File()) {
       $0.calendar = .current
     }
     
-    await store.send(.create(entries)) {
-      $0.file = .init(Data())
-      $0.file = .init($0.coder.encode(entries))
-    }
+    await store.send(.setEntries(entries)) { $0.entries = entries }
+    await store.receive(/.create, timeout: 1) { $0.file = .init(store.state.coder.encode(entries)) }
   }
 
-  func testChangingCoder() async throws {
+  func testSettingCoder() async throws {
     let entries = [Date.now, .now]
-    let oldCoder = GroupedCoder()
-    let coder = DailyCoder()
+    let oldCoder = GroupedCoder(), newCoder = DailyCoder()
     
     let store = TestStore(
-      initialState: .init(file: .init(oldCoder.encode(entries)), coder: oldCoder),
-      reducer: File()) {
+      initialState: .init(coder: oldCoder, entries: entries), reducer: File()) {
       $0.calendar = .current
     }
     
-    await store.send(.changeCoder(coder)) {
-      $0.coder = coder
-      $0.file = .init(coder.encode(entries))
-    }
+    await store.send(.setCoder(newCoder)) { $0.coder = newCoder }
+    await store.receive(/.create, timeout: 1) { $0.file = .init(newCoder.encode(entries)) }
   }
 
   func testImportingFile() async throws {
@@ -44,9 +38,6 @@ final class FileTests: XCTestCase {
       $0.calendar = .current
     }
     
-    await store.send(.import(url)) {
-      $0.file = try .init(at: url)
-    }
+    await store.send(.import(url)) { $0.file = try .init(at: url) }
   }
-
 }

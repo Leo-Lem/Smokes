@@ -7,11 +7,11 @@ import UniformTypeIdentifiers
 extension Porter {
   struct ViewState: Equatable {
     let file: DataFile?
-    let importFailed: Bool
+    let importError: File.ImportError?
     
     init(_ state: MainReducer.State) {
       file = state.file.file
-      importFailed = state.file.importFailed
+      importError = state.file.importError
     }
   }
 }

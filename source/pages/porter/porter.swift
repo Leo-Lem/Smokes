@@ -25,7 +25,10 @@ struct Porter: View {
               }
             }
         }
-        .alert("IMPORT_FAILED", isPresented: vs.binding(get: \.importFailed, send: { _ in .dismissImportFailed })) {}
+        .alert(
+          isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
+          error: vs.importError
+        ) {}
 
         Spacer()
 
@@ -48,11 +51,11 @@ struct Porter: View {
       .presentationDetents([.medium])
       // .presentationBackground(.clear) only for iOS 16.4
       .onAppear {
-        vs.send(.changeCoder(coder))
+        vs.send(.selectCoder(coder))
         vs.send(.createFile)
         Task { preview = vs.file.flatMap { String(data: $0.content, encoding: .utf8) } }
       }
-      .onChange(of: coder) { vs.send(.changeCoder($0)) }
+      .onChange(of: coder) { vs.send(.selectCoder($0)) }
       .onChange(of: vs.file) { newFile in
         Task {
           preview = nil

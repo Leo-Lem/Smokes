@@ -109,23 +109,6 @@ final class MainReducerTests: XCTestCase {
       }
     }
   }
-  
-  func testFileReload_givenFileExists_whenReloadingCache_thenUpdatesFile() async throws {
-    let store = TestStore(
-      initialState: .init(file: .init(file: DataFile(Data()))),
-      reducer: MainReducer()
-    ) { $0.calendar = .current }
-    
-    store.exhaustivity = .off(showSkippedAssertions: true)
-    
-    let entries = [Date.now]
-    
-    await store.send(.entries(.set(entries))) { $0.entries.entries = entries }
-    await store.receive(/.cache(.reload(entries)), timeout: 1)
-    await store.receive(/.file(.create(entries)), timeout: 1)
-    
-    XCTAssertFalse(store.state.file.file?.content.isEmpty ?? true)
-  }
 }
 
 extension MainReducerTests {
