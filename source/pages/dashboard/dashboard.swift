@@ -1,6 +1,8 @@
 import ComposableArchitecture
 import SwiftUI
 
+// FIXME: when selecting last month, crashes sometimes
+
 struct DashboardView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
   
@@ -12,7 +14,7 @@ struct DashboardView: View {
 
           GridRow {
             configurableAmountWidget { vs.configurableAmounts[$0]?.optional }
-            configurableTimeWidget(timeOption == .sinceLast ? vs.sinceLast : vs.longestBreak)
+            configurableTimeWidget(timeOption == .sinceLast ? vs.break : vs.longestBreak)
           }
           
           GridRow {
@@ -27,20 +29,15 @@ struct DashboardView: View {
             
           GridRow {
             untilNowAmountWidget(vs.untilHereAmount, porterButtonAlignment: .bottomLeading)
-            configurableTimeWidget(timeOption == .sinceLast ? vs.sinceLast : vs.longestBreak)
+            configurableTimeWidget(timeOption == .sinceLast ? vs.break : vs.longestBreak)
             incrementWidget(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
           }
         }
       }
       .animation(.default, value: vs.state)
-      .animation(.default, value: vSize)
       .animation(.default, value: amountOption)
       .animation(.default, value: timeOption)
-      .onAppear {
-        vs.send(.loadDay)
-        vs.send(.loadUntilNow)
-        AmountOption.allCases.forEach { vs.send(.loadOption($0)) }
-      }
+      .onAppear { ViewAction.setup(vs) }
     }
   }
   

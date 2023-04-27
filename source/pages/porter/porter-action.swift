@@ -8,14 +8,14 @@ extension Porter {
     case createFile
     case selectCoder(Format)
     case importFile(URL)
-    case dismissImportError
+    case dismissError
     
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
       case .createFile: return .createFile
       case let .selectCoder(coder): return .file(.setCoder(coder.coder))
       case let .importFile(url): return .file(.import(url))
-      case .dismissImportError: return .file(.clearError)
+      case .dismissError: return .file(.setError(nil))
       }
     }
   }

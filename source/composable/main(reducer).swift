@@ -3,34 +3,30 @@ import Foundation
 
 struct MainReducer: ReducerProtocol {
   var body: some ReducerProtocol<State, Action> {
-    Scope(state: \.entries, action: /MainReducer.Action.entries, child: Entries.init)
-    Scope(state: \.cache, action: /MainReducer.Action.cache, child: Cache.init)
-    Scope(state: \.file, action: /MainReducer.Action.file, child: File.init)
+    Scope(state: \.entries, action: /Action.entries, child: Entries.init)
+    Scope(state: \.file, action: /Action.file, child: File.init)
+    Scope(state: \.calculate, action: /Action.calculate, child: Calculate.init)
     
     Reduce<State, Action> { state, action in
       switch action {
-      case let .entries(.set(entries)):
-        return .send(.cache(.reload(entries)))
-        
-      case let .entries(.add(date)), let .entries(.remove(date)):
-        return .send(.cache(.reload(state.entries.entries, date: date)))
-        
-      case let .load(interval):
-        return .send(.cache(.load(state.entries.entries, interval: interval)))
-        
-      case let .loadAll(interval, subdivision: subdivision):
-        return .send(.cache(.loadAll(state.entries.entries, interval: interval, subdivision: subdivision)))
-        
       case .createFile:
-        return .send(.file(.setEntries(state.entries.entries)))
+        return .run { [entries = state.entries.entries] send in
+          await send(.file(.set(nil)))
+          await send(.file(.setEntries(entries)))
+          await send(.file(.create))
+        }
         
       case .file(.import):
         if state.file.importError == nil {
           return .send(.entries(.set((state.entries.entries + state.file.entries).sorted())))
         }
         
-      case let .cache(.reload(entries, _)):
-        if state.file.file != nil { return .send(.file(.setEntries(entries))) }
+      // keep data in sync
+      case let .entries(.set(entries)):
+        return .run { send in
+          await send(.calculate(.updateEntries(entries)))
+          await send(.file(.setEntries(entries)))
+        }
         
       default:
         break
@@ -41,14 +37,54 @@ struct MainReducer: ReducerProtocol {
 }
 
 extension MainReducer {
+  struct State: Equatable {
+    var entries = Entries.State()
+    var file = File.State()
+    fileprivate var calculate = Calculate.State()
+    
+    func entries(for interval: Interval) -> [Date]? { calculate.filtereds[interval] }
+    
+    func amount(for interval: Interval) -> Int? {
+      calculate.amounts[mapAlltimeInterval(interval)]
+    }
+    
+    func average(for interval: Interval, by sub: Subdivision) -> Double? {
+      calculate.averages[.init(mapAlltimeInterval(interval), sub)]
+    }
+    
+    func trend(for interval: Interval, by sub: Subdivision) -> Double? {
+      calculate.trends[.init(mapAlltimeInterval(interval), sub)]
+    }
+    
+    func `break`(for date: Date) -> TimeInterval? {
+      calculate.breaks[date]
+    }
+    
+    func longestBreak(until date: Date) -> TimeInterval? {
+      calculate.longestBreaks[date]
+    }
+    
+    func averageBreak(_ interval: Interval) -> TimeInterval? {
+      calculate.averageBreaks[mapAlltimeInterval(interval)]
+    }
+    
+    private func mapAlltimeInterval(_ interval: Interval) -> Interval {
+      @Dependency(\.calendar) var cal
+      @Dependency(\.date.now) var now
+      return interval == .alltime
+        ? .fromTo(.init(start: cal.startOfDay(for: entries.startDate), end: cal.endOfDay(for: now)))
+        : interval
+    }
+  }
+}
+
+extension MainReducer {
   enum Action {
     case entries(Entries.Action)
-    case cache(Cache.Action)
-    case file(File.Action)
     
-    case load(_ interval: Interval)
-    case loadAll(_ interval: Interval, subdivision: Subdivision)
+    case file(File.Action),
+         createFile
     
-    case createFile
+    case calculate(Calculate.Action)
   }
 }

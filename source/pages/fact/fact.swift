@@ -6,6 +6,7 @@ struct FactView: View {
   @Binding var isPresented: Bool
 
   var body: some View {
+    Text("")
     VStack {
       factBox()
       Spacer()

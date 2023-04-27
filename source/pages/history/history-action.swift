@@ -19,11 +19,11 @@ extension HistoryView {
       case .remove:
         return .entries(.remove(selectedDate))
       case let .loadDay(date):
-        return .load(.day(date ?? selectedDate))
+        return .calculate(.amount(.day(date ?? selectedDate)))
       case let .loadUntilHere(date):
-        return .load(.to(date ?? selectedDate))
+        return .calculate(.amount(.to(date ?? selectedDate)))
       case let .loadOption(option, date):
-        return .load(option.interval(date ?? selectedDate))
+        return .calculate(.amount(option.interval(date ?? selectedDate)))
       }
     }
   }

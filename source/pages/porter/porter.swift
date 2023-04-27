@@ -16,7 +16,7 @@ struct Porter: View {
         }
         .animation(.default, value: preview)
         .alert(
-          isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissImportError }),
+          isPresented: vs.binding(get: { $0.importError != nil }, send: { _ in .dismissError }),
           error: vs.importError
         ) {}
         .if(let: vs.file) { view, file in view
@@ -51,13 +51,13 @@ struct Porter: View {
       .onAppear {
         vs.send(.selectCoder(coder))
         vs.send(.createFile)
-        Task { preview = vs.file.flatMap { String(data: $0.content, encoding: .utf8) } }
       }
-      .onChange(of: coder) { vs.send(.selectCoder($0)) }
+      .onChange(of: coder) {
+        vs.send(.createFile)
+        vs.send(.selectCoder($0))
+      }
       .onChange(of: vs.file) { newFile in
-        Task {
-          preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
-        }
+        preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
       }
     }
   }

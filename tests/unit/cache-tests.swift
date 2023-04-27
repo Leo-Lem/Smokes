@@ -9,7 +9,7 @@ final class CacheTests: XCTestCase {
   func testLoading() async throws {
     let interval = Interval.day(.now)
     
-    let store = TestStore(initialState: .init(), reducer: Cache()) {
+    let store = TestStore(initialState: .init(), reducer: Amounts()) {
       $0.calculator.amount = { _, _ in 1 }
       $0.calendar = .current
     }
@@ -21,7 +21,7 @@ final class CacheTests: XCTestCase {
     await withDependencies { $0.calendar = .current } operation: {
       let interval = Interval.week(.now), subdivision = Subdivision.day
       
-      let store = TestStore(initialState: .init(), reducer: Cache()) {
+      let store = TestStore(initialState: .init(), reducer: Amounts()) {
         $0.calculator.amount = { _, _ in 1 }
         $0.calendar = .current
       }
@@ -34,7 +34,7 @@ final class CacheTests: XCTestCase {
   }
   
   func testReloadingWithoutDate() async throws {
-    let store = TestStore(initialState: .init(amounts: [.alltime: 0]), reducer: Cache()) {
+    let store = TestStore(initialState: .init(amounts: [.alltime: 0]), reducer: Amounts()) {
       $0.calculator.amount = { _, _ in 1 }
       $0.calendar = .current
     }
@@ -47,7 +47,7 @@ final class CacheTests: XCTestCase {
     let now = Date.now
     let interval = Interval.day(now)
     
-    let store = TestStore(initialState: .init(amounts: [interval: 0]), reducer: Cache()) {
+    let store = TestStore(initialState: .init(amounts: [interval: 0]), reducer: Amounts()) {
       $0.calculator.amount = { _, _ in 1 }
       $0.calendar = .current
     }

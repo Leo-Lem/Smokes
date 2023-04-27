@@ -11,7 +11,7 @@ struct DailyCoder: Coder {
   static let utType = UTType.json
   
   func encode(_ entries: [Date]) throws -> Data {
-    try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
+    try JSONSerialization.data(withJSONObject: prepare(entries), options: [.sortedKeys, .prettyPrinted])
   }
   
   func decode(_ data: Data) throws -> [Date] {

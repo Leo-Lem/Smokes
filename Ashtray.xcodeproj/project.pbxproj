@@ -53,27 +53,24 @@
 		6E6B83B829D81D7700EB7E6F /* stats-state.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83B729D81D7700EB7E6F /* stats-state.swift */; };
 		6E6B83BA29D81D7D00EB7E6F /* stats-action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83B929D81D7D00EB7E6F /* stats-action.swift */; };
 		6E6B83C429D90FED00EB7E6F /* persistor-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83C329D90FED00EB7E6F /* persistor-tests.swift */; };
-		6E6B83CF29D91FFE00EB7E6F /* calculator-previewValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83CD29D91FED00EB7E6F /* calculator-previewValue.swift */; };
-		6E6B83D229D9201000EB7E6F /* calculator-testValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83D029D9200A00EB7E6F /* calculator-testValue.swift */; };
-		6E6B83D529D9202D00EB7E6F /* calculator-liveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83D329D9202200EB7E6F /* calculator-liveValue.swift */; };
 		6E6B83D829D923CB00EB7E6F /* subdivision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83D629D9236B00EB7E6F /* subdivision.swift */; };
 		6E6B83DF29D937D300EB7E6F /* interval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83DD29D936AD00EB7E6F /* interval.swift */; };
 		6E6B83E229D9449D00EB7E6F /* interval-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83E129D9449D00EB7E6F /* interval-tests.swift */; };
-		6E6B83E929D9459C00EB7E6F /* main(reducer)-state.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83E429D9456E00EB7E6F /* main(reducer)-state.swift */; };
 		6E6B83F729D9471900EB7E6F /* cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83F429D946D500EB7E6F /* cache.swift */; };
 		6E72364B29F9C77700616406 /* sheetBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72364A29F9C77700616406 /* sheetBackground.swift */; };
 		6E72364E29F9C98300616406 /* previewInSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72364D29F9C98300616406 /* previewInSheet.swift */; };
 		6E72365129F9CBAE00616406 /* compactDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72365029F9CBAE00616406 /* compactDismissButton.swift */; };
+		6E72365929F9F6D700616406 /* calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72365829F9F6D700616406 /* calculator.swift */; };
+		6E72365B29FA0F1D00616406 /* intervalAndSubdivision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72365A29FA0F1D00616406 /* intervalAndSubdivision.swift */; };
+		6E72365D29FA23E500616406 /* calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72365C29FA23E500616406 /* calculate.swift */; };
 		6E7A215429F8B95500FD8C12 /* file-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7A215329F8B95500FD8C12 /* file-tests.swift */; };
 		6E825DA429D7F93000824079 /* replace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DA329D7F93000824079 /* replace.swift */; };
 		6E825DAC29D7FCB700824079 /* formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DAB29D7FCB700824079 /* formatter.swift */; };
 		6E825DB329D80CEB00824079 /* DescriptedValue-content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DB229D80CEB00824079 /* DescriptedValue-content.swift */; };
 		6E825DB529D8138E00824079 /* DescriptedChart-content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DB429D8138E00824079 /* DescriptedChart-content.swift */; };
-		6E9BE4DA29CFF1CA00AF77E4 /* calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4D929CFF1CA00AF77E4 /* calculator.swift */; };
 		6E9BE4DF29CFF1DA00AF77E4 /* entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4DD29CFF1DA00AF77E4 /* entries.swift */; };
 		6E9BE4E129CFF25700AF77E4 /* Persistor-previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4E029CFF25700AF77E4 /* Persistor-previews.swift */; };
 		6E9BE4E429CFF83B00AF77E4 /* entries-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4E229CFF80300AF77E4 /* entries-tests.swift */; };
-		6E9BE4E729CFFFBE00AF77E4 /* calculator-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4E529CFFFB000AF77E4 /* calculator-tests.swift */; };
 		6EA4B63F29F68C5B00C85612 /* stats-options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B63E29F68C5B00C85612 /* stats-options.swift */; };
 		6EA4B64129F7A80500C85612 /* CodableAppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B64029F7A80500C85612 /* CodableAppStorage.swift */; };
 		6EA4B64329F7AE0900C85612 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B64229F7AE0900C85612 /* Coder.swift */; };
@@ -92,7 +89,6 @@
 		6EBEB94E29D690390013DA8D /* View.if.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEB94D29D690390013DA8D /* View.if.swift */; };
 		6EBEB95029D6920A0013DA8D /* Binding.Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEB94F29D6920A0013DA8D /* Binding.Preview.swift */; };
 		6EBEB95429D697420013DA8D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEB95329D697420013DA8D /* TabView.swift */; };
-		6ECA241A29D962E2000BB580 /* cache-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA241929D962E2000BB580 /* cache-tests.swift */; };
 		6ED91E19293FB72600728E2B /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E18293FB72600728E2B /* config.swift */; };
 		6ED91E23293FB7BB00728E2B /* ui-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E22293FB7BB00728E2B /* ui-tests.swift */; };
 /* End PBXBuildFile section */
@@ -167,23 +163,21 @@
 		6E6B83B929D81D7D00EB7E6F /* stats-action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stats-action.swift"; sourceTree = "<group>"; };
 		6E6B83BE29D8312A00EB7E6F /* IntervalPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalPicker.swift; sourceTree = "<group>"; };
 		6E6B83C329D90FED00EB7E6F /* persistor-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "persistor-tests.swift"; sourceTree = "<group>"; };
-		6E6B83CD29D91FED00EB7E6F /* calculator-previewValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "calculator-previewValue.swift"; sourceTree = "<group>"; };
-		6E6B83D029D9200A00EB7E6F /* calculator-testValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "calculator-testValue.swift"; sourceTree = "<group>"; };
-		6E6B83D329D9202200EB7E6F /* calculator-liveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "calculator-liveValue.swift"; sourceTree = "<group>"; };
 		6E6B83D629D9236B00EB7E6F /* subdivision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subdivision.swift; sourceTree = "<group>"; };
 		6E6B83DD29D936AD00EB7E6F /* interval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = interval.swift; sourceTree = "<group>"; };
 		6E6B83E129D9449D00EB7E6F /* interval-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "interval-tests.swift"; sourceTree = "<group>"; };
-		6E6B83E429D9456E00EB7E6F /* main(reducer)-state.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "main(reducer)-state.swift"; sourceTree = "<group>"; };
 		6E6B83F429D946D500EB7E6F /* cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cache.swift; sourceTree = "<group>"; };
 		6E72364A29F9C77700616406 /* sheetBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sheetBackground.swift; sourceTree = "<group>"; };
 		6E72364D29F9C98300616406 /* previewInSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = previewInSheet.swift; sourceTree = "<group>"; };
 		6E72365029F9CBAE00616406 /* compactDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = compactDismissButton.swift; sourceTree = "<group>"; };
+		6E72365829F9F6D700616406 /* calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculator.swift; sourceTree = "<group>"; };
+		6E72365A29FA0F1D00616406 /* intervalAndSubdivision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = intervalAndSubdivision.swift; sourceTree = "<group>"; };
+		6E72365C29FA23E500616406 /* calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculate.swift; sourceTree = "<group>"; };
 		6E7A215329F8B95500FD8C12 /* file-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "file-tests.swift"; sourceTree = "<group>"; };
 		6E825DA329D7F93000824079 /* replace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = replace.swift; sourceTree = "<group>"; };
 		6E825DAB29D7FCB700824079 /* formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formatter.swift; sourceTree = "<group>"; };
 		6E825DB229D80CEB00824079 /* DescriptedValue-content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DescriptedValue-content.swift"; sourceTree = "<group>"; };
 		6E825DB429D8138E00824079 /* DescriptedChart-content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DescriptedChart-content.swift"; sourceTree = "<group>"; };
-		6E9BE4D929CFF1CA00AF77E4 /* calculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calculator.swift; sourceTree = "<group>"; };
 		6E9BE4DD29CFF1DA00AF77E4 /* entries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = entries.swift; sourceTree = "<group>"; };
 		6E9BE4E029CFF25700AF77E4 /* Persistor-previews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Persistor-previews.swift"; sourceTree = "<group>"; };
 		6E9BE4E229CFF80300AF77E4 /* entries-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "entries-tests.swift"; sourceTree = "<group>"; };
@@ -243,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				6EA97A1029CE8C4B0098CC61 /* background.swift */,
+				6E178D9C29F67741008FF02E /* AmountsChart.swift */,
 				6E5CFE8429D6DCA7006DC2B6 /* widgets */,
 				6E825DB129D80CE300824079 /* content */,
 				6E825DB029D80CDD00824079 /* controls */,
@@ -281,7 +276,6 @@
 			children = (
 				6E09E65129A6ECE3006AF884 /* persistor.swift */,
 				6EA4B64629F7B01A00C85612 /* coder */,
-				6E6B83CC29D91FE200EB7E6F /* calculator */,
 				6E825DAB29D7FCB700824079 /* formatter.swift */,
 			);
 			path = dependencies;
@@ -327,11 +321,11 @@
 			isa = PBXGroup;
 			children = (
 				6E58EF9629A4253800181557 /* main(reducer).swift */,
-				6E6B83E429D9456E00EB7E6F /* main(reducer)-state.swift */,
-				6E6B83F429D946D500EB7E6F /* cache.swift */,
 				6E9BE4DD29CFF1DA00AF77E4 /* entries.swift */,
+				6E72365C29FA23E500616406 /* calculate.swift */,
 				6EA4B64D29F7CA9E00C85612 /* file.swift */,
-				6E09E65029A6ECB3006AF884 /* dependencies */,
+				6E6B83F429D946D500EB7E6F /* cache.swift */,
+				6E72365829F9F6D700616406 /* calculator.swift */,
 			);
 			path = composable;
 			sourceTree = "<group>";
@@ -364,6 +358,7 @@
 				6E34A48628F0367A00A95FD1 /* main(view).swift */,
 				6E6B83E029D93A3700EB7E6F /* models */,
 				6E2CE6BF29B40BC70082E2C6 /* composable */,
+				6E09E65029A6ECB3006AF884 /* dependencies */,
 				6E09E64929A6D5F4006AF884 /* pages */,
 				6E014D9229A5D94D004EF7F5 /* components */,
 			);
@@ -493,22 +488,12 @@
 			path = deps;
 			sourceTree = "<group>";
 		};
-		6E6B83CC29D91FE200EB7E6F /* calculator */ = {
-			isa = PBXGroup;
-			children = (
-				6E9BE4D929CFF1CA00AF77E4 /* calculator.swift */,
-				6E6B83D329D9202200EB7E6F /* calculator-liveValue.swift */,
-				6E6B83CD29D91FED00EB7E6F /* calculator-previewValue.swift */,
-				6E6B83D029D9200A00EB7E6F /* calculator-testValue.swift */,
-			);
-			path = calculator;
-			sourceTree = "<group>";
-		};
 		6E6B83E029D93A3700EB7E6F /* models */ = {
 			isa = PBXGroup;
 			children = (
 				6E24C15B29DAB9CF00A03B33 /* interval */,
 				6E6B83D629D9236B00EB7E6F /* subdivision.swift */,
+				6E72365A29FA0F1D00616406 /* intervalAndSubdivision.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -551,7 +536,6 @@
 			children = (
 				6E825DB229D80CEB00824079 /* DescriptedValue-content.swift */,
 				6E825DB429D8138E00824079 /* DescriptedChart-content.swift */,
-				6E178D9C29F67741008FF02E /* AmountsChart.swift */,
 			);
 			path = content;
 			sourceTree = "<group>";
@@ -776,10 +760,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E2CE6C229B4284D0082E2C6 /* coder-tests.swift in Sources */,
-				6E9BE4E729CFFFBE00AF77E4 /* calculator-tests.swift in Sources */,
 				6E6B83E229D9449D00EB7E6F /* interval-tests.swift in Sources */,
 				6E4C8A9829B2B00D00C00204 /* average-perf.swift in Sources */,
-				6ECA241A29D962E2000BB580 /* cache-tests.swift in Sources */,
 				6E4C8A9D29B2B03600C00204 /* perftest-utils.swift in Sources */,
 				6E4C8A9A29B2B01100C00204 /* trend-perf.swift in Sources */,
 				6E4C8A9729B2B00900C00204 /* amount-perf.swift in Sources */,
@@ -796,15 +778,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E825DA429D7F93000824079 /* replace.swift in Sources */,
-				6E9BE4DA29CFF1CA00AF77E4 /* calculator.swift in Sources */,
 				6E178D9D29F67741008FF02E /* AmountsChart.swift in Sources */,
-				6E6B83D529D9202D00EB7E6F /* calculator-liveValue.swift in Sources */,
 				6E825DB329D80CEB00824079 /* DescriptedValue-content.swift in Sources */,
 				6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */,
 				6E2CE6C429B43C260082E2C6 /* DataFile.swift in Sources */,
 				6EBEB95029D6920A0013DA8D /* Binding.Preview.swift in Sources */,
 				6E72365129F9CBAE00616406 /* compactDismissButton.swift in Sources */,
 				6E24C15F29DAB9FA00A03B33 /* interval-dateInterval.swift in Sources */,
+				6E72365B29FA0F1D00616406 /* intervalAndSubdivision.swift in Sources */,
 				6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */,
 				6E72364E29F9C98300616406 /* previewInSheet.swift in Sources */,
 				6E6B83DF29D937D300EB7E6F /* interval.swift in Sources */,
@@ -814,7 +795,6 @@
 				6E2911C629D7AC3100ECA09F /* history-state.swift in Sources */,
 				6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */,
 				6E04699E29CF978300000123 /* fact.swift in Sources */,
-				6E6B83E929D9459C00EB7E6F /* main(reducer)-state.swift in Sources */,
 				6E5CFE7F29D6C8DC006DC2B6 /* ExampleTabs.swift in Sources */,
 				6EBEB94C29D68D090013DA8D /* Tabbable.swift in Sources */,
 				6E09E65229A6ECE3006AF884 /* persistor.swift in Sources */,
@@ -823,6 +803,7 @@
 				6E24C16229DABCA900A03B33 /* IntervalPicker.swift in Sources */,
 				6E34A48828F0367A00A95FD1 /* main(app).swift in Sources */,
 				6EBEB95429D697420013DA8D /* TabView.swift in Sources */,
+				6E72365D29FA23E500616406 /* calculate.swift in Sources */,
 				6E72364B29F9C77700616406 /* sheetBackground.swift in Sources */,
 				6E2911CA29D7AC3F00ECA09F /* history-options.swift in Sources */,
 				6E6B83F729D9471900EB7E6F /* cache.swift in Sources */,
@@ -832,9 +813,9 @@
 				6E1FD67E29F8FE6100149223 /* info.swift in Sources */,
 				6E9BE4DF29CFF1DA00AF77E4 /* entries.swift in Sources */,
 				6E2911B929D7741A00ECA09F /* dashboard-options.swift in Sources */,
-				6E6B83CF29D91FFE00EB7E6F /* calculator-previewValue.swift in Sources */,
 				6EAB8C0129B07C10002B08C2 /* history.swift in Sources */,
 				6EA4B64829F7B04B00C85612 /* ExactCoder.swift in Sources */,
+				6E72365929F9F6D700616406 /* calculator.swift in Sources */,
 				6EBEB94929D6811F0013DA8D /* TabBar.swift in Sources */,
 				6E825DAC29D7FCB700824079 /* formatter.swift in Sources */,
 				6E5CFE8629D6DCBD006DC2B6 /* ConfigurableWidget.swift in Sources */,
@@ -848,7 +829,6 @@
 				6EBEB94E29D690390013DA8D /* View.if.swift in Sources */,
 				6EA4B65429F8B0FF00C85612 /* porter-action.swift in Sources */,
 				6EA4B64E29F7CA9E00C85612 /* file.swift in Sources */,
-				6E6B83D229D9201000EB7E6F /* calculator-testValue.swift in Sources */,
 				6E4173F529BD44B200A3660E /* stats.swift in Sources */,
 				6E2CE6D029B446750082E2C6 /* OptionalAssignment.swift in Sources */,
 				6EA4B65229F8B0FA00C85612 /* porter-state.swift in Sources */,

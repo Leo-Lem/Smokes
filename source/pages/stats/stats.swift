@@ -39,19 +39,23 @@ struct StatsView: View {
       .animation(.default, value: option)
       .animation(.default, value: plotOption)
       .onAppear {
-        vs.send(.loadAverage(selection))
-        Option.enabledCases(selection).forEach { vs.send(.loadTrend($0.subdivision, interval: selection)) }
+        Option.enabledCases(selection).forEach {
+          vs.send(.calculateAverage(selection, $0.subdivision))
+          vs.send(.calculateTrend(selection, $0.subdivision))
+        }
       }
-      .onChange(of: selection) { newInterval in
-        vs.send(.loadAverage(newInterval))
-        
-        Option.enabledCases(newInterval).forEach { vs.send(.loadTrend($0.subdivision, interval: newInterval)) }
-        if !Option.enabledCases(newInterval).contains(option) {
-          option = Option.enabledCases(newInterval).first!
+      .onChange(of: selection) { newSelection in
+        Option.enabledCases(selection).forEach {
+          vs.send(.calculateAverage(newSelection, $0.subdivision))
+          vs.send(.calculateTrend(newSelection, $0.subdivision))
         }
         
-        if !PlotOption.enabledCases(newInterval).contains(plotOption) {
-          plotOption = PlotOption.enabledCases(newInterval).first!
+        if !Option.enabledCases(newSelection).contains(option) {
+          option = Option.enabledCases(newSelection).first!
+        }
+
+        if !PlotOption.enabledCases(newSelection).contains(plotOption) {
+          plotOption = PlotOption.enabledCases(newSelection).first!
         }
       }
     }
@@ -95,7 +99,7 @@ extension StatsView {
   }
 
   private func amountsPlotWidget(_ entries: [Date]?, bounds: Interval) -> some View {
-    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
+    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { _ in
       AmountsChart(
         entries: entries,
         bounds: selection == .alltime ? bounds : selection,

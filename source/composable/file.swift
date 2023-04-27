@@ -4,56 +4,34 @@ import ComposableArchitecture
 import UniformTypeIdentifiers
 
 struct File: ReducerProtocol {
-  struct State: Equatable {
-    var file: DataFile?
-    
-    var coder: Coder = .daily
-    var entries = [Date]()
-    var importError: ImportError?
-    
-    static func == (lhs: File.State, rhs: File.State) -> Bool {
-      lhs.file == rhs.file
-      && type(of: lhs.coder) == type(of: rhs.coder)
-      && lhs.entries == rhs.entries
-      && lhs.importError == rhs.importError
-    }
-  }
-  
-  enum Action {
-    case create
-    case setEntries([Date]), setCoder(Coder)
-    case `import`(URL)
-    case clearError
-  }
-  
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
+    case let .set(file): state.file = file
+    case let .setEntries(entries): state.entries = entries
+    case let .setCoder(coder): state.coder = coder
+    case let .setError(error): state.importError = error
+      
     case .create:
-      state.file = DataFile((try? state.coder.encode(state.entries)) ?? Data())
-      
-    case let .setEntries(entries):
-      state.entries = entries
-      return .send(.create)
-      
-    case let .setCoder(coder):
-      state.coder = coder
-      return .send(.create)
-      
-    case let .import(url):
-      do {
-        let file = try DataFile(at: url)
-        state.entries = try state.coder.decode(file.content)
-        state.file = file
-      } catch let error as URLError where error.code == .noPermissionsToReadFile {
-        state.importError = .missingPermission
-      } catch is URLError {
-        state.importError = .invalidURL
-      } catch {
-        state.importError = .invalidFormat
+      return .run { [coder = state.coder, entries = state.entries] send in
+        do {
+          await send(.set(DataFile(try coder.encode(entries))))
+        } catch { debugPrint(error) }
       }
       
-    case .clearError:
-      state.importError = nil
+    case let .import(url):
+      return .run { [coder = state.coder] send in
+        do {
+          let file = try DataFile(at: url)
+          await send(.set(file))
+          await send(.setEntries(try coder.decode(file.content)))
+        } catch let error as URLError where error.code == .noPermissionsToReadFile {
+          await send(.setError(.missingPermission))
+        } catch is URLError {
+          await send(.setError(.invalidURL))
+        } catch {
+          await send(.setError(.invalidFormat))
+        }
+      }
     }
     
     return .none
@@ -69,5 +47,35 @@ struct File: ReducerProtocol {
       case .missingPermission: return String(localized: "MISSING_PERMISSION_IMPORTERROR")
       }
     }
+  }
+}
+
+extension File {
+  struct State: Equatable {
+    var file: DataFile?
+    
+    var coder: Coder = .daily
+    var entries = [Date]()
+    var importError: ImportError?
+    
+    static func == (lhs: File.State, rhs: File.State) -> Bool {
+      lhs.file == rhs.file
+      && type(of: lhs.coder) == type(of: rhs.coder)
+      && lhs.entries == rhs.entries
+      && lhs.importError == rhs.importError
+    }
+  }
+}
+
+extension File {
+  enum Action {
+    case set(DataFile?),
+         setEntries([Date]),
+         setCoder(Coder),
+         setError(ImportError?)
+    
+    case create
+    
+    case `import`(URL)
   }
 }

@@ -3,8 +3,6 @@
 import Dependencies
 import SwiftUI
 
-// FIXME: when selecting last month, crashes sometimes
-
 struct IntervalPicker: View {
   @Binding var selection: Interval
   let bounds: Interval

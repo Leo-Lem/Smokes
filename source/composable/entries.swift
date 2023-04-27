@@ -15,12 +15,12 @@ struct Entries: ReducerProtocol {
       state.entries = entries
       
     case .load:
-      return .run { actions in
-        if let loaded = try await persistor.readDates() { await actions.send(.set(loaded)) }
-        await actions.send(.setAreLoaded)
-      } catch: { error, actions in
+      return .run { send in
+        if let loaded = try await persistor.readDates() { await send(.set(loaded)) }
+        await send(.setAreLoaded)
+      } catch: { error, send in
         debugPrint(error)
-        await actions.send(.setAreLoaded)
+        await send(.setAreLoaded)
       }
       
     case .save:
@@ -30,17 +30,23 @@ struct Entries: ReducerProtocol {
       }
       
     case let .add(date):
-      state.entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
+      var entries = state.entries
+      entries.insert(date, at: state.entries.firstIndex { date < $0 } ?? state.entries.endIndex)
+      return .send(.set(entries))
       
+      // FIXME: removing has no effect
     case let .remove(date):
       @Dependency(\.calendar) var cal: Calendar
-      let entriesInSameDay = state.entries.filter { cal.isDate($0, inSameDayAs: date) }
+      var entries = state.entries
+      let entriesInSameDay = entries.filter { cal.isDate($0, inSameDayAs: date) }
       
       if let index = entriesInSameDay.firstIndex(of: date) ??
         entriesInSameDay.map({ abs($0.distance(to: date)) }).enumerated().min(by: { $0.element < $1.element })?.offset
       {
-        state.entries.remove(at: index)
+        entries.remove(at: index)
       }
+      
+      return .send(.set(entries))
     }
     
     return .none

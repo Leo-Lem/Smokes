@@ -5,15 +5,16 @@ import Foundation
 
 extension StatsView {
   enum ViewAction: Equatable {
-    case loadAverage(_ interval: Interval)
-    case loadTrend(Subdivision, interval: Interval)
+    case calculateAverage(Interval, Subdivision)
+    
+    case calculateTrend(Interval, Subdivision)
 
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
-      case let .loadAverage(interval):
-        return .load(interval)
-      case let .loadTrend(subdivision, interval):
-        return .loadAll(interval, subdivision: subdivision)
+      case let .calculateAverage(interval, subdivision):
+        return .calculate(.average(interval, subdivision))
+      case let .calculateTrend(interval, subdivision):
+        return .calculate(.average(interval, subdivision)) // TODO: calculate trend
       }
     }
   }

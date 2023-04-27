@@ -14,7 +14,7 @@ extension StatsView {
     init(_ state: MainReducer.State, interval: Interval) {
       bounds = Interval.fromTo(.init(start: state.entries.startDate, end: .endOfToday))
       
-      averageTimeBetween = state.averageTimeBetween(interval)
+      averageTimeBetween = state.averageBreak(interval)
       
       configurableAverages = Dictionary(
         uniqueKeysWithValues: Subdivision.allCases.map { ($0, state.average(for: interval, by: $0)) }
