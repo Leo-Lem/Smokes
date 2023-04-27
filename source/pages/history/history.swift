@@ -6,11 +6,7 @@ struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<MainReducer>
 
   var body: some View {
-    WithViewStore(store) {
-      ViewState($0, selectedDate: selectedDate)
-    } send: {
-      ViewAction.send($0, selectedDate: selectedDate)
-    } content: { vs in
+    WithViewStore(store) { ViewState($0, selectedDate: selectedDate) } send: { ViewAction.send($0) } content: { vs in
       Grid {
         if vSize == .regular {
           amountsPlotWidget(vs.configurableEntries[intervalOption]?.optional, option: intervalOption)
@@ -26,9 +22,13 @@ struct HistoryView: View {
                 .overlay(alignment: .topTrailing, content: editButton)
 
               if isEditing {
-                increment(decrementDisabled: vs.dayAmount ?? 0 < 1) { vs.send(.add) } remove: { vs.send(.remove) }
-                  .transition(.move(edge: .trailing))
-                  .overlay(alignment: .topTrailing, content: stopEditButton)
+                increment(decrementDisabled: vs.dayAmount ?? 0 < 1) {
+                  vs.send(.add(selectedDate))
+                } remove: {
+                  vs.send(.remove(selectedDate))
+                }
+                .transition(.move(edge: .trailing))
+                .overlay(alignment: .topTrailing, content: stopEditButton)
               }
             }
           }
@@ -48,9 +48,13 @@ struct HistoryView: View {
                 .overlay(alignment: .bottomTrailing, content: editButton)
 
               if isEditing {
-                increment(decrementDisabled: vs.dayAmount ?? 0 < 1) { vs.send(.add) } remove: { vs.send(.remove) }
-                  .transition(.move(edge: .bottom))
-                  .overlay(alignment: .bottomTrailing, content: stopEditButton)
+                increment(decrementDisabled: vs.dayAmount ?? 0 < 1) {
+                  vs.send(.add(selectedDate))
+                } remove: {
+                  vs.send(.remove(selectedDate))
+                }
+                .transition(.move(edge: .bottom))
+                .overlay(alignment: .bottomTrailing, content: stopEditButton)
               }
             }
           }
@@ -62,16 +66,8 @@ struct HistoryView: View {
       .animation(.default, value: vs.state)
       .animation(.default, value: isEditing)
       .animation(.default, value: intervalOption)
-      .onAppear {
-        vs.send(.loadDay())
-        vs.send(.loadUntilHere())
-        IntervalOption.allCases.forEach { vs.send(.loadOption($0)) }
-      }
-      .onChange(of: selectedDate) { new in
-        vs.send(.loadDay(new))
-        vs.send(.loadUntilHere(new))
-        IntervalOption.allCases.forEach { vs.send(.loadOption($0, date: new)) }
-      }
+      .onAppear { ViewAction.update(vs, selectedDate: selectedDate) }
+      .onChange(of: selectedDate) { ViewAction.update(vs, selectedDate: $0) }
     }
   }
 
@@ -87,7 +83,7 @@ struct HistoryView: View {
 extension HistoryView {
   private func dayPickerWidget(_ selectedDate: Binding<Date>) -> some View {
     Widget {
-      DayPicker(selection: selectedDate, bounds: Interval.to(.endOfToday).dateInterval)
+      DayPicker(selection: selectedDate, bounds: Interval.to(.endOfToday))
         .labelStyle(.iconOnly)
         .buttonStyle(.borderedProminent)
     }

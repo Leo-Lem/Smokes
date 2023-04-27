@@ -22,13 +22,13 @@ extension DashboardView {
       case .add: return .entries(.add(now))
       case .remove: return .entries(.remove(now))
       
-      case .calculateDay: return .calculate(.amount(.day(now)))
-      case .calculateUntilNow: return .calculate(.amount(.to(.endOfToday)))
-      case let .calculateOption(option): return .calculate(.amount(option.interval))
+      case .calculateDay: return .calculateAmount(.day(now))
+      case .calculateUntilNow: return .calculateAmount(.to(.endOfToday))
+      case let .calculateOption(option): return .calculateAmount(option.interval)
       
         // FIXME: make breaks use a reliable parameter
-      case .calculateBreak: return .calculate(.break(.today))
-      case .calculateLongestBreak: return .calculate(.longestBreak(.today))
+      case .calculateBreak: return .calculateBreak(.today)
+      case .calculateLongestBreak: return .calculateLongestBreak(.today)
       }
     }
     

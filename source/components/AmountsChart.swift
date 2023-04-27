@@ -63,7 +63,7 @@ struct AmountsChart: View {
 
   private func calculateDomain(grouping: Date.FormatStyle) async -> [String] {
     NSOrderedSet(
-      array: (bounds.enumerate(by: subdivision) ?? []).map { $0.dateInterval.start.formatted(grouping) }
+      array: (bounds.enumerate(by: subdivision) ?? []).compactMap { $0.start?.formatted(grouping) }
     ).array as? [String] ?? []
   }
 }

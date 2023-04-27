@@ -21,7 +21,6 @@
 		6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6D29BD90910025CBCC /* Localizable.strings */; };
 		6E1FD67E29F8FE6100149223 /* info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1FD67D29F8FE6100149223 /* info.swift */; };
 		6E24C15D29DAB9D900A03B33 /* interval+hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E24C15C29DAB9D900A03B33 /* interval+hashable.swift */; };
-		6E24C15F29DAB9FA00A03B33 /* interval-dateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E24C15E29DAB9FA00A03B33 /* interval-dateInterval.swift */; };
 		6E24C16129DABA2700A03B33 /* interval|subdivision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E24C16029DABA2700A03B33 /* interval|subdivision.swift */; };
 		6E24C16229DABCA900A03B33 /* IntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83BE29D8312A00EB7E6F /* IntervalPicker.swift */; };
 		6E2911B929D7741A00ECA09F /* dashboard-options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2911B829D7741A00ECA09F /* dashboard-options.swift */; };
@@ -35,7 +34,6 @@
 		6E2CE6C429B43C260082E2C6 /* DataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6C329B43C260082E2C6 /* DataFile.swift */; };
 		6E2CE6CC29B4456C0082E2C6 /* porter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6CB29B4456C0082E2C6 /* porter.swift */; };
 		6E2CE6D029B446750082E2C6 /* OptionalAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */; };
-		6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */; };
 		6E34A48828F0367A00A95FD1 /* main(app).swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E34A48528F0367A00A95FD1 /* main(app).swift */; };
 		6E34A48928F0367A00A95FD1 /* main(view).swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E34A48628F0367A00A95FD1 /* main(view).swift */; };
 		6E4173F529BD44B200A3660E /* stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4173F429BD44B200A3660E /* stats.swift */; };
@@ -131,7 +129,6 @@
 		6E1F8B6E29BD90A00025CBCC /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E1FD67D29F8FE6100149223 /* info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = info.swift; sourceTree = "<group>"; };
 		6E24C15C29DAB9D900A03B33 /* interval+hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "interval+hashable.swift"; sourceTree = "<group>"; };
-		6E24C15E29DAB9FA00A03B33 /* interval-dateInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "interval-dateInterval.swift"; sourceTree = "<group>"; };
 		6E24C16029DABA2700A03B33 /* interval|subdivision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "interval|subdivision.swift"; sourceTree = "<group>"; };
 		6E2911B829D7741A00ECA09F /* dashboard-options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "dashboard-options.swift"; sourceTree = "<group>"; };
 		6E2911BA29D7743200ECA09F /* dashboard-state.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "dashboard-state.swift"; sourceTree = "<group>"; };
@@ -144,7 +141,6 @@
 		6E2CE6C329B43C260082E2C6 /* DataFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFile.swift; sourceTree = "<group>"; };
 		6E2CE6CB29B4456C0082E2C6 /* porter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = porter.swift; sourceTree = "<group>"; };
 		6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalAssignment.swift; sourceTree = "<group>"; };
-		6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateInterval(safe).swift"; sourceTree = "<group>"; };
 		6E34A48528F0367A00A95FD1 /* main(app).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "main(app).swift"; sourceTree = "<group>"; };
 		6E34A48628F0367A00A95FD1 /* main(view).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "main(view).swift"; sourceTree = "<group>"; };
 		6E4173F429BD44B200A3660E /* stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stats.swift; sourceTree = "<group>"; };
@@ -301,20 +297,10 @@
 			isa = PBXGroup;
 			children = (
 				6E6B83DD29D936AD00EB7E6F /* interval.swift */,
-				6E24C15C29DAB9D900A03B33 /* interval+hashable.swift */,
 				6E24C16029DABA2700A03B33 /* interval|subdivision.swift */,
-				6E24C15E29DAB9FA00A03B33 /* interval-dateInterval.swift */,
+				6E24C15C29DAB9D900A03B33 /* interval+hashable.swift */,
 			);
 			path = interval;
-			sourceTree = "<group>";
-		};
-		6E2911C229D786B200ECA09F /* dates */ = {
-			isa = PBXGroup;
-			children = (
-				6E2911CB29D7CD7400ECA09F /* Date+Calendar.swift */,
-				6E2CE6D129B446800082E2C6 /* DateInterval(safe).swift */,
-			);
-			path = dates;
 			sourceTree = "<group>";
 		};
 		6E2CE6BF29B40BC70082E2C6 /* composable */ = {
@@ -324,8 +310,8 @@
 				6E9BE4DD29CFF1DA00AF77E4 /* entries.swift */,
 				6E72365C29FA23E500616406 /* calculate.swift */,
 				6EA4B64D29F7CA9E00C85612 /* file.swift */,
-				6E6B83F429D946D500EB7E6F /* cache.swift */,
 				6E72365829F9F6D700616406 /* calculator.swift */,
+				6E6B83F429D946D500EB7E6F /* cache.swift */,
 			);
 			path = composable;
 			sourceTree = "<group>";
@@ -567,8 +553,8 @@
 			children = (
 				6E2CE6C329B43C260082E2C6 /* DataFile.swift */,
 				6E2CE6CF29B446750082E2C6 /* OptionalAssignment.swift */,
+				6E2911CB29D7CD7400ECA09F /* Date+Calendar.swift */,
 				6E72364F29F9CB9400616406 /* swiftui */,
-				6E2911C229D786B200ECA09F /* dates */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -784,7 +770,6 @@
 				6E2CE6C429B43C260082E2C6 /* DataFile.swift in Sources */,
 				6EBEB95029D6920A0013DA8D /* Binding.Preview.swift in Sources */,
 				6E72365129F9CBAE00616406 /* compactDismissButton.swift in Sources */,
-				6E24C15F29DAB9FA00A03B33 /* interval-dateInterval.swift in Sources */,
 				6E72365B29FA0F1D00616406 /* intervalAndSubdivision.swift in Sources */,
 				6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */,
 				6E72364E29F9C98300616406 /* previewInSheet.swift in Sources */,
@@ -793,7 +778,6 @@
 				6EA4B64C29F7BEE000C85612 /* GroupedCoder.swift in Sources */,
 				6E24C16129DABA2700A03B33 /* interval|subdivision.swift in Sources */,
 				6E2911C629D7AC3100ECA09F /* history-state.swift in Sources */,
-				6E2CE6D229B446800082E2C6 /* DateInterval(safe).swift in Sources */,
 				6E04699E29CF978300000123 /* fact.swift in Sources */,
 				6E5CFE7F29D6C8DC006DC2B6 /* ExampleTabs.swift in Sources */,
 				6EBEB94C29D68D090013DA8D /* Tabbable.swift in Sources */,

@@ -6,7 +6,8 @@ import Foundation
 extension Interval: Hashable {
   static func == (lhs: Self, rhs: Self) -> Bool {
     switch (lhs, rhs) {
-    case (.day, .day), (.week, .week), (.month, .month), (.year, .year): return lhs.dateInterval == rhs.dateInterval
+    case (.day, .day), (.week, .week), (.month, .month), (.year, .year):
+      return lhs.start == rhs.start && lhs.end == rhs.end
     case (.alltime, .alltime): return true
     case let (.fromTo(interval1), .fromTo(interval2)): return interval1 == interval2
     case let (.from(date1), .from(date2)), let (.to(date1), .to(date2)): return date1 == date2
@@ -17,7 +18,8 @@ extension Interval: Hashable {
   func hash(into hasher: inout Hasher) {
     switch self {
     case .day, .week, .month, .year:
-      hasher.combine(dateInterval)
+      hasher.combine(start)
+      hasher.combine(end)
     case .alltime:
       hasher.combine("alltime")
     case let .fromTo(interval):

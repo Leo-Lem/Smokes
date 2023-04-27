@@ -37,7 +37,7 @@ struct Calculator<Parameters: Hashable, Data: Equatable, Result: Equatable>: Red
   }
   
   init(
-    _ calculate: @escaping (Parameters, Data) -> Result,
+    _ calculate: @escaping (Parameters, Data) async -> Result?,
     needsRecalculation: @escaping (Parameters, Data) -> Bool = { _, _ in true }
   ) {
     self.calculate = calculate

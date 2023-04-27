@@ -5,17 +5,17 @@ import SwiftUI
 
 struct DayPicker: View {
   @Binding var selection: Date
-  let bounds: DateInterval
+  let bounds: Interval
   
   var body: some View {
     HStack {
       Button { selection = previousDay } label: { Label("PREVIOUS_DAY", systemImage: "chevron.left") }
-        .disabled(previousDay <= bounds.start)
+        .disabled(bounds.start.flatMap { previousDay <= $0 } ?? false)
         .accessibilityIdentifier("previous-day-button")
       
       Spacer()
       
-      DatePicker("", selection: $selection, in: bounds.start ... bounds.end)
+      DatePicker("", selection: $selection, in: (bounds.start ?? .distantPast) ... (bounds.end ?? .distantFuture))
         .labelsHidden()
         .accessibilityElement()
         .accessibilityLabel("PICK_DAY")
@@ -25,7 +25,7 @@ struct DayPicker: View {
       Spacer()
       
       Button { selection = nextDay } label: { Label("NEXT_DAY", systemImage: "chevron.right") }
-        .disabled(nextDay >= bounds.end)
+        .disabled(bounds.end.flatMap { nextDay >= $0 } ?? false)
         .accessibilityIdentifier("next-day-button")
     }
   }
@@ -42,12 +42,12 @@ struct DayPicker: View {
 struct DayPicker_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      DayPicker(selection: .constant(.now), bounds: DateInterval(start: .distantPast, end: .distantFuture))
+      DayPicker(selection: .constant(.now), bounds: .alltime)
       
-      DayPicker(selection: .constant(.now), bounds: DateInterval(start: .distantPast, end: .now))
+      DayPicker(selection: .constant(.now), bounds: .to(.now))
         .previewDisplayName("Upper bound")
       
-      DayPicker(selection: .constant(.now), bounds: DateInterval(start: .now, end: .distantFuture))
+      DayPicker(selection: .constant(.now), bounds: .from(.now))
         .previewDisplayName("Lower bound")
     }
     .buttonStyle(.borderedProminent)

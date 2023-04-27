@@ -13,91 +13,13 @@ struct Calculate: ReducerProtocol {
   typealias AverageBreaker = Calculator<Interval, [Interval: Int], TimeInterval>
   
   var body: some ReducerProtocol<State, Action> {
-    Scope(state: \.filtereds, action: /Action.filtereds) {
-      Filter { interval, entries in
-        guard entries.count > 0 else { return [] }
-
-        let startIndex = interval.start.flatMap { start in entries.firstIndex { start <= $0 } } ?? entries.endIndex
-        let endIndex = interval.end.flatMap { end in entries.firstIndex { end < $0 } } ?? entries.endIndex
-          
-        return Array(entries[startIndex ... endIndex])
-      }
-    }
-    
-    Scope(state: \.amounts, action: /Action.amounts) {
-      Amounter { interval, entries in
-        guard entries.count > 0 else { return 0 }
-
-        return (interval.end.flatMap { end in entries.firstIndex { end < $0 } } ?? entries.endIndex)
-          - (interval.start.flatMap { start in entries.firstIndex { start <= $0 } } ?? entries.endIndex)
-      }
-    }
-      
-    Scope(state: \.averages, action: /Action.averages) {
-      Averager { parameters, amounts in
-        guard
-          let amount = amounts[parameters.interval],
-          let length = parameters.interval.count(by: parameters.subdivision)
-        else { return 0 }
-          
-        guard length > 0 else { return .infinity }
-
-        return Double(amount) / Double(length)
-      }
-    }
-    
-    Scope(state: \.trends, action: /Action.trends) {
-      Trender { parameters, amounts in
-        guard
-          amounts.count > 0,
-          let intervals = parameters.interval.enumerate(by: parameters.subdivision),
-          intervals.count > 1
-        else { return .infinity }
-
-        return intervals.dropFirst()
-          .reduce(into: (trend: 0.0, previous: amounts[intervals.first!] ?? 0)) { result, interval in
-            let amount = amounts[interval] ?? 0
-            result = (result.trend + Double(amount - result.previous), amount)
-          }.trend
-          / Double(intervals.count - 1)
-      }
-    }
-    
-    Scope(state: \.breaks, action: /Action.breaks) {
-      Breaker { date, entries in
-        entries
-          .last { $0 < date }
-          .flatMap { DateInterval(start: $0, safeEnd: date) }.optional?
-          .duration
-          ?? .infinity
-      }
-    }
-    
-    Scope(state: \.longestBreaks, action: /Action.longestBreaks) {
-      LongestBreaker { until, entries in
-        guard let first = entries.first else { return .infinity }
-        
-        if entries.count == 1 { return first.distance(to: until) }
-        
-        return entries.reduce((previousDate: first, longestInterval: TimeInterval.zero)) { result, date in
-          (
-            previousDate: date,
-            longestInterval: max(result.longestInterval, date.timeIntervalSince(result.previousDate))
-          )
-        }.longestInterval
-      }
-    }
-    
-    Scope(state: \.averageBreaks, action: /Action.averageBreaks) {
-      AverageBreaker { interval, amounts in
-        guard
-          let amount = amounts[interval],
-          amount > 1
-        else { return .infinity }
-        
-        return interval.dateInterval.duration / Double(amount)
-      }
-    }
+    Scope(state: \.filtereds, action: /Action.filtereds) { Filter(filter) }
+    Scope(state: \.amounts, action: /Action.amounts) { Amounter(amount) }
+    Scope(state: \.averages, action: /Action.averages) { Averager(average) }
+    Scope(state: \.trends, action: /Action.trends) { Trender(trend) }
+    Scope(state: \.breaks, action: /Action.breaks) { Breaker(`break`) }
+    Scope(state: \.longestBreaks, action: /Action.longestBreaks) { LongestBreaker(longestBreak) }
+    Scope(state: \.averageBreaks, action: /Action.averageBreaks) { AverageBreaker(averageBreak) }
     
     Reduce<State, Action> { state, action in
       switch action {
@@ -107,13 +29,6 @@ struct Calculate: ReducerProtocol {
       case let .amount(interval):
         return .send(.amounts(.calculate(interval)))
         
-      case let .allAmounts(interval, subdivision):
-        return .run { send in
-          if let intervals = interval.enumerate(by: subdivision) {
-            for interval in intervals { await send(.amounts(.calculate(interval))) }
-          }
-        }
-        
       case let .average(interval, subdivision):
         return .run { send in
           await send(.amount(interval))
@@ -122,7 +37,7 @@ struct Calculate: ReducerProtocol {
         
       case let .trend(interval, subdivision):
         return .run { send in
-          await send(.allAmounts(interval, subdivision))
+          for interval in interval.enumerate(by: subdivision) ?? [] { await send(.amount(interval)) }
           await send(.trends(.calculate(.init(interval, subdivision))))
         }
         
@@ -189,8 +104,7 @@ extension Calculate {
          setAmounts([Interval: Int])
     
     case amounts(Amounter.Action),
-         amount(Interval),
-         allAmounts(Interval, Subdivision)
+         amount(Interval)
     
     case averages(Averager.Action),
          average(Interval, Subdivision)
@@ -209,5 +123,77 @@ extension Calculate {
     
     case updateEntries([Date]),
          updateAmounts([Interval: Int])
+  }
+}
+
+extension Calculate {
+  private func filter(interval: Interval, entries: [Date]) async -> [Date] {
+    guard entries.count > 0 else { return [] }
+
+    let startIndex = interval.start.flatMap { start in entries.firstIndex { start <= $0 } } ?? entries.endIndex
+    let endIndex = interval.end.flatMap { end in entries.firstIndex { end < $0 } } ?? entries.endIndex
+      
+    return Array(entries[startIndex ..< endIndex])
+  }
+  
+  private func amount(interval: Interval, entries: [Date]) -> Int {
+    guard entries.count > 0 else { return 0 }
+
+    return (interval.end.flatMap { end in entries.firstIndex { end < $0 } } ?? entries.endIndex)
+      - (interval.start.flatMap { start in entries.firstIndex { start <= $0 } } ?? entries.endIndex)
+  }
+  
+  private func average(parameters: IntervalAndSubdivision, amounts: [Interval: Int]) -> Double {
+    guard
+      let amount = amounts[parameters.interval],
+      let length = parameters.interval.count(by: parameters.subdivision)
+    else { return 0 }
+      
+    guard length > 0 else { return .infinity }
+
+    return Double(amount) / Double(length)
+  }
+    
+  private func trend(parameters: IntervalAndSubdivision, amounts: [Interval: Int]) -> Double {
+    guard
+      amounts.count > 0,
+      let intervals = parameters.interval.enumerate(by: parameters.subdivision),
+      intervals.count > 1
+    else { return .infinity }
+
+    return intervals.dropFirst()
+      .reduce(into: (trend: 0.0, previous: amounts[intervals.first!] ?? 0)) { result, interval in
+        let amount = amounts[interval] ?? 0
+        result = (result.trend + Double(amount - result.previous), amount)
+      }.trend
+      / Double(intervals.count - 1)
+  }
+  
+  private func `break`(date: Date, entries: [Date]) -> TimeInterval {
+    if let previous = entries.last(where: { $0 < date }) {
+      return previous.distance(to: date)
+    } else { return .infinity }
+  }
+  
+  private func longestBreak(until date: Date, entries: [Date]) -> TimeInterval {
+    guard let first = entries.first else { return .infinity }
+    
+    if entries.count == 1 { return first.distance(to: date) }
+    
+    return entries.reduce((previousDate: first, longestInterval: TimeInterval.zero)) { result, date in
+      (
+        previousDate: date,
+        longestInterval: max(result.longestInterval, date.timeIntervalSince(result.previousDate))
+      )
+    }.longestInterval
+  }
+  
+  private func averageBreak(interval: Interval, amounts: [Interval: Int]) -> TimeInterval {
+    guard
+      let amount = amounts[interval],
+      amount > 1
+    else { return .infinity }
+    
+    return interval.duration / Double(amount)
   }
 }

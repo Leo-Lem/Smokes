@@ -11,10 +11,9 @@ extension StatsView {
 
     static func send(_ action: Self) -> MainReducer.Action {
       switch action {
-      case let .calculateAverage(interval, subdivision):
-        return .calculate(.average(interval, subdivision))
-      case let .calculateTrend(interval, subdivision):
-        return .calculate(.average(interval, subdivision)) // TODO: calculate trend
+      case let .calculateAverage(interval, subdivision): return .calculateAverage(interval, subdivision)
+        
+      case let .calculateTrend(interval, subdivision): return .calculateTrend(interval, subdivision)
       }
     }
   }
