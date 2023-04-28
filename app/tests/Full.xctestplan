@@ -15,6 +15,26 @@
           "containerPath" : "container:app.xcodeproj",
           "identifier" : "6E48374428EC991100B67CA4",
           "name" : "Smokes"
+        },
+        {
+          "containerPath" : "container:..\/deps",
+          "identifier" : "SmokesDependencies",
+          "name" : "SmokesDependencies"
+        },
+        {
+          "containerPath" : "container:..\/lib",
+          "identifier" : "SmokesLibrary",
+          "name" : "SmokesLibrary"
+        },
+        {
+          "containerPath" : "container:..\/models",
+          "identifier" : "SmokesModels",
+          "name" : "SmokesModels"
+        },
+        {
+          "containerPath" : "container:..\/reducers",
+          "identifier" : "SmokesReducers",
+          "name" : "SmokesReducers"
         }
       ]
     },

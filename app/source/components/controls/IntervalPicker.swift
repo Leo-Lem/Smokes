@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 08.03.23.
 
-import Dependencies
 import SwiftUI
 
 struct IntervalPicker: View {
@@ -9,120 +8,85 @@ struct IntervalPicker: View {
   
   var body: some View {
     HStack {
-      Button { selection ?= previous } label: { Label("PREVIOUS", systemImage: "chevron.left") }
+      Button {
+        if selectedMonth != nil { selectedMonth = previous } else { selectedYear ?= previous }
+      } label: { Label("PREVIOUS", systemImage: "chevron.left") }
         .disabled(previous == nil)
         .accessibilityIdentifier("previous-button")
       
-      Picker("MONTH", selection: monthBinding) {
+      Picker("MONTH", selection: $selectedMonth) {
         Text("-")
-          .tag(Int?.none)
+          .tag(Interval?.none)
 
         ForEach(months, id: \.self) { month in
-          Text(format(month: month))
-            .tag(Int?.some(month))
+          Text(month.start!.formatted(Date.FormatStyle().month(.narrow)))
+            .tag(month)
         }
       }
-      .highlight(when: selection.subdivision == .month)
+      .highlight(when: !selectedAlltime && selectedMonth != nil)
         
-      Picker("YEAR", selection: yearBinding) {
+      Picker("YEAR", selection: $selectedYear) {
         ForEach(years, id: \.self) { year in
-          Text(format(year: year))
+          Text(year.end!.formatted(Date.FormatStyle().year(.defaultDigits)))
             .tag(year)
         }
       }
-      .highlight(when: selection.subdivision == .month || selection.subdivision == .year)
+      .highlight(when: !selectedAlltime)
       
-      Button { selection ?= next } label: { Label("NEXT", systemImage: "chevron.right") }
+      Button {
+        if selectedMonth != nil { selectedMonth = next } else { selectedYear ?= next }
+      } label: { Label("NEXT", systemImage: "chevron.right") }
         .disabled(next == nil)
         .accessibilityIdentifier("next-button")
       
       Spacer()
       
-      Button { selection = selection == .alltime ? lastSelection : .alltime } label: {
+      Button { selectedAlltime.toggle() } label: {
         Label("UNTIL_NOW", systemImage: "chevron.forward.to.line")
       }
-      .highlight(when: selection == .alltime)
+      .highlight(when: selectedAlltime)
     }
     .minimumScaleFactor(0.5)
     .lineLimit(1)
     .animation(.default, value: selection)
-    .onChange(of: selection) { [selection] _ in lastSelection = selection }
+    .animation(.default, value: selectedMonth)
+    .animation(.default, value: selectedYear)
+    .animation(.default, value: selectedAlltime)
+    .onChange(of: selectedMonth) {
+      if let month = $0 { selection = month } else { selection = selectedYear }
+    }
+    .onChange(of: selectedAlltime) {
+      if $0 { selection = .alltime } else { selection = selectedMonth ?? selectedYear }
+    }
   }
   
-  @State private var lastSelection: Interval
-  private var yearMonthSelection: Interval { selection == .alltime ? lastSelection : selection }
+  @State private var selectedMonth: Interval?
+  @State private var selectedYear: Interval
+  @State private var selectedAlltime = true
   
-  @Dependency(\.calendar) private var cal
+  private let lowerBound: Date
+  private let upperBound: Date
   
   init(selection: Binding<Interval>, bounds: Interval) {
-    guard bounds.start != nil, bounds.end != nil else { fatalError("IntervalPicker requires bounds.") }
+    guard let start = bounds.start, let end = bounds.end else { fatalError("IntervalPicker requires bounds.") }
     
     self.bounds = bounds
+    
     _selection = selection
-    _lastSelection = State(initialValue: Interval.month(bounds.end!))
+    _selectedMonth = .init(initialValue: .month(bounds.end!))
+    _selectedYear = .init(initialValue: .year(bounds.end!))
+    
+    lowerBound = start
+    upperBound = end
   }
 }
 
 extension IntervalPicker {
-  private var previous: Interval? { yearMonthSelection.previous(in: bounds) }
-  private var next: Interval? { yearMonthSelection.next(in: bounds) }
+  private var previous: Interval? { (selectedMonth ?? selectedYear).previous(in: bounds) }
+  private var next: Interval? { (selectedMonth ?? selectedYear).next(in: bounds) }
   
-  private var lowerBound: Date { bounds.start! }
-  private var upperBound: Date { bounds.end! }
-  
-  private var months: [Int] {
-    Interval.year(yearMonthSelection.end ?? upperBound)
-      .enumerate(by: .month, in: bounds)?
-      .compactMap {
-        guard let date = $0.start else { return nil}
-        return cal.component(.month, from: date)
-      }
-    ?? []
-  }
-  
-  private var years: [Int] {
-    bounds.enumerate(by: .year)?.map { cal.component(.year, from: $0.start ?? lowerBound) } ?? []
-  }
-  
-  private var monthBinding: Binding<Int?> {
-    Binding {
-      if yearMonthSelection.subdivision == .month {
-        return cal.component(.month, from: yearMonthSelection.end ?? upperBound)
-      } else { return nil }
-    } set: { newValue in
-      let year = cal.component(.year, from: yearMonthSelection.end ?? upperBound)
-      
-      if let newValue {
-        selection = .month(cal.date(from: DateComponents(year: year, month: newValue))!)
-      } else {
-        selection = .year(cal.date(from: DateComponents(year: year))!)
-      }
-    }
-  }
-  
-  private var yearBinding: Binding<Int> {
-    Binding { cal.component(.year, from: yearMonthSelection.start ?? upperBound) } set: { newValue in
-      let date = cal.date(from: DateComponents(year: newValue))!
-      
-      if yearMonthSelection.subdivision == .year {
-        selection = .year(date)
-      } else if yearMonthSelection.subdivision == .month {
-        selection = .month(date)
-      }
-    }
-  }
-}
-
-extension IntervalPicker {
-  private func format(year: Int) -> String {
-    cal.date(from: DateComponents(year: year))!
-      .formatted(Date.FormatStyle().year(.defaultDigits))
-  }
-  
-  private func format(month: Int) -> String {
-    cal.date(from: DateComponents(month: month))!
-      .formatted(Date.FormatStyle().month(.abbreviated))
-  }
+  private var years: [Interval] { bounds.enumerate(by: .year) ?? [] }
+  private var months: [Interval] { selectedYear.enumerate(by: .month, in: bounds) ?? [] }
 }
 
 private extension View {

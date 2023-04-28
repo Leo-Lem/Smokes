@@ -17,8 +17,7 @@ public extension Interval {
     case let .from(date): return date
     case let .fromTo(interval): return interval.start
     case let .day(date), let .week(date), let .month(date), let .year(date):
-      let start = cal.start(of: subdivision!.comp, for: date)
-      return start
+      return cal.start(of: subdivision!.comp, for: date)
     }
   }
   
@@ -56,11 +55,10 @@ public extension Interval {
     if let end, let bound = bounds?.end, bound <= end { return nil }
     
     switch self {
-    case let .day(date): return .day(cal.date(byAdding: .day, value: 1, to: date)!)
-    case let .week(date): return .week(cal.date(byAdding: .weekOfYear, value: 1, to: date)!)
-    case let .month(date): return .month(cal.date(byAdding: .month, value: 1, to: date)!)
-    case let .year(date): return .year(cal.date(byAdding: .year, value: 1, to: date)!)
-    default: return nil
+    case let .day(date), let .week(date), let .month(date), let .year(date):
+      return .day(cal.date(byAdding: subdivision!.comp, value: 1, to: date)!)
+    default:
+      return nil
     }
   }
   
@@ -70,11 +68,10 @@ public extension Interval {
     if let start, let bound = bounds?.start, start <= bound { return nil }
     
     switch self {
-    case let .day(date): return .day(cal.date(byAdding: .day, value: -1, to: date)!)
-    case let .week(date): return .week(cal.date(byAdding: .weekOfYear, value: -1, to: date)!)
-    case let .month(date): return .month(cal.date(byAdding: .month, value: -1, to: date)!)
-    case let .year(date): return .year(cal.date(byAdding: .year, value: -1, to: date)!)
-    default: return nil
+    case let .day(date), let .week(date), let .month(date), let .year(date):
+      return .day(cal.date(byAdding: subdivision!.comp, value: -1, to: date)!)
+    default:
+      return nil
     }
   }
 }
