@@ -17,7 +17,7 @@ final class AppTests: XCTestCase {
     store.exhaustivity = .off
     
     await store.send(.loadEntries)
-    await store.receive(/.setEntries(.init(dates)), timeout: 1) { $0.entries = .init(dates) }
+    await store.receive(/.entries(.set(.init(dates))), timeout: 1) { $0.entries = .init(dates) }
     await store.receive(/.calculator(.setEntries(.init(dates))), timeout: 1) { $0.calculator.entries = .init(dates) }
     await store.receive(/.file(.setEntries(.init(dates))), timeout: 1) { $0.file.entries = .init(dates) }
   }
@@ -30,7 +30,7 @@ final class AppTests: XCTestCase {
     store.exhaustivity = .off
     
     await store.send(.loadEntries)
-    await store.receive(/.setEntries([]), timeout: 1) { $0.entries = [] }
+    await store.receive(/.entries(.set([])), timeout: 1) { $0.entries = [] }
     await store.receive(/.calculator(.setEntries([])), timeout: 1) { $0.calculator.entries = [] }
     await store.receive(/.file(.setEntries([])), timeout: 1) { $0.file.entries = []}
   }

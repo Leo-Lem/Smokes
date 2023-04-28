@@ -4,6 +4,7 @@ import ComposableArchitecture
 
 public struct App: ReducerProtocol {
   public var body: some ReducerProtocol<State, Action> {
+    Scope(state: \.entries, action: /Action.entries, child: Entries.init)
     Scope(state: \.calculator, action: /Action.calculator, child: Calculator.init)
     Scope(state: \.file, action: /Action.file, child: File.init)
     
@@ -12,25 +13,22 @@ public struct App: ReducerProtocol {
       case .loadEntries:
         return .task {
           do {
-            if let loaded = try await persistor.readDates() { return .setEntries(.init(loaded)) }
+            if let loaded = try await persistor.readDates() { return .entries(.set(loaded)) }
           } catch { debugPrint(error) }
           
-          return .setEntries([])
+          return .entries(.set([]))
         }
         
       case .saveEntries:
         return .fireAndForget { [entries = state.entries] in
-          do {
-            try await persistor.writeDates(entries.array)
-          } catch { debugPrint(error) }
+          do { try await persistor.writeDates(entries.array) } catch { debugPrint(error) }
         }
         
-      case let .setEntries(entries):
-          state.entries = entries
-          return .merge(
-            .send(.calculator(.setEntries(entries))),
-            .send(.file(.setEntries(entries)))
-          )
+      case .entries(.change):
+        return .merge(
+          .send(.calculator(.setEntries(state.entries))),
+          .send(.file(.setEntries(state.entries)))
+        )
         
       default: break
       }
@@ -66,8 +64,6 @@ public extension App {
   enum Action {
     case loadEntries,
          saveEntries
-    
-    case setEntries(Entries.State)
     
     case entries(Entries.Action),
          calculator(Calculator.Action),

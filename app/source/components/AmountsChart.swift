@@ -16,7 +16,7 @@ struct AmountsChart: View {
       if let domain {
         DescriptedChartContent(data: amounts, description: description) { amounts in
           Chart(Array(amounts), id: \.key) { group, amount in
-            BarMark(x: .value("DATE", group), y: .value("AMOUNT", amount))
+//            BarMark(x: .value("DATE", group), y: .value("AMOUNT", amount))
           }
           .chartXScale(domain: domain)
           .minimumScaleFactor(0.5)

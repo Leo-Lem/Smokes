@@ -7,10 +7,11 @@ public struct Entries: ReducerProtocol {
     switch action {
     case let .set(entries):
       state.array = entries
+      return .send(.change)
+      
     
     case let .add(date):
       state.insert(date, at: state.firstIndex { date < $0 } ?? state.endIndex)
-
       return .send(.change)
 
     case let .remove(date):
@@ -20,7 +21,7 @@ public struct Entries: ReducerProtocol {
         let nearest = state.min(by: { abs($0.distance(to: date)) < abs($1.distance(to: date)) }),
         cal.isDate(nearest, inSameDayAs: date)
       {
-        state.remove(at: state.firstIndex(of: date)!)
+        state.remove(at: state.firstIndex(of: nearest)!)
       }
 
       return .send(.change)

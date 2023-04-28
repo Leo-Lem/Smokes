@@ -4,6 +4,7 @@ import SwiftUI
 struct MainView: View {
   var body: some View {
     TabView(selection: $selectedTab)
+      .transition(.opacity)
       .overlay(alignment: vSize == .regular ? .bottomLeading : .bottomTrailing, content: showInfoButton)
       .overlay(alignment: vSize == .regular ? .bottomTrailing : .topTrailing, content: showFactButton)
       .if(selection == .fact) { $0.hidden() }
@@ -11,7 +12,7 @@ struct MainView: View {
       .overlay {
         if selection == .fact {
           FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
-            .transition(.move(edge: vSize == .regular ? .top : .leading))
+            .transition(.opacity)
         }
       }
       .padding(10)

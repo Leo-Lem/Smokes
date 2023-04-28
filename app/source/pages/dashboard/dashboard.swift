@@ -10,27 +10,27 @@ struct DashboardView: View {
     WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { vs in
       Grid {
         if vSize == .regular {
-          dayAmountWidget(vs.dayAmount)
+          dayAmountWidget(vs)
 
           GridRow {
-            configurableAmountWidget { vs.configurableAmounts[$0]?.optional }
-            configurableTimeWidget(timeOption == .sinceLast ? vs.break : vs.longestBreak)
+            configurableAmountWidget(vs)
+            configurableTimeWidget(vs)
           }
           
           GridRow {
-            untilNowAmountWidget(vs.untilHereAmount, porterButtonAlignment: .bottomLeading)
-            incrementWidget(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
+            untilNowAmountWidget(vs, porterButtonAlignment: .bottomLeading)
+            incrementWidget(vs)
           }
         } else {
           GridRow {
-            dayAmountWidget(vs.dayAmount).gridCellColumns(2)
-            configurableAmountWidget { vs.configurableAmounts[$0]?.optional }
+            dayAmountWidget(vs).gridCellColumns(2)
+            configurableAmountWidget(vs)
           }
             
           GridRow {
-            untilNowAmountWidget(vs.untilHereAmount, porterButtonAlignment: .bottomLeading)
-            configurableTimeWidget(timeOption == .sinceLast ? vs.break : vs.longestBreak)
-            incrementWidget(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
+            untilNowAmountWidget(vs, porterButtonAlignment: .bottomLeading)
+            configurableTimeWidget(vs)
+            incrementWidget(vs)
           }
         }
       }
@@ -51,15 +51,17 @@ struct DashboardView: View {
 }
 
 extension DashboardView {
-  private func dayAmountWidget(_ amount: Int?) -> some View {
+  private func dayAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     Widget {
-      DescriptedValueContent(formatter.format(amount: amount), description: "TODAY")
+      DescriptedValueContent(formatter.format(amount: vs.dayAmount), description: "TODAY")
     }
   }
   
-  private func untilNowAmountWidget(_ amount: Int?, porterButtonAlignment: Alignment) -> some View {
+  private func untilNowAmountWidget(
+    _ vs: ViewStore<ViewState, ViewAction>, porterButtonAlignment: Alignment
+  ) -> some View {
     Widget {
-      DescriptedValueContent(formatter.format(amount: amount), description: "UNTIL_NOW")
+      DescriptedValueContent(formatter.format(amount: vs.untilHereAmount), description: "UNTIL_NOW")
         .overlay(alignment: porterButtonAlignment) {
           Button { showingPorter = true } label: { Label("OPEN_PORTER", systemImage: "folder") }
             .labelStyle(.iconOnly)
@@ -69,23 +71,23 @@ extension DashboardView {
     }
   }
   
-  private func configurableAmountWidget(_ amount: @escaping (AmountOption) -> Int?) -> some View {
+  private func configurableAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     ConfigurableWidget(selection: $amountOption) { option in
-      DescriptedValueContent(formatter.format(amount: amount(option)), description: option.description)
+      DescriptedValueContent(formatter.format(amount: vs.configurableAmounts[option]), description: option.description)
     }
   }
   
-  private func configurableTimeWidget(_ time: TimeInterval?) -> some View {
+  private func configurableTimeWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     ConfigurableWidget(selection: $timeOption) { option in
-      DescriptedValueContent(formatter.format(time: time), description: option.description)
+      DescriptedValueContent(
+        formatter.format(time: timeOption == .sinceLast ? vs.break : vs.longestBreak), description: option.description
+      )
     }
   }
   
-  private func incrementWidget(
-    decrementDisabled: Bool, add: @escaping () -> Void, remove: @escaping () -> Void
-  ) -> some View {
+  private func incrementWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     Widget {
-      IncrementMenu(decrementDisabled: decrementDisabled, add: add, remove: remove)
+      IncrementMenu(decrementDisabled: vs.dayAmount ?? 0 <= 0) { vs.send(.add) } remove: { vs.send(.remove) }
     }
   }
 }

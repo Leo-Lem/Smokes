@@ -4,7 +4,7 @@ extension DashboardView {
   struct ViewState: Equatable {
     let dayAmount: Int?,
         untilHereAmount: Int?,
-        configurableAmounts: [AmountOption: Int?]
+        configurableAmounts: [AmountOption: Int]
     
     let `break`: TimeInterval?,
         longestBreak: TimeInterval?
@@ -16,7 +16,9 @@ extension DashboardView {
       dayAmount = state.calculator.amount(for: .day(now))
       untilHereAmount = state.calculator.amount(for: .to(cal.endOfDay(for: now)))
       configurableAmounts = Dictionary(
-        uniqueKeysWithValues: AmountOption.allCases.map { ($0, state.calculator.amount(for: $0.interval)) }
+        uniqueKeysWithValues: AmountOption.allCases.compactMap { option in
+          state.calculator.amount(for: option.interval).flatMap { (option, $0) }
+        }
       )
       
       `break` = state.calculator.break(date: now)
