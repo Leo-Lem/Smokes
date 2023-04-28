@@ -9,18 +9,19 @@ extension HistoryView {
     let configurableEntries: [IntervalOption: [Date]]
 
     init(_ state: App.State, selectedDate: Date) {
-      dayAmount = state.calculator?.amount(for: .day(selectedDate))
+      dayAmount = state.calculator.amount(for: .day(selectedDate))
+      
       configurableAmounts = Dictionary(
         uniqueKeysWithValues: IntervalOption.allCases.compactMap { option in
-          state.calculator?.amount(for: option.interval(selectedDate)).flatMap { (option, $0) }
+          state.calculator.amount(for: option.interval(selectedDate)).flatMap { (option, $0) }
         }
       )
       
-      untilHereAmount = state.calculator?.amount(for: .to(selectedDate))
+      untilHereAmount = state.calculator.amount(for: .to(selectedDate))
 
       configurableEntries = Dictionary(
         uniqueKeysWithValues: IntervalOption.allCases.compactMap { option in
-          state.calculator?.filtered(for: option.interval(selectedDate)).flatMap { (option, $0) }
+          state.calculator.filtered(for: option.interval(selectedDate)).flatMap { (option, $0) }
         }
       )
     }

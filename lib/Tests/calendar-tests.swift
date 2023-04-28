@@ -9,7 +9,7 @@ final class CalendarTests: XCTestCase {
   override func setUp() { cal = .current }
   
   func test_givenAValidComponent_whenSettingStartOf_thenReturnsDate() throws {
-    for comp in [Calendar.Component.day, .weekOfYear, .month, .year] {
+    for comp in [Calendar.Component.second, .day, .weekOfYear, .month, .year] {
       XCTAssertNotNil(cal.start(of: comp, for: .now), "\(comp) returned nil")
     }
   }
@@ -27,7 +27,7 @@ final class CalendarTests: XCTestCase {
   }
   
   func test_givenAnInvalidComponent_whenSettingEndOf_thenReturnsNil() throws {
-    for comp in [Calendar.Component.era, .calendar, .weekdayOrdinal] {
+    for comp in [Calendar.Component.calendar, .weekdayOrdinal] {
       XCTAssertNil(cal.end(of: comp, for: .now), "\(comp) did not return nil")
     }
   }

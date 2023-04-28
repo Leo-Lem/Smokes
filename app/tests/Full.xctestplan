@@ -27,14 +27,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:app.xcodeproj",
-        "identifier" : "6E05A50128F18F6600CA0287",
-        "name" : "SmokesTests"
-      }
-    },
-    {
       "target" : {
         "containerPath" : "container:app.xcodeproj",
         "identifier" : "6ED91E1F293FB7BB00728E2B",

@@ -158,7 +158,6 @@
 			children = (
 				6ED91E2B293FB81300728E2B /* Full.xctestplan */,
 				6ED91E2C293FB82C00728E2B /* Unit.xctestplan */,
-				6ED91E1A293FB7A100728E2B /* unit */,
 				6ED91E1B293FB7A500728E2B /* ui */,
 			);
 			path = tests;
@@ -325,13 +324,6 @@
 				6E825DB429D8138E00824079 /* DescriptedChart-content.swift */,
 			);
 			path = content;
-			sourceTree = "<group>";
-		};
-		6ED91E1A293FB7A100728E2B /* unit */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = unit;
 			sourceTree = "<group>";
 		};
 		6ED91E1B293FB7A500728E2B /* ui */ = {

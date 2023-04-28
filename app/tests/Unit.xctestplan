@@ -26,14 +26,6 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:app.xcodeproj",
-        "identifier" : "6E05A50128F18F6600CA0287",
-        "name" : "SmokesTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
         "containerPath" : "container:..\/deps",
         "identifier" : "SmokesDependenciesTests",
         "name" : "SmokesDependenciesTests"

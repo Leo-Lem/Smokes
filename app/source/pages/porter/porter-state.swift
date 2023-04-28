@@ -5,7 +5,7 @@ extension Porter {
     let file: DataFile?
     
     init(_ state: App.State) {
-      file = state.file?.data.flatMap(DataFile.init)
+      file = state.file.data.flatMap(DataFile.init)
     }
   }
 }

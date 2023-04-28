@@ -63,47 +63,11 @@ public extension Calculator {
   struct State: Equatable {
     public internal(set) var entries: Entries.State
     
-    fileprivate var filtereds = Filter.State([])
-    public func filtered(for interval: Interval) -> [Date]? {
-      filtereds[entries.clamp(interval)]
-    }
-    
-    fileprivate var amounts = Amounter.State([])
-    public func amount(for interval: Interval) -> Int? {
-      amounts[entries.clamp(interval)]
-    }
-    
-    fileprivate var averages = Averager.State([:])
-    public func average(for interval: Interval, by sub: Subdivision) -> Double? {
-      averages[.init(entries.clamp(interval), sub)]
-    }
-    
-    fileprivate var trends = Trender.State([:])
-    public func trend(for interval: Interval, by sub: Subdivision) -> Double? {
-      trends[.init(entries.clamp(interval), sub)]
-    }
-    
-    fileprivate var averageBreaks = AverageBreaker.State([:])
-    public func averageBreak(_ interval: Interval) -> TimeInterval? { averageBreaks[entries.clamp(interval)] }
-    
-    public func `break`(date: Date) -> TimeInterval? {
-      guard let previous = entries.array.last(where: { $0 < date }) else { return .infinity }
-      
-      return previous.distance(to: date)
-    }
-    
-    public func longestBreak(until date: Date) -> TimeInterval? {
-      guard let first = entries.first else { return .infinity }
-      
-      if entries.count == 1 { return first.distance(to: date) }
-      
-      return entries.reduce((previousDate: first, longestInterval: TimeInterval.zero)) { result, date in
-        (
-          previousDate: date,
-          longestInterval: max(result.longestInterval, date.timeIntervalSince(result.previousDate))
-        )
-      }.longestInterval
-    }
+    internal var filtereds = Filter.State([])
+    internal var amounts = Amounter.State([])
+    internal var averages = Averager.State([:])
+    internal var trends = Trender.State([:])
+    internal var averageBreaks = AverageBreaker.State([:])
     
     public init(_ entries: Entries.State) { self.entries = entries }
   }
@@ -178,4 +142,38 @@ private extension Calculator {
     
     return interval.duration / Double(amount)
   }
+}
+
+extension Calculator.State {
+  public func filtered(for interval: Interval) -> [Date]? { filtereds[entries.clamp(interval)] }
+  
+  public func amount(for interval: Interval) -> Int? { amounts[entries.clamp(interval)] }
+  
+  public func average(for interval: Interval, by sub: Subdivision) -> Double? {
+    averages[.init(entries.clamp(interval), sub)]
+  }
+  
+  public func trend(for interval: Interval, by sub: Subdivision) -> Double? {
+    trends[.init(entries.clamp(interval), sub)]
+  }
+  
+  public func `break`(date: Date) -> TimeInterval? {
+    guard let previous = entries.array.last(where: { $0 < date }) else { return .infinity }
+    return previous.distance(to: date)
+  }
+  
+  public func longestBreak(until date: Date) -> TimeInterval? {
+    guard let first = entries.first else { return .infinity }
+    
+    if entries.count == 1 { return first.distance(to: date) }
+    
+    return entries.reduce((previousDate: first, longestInterval: TimeInterval.zero)) { result, date in
+      (
+        previousDate: date,
+        longestInterval: max(result.longestInterval, date.timeIntervalSince(result.previousDate))
+      )
+    }.longestInterval
+  }
+  
+  public func averageBreak(_ interval: Interval) -> TimeInterval? { averageBreaks[entries.clamp(interval)] }
 }

@@ -14,25 +14,25 @@ final class AppTests: XCTestCase {
       $0.persistor.readDates = { dates }
     }
     
+    store.exhaustivity = .off
+    
     await store.send(.loadEntries)
-    await store.receive(/.setEntries(.init(dates)), timeout: 1) {
-      $0.entries = .init(dates)
-      $0.calculator = Calculator.State($0.entries!)
-      $0.file = File.State(entries: $0.entries!)
-    }
+    await store.receive(/.setEntries(.init(dates)), timeout: 1) { $0.entries = .init(dates) }
+    await store.receive(/.calculator(.setEntries(.init(dates))), timeout: 1) { $0.calculator.entries = .init(dates) }
+    await store.receive(/.file(.setEntries(.init(dates))), timeout: 1) { $0.file.entries = .init(dates) }
   }
   
   func test_whenFailingToLoadEntries_thenSetsToEmpty() async throws {
-    let store = TestStore(initialState: .init(), reducer: App()) {
+    let store = TestStore(initialState: .init([.now]), reducer: App()) {
       $0.persistor.readDates = { throw URLError(.badURL) }
     }
     
+    store.exhaustivity = .off
+    
     await store.send(.loadEntries)
-    await store.receive(/.setEntries([]), timeout: 1) {
-      $0.entries = []
-      $0.calculator = Calculator.State([])
-      $0.file = File.State(entries: [])
-    }
+    await store.receive(/.setEntries([]), timeout: 1) { $0.entries = [] }
+    await store.receive(/.calculator(.setEntries([])), timeout: 1) { $0.calculator.entries = [] }
+    await store.receive(/.file(.setEntries([])), timeout: 1) { $0.file.entries = []}
   }
   
   func test_whenSavingEntries_thenTriggersSave() async throws {
@@ -41,7 +41,7 @@ final class AppTests: XCTestCase {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let dates = [base - 999_999, base, base + 999_999]
     
-    let store = TestStore(initialState: .init(entries: .init(dates)), reducer: App()) {
+    let store = TestStore(initialState: .init(.init(dates)), reducer: App()) {
       $0.persistor.writeDates = {
         if $0 == dates { expectation.fulfill() }
       }

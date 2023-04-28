@@ -13,14 +13,14 @@ extension DashboardView {
       @Dependency(\.calendar) var cal
       @Dependency(\.date.now) var now
       
-      dayAmount = state.calculator?.amount(for: .day(now))
-      untilHereAmount = state.calculator?.amount(for: .to(cal.endOfDay(for: now)))
+      dayAmount = state.calculator.amount(for: .day(now))
+      untilHereAmount = state.calculator.amount(for: .to(cal.endOfDay(for: now)))
       configurableAmounts = Dictionary(
-        uniqueKeysWithValues: AmountOption.allCases.map { ($0, state.calculator?.amount(for: $0.interval)) }
+        uniqueKeysWithValues: AmountOption.allCases.map { ($0, state.calculator.amount(for: $0.interval)) }
       )
       
-      `break` = state.calculator?.break(date: now)
-      longestBreak = state.calculator?.longestBreak(until: now)
+      `break` = state.calculator.break(date: now)
+      longestBreak = state.calculator.longestBreak(until: now)
       
     }
   }
