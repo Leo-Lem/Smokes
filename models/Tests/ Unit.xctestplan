@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "F9D3D32E-160E-4184-99C9-14DA4565F5DA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "SmokesModels",
+          "name" : "SmokesModels"
+        }
+      ]
+    },
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SmokesModelsTests",
+        "name" : "SmokesModelsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

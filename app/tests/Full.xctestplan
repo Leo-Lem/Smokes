@@ -1,0 +1,78 @@
+{
+  "configurations" : [
+    {
+      "id" : "6A249B7B-C609-48A8-92FE-A37F5D6BE91D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:app.xcodeproj",
+          "identifier" : "6E48374428EC991100B67CA4",
+          "name" : "Smokes"
+        }
+      ]
+    },
+    "language" : "en",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ashtray.xcodeproj",
+      "identifier" : "6E48374428EC991100B67CA4",
+      "name" : "ashtray"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:app.xcodeproj",
+        "identifier" : "6E05A50128F18F6600CA0287",
+        "name" : "SmokesTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:app.xcodeproj",
+        "identifier" : "6ED91E1F293FB7BB00728E2B",
+        "name" : "SmokesUITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/deps",
+        "identifier" : "SmokesDependenciesTests",
+        "name" : "SmokesDependenciesTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/lib",
+        "identifier" : "SmokesLibraryTests",
+        "name" : "SmokesLibraryTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/models",
+        "identifier" : "SmokesModelsTests",
+        "name" : "SmokesModelsTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SmokesReducersTests",
+        "name" : "SmokesReducersTests"
+      }
+    }
+  ],
+  "version" : 1
+}

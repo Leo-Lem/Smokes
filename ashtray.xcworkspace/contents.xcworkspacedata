@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/leolem/dev/apps/ashtray/app/app.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/leolem/dev/apps/ashtray/reducers">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/leolem/dev/apps/ashtray/models">
+   </FileRef>
+   <FileRef
+      location = "group:deps">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/leolem/dev/apps/ashtray/facts">
+   </FileRef>
+   <FileRef
+      location = "group:lib">
+   </FileRef>
+</Workspace>

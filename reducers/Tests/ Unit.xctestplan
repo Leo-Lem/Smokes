@@ -1,0 +1,39 @@
+{
+  "configurations" : [
+    {
+      "id" : "730B755E-36F5-4E8A-84B9-04D96398096D",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "SmokesReducers",
+          "name" : "SmokesReducers"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "AmountPerformanceTests",
+        "AveragePerformanceTests",
+        "SubdividePerformanceTests",
+        "TrendPerformanceTests"
+      ],
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SmokesReducersTests",
+        "name" : "SmokesReducersTests"
+      }
+    }
+  ],
+  "version" : 1
+}
