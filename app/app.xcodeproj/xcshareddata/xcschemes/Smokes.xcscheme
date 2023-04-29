@@ -116,7 +116,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-wReset"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

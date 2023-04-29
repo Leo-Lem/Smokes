@@ -123,7 +123,8 @@ private extension HistoryView {
         vs.optionPlotData?
           .sorted { $0.key < $1.key }
           .map { (format.plotInterval($0, bounds: option.interval(selection), sub: option.subdivision) ?? "", $1) },
-        description: Text(option.description))
+        description: Text(option.description)
+      )
     }
   }
 

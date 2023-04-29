@@ -38,6 +38,10 @@ struct StatsView: View {
       .animation(.default, value: selection)
       .animation(.default, value: option)
       .animation(.default, value: plotOption)
+      .onChange(of: selection) {
+        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases(selection).first! }
+        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases(selection).first! }
+      }
     }
   }
 

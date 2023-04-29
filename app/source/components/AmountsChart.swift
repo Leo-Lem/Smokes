@@ -14,6 +14,14 @@ struct AmountsChart: View {
       }
       .minimumScaleFactor(0.5)
       .chartYAxisLabel(LocalizedStringKey("SMOKES"))
+      .overlay {
+        if !amounts.contains(where: { $0.amount > 0 }) {
+          Text("NO_DATA")
+            .font(.largeTitle)
+            .bold()
+            .rotationEffect(.degrees(-10))
+        }
+      }
     }
   }
   
@@ -28,8 +36,11 @@ struct AmountsChart: View {
 struct AmountsChart_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      AmountsChart([("2023-12-23", 10), ("2023-12-24", 0), ("2023-12-25", 1)], description: nil)
+      AmountsChart([("2023-12-23", 10), ("2023-12-24", 0), ("2023-12-25", 1)])
 
+      AmountsChart([("2023-12-23", 0), ("2023-12-24", 0), ("2023-12-25", 0)])
+        .previewDisplayName("Empty")
+      
       AmountsChart(nil)
         .previewDisplayName("Loading")
     }
