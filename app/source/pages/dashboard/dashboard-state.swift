@@ -1,29 +1,30 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
+import Dependencies
+
 extension DashboardView {
   struct ViewState: Equatable {
     let dayAmount: Int?,
         untilHereAmount: Int?,
-        configurableAmounts: [AmountOption: Int]
+        optionAmount: Int?
     
-    let `break`: TimeInterval?,
-        longestBreak: TimeInterval?
+    let optionTime: TimeInterval?
     
-    init(_ state: App.State) {
+    init(_ state: App.State, option: AmountOption, timeOption: TimeOption) {
+      @Dependency(\.calculate) var calculate
       @Dependency(\.calendar) var cal
       @Dependency(\.date.now) var now
       
-      dayAmount = state.calculate.amount(for: .day(now))
-      untilHereAmount = state.calculate.amount(for: .to(cal.endOfDay(for: now)))
-      configurableAmounts = Dictionary(
-        uniqueKeysWithValues: AmountOption.allCases.compactMap { option in
-          state.calculate.amount(for: option.interval).flatMap { (option, $0) }
-        }
-      )
+      let entries = state.entries.array
       
-      `break` = state.calculate.break(date: now)
-      longestBreak = state.calculate.longestBreak(until: now)
+      dayAmount = calculate.amount(.day(now), entries)
+      untilHereAmount = calculate.amount(.to(cal.endOfDay(for: now)), entries)
+      optionAmount = calculate.amount(option.interval, entries)
       
+      switch timeOption {
+      case .sinceLast: optionTime = calculate.break(now, entries)
+      case .longestBreak: optionTime = calculate.longestBreak(now, entries)
+      }
     }
   }
 }

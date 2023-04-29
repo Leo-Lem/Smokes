@@ -3,7 +3,7 @@
 import Dependencies
 import Foundation
 
-extension EntriesEncoding {
+extension Encoding  {
   func encode(grouped entries: [Date]) throws -> Data {
     try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
   }

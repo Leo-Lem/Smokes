@@ -48,7 +48,7 @@ public extension Calculator {
     public internal(set) var cache = [Parameters: Result]()
     public internal(set) var data: Data
     
-    fileprivate(set) var queue = [Parameters]()
+    internal var queue = [Parameters]()
 
     public subscript(_ parameters: Parameters) -> Result? { cache[parameters] }
 

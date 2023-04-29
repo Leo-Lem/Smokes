@@ -2,7 +2,7 @@
 
 import Foundation
 
-extension EntriesEncoding {
+extension Encoding  {
   func encode(daily entries: [Date]) throws -> Data {
     try JSONSerialization.data(withJSONObject: prepare(entries), options: [.sortedKeys, .prettyPrinted])
   }

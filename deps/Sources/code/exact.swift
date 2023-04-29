@@ -2,7 +2,7 @@
 
 import Foundation
 
-extension EntriesEncoding {
+extension Encoding {
   func encode(exact entries: [Date]) throws -> Data {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = .iso8601

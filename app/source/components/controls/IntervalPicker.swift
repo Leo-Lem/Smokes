@@ -53,7 +53,12 @@ struct IntervalPicker: View {
     .animation(.default, value: selectedYear)
     .animation(.default, value: selectedAlltime)
     .onChange(of: selectedMonth) {
-      if let month = $0 { selection = month } else { selection = selectedYear }
+      if let month = $0 {
+        selection = month
+        selectedYear = .year(month.end!)
+      } else {
+        selection = selectedYear
+      }
       selectedAlltime = false
     }
     .onChange(of: selectedAlltime) {
@@ -63,19 +68,19 @@ struct IntervalPicker: View {
   
   @State private var selectedMonth: Interval?
   @State private var selectedYear: Interval
-  @State private var selectedAlltime = true
+  @State private var selectedAlltime: Bool
   
   private let lowerBound: Date
   private let upperBound: Date
   
   init(selection: Binding<Interval>, bounds: Interval) {
     guard let start = bounds.start, let end = bounds.end else { fatalError("IntervalPicker requires bounds.") }
-    
     self.bounds = bounds
     
     _selection = selection
     _selectedMonth = .init(initialValue: .month(bounds.end!))
     _selectedYear = .init(initialValue: .year(bounds.end!))
+    _selectedAlltime = .init(initialValue: selection.wrappedValue == .alltime)
     
     lowerBound = start
     upperBound = end

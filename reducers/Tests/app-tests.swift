@@ -11,27 +11,25 @@ final class AppTests: XCTestCase {
     let dates = [base - 999_999, base, base + 999_999]
     
     let store = TestStore(initialState: .init(), reducer: App()) {
-      $0.persistor.readDates = { dates }
+      $0.persist.read = { dates }
     }
     
     store.exhaustivity = .off
     
     await store.send(.loadEntries)
     await store.receive(/.entries(.set(.init(dates))), timeout: 1) { $0.entries = .init(dates) }
-    await store.receive(/.calculate(.setEntries(.init(dates))), timeout: 1) { $0.calculate.entries = .init(dates) }
     await store.receive(/.file(.setEntries(.init(dates))), timeout: 1) { $0.file.entries = .init(dates) }
   }
   
   func test_whenFailingToLoadEntries_thenSetsToEmpty() async throws {
     let store = TestStore(initialState: .init([.now]), reducer: App()) {
-      $0.persistor.readDates = { throw URLError(.badURL) }
+      $0.persist.read = { throw URLError(.badURL) }
     }
     
     store.exhaustivity = .off
     
     await store.send(.loadEntries)
     await store.receive(/.entries(.set([])), timeout: 1) { $0.entries = [] }
-    await store.receive(/.calculate(.setEntries([])), timeout: 1) { $0.calculate.entries = [] }
     await store.receive(/.file(.setEntries([])), timeout: 1) { $0.file.entries = []}
   }
   
@@ -42,9 +40,7 @@ final class AppTests: XCTestCase {
     let dates = [base - 999_999, base, base + 999_999]
     
     let store = TestStore(initialState: .init(.init(dates)), reducer: App()) {
-      $0.persistor.writeDates = {
-        if $0 == dates { expectation.fulfill() }
-      }
+      $0.persist.write = { if $0 == dates { expectation.fulfill() } }
     }
     
     await store.send(.saveEntries)

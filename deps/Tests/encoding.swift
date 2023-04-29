@@ -9,13 +9,13 @@ final class EncodingTests: XCTestCase {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let entries = [base - 999_999, base, base + 999_999]
     
-    for encoding in EntriesEncoding.allCases {
+    for encoding in Encoding.allCases {
       XCTAssertFalse(try encoding.encode(entries).isEmpty)
     }
   }
   
   func test_whenEncodingEmptyEntries_thenDataIsEmpty() async throws {
-    for encoding in EntriesEncoding.allCases {
+    for encoding in Encoding.allCases {
       XCTAssertTrue(try encoding.encode([]).isEmpty)
     }
   }
@@ -27,14 +27,14 @@ final class EncodingTests: XCTestCase {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let entries = [base - 999_999, base, base + 999_999]
     
-    for encoding in EntriesEncoding.allCases {
+    for encoding in Encoding.allCases {
       let data = try encoding.encode(entries)
       XCTAssertEqual(try encoding.decode(data).count, entries.count)
     }
   }
   
   func test_whenDecodingEmptyData_thenReturnsEmptyEntries() async throws {
-    for encoding in EntriesEncoding.allCases {
+    for encoding in Encoding.allCases {
       XCTAssertTrue(try encoding.decode(Data()).isEmpty)
     }
   }

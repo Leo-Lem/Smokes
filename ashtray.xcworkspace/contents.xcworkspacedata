@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:lib/Tests/Unit.xctestplan">
+   </FileRef>
+   <FileRef
       location = "group:README.md">
    </FileRef>
    <FileRef
@@ -14,10 +17,10 @@
       location = "group:/Users/leolem/dev/apps/ashtray/reducers">
    </FileRef>
    <FileRef
-      location = "group:/Users/leolem/dev/apps/ashtray/models">
+      location = "group:deps">
    </FileRef>
    <FileRef
-      location = "group:deps">
+      location = "group:/Users/leolem/dev/apps/ashtray/models">
    </FileRef>
    <FileRef
       location = "group:/Users/leolem/dev/apps/ashtray/facts">

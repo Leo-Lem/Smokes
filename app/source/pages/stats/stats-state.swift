@@ -1,34 +1,33 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
+import Dependencies
+
 extension StatsView {
   struct ViewState: Equatable {
     let bounds: Interval
+    
+    let optionAverage: Double?
+    let optionTrend: Double?
+    
     let averageTimeBetween: TimeInterval?
-    let configurableAverages: [Option: Double]
-    let configurableTrends: [Option: Double]
-    let configurableEntries: [PlotOption: [Date]]
+    
+    let optionPlotData: [Interval: Int]?
 
-    init(_ state: App.State, interval: Interval) {
-      bounds = state.entries.clamp(.alltime)
+    init(_ state: App.State, selection: Interval, option: Option, plotOption: PlotOption) {
+      @Dependency(\.calculate) var calculate
       
-      averageTimeBetween = state.calculate.averageBreak(interval)
+      let entries = state.entries.array
+      let clamp = state.entries.clamp
+      let selection = clamp(selection)
       
-      configurableAverages = Dictionary(
-        uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculate.average(for: interval, by: option.subdivision).flatMap { (option, $0) }
-        }
-      )
+      bounds = clamp(.alltime)
       
-      configurableTrends = Dictionary(
-        uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculate.trend(for: interval, by: option.subdivision).flatMap { (option, $0) }
-        }
-      )
+      optionAverage = calculate.average(selection, option.subdivision, entries)
+      optionTrend = selection == .alltime ? nil : calculate.trend(selection, option.subdivision, entries)
       
-      configurableEntries = Dictionary(
-        uniqueKeysWithValues: PlotOption.allCases
-          .compactMap { option in state.calculate.filtered(for: interval).flatMap { (option, $0) } }
-      )
+      averageTimeBetween = calculate.averageBreak(selection, entries)
+      
+      optionPlotData = calculate.amounts(selection, plotOption.subdivision, entries)
     }
   }
 }

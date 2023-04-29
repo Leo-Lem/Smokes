@@ -32,10 +32,8 @@
 		6E58EF9A29A4276900181557 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E58EF9929A4276900181557 /* ComposableArchitecture */; };
 		6E5CFE8629D6DCBD006DC2B6 /* ConfigurableWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CFE8529D6DCBD006DC2B6 /* ConfigurableWidget.swift */; };
 		6E6B83B829D81D7700EB7E6F /* stats-state.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83B729D81D7700EB7E6F /* stats-state.swift */; };
-		6E6B83BA29D81D7D00EB7E6F /* stats-action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83B929D81D7D00EB7E6F /* stats-action.swift */; };
 		6E825DB329D80CEB00824079 /* DescriptedValue-content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DB229D80CEB00824079 /* DescriptedValue-content.swift */; };
 		6E825DB529D8138E00824079 /* DescriptedChart-content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E825DB429D8138E00824079 /* DescriptedChart-content.swift */; };
-		6E9BE4E129CFF25700AF77E4 /* Persistor-previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9BE4E029CFF25700AF77E4 /* Persistor-previews.swift */; };
 		6EA4B63F29F68C5B00C85612 /* stats-options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B63E29F68C5B00C85612 /* stats-options.swift */; };
 		6EA4B65229F8B0FA00C85612 /* porter-state.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B65129F8B0FA00C85612 /* porter-state.swift */; };
 		6EA4B65429F8B0FF00C85612 /* porter-action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4B65329F8B0FF00C85612 /* porter-action.swift */; };
@@ -44,6 +42,9 @@
 		6EAB0F6429FB965C00C7068E /* SmokesReducers in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAB0F6329FB965C00C7068E /* SmokesReducers */; };
 		6EAB8BFE29ADEB3B002B08C2 /* dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05A4B628F07F3A00CA0287 /* dashboard.swift */; };
 		6EAB8C0129B07C10002B08C2 /* history.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D8C29A5D64B004EF7F5 /* history.swift */; };
+		6ECDDB9429FD29D600C8DBED /* SmokesModels in Frameworks */ = {isa = PBXBuildFile; productRef = 6ECDDB9329FD29D600C8DBED /* SmokesModels */; };
+		6ECDDB9629FD29DF00C8DBED /* SmokesLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 6ECDDB9529FD29DF00C8DBED /* SmokesLibrary */; };
+		6ECDDB9829FD29E200C8DBED /* SmokesDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 6ECDDB9729FD29E200C8DBED /* SmokesDependencies */; };
 		6ED91E19293FB72600728E2B /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E18293FB72600728E2B /* config.swift */; };
 		6ED91E23293FB7BB00728E2B /* ui-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED91E22293FB7BB00728E2B /* ui-tests.swift */; };
 /* End PBXBuildFile section */
@@ -96,11 +97,9 @@
 		6E48378F28ECA08F00B67CA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E5CFE8529D6DCBD006DC2B6 /* ConfigurableWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableWidget.swift; sourceTree = "<group>"; };
 		6E6B83B729D81D7700EB7E6F /* stats-state.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stats-state.swift"; sourceTree = "<group>"; };
-		6E6B83B929D81D7D00EB7E6F /* stats-action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stats-action.swift"; sourceTree = "<group>"; };
 		6E6B83BE29D8312A00EB7E6F /* IntervalPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalPicker.swift; sourceTree = "<group>"; };
 		6E825DB229D80CEB00824079 /* DescriptedValue-content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DescriptedValue-content.swift"; sourceTree = "<group>"; };
 		6E825DB429D8138E00824079 /* DescriptedChart-content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DescriptedChart-content.swift"; sourceTree = "<group>"; };
-		6E9BE4E029CFF25700AF77E4 /* Persistor-previews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Persistor-previews.swift"; sourceTree = "<group>"; };
 		6EA4B63E29F68C5B00C85612 /* stats-options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stats-options.swift"; sourceTree = "<group>"; };
 		6EA4B65129F8B0FA00C85612 /* porter-state.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "porter-state.swift"; sourceTree = "<group>"; };
 		6EA4B65329F8B0FF00C85612 /* porter-action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "porter-action.swift"; sourceTree = "<group>"; };
@@ -126,6 +125,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ECDDB9629FD29DF00C8DBED /* SmokesLibrary in Frameworks */,
+				6ECDDB9829FD29E200C8DBED /* SmokesDependencies in Frameworks */,
+				6ECDDB9429FD29D600C8DBED /* SmokesModels in Frameworks */,
 				6E58EF9A29A4276900181557 /* ComposableArchitecture in Frameworks */,
 				6EAB0F6429FB965C00C7068E /* SmokesReducers in Frameworks */,
 			);
@@ -184,6 +186,7 @@
 				6E48376628ECA06D00B67CA4 /* resources */,
 				6E48376528ECA06D00B67CA4 /* config */,
 				6E48374628EC991100B67CA4 /* Products */,
+				6ECDDB9229FD29D600C8DBED /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,7 +243,6 @@
 		6E48376A28ECA06D00B67CA4 /* previews */ = {
 			isa = PBXGroup;
 			children = (
-				6E9BE4E029CFF25700AF77E4 /* Persistor-previews.swift */,
 			);
 			path = previews;
 			sourceTree = "<group>";
@@ -291,7 +293,6 @@
 			children = (
 				6E4173F429BD44B200A3660E /* stats.swift */,
 				6E6B83B729D81D7700EB7E6F /* stats-state.swift */,
-				6E6B83B929D81D7D00EB7E6F /* stats-action.swift */,
 				6EA4B63E29F68C5B00C85612 /* stats-options.swift */,
 			);
 			path = stats;
@@ -324,6 +325,13 @@
 				6E825DB429D8138E00824079 /* DescriptedChart-content.swift */,
 			);
 			path = content;
+			sourceTree = "<group>";
+		};
+		6ECDDB9229FD29D600C8DBED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6ED91E1B293FB7A500728E2B /* ui */ = {
@@ -372,6 +380,9 @@
 			packageProductDependencies = (
 				6E58EF9929A4276900181557 /* ComposableArchitecture */,
 				6EAB0F6329FB965C00C7068E /* SmokesReducers */,
+				6ECDDB9329FD29D600C8DBED /* SmokesModels */,
+				6ECDDB9529FD29DF00C8DBED /* SmokesLibrary */,
+				6ECDDB9729FD29E200C8DBED /* SmokesDependencies */,
 			);
 			productName = xxxxx;
 			productReference = 6E48374528EC991100B67CA4 /* Smokes.app */;
@@ -525,7 +536,6 @@
 				6E5CFE8629D6DCBD006DC2B6 /* ConfigurableWidget.swift in Sources */,
 				6ED91E19293FB72600728E2B /* config.swift in Sources */,
 				6E825DB529D8138E00824079 /* DescriptedChart-content.swift in Sources */,
-				6E9BE4E129CFF25700AF77E4 /* Persistor-previews.swift in Sources */,
 				6EA97A1129CE8C4B0098CC61 /* background.swift in Sources */,
 				6EA4B65429F8B0FF00C85612 /* porter-action.swift in Sources */,
 				6E4173F529BD44B200A3660E /* stats.swift in Sources */,
@@ -534,7 +544,6 @@
 				6E014D9629A5E61B004EF7F5 /* Widget.swift in Sources */,
 				6EA4B63F29F68C5B00C85612 /* stats-options.swift in Sources */,
 				6E6B83B829D81D7700EB7E6F /* stats-state.swift in Sources */,
-				6E6B83BA29D81D7D00EB7E6F /* stats-action.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +928,18 @@
 		6EAB0F6329FB965C00C7068E /* SmokesReducers */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SmokesReducers;
+		};
+		6ECDDB9329FD29D600C8DBED /* SmokesModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SmokesModels;
+		};
+		6ECDDB9529FD29DF00C8DBED /* SmokesLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SmokesLibrary;
+		};
+		6ECDDB9729FD29E200C8DBED /* SmokesDependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SmokesDependencies;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

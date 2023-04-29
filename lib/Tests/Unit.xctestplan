@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "F9D3D32E-160E-4184-99C9-14DA4565F5DA",
+      "id" : "F33E43A7-BFA1-437F-849E-24454BFC0B30",
       "name" : "Configuration 1",
       "options" : {
 
@@ -13,8 +13,8 @@
       "targets" : [
         {
           "containerPath" : "container:",
-          "identifier" : "SmokesModels",
-          "name" : "SmokesModels"
+          "identifier" : "SmokesLibrary",
+          "name" : "SmokesLibrary"
         }
       ]
     },
@@ -22,10 +22,11 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "SmokesModelsTests",
-        "name" : "SmokesModelsTests"
+        "identifier" : "SmokesLibraryTests",
+        "name" : "SmokesLibraryTests"
       }
     }
   ],

@@ -1,30 +1,25 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
+import Dependencies
+
 extension HistoryView {
   struct ViewState: Equatable {
     let dayAmount: Int?,
         untilHereAmount: Int?,
-        amounts: [Option: Int]
+        optionAmount: Int?
 
-    let plotData: [Option: [Interval: Int]]
+    let optionPlotData: [Interval: Int]?
 
-    init(_ state: App.State, selection: Date) {
-      dayAmount = state.calculate.amount(for: .day(selection))
-      untilHereAmount = state.calculate.amount(for: .to(selection))
+    init(_ state: App.State, selection: Date, option: Option) {
+      @Dependency(\.calculate) var calculate
       
-      amounts = Dictionary(
-        uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculate.amount(for: option.interval(selection))
-            .flatMap { (option, $0) }
-        }
-      )
+      let entries = state.entries.array
       
-      plotData = Dictionary(
-        uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculate.filteredAmounts(for: option.interval(selection), by: option.subdivision)
-            .flatMap { (option, $0) }
-        }
-      )
+      dayAmount = calculate.amount(.day(selection), entries)
+      untilHereAmount = calculate.amount(.to(selection), entries)
+      optionAmount = calculate.amount(option.interval(selection), entries)
+      
+      optionPlotData = calculate.amounts(option.interval(selection), option.subdivision, entries)
     }
   }
 }

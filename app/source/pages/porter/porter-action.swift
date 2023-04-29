@@ -3,7 +3,7 @@
 extension Porter {
   enum ViewAction {
     case encode
-    case selectCoder(EntriesEncoding)
+    case selectCoder(Encoding)
     case setData(Data)
     
     static func send(_ action: Self) -> App.Action {

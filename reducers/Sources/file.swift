@@ -40,9 +40,9 @@ public extension File {
   struct State: Equatable {
     public internal(set) var data: Data?
     public internal(set) var entries: [Date]
-    public internal(set) var encoding: EntriesEncoding
+    public internal(set) var encoding: Encoding
     
-    public init(data: Data? = nil, entries: [Date], encoding: EntriesEncoding = .daily) {
+    public init(data: Data? = nil, entries: [Date], encoding: Encoding = .daily) {
       self.data = data
       self.entries = entries
       self.encoding = encoding
@@ -54,7 +54,7 @@ public extension File {
   enum Action {
     case setData(Data, encode: Bool = true),
          setEntries([Date], encode: Bool = true),
-         setEncoding(EntriesEncoding, encode: Bool = true)
+         setEncoding(Encoding, encode: Bool = true)
     
     case encode,
          decode

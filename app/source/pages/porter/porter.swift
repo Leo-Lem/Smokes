@@ -65,7 +65,7 @@ struct Porter: View {
   @State private var preview: String?
   @State private var showingExporter = false
   @State private var showingImporter = false
-  @AppStorage("porter_fileCoder") private var encoding: EntriesEncoding = .daily
+  @AppStorage("porter_fileCoder") private var encoding: Encoding = .daily
 
   @Environment(\.dismiss) private var dismiss
 }
@@ -91,7 +91,7 @@ extension Porter {
 
   @ViewBuilder private func formatPicker() -> some View {
     Picker("", selection: $encoding) {
-      ForEach(EntriesEncoding.allCases, id: \.self) { encoding in
+      ForEach(Encoding.allCases, id: \.self) { encoding in
         Text(LocalizedStringKey(encoding.rawValue))
       }
     }
@@ -109,7 +109,7 @@ extension Porter {
   }
 }
 
-extension EntriesEncoding: RawRepresentable {
+extension Encoding: RawRepresentable {
   public init?(rawValue: String) {
     switch rawValue {
     case "DAILY_FORMAT": self = .daily

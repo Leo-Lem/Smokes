@@ -17,7 +17,7 @@ final class FileTests: XCTestCase {
   }
   
   func test_whenSettingEncoding_thenEncodes() async throws {
-    let encoding = EntriesEncoding.exact
+    let encoding = Encoding.exact
     
     let store = TestStore(initialState: .init(entries: []), reducer: File())
     
@@ -29,7 +29,7 @@ final class FileTests: XCTestCase {
   func test_whenSettingEntries_thenEncodes() async throws {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let entries = [base - 999_999, base, base + 999_999]
-    let encoding = EntriesEncoding.daily
+    let encoding = Encoding.daily
     let data = try encoding.encode(entries)
     
     let store = TestStore(initialState: .init(entries: [], encoding: encoding), reducer: File())

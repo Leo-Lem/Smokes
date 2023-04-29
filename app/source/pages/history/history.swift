@@ -4,12 +4,14 @@ import Charts
 import ComposableArchitecture
 import SwiftUI
 
+// Year plot shows incorrect values for future months
+
 struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
     WithViewStore(store) {
-      ViewState($0, selection: selection)
+      ViewState($0, selection: selection, option: option)
     } send: {
       ViewAction.send($0, selection: selection)
     } content: { vs in
@@ -64,9 +66,6 @@ struct HistoryView: View {
       .animation(.default, value: vs.state)
       .animation(.default, value: isEditing)
       .animation(.default, value: option)
-      .onAppear { ViewAction.update(vs, option: option) }
-      .onChange(of: selection) { _ in ViewAction.update(vs, option: option) }
-      .onChange(of: option) { ViewAction.update(vs, option: $0) }
     }
   }
 
@@ -80,7 +79,7 @@ struct HistoryView: View {
 
   @Environment(\.verticalSizeClass) private var vSize
 
-  @Dependency(\.formatter) private var formatter
+  @Dependency(\.format) private var format
 }
 
 private extension HistoryView {
@@ -99,7 +98,7 @@ private extension HistoryView {
   }
 
   func dayAmount(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    DescriptedValueContent(formatter.format(amount: vs.dayAmount), description: "THIS_DAY")
+    DescriptedValueContent(format.amount(vs.dayAmount), description: "THIS_DAY")
   }
 
   func increment(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
@@ -108,20 +107,22 @@ private extension HistoryView {
 
   func untilHereAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     Widget {
-      DescriptedValueContent(formatter.format(amount: vs.untilHereAmount), description: "UNTIL_THIS_DAY")
+      DescriptedValueContent(format.amount(vs.untilHereAmount), description: "UNTIL_THIS_DAY")
     }
   }
 
   func configurableAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     ConfigurableWidget(selection: $option) { option in
-      DescriptedValueContent(formatter.format(amount: vs.amounts[option]), description: option.description)
+      DescriptedValueContent(format.amount(vs.optionAmount), description: option.description)
     }
   }
 
   func amountsPlotWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    let data = vs.plotData[option]
-      .flatMap { prepareAmountsForPlotting($0, bounds: option.interval(selection), subdivision: option.subdivision) }
-    
+    let bounds = option.interval(selection), sub = option.subdivision
+    let data = vs.optionPlotData?
+      .sorted { $0.key.start! < $1.key.start! }
+      .map { interval, amount in (format.plotInterval(interval, bounds: bounds, sub: sub) ?? "", amount) }
+
     return Widget {
       AmountsChart(data, description: Text(option.description))
     }
@@ -147,31 +148,6 @@ private extension HistoryView {
     }
   }
 }
-
-func plotLabelFormatting(_ bounds: Interval, _ subdivision: Subdivision) -> Date.FormatStyle {
-  switch (bounds, subdivision) {
-  case (.week, .day): return .init().weekday(.abbreviated)
-  case (.month, .day): return .init().day(.twoDigits)
-  case (.month, .week): return .init().week(.weekOfMonth)
-  case (.year, .day): return .init().day(.twoDigits).month(.twoDigits)
-  case (.year, .week): return .init().week(.twoDigits)
-  case (.year, .month): return .init().month(.abbreviated)
-  case (_, .day): return .init().day(.twoDigits).month(.abbreviated).year(.defaultDigits)
-  case (_, .week): return .init().week(.twoDigits).year(.defaultDigits)
-  case (_, .month): return .init().month(.abbreviated).year(.defaultDigits)
-  case (_, .year): return .init().year(.defaultDigits)
-  }
-}
-
-// !!!: can only be used with a countable interval
-func prepareAmountsForPlotting(
-  _ amounts: [Interval: Int], bounds: Interval, subdivision: Subdivision
-) -> [(String, Int)] {
-  amounts
-    .sorted { $0.key.start! < $1.key.start! }
-    .map { interval, amount in (interval.end!.formatted(plotLabelFormatting(bounds, subdivision)), amount) }
-}
-
 
 // MARK: - (PREVIEWS)
 

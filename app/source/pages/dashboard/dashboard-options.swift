@@ -1,5 +1,6 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
+import Dependencies
 import SwiftUI
 
 extension DashboardView {
