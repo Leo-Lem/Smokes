@@ -16,9 +16,6 @@ public extension Calculate {
     
     internal var averageBreaks: BreakAverager.State
     
-    internal var _entries: [Date] { entries.array }
-    internal var _amounts: [Interval: Int] { amounts.cache }
-    
     public init(_ entries: Entries.State = .init()) {
       self.entries = entries
       

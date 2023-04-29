@@ -15,9 +15,9 @@ public extension Interval {
       return true
     case let (.some(start1), .some(end1), .some(start2), .some(end2)):
       return start1 <= start2 && end1 >= end2
-    case let (.some(start1), _, .some(start2), _):
+    case let (.some(start1), nil, .some(start2), _):
       return start1 <= start2
-    case let (_, .some(end1), _, .some(end2)):
+    case let (nil, .some(end1), _, .some(end2)):
       return end1 >= end2
     default:
       return false

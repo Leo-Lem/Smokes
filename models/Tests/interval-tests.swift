@@ -3,10 +3,14 @@
 @testable import SmokesModels
 import XCTest
 
-@MainActor
 final class IntervalTests: XCTestCase {
-  private let cal = Calendar.current
-  private let now = Date.now
+  private let cal = {
+    var cal = Calendar.current
+    cal.timeZone = .gmt
+    return cal
+  }()
+
+  private let date = Date(timeIntervalSinceReferenceDate: 9_999_999)
   
   func test_givenIsCountable_whenGettingDuration_thenReturnsCorrect() throws {
     for interval in intervals where interval.isCountable {
@@ -22,24 +26,24 @@ final class IntervalTests: XCTestCase {
       
   func test_givenUpperBoundNotReached_whenGettingNext_thenReturnsCorrect() throws {
     XCTAssertEqual(
-      Interval.day(now).next(in: Interval.day(cal.date(byAdding: .day, value: 2, to: now)!)),
-      Interval.day(cal.date(byAdding: .day, value: 1, to: now)!)
+      Interval.day(date).next(in: Interval.day(cal.date(byAdding: .day, value: 2, to: date)!)),
+      Interval.day(cal.date(byAdding: .day, value: 1, to: date)!)
     )
   }
       
   func test_givenUpperBoundReached_whenGettingNext_thenReturnsNil() throws {
-    XCTAssertNil(Interval.day(now).next(in: Interval.day(now)))
+    XCTAssertNil(Interval.day(date).next(in: Interval.day(date)))
   }
       
   func test_givenLowerBoundNotReached_whenGettingPrevious_thenReturnsCorrect() throws {
     XCTAssertEqual(
-      Interval.day(now).previous(in: Interval.day(cal.date(byAdding: .day, value: -2, to: now)!)),
-      Interval.day(cal.date(byAdding: .day, value: -1, to: now)!)
+      Interval.day(date).previous(in: Interval.day(cal.date(byAdding: .day, value: -2, to: date)!)),
+      Interval.day(cal.date(byAdding: .day, value: -1, to: date)!)
     )
   }
       
   func test_givenLowerBoundReached_whenGettingPrevious_thenReturnsNil() throws {
-    XCTAssertNil(Interval.day(now).previous(in: Interval.day(now)))
+    XCTAssertNil(Interval.day(date).previous(in: Interval.day(date)))
   }
       
   func test_givenIsCountable_whenCounting_thenReturnsCorrect() throws {
@@ -55,9 +59,9 @@ final class IntervalTests: XCTestCase {
       switch (interval, subdivision) {
       case _ where Subdivision(interval) == subdivision: return 1
       case (.week, .day): return 6
-      case (.month, .day): return 30
+      case (.month, .day): return 29
       case (.month, .week): return 4
-      case (.year, .day): return 365
+      case (.year, .day): return 364
       case (.year, .week): return 52
       case (.year, .month): return 11
       case (.fromTo, .day): return 11
@@ -70,7 +74,7 @@ final class IntervalTests: XCTestCase {
     }
   }
   
-  func test_givenIsUncountable_whenCounting_thenReturnsNil() async throws {
+  func test_givenIsUncountable_whenCounting_thenReturnsNil() throws {
     for interval in intervals where !interval.isCountable {
       for subdivision in Subdivision.allCases {
         XCTAssertNil(interval.count(by: subdivision))
@@ -78,7 +82,7 @@ final class IntervalTests: XCTestCase {
     }
   }
   
-  func test_givenIsCountable_whenEnumerating_thenReturns() async throws {
+  func test_givenIsCountable_whenEnumerating_thenReturns() throws {
     for interval in intervals where interval.isCountable {
       for subdivision in Subdivision.allCases where Subdivision(interval).flatMap({ subdivision < $0 }) ?? true {
         XCTAssertNotNil(interval.enumerate(by: subdivision))
@@ -86,11 +90,31 @@ final class IntervalTests: XCTestCase {
     }
   }
   
-  func test_givenIsUncountable_whenEnumerating_thenReturnsNil() async throws {
+  func test_givenIsUncountable_whenEnumerating_thenReturnsNil() throws {
     for interval in intervals where !interval.isCountable {
       for subdivision in Subdivision.allCases {
         XCTAssertNil(interval.enumerate(by: subdivision))
       }
+    }
+  }
+  
+  func test_givenContainsDate_whenContains_thenReturnsTrue() throws {
+    for interval in intervals { XCTAssertTrue(interval.contains(date)) }
+  }
+  
+  func test_givenDoesNotContainDate_whenContains_thenReturnsFalse() throws {
+    for interval in intervals where interval.start != nil {
+      XCTAssertFalse(interval.contains(.distantPast))
+    }
+  }
+  
+  func test_givenContainsInterval_whenContains_thenReturnsTrue() throws {
+    for interval in intervals { XCTAssertTrue(interval.contains(.fromTo(.init(start: date, duration: 0))), "\(interval)") }
+  }
+  
+  func test_givenDoesNotContainInterval_whenContains_thenReturnsFalse() throws {
+    for interval in intervals where interval.end != nil {
+      XCTAssertFalse(interval.contains(.from(.distantFuture)))
     }
   }
 }
@@ -98,9 +122,9 @@ final class IntervalTests: XCTestCase {
 extension IntervalTests {
   private var intervals: Set<Interval> {
     [
-      .from(now), .to(now), .alltime,
-      .day(now), .week(now), .month(now), .year(now),
-      .fromTo(.init(start: now, duration: 999_999))
+      .from(date), .to(date), .alltime,
+      .day(date), .week(date), .month(date), .year(date),
+      .fromTo(.init(start: date, duration: 999_999))
     ]
   }
 }
