@@ -41,7 +41,6 @@ extension FactView {
       Text(fact)
         .font(.headline)
         .multilineTextAlignment(.center)
-        .lineLimit(2)
         .minimumScaleFactor(0.7)
 
       Color.accentColor

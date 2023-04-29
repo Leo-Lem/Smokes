@@ -2,35 +2,30 @@
 
 import Charts
 import ComposableArchitecture
+import struct SmokesReducers.Entries
 import SwiftUI
-
-// Year plot shows incorrect values for future months
 
 struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
-    WithViewStore(store) {
-      ViewState($0, selection: selection, option: option)
-    } send: {
-      ViewAction.send($0, selection: selection)
-    } content: { vs in
+    WithViewStore(store, observe: \.entries.array) { .entries($0) } content: { entries in
       Grid {
         if vSize == .regular {
-          amountsPlotWidget(vs)
+          plotView()
 
           GridRow {
-            configurableAmountWidget(vs)
-            untilHereAmountWidget(vs)
+            configurableAmountView()
+            untilHereAmountView()
           }
 
           Widget {
             HStack {
-              dayAmount(vs)
+              dayAmountView()
                 .overlay(alignment: .topTrailing, content: editButton)
 
               if isEditing {
-                increment(vs)
+                incrementView(entries)
                   .transition(.move(edge: .trailing))
                   .overlay(alignment: .topTrailing, content: stopEditButton)
               }
@@ -39,20 +34,20 @@ struct HistoryView: View {
         } else {
           GridRow {
             Grid {
-              amountsPlotWidget(vs)
+              plotView()
 
               GridRow {
-                configurableAmountWidget(vs)
-                untilHereAmountWidget(vs)
+                configurableAmountView()
+                untilHereAmountView()
               }
             }
 
             Widget {
-              dayAmount(vs)
+              dayAmountView()
                 .overlay(alignment: .bottomTrailing, content: editButton)
 
               if isEditing {
-                increment(vs)
+                incrementView(entries)
                   .transition(.move(edge: .bottom))
                   .overlay(alignment: .bottomTrailing, content: stopEditButton)
               }
@@ -60,30 +55,50 @@ struct HistoryView: View {
           }
         }
 
-        dayPickerWidget()
+        dayPickerView()
       }
       .labelStyle(.iconOnly)
-      .animation(.default, value: vs.state)
-      .animation(.default, value: isEditing)
-      .animation(.default, value: option)
+      .animation(.default, value: CombineHashable(entries.state, isEditing, option, dayAmount, optionAmount, plotData))
+      .onAppear { update(option: option, selection: selection, entries: entries.state) }
+      .onChange(of: option) { update(option: $0, selection: selection, entries: entries.state) }
+      .onChange(of: selection) { update(option: option, selection: $0, entries: entries.state) }
+      .onChange(of: entries.state) { update(option: option, selection: selection, entries: $0) }
+      .task { plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries.state) }
+      .task(id: CombineHashable(selection, option, entries.state)) {
+        plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries.state)
+      }
     }
   }
 
-  @State private var selection = {
-    @Dependency(\.date.now) var now
-    return now - 86400
-  }()
+  @State private var selection = Dependency(\.date.now).wrappedValue - 86400
+  @AppStorage("history_intervalOption") private var option = Option.week
 
   @State private var isEditing = false
-  @AppStorage("history_intervalOption") private var option = Option.week
+
+  @State private var dayAmount: Int?
+  @State private var untilHereAmount: Int?
+  @State private var optionAmount: Int?
+  @State private var plotData: [Interval: Int]?
+
+  private var interval: Interval { option.interval(selection) }
+  private var subdivision: Subdivision { option.subdivision }
 
   @Environment(\.verticalSizeClass) private var vSize
 
   @Dependency(\.format) private var format
+  @Dependency(\.calculate) private var calculate
 }
 
 private extension HistoryView {
-  func dayPickerWidget() -> some View {
+  func update(option: Option, selection: Date, entries: [Date]) {
+    dayAmount = calculate.amount(.day(selection), entries)
+    untilHereAmount = calculate.amount(.to(selection), entries)
+    optionAmount = calculate.amount(option.interval(selection), entries)
+  }
+}
+
+private extension HistoryView {
+  func dayPickerView() -> some View {
     let bounds = {
       @Dependency(\.calendar) var cal
       @Dependency(\.date.now) var now
@@ -97,32 +112,36 @@ private extension HistoryView {
     }
   }
 
-  func dayAmount(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    DescriptedValueContent(format.amount(vs.dayAmount), description: "THIS_DAY")
+  func dayAmountView() -> some View {
+    DescriptedValueContent(format.amount(dayAmount), description: "THIS_DAY")
   }
 
-  func increment(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    IncrementMenu(decrementDisabled: vs.dayAmount ?? 0 < 1) { vs.send(.add) } remove: { vs.send(.remove) }
+  func incrementView(_ entries: ViewStore<[Date], Entries.Action>) -> some View {
+    IncrementMenu(decrementDisabled: dayAmount ?? 0 < 1) {
+      entries.send(.add(selection))
+    } remove: {
+      entries.send(.remove(selection))
+    }
   }
 
-  func untilHereAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
+  func untilHereAmountView() -> some View {
     Widget {
-      DescriptedValueContent(format.amount(vs.untilHereAmount), description: "UNTIL_THIS_DAY")
+      DescriptedValueContent(format.amount(untilHereAmount), description: "UNTIL_THIS_DAY")
     }
   }
 
-  func configurableAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
+  func configurableAmountView() -> some View {
     ConfigurableWidget(selection: $option) { option in
-      DescriptedValueContent(format.amount(vs.optionAmount), description: option.description)
+      DescriptedValueContent(format.amount(optionAmount), description: option.description)
     }
   }
 
-  func amountsPlotWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
+  func plotView() -> some View {
     Widget {
       AmountsChart(
-        vs.optionPlotData?
+        plotData?
           .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, bounds: option.interval(selection), sub: option.subdivision) ?? "", $1) },
+          .map { (format.plotInterval($0, bounds: interval, sub: subdivision) ?? "", $1) },
         description: Text(option.description)
       )
     }

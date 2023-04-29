@@ -15,7 +15,7 @@ struct AmountsChart: View {
       .minimumScaleFactor(0.5)
       .chartYAxisLabel(LocalizedStringKey("SMOKES"))
       .overlay {
-        if !amounts.contains(where: { $0.amount > 0 }) {
+        if isEmpty {
           Text("NO_DATA")
             .font(.largeTitle)
             .bold()
@@ -23,6 +23,10 @@ struct AmountsChart: View {
         }
       }
     }
+  }
+  
+  private var isEmpty: Bool {
+    if let amounts { return amounts .isEmpty || !amounts.contains(where: { $0.amount > 0 }) } else { return true }
   }
   
   init(_ amounts: [(label: String, amount: Int)]?, description: Text? = nil) {

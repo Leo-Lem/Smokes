@@ -8,39 +8,43 @@ struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
-    WithViewStore(store) {
-      ViewState($0, selection: selection, option: option, plotOption: plotOption)
-    } content: { vs in
+    WithViewStore(store, observe: \.entries) { entries in
       Grid {
         if vSize == .regular {
-          configurableAverageWidget(vs)
-          amountsPlotWidget(vs).gridCellColumns(2)
+          configurableAverageWidget()
+          amountsPlotWidget().gridCellColumns(2)
 
           GridRow {
-            averageTimeBetweenWidget(vs).gridCellColumns(isShowingTrend ? 1 : 2)
-            trendWidget(vs)
+            averageTimeBetweenWidget().gridCellColumns(isShowingTrend ? 1 : 2)
+            trendWidget()
           }
         } else {
           GridRow {
-            amountsPlotWidget(vs).gridCellColumns(2)
-            averageTimeBetweenWidget(vs)
+            amountsPlotWidget().gridCellColumns(2)
+            averageTimeBetweenWidget()
           }
 
           GridRow {
-            trendWidget(vs)
-            configurableAverageWidget(vs).gridCellColumns(isShowingTrend ? 2 : 3)
+            trendWidget()
+            configurableAverageWidget().gridCellColumns(isShowingTrend ? 2 : 3)
           }
         }
 
-        intervalPicker(vs)
+        intervalPicker(entries.state.clamp(.alltime))
       }
-      .animation(.default, value: vs.state)
-      .animation(.default, value: selection)
-      .animation(.default, value: option)
-      .animation(.default, value: plotOption)
+      .animation(.default, value: CombineHashable(
+        entries.array, selection, option, plotOption, optionAverage, optionTrend, optionPlotData, averageTimeBetween
+      ))
+      .onChange(of: option) { update($0, entries.state.clamp(selection), entries.array) }
       .onChange(of: selection) {
+        update(option, entries.state.clamp($0), entries.array)
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases(selection).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases(selection).first! }
+      }
+      .onChange(of: entries.array) { update(option, entries.state.clamp(selection), $0) }
+      .task { await updatePlotData(entries.state.clamp(selection), entries.array) }
+      .task(id: CombineHashable(selection, plotOption, option, entries.array)) {
+        await updatePlotData(entries.state.clamp(selection), entries.array)
       }
     }
   }
@@ -48,19 +52,37 @@ struct StatsView: View {
   @CodableAppStorage("stats_selection") private var selection = Interval.alltime
   @AppStorage("stats_option") private var option = Option.perday
   @AppStorage("stats_plotOption") private var plotOption = PlotOption.byyear
+  
+  @State private var optionAverage: Double?
+  @State private var optionTrend: Double?
+  @State private var optionPlotData: [Interval: Int]?
+  @State private var averageTimeBetween: TimeInterval?
 
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.format) private var format
+  @Dependency(\.calculate) private var calculate
 
   private var isShowingTrend: Bool { selection != .alltime }
 }
 
+private extension StatsView {
+  func update(_ option: Option, _ selection: Interval, _ entries: [Date]) {
+    optionAverage = calculate.average(selection, option.subdivision, entries)
+    optionTrend = selection == .alltime ? nil : calculate.trend(selection, option.subdivision, entries)
+    averageTimeBetween = calculate.averageBreak(selection, entries)
+  }
+  
+  func updatePlotData(_ selection: Interval, _ entries: [Date]) async {
+    optionPlotData = await calculate.amounts(selection, plotOption.subdivision, entries)
+  }
+}
+
 extension StatsView {
-  @ViewBuilder private func trendWidget(_ vs: ViewStore<ViewState, App.Action>) -> some View {
+  @ViewBuilder private func trendWidget() -> some View {
     if isShowingTrend {
       Widget {
         DescriptedValueContent(
-          format.trend(vs.optionTrend), description: Text(option.description)
+          format.trend(optionTrend), description: Text(option.description)
             + Text(" ") + Text("(TREND)")
         )
       }
@@ -68,22 +90,22 @@ extension StatsView {
     }
   }
 
-  private func configurableAverageWidget(_ vs: ViewStore<ViewState, App.Action>) -> some View {
+  private func configurableAverageWidget() -> some View {
     ConfigurableWidget(selection: $option, enabled: Option.enabledCases(selection)) {
-      DescriptedValueContent(format.average(vs.optionAverage), description: $0.description)
+      DescriptedValueContent(format.average(optionAverage), description: $0.description)
     }
   }
 
-  private func averageTimeBetweenWidget(_ vs: ViewStore<ViewState, App.Action>) -> some View {
+  private func averageTimeBetweenWidget() -> some View {
     Widget {
-      DescriptedValueContent(format.time(vs.averageTimeBetween), description: "AVERAGE_TIME_BETWEEN")
+      DescriptedValueContent(format.time(averageTimeBetween), description: "AVERAGE_TIME_BETWEEN")
     }
   }
 
-  private func amountsPlotWidget(_ vs: ViewStore<ViewState, App.Action>) -> some View {
+  private func amountsPlotWidget() -> some View {
     ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
       AmountsChart(
-        vs.optionPlotData?
+        optionPlotData?
           .sorted { $0.key < $1.key }
           .map { (format.plotInterval($0, bounds: selection, sub: option.subdivision) ?? "", $1) },
         description: Text(option.description)
@@ -91,9 +113,9 @@ extension StatsView {
     }
   }
 
-  private func intervalPicker(_ vs: ViewStore<ViewState, App.Action>) -> some View {
+  private func intervalPicker(_ bounds: Interval) -> some View {
     Widget {
-      IntervalPicker(selection: $selection, bounds: vs.bounds)
+      IntervalPicker(selection: $selection, bounds: bounds)
         .labelStyle(.iconOnly)
         .buttonStyle(.borderedProminent)
     }

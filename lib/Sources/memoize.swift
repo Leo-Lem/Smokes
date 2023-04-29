@@ -12,6 +12,7 @@ public func memoize<I: Hashable, O>(_ function: @escaping (I) -> O) -> (I) -> O 
   }
 }
 
+@MainActor
 public func memoize<I1: Hashable, I2: Hashable, O>(_ function: @escaping (I1, I2) -> O) -> (I1, I2) -> O {
   var storage = [CombineHashable: O]()
 

@@ -17,9 +17,11 @@ final class CalculateTest: XCTestCase {
     XCTAssertEqual(calculate.filter(.alltime, []), [])
   }
 
-  func test_whenFilteringAmounts_thenReturnsFilteredAmounts() throws {
-    XCTAssertEqual(calculate.amounts(.week(date), .day, entries)?.count, 7)
-    XCTAssertNil(calculate.amounts(.alltime, .day, []))
+  func test_whenFilteringAmounts_thenReturnsFilteredAmounts() async throws {
+    var amounts = await calculate.amounts(.week(date), .day, entries)
+    XCTAssertEqual(amounts?.count, 7)
+    amounts = await calculate.amounts(.alltime, .day, [])
+    XCTAssertNil(amounts)
   }
   
   func test_whenAmounting_thenReturnsCorrect() throws {

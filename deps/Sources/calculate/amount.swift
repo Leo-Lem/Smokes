@@ -17,8 +17,7 @@ extension Calculate {
     return endIndex - startIndex
   }
   
-  // TODO: make async
-  static func amounts(interval: Interval, subdivision: Subdivision, entries: [Date]) -> [Interval: Int]? {
+  static func amounts(interval: Interval, subdivision: Subdivision, entries: [Date]) async -> [Interval: Int]? {
     guard let intervals = interval.enumerate(by: subdivision) else { return nil }
     
     return Dictionary(uniqueKeysWithValues: intervals.map { ($0, liveValue.amount($0, entries)) })
