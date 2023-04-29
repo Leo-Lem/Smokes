@@ -6,27 +6,30 @@ public struct File: ReducerProtocol {
   public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
     case .encode:
-      do {
-        state.data = nil
-        state.data = try state.encoding.encode(state.entries.array)
-      } catch { debugPrint(error) }
+      return .run { [encoding = state.encoding, entries = state.entries] send in
+        do { await send(.setData(try encoding.encode(entries), encode: false)) } catch { debugPrint(error) }
+      }
+      .cancellable(id: "decode", cancelInFlight: true)
       
     case .decode:
-      do {
-        if let data = state.data { state.entries = .init(try state.encoding.decode(data)) }
-      } catch { debugPrint(error) }
+      return .run { [encoding = state.encoding, data = state.data] send in
+        do {
+          if let data { await send(.setEntries(try encoding.decode(data), encode: false)) }
+        } catch { debugPrint(error) }
+      }
+      .cancellable(id: "encode", cancelInFlight: true)
       
-    case let .setData(data):
+    case let .setData(data, encode):
       state.data = data
-      return .send(.decode)
+      if encode { return .send(.decode) }
       
-    case let .setEncoding(encoding):
+    case let .setEncoding(encoding, encode):
       state.encoding = encoding
-      return .send(.encode)
+      if encode { return .send(.encode) }
       
-    case let .setEntries(entries):
+    case let .setEntries(entries, encode):
       state.entries = entries
-      return .send(.encode)
+      if encode { return .send(.encode) }
     }
     
     return .none
@@ -36,14 +39,10 @@ public struct File: ReducerProtocol {
 public extension File {
   struct State: Equatable {
     public internal(set) var data: Data?
-    public internal(set) var entries: Entries.State
+    public internal(set) var entries: [Date]
     public internal(set) var encoding: EntriesEncoding
     
-    public init(
-      data: Data? = nil,
-      entries: Entries.State,
-      encoding: EntriesEncoding = .daily
-    ) {
+    public init(data: Data? = nil, entries: [Date], encoding: EntriesEncoding = .daily) {
       self.data = data
       self.entries = entries
       self.encoding = encoding
@@ -53,9 +52,9 @@ public extension File {
 
 public extension File {
   enum Action {
-    case setData(Data),
-         setEntries(Entries.State),
-         setEncoding(EntriesEncoding)
+    case setData(Data, encode: Bool = true),
+         setEntries([Date], encode: Bool = true),
+         setEncoding(EntriesEncoding, encode: Bool = true)
     
     case encode,
          decode

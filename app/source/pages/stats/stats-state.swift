@@ -11,23 +11,23 @@ extension StatsView {
     init(_ state: App.State, interval: Interval) {
       bounds = state.entries.clamp(.alltime)
       
-      averageTimeBetween = state.calculator.averageBreak(interval)
+      averageTimeBetween = state.calculate.averageBreak(interval)
       
       configurableAverages = Dictionary(
         uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculator.average(for: interval, by: option.subdivision).flatMap { (option, $0) }
+          state.calculate.average(for: interval, by: option.subdivision).flatMap { (option, $0) }
         }
       )
       
       configurableTrends = Dictionary(
         uniqueKeysWithValues: Option.allCases.compactMap { option in
-          state.calculator.trend(for: interval, by: option.subdivision).flatMap { (option, $0) }
+          state.calculate.trend(for: interval, by: option.subdivision).flatMap { (option, $0) }
         }
       )
       
       configurableEntries = Dictionary(
         uniqueKeysWithValues: PlotOption.allCases
-          .compactMap { option in state.calculator.filtered(for: interval).flatMap { (option, $0) } }
+          .compactMap { option in state.calculate.filtered(for: interval).flatMap { (option, $0) } }
       )
     }
   }

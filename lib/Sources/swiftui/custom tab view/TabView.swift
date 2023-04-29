@@ -22,12 +22,12 @@ public struct TabView<Tab: Tabbable>: View {
         .frame(maxWidth: displaySideTabbar ? 70 : nil, maxHeight: displaySideTabbar ? nil : 70)
         .padding(10)
     }
-    .animation(.default, value: selection)
+    .animation(.easeInOut(duration: 0.5), value: selection)
     .animation(.default, value: displaySideTabbar)
   }
 
   public init(selection: Binding<Tab>) { _selection = selection }
-  
+
   private var displaySideTabbar: Bool { vSize == .compact }
   @Environment(\.verticalSizeClass) private var vSize
 
@@ -54,7 +54,6 @@ public struct TabView<Tab: Tabbable>: View {
 }
 
 // MARK: - (PREVIEWS)
-
 
 struct TabView_Previews: PreviewProvider {
   static var previews: some View {

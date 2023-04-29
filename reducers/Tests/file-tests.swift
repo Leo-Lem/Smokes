@@ -13,6 +13,7 @@ final class FileTests: XCTestCase {
     
     await store.send(.setData(data)) { $0.data = data }
     await store.receive(/.decode, timeout: 1)
+    await store.receive(/.setEntries([], encode: false), timeout: 1)
   }
   
   func test_whenSettingEncoding_thenEncodes() async throws {
@@ -21,7 +22,8 @@ final class FileTests: XCTestCase {
     let store = TestStore(initialState: .init(entries: []), reducer: File())
     
     await store.send(.setEncoding(encoding)) { $0.encoding = encoding }
-    await store.receive(/.encode, timeout: 1) { $0.data = Data() }
+    await store.receive(/.encode, timeout: 1)
+    await store.receive(/.setData(Data(), encode: false), timeout: 1) { $0.data = Data() }
   }
   
   func test_whenSettingEntries_thenEncodes() async throws {
@@ -33,28 +35,7 @@ final class FileTests: XCTestCase {
     let store = TestStore(initialState: .init(entries: [], encoding: encoding), reducer: File())
     
     await store.send(.setEntries(.init(entries))) { $0.entries = .init(entries) }
-    await store.receive(/.encode, timeout: 1) { $0.data = data }
-  }
-  
-  func test_whenEncoding_thenSetsData() async throws {
-    let base = Date(timeIntervalSinceReferenceDate: 0)
-    let entries = [base - 999_999, base, base + 999_999]
-    let encoding = EntriesEncoding.daily
-    let data = try encoding.encode(entries)
-    
-    let store = TestStore(initialState: .init(entries: .init(entries), encoding: encoding), reducer: File())
-    
-    await store.send(.encode) { $0.data = data }
-  }
-  
-  func test_whenDecoding_thenSetsEntries() async throws {
-    let base = Date(timeIntervalSinceReferenceDate: 0)
-    let entries = [base - 999_999, base, base + 999_999]
-    let encoding = EntriesEncoding.exact
-    let data = try encoding.encode(entries)
-    
-    let store = TestStore(initialState: .init(data: data, entries: [], encoding: encoding), reducer: File())
-    
-    await store.send(.decode) { $0.entries = .init(entries) }
+    await store.receive(/.encode, timeout: 1)
+    await store.receive(/.setData(data), timeout: 1) { $0.data = data }
   }
 }

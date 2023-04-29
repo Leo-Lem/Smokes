@@ -3,25 +3,24 @@
 extension HistoryView {
   struct ViewState: Equatable {
     let dayAmount: Int?,
-        configurableAmounts: [IntervalOption: Int],
-        untilHereAmount: Int?
+        untilHereAmount: Int?,
+        configurableAmounts: [Option: Int]
 
-    let configurableEntries: [IntervalOption: [Date]]
+    let configurableEntries: [Option: [Date]]
 
     init(_ state: App.State, selectedDate: Date) {
-      dayAmount = state.calculator.amount(for: .day(selectedDate))
+      dayAmount = state.calculate.amount(for: .day(selectedDate))
+      untilHereAmount = state.calculate.amount(for: .to(selectedDate))
       
       configurableAmounts = Dictionary(
-        uniqueKeysWithValues: IntervalOption.allCases.compactMap { option in
-          state.calculator.amount(for: option.interval(selectedDate)).flatMap { (option, $0) }
+        uniqueKeysWithValues: Option.allCases.compactMap { option in
+          state.calculate.amount(for: option.interval(selectedDate)).flatMap { (option, $0) }
         }
       )
       
-      untilHereAmount = state.calculator.amount(for: .to(selectedDate))
-
       configurableEntries = Dictionary(
-        uniqueKeysWithValues: IntervalOption.allCases.compactMap { option in
-          state.calculator.filtered(for: option.interval(selectedDate)).flatMap { (option, $0) }
+        uniqueKeysWithValues: Option.allCases.compactMap { option in
+          state.calculate.filtered(for: option.interval(selectedDate)).flatMap { (option, $0) }
         }
       )
     }

@@ -11,18 +11,16 @@ extension StatsView {
 
     static func send(_ action: Self) -> App.Action {
       switch action {
-      case let .calculateAverage(interval, subdivision): return .calculator(.average(interval, subdivision))
-      case let .calculateTrend(interval, subdivision): return .calculator(.trend(interval, subdivision))
-      case let.calculateAverageBreak(interval): return .calculator(.averageBreak(interval))
+      case let .calculateAverage(interval, subdivision): return .calculate(.average(interval, subdivision))
+      case let .calculateTrend(interval, subdivision): return .calculate(.trend(interval, subdivision))
+      case let.calculateAverageBreak(interval): return .calculate(.averageBreak(interval))
       }
     }
     
-    static func update(_ vs: ViewStore<ViewState, ViewAction>, selection: Interval) {
-      Option.enabledCases(selection).forEach {
-        vs.send(.calculateAverage(selection, $0.subdivision))
-        vs.send(.calculateTrend(selection, $0.subdivision))
-        vs.send(.calculateAverageBreak(selection))
-      }
+    static func update(_ vs: ViewStore<ViewState, ViewAction>, selection: Interval, option: Option) {
+      vs.send(.calculateAverage(selection, option.subdivision))
+      vs.send(.calculateTrend(selection, option.subdivision))
+      vs.send(.calculateAverageBreak(selection))
     }
   }
 }

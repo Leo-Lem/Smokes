@@ -26,7 +26,7 @@ struct StatsView: View {
 
           GridRow {
             trendWidget(vs)
-            configurableAverageWidget(vs)
+            configurableAverageWidget(vs).gridCellColumns(2)
           }
         }
 
@@ -36,12 +36,13 @@ struct StatsView: View {
       .animation(.default, value: selection)
       .animation(.default, value: option)
       .animation(.default, value: plotOption)
-      .onAppear { ViewAction.update(vs, selection: selection) }
+      .onAppear { ViewAction.update(vs, selection: selection, option: option) }
       .onChange(of: selection) {
-        ViewAction.update(vs, selection: $0)
+        ViewAction.update(vs, selection: $0, option: option)
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases(selection).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases(selection).first! }
       }
+      .onChange(of: option) { ViewAction.update(vs, selection: selection, option: $0) }
     }
   }
 
@@ -77,12 +78,7 @@ extension StatsView {
 
   private func amountsPlotWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { _ in
-      AmountsChart(
-        entries: vs.configurableEntries[plotOption],
-        bounds: selection == .alltime ? vs.bounds : selection,
-        subdivision: option.subdivision,
-        description: Text(plotOption.description)
-      )
+      
     }
   }
   

@@ -8,7 +8,7 @@ struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
-    WithViewStore(store) { ViewState($0, selectedDate: selectedDate) } send: { ViewAction.send($0) } content: { vs in
+    WithViewStore(store) { ViewState($0, selectedDate: selection) } send: { ViewAction.send($0) } content: { vs in
       Grid {
         if vSize == .regular {
           amountsPlotWidget(vs)
@@ -59,19 +59,20 @@ struct HistoryView: View {
       .labelStyle(.iconOnly)
       .animation(.default, value: vs.state)
       .animation(.default, value: isEditing)
-      .animation(.default, value: intervalOption)
-      .onAppear { ViewAction.update(vs, selectedDate: selectedDate) }
-      .onChange(of: selectedDate) { ViewAction.update(vs, selectedDate: $0) }
+      .animation(.default, value: option)
+      .onAppear { ViewAction.update(vs, selection: selection, option: option) }
+      .onChange(of: selection) { ViewAction.update(vs, selection: $0, option: option) }
+      .onChange(of: option) { ViewAction.update(vs, selection: selection, option: $0) }
     }
   }
 
-  @State private var selectedDate = {
+  @State private var selection = {
     @Dependency(\.date.now) var now
     return now - 86400
   }()
 
   @State private var isEditing = false
-  @AppStorage("history_intervalOption") private var intervalOption = IntervalOption.week
+  @AppStorage("history_intervalOption") private var option = Option.week
 
   @Environment(\.verticalSizeClass) private var vSize
 
@@ -87,7 +88,7 @@ extension HistoryView {
     }()
 
     return Widget {
-      DayPicker(selection: $selectedDate, bounds: bounds)
+      DayPicker(selection: $selection, bounds: bounds)
         .labelStyle(.iconOnly)
         .buttonStyle(.borderedProminent)
     }
@@ -99,9 +100,9 @@ extension HistoryView {
 
   private func increment(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     IncrementMenu(decrementDisabled: vs.dayAmount ?? 0 < 1) {
-      vs.send(.add(selectedDate))
+      vs.send(.add(selection))
     } remove: {
-      vs.send(.remove(selectedDate))
+      vs.send(.remove(selection))
     }
   }
 
@@ -112,19 +113,14 @@ extension HistoryView {
   }
 
   private func configurableAmountWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    ConfigurableWidget(selection: $intervalOption) { option in
+    ConfigurableWidget(selection: $option) { option in
       DescriptedValueContent(formatter.format(amount: vs.configurableAmounts[option]), description: option.description)
     }
   }
 
   private func amountsPlotWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
     Widget {
-      AmountsChart(
-        entries: vs.configurableEntries[intervalOption],
-        bounds: intervalOption.interval(selectedDate),
-        subdivision: intervalOption.subdivision,
-        description: Text(intervalOption.description)
-      )
+      
     }
   }
 

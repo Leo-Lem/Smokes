@@ -4,21 +4,22 @@ import SwiftUI
 struct MainView: View {
   var body: some View {
     TabView(selection: $selectedTab)
-      .transition(.opacity)
-      .overlay(alignment: vSize == .regular ? .bottomLeading : .bottomTrailing, content: showInfoButton)
-      .overlay(alignment: vSize == .regular ? .bottomTrailing : .topTrailing, content: showFactButton)
-      .if(selection == .fact) { $0.hidden() }
+      .overlay(alignment: vSize == .regular ? .bottomLeading : .topTrailing, content: showInfoButton)
+      .overlay(alignment: vSize == .regular ? .bottomTrailing : .bottomTrailing, content: showFactButton)
       .sheet(isPresented: Binding { selection == .info } set: { _ in selection = .tab }) { InfoView() }
+      .padding()
+      .opacity(selection == .fact ? 0 : 1)
       .overlay {
         if selection == .fact {
           FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
-            .transition(.opacity)
+            .transition(.move(edge: vSize == .regular ? .top : .leading))
+            .padding()
         }
       }
-      .padding(10)
       .background { Background() }
       .animation(.default, value: selection)
       .animation(.default, value: selectedTab)
+      .animation(.easeInOut(duration: 0.5), value: selection == .fact)
   }
 
   @State private var selection = Selection.fact
@@ -35,7 +36,7 @@ extension MainView {
       .labelStyle(.iconOnly)
       .buttonStyle(.borderedProminent)
   }
-  
+
   @ViewBuilder private func showFactButton() -> some View {
     Button { selection = .fact } label: { Label("FACT", systemImage: "lightbulb") }
       .labelStyle(.iconOnly)

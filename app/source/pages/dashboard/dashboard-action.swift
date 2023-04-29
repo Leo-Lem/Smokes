@@ -20,9 +20,9 @@ extension DashboardView {
       case .add: return .entries(.add(now))
       case .remove: return .entries(.remove(now))
       
-      case .calculateDay: return .calculator(.amount(.day(now)))
-      case .calculateUntilNow: return .calculator(.amount(.to(cal.endOfDay(for: now))))
-      case let .calculateOption(option): return .calculator(.amount(option.interval))
+      case .calculateDay: return .calculate(.amount(.day(now)))
+      case .calculateUntilNow: return .calculate(.amount(.to(cal.endOfDay(for: now))))
+      case let .calculateOption(option): return .calculate(.amount(option.interval))
       }
     }
     

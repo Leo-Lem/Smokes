@@ -54,10 +54,12 @@ public extension Entries {
 
       switch interval {
       case .alltime: break
-      case let .from(date): start = Swift.min(end, date)
-      case let .to(date): end = Swift.max(start, date)
+      case let .from(date): start = Swift.max(start, date)
+      case let .to(date): end = Swift.min(end, date)
       default: return interval
       }
+      
+      guard start <= end else { return .fromTo(.init()) }
 
       return .fromTo(.init(start: start, end: end))
     }

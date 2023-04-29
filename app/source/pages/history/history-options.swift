@@ -1,7 +1,7 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
 extension HistoryView {
-  enum IntervalOption: String, ConfigurableWidgetOption {
+  enum Option: String, ConfigurableWidgetOption {
     case week = "THIS_WEEK", month = "THIS_MONTH", year = "THIS_YEAR"
     
     func interval(_ date: Date) -> Interval {
