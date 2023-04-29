@@ -6,8 +6,13 @@ public extension Calendar {
   func endOfDay(for date: Date) -> Date { startOfDay(for: date + 86400) - 1 }
   
   func start(of component: Calendar.Component, for date: Date) -> Date? {
-    range(of: smaller(component), in: component, for: date)
-      .flatMap { self.date(bySetting: smaller(component), value: $0.lowerBound, of: startOfDay(for: date)) }
+    guard let relevant = relevant(component) else { return nil }
+    
+    var comps = DateComponents()
+    for comp in relevant { comps.setValue(self.component(comp, from: date), for: comp) }
+    guard let start = self.date(from: comps) else { return nil }
+    
+    return start
   }
   
   func end(of component: Calendar.Component, for date: Date) -> Date? {
@@ -19,12 +24,16 @@ public extension Calendar {
     return startOfNext - 1
   }
   
-  private func smaller(_ component: Calendar.Component) -> Calendar.Component {
+  private func relevant(_ component: Calendar.Component) -> Set<Calendar.Component>? {
     switch component {
-    case .weekOfYear, .weekOfMonth: return .weekday
-    case .month: return .day
-    case .year: return .month
-    default: return .second
+    case .year: return [.year]
+    case .month: return [.year, .month]
+    case .day: return [.year, .month, .day]
+    case .hour: return [.year, .month, .day, .hour]
+    case .minute: return [.year, .month, .day, .hour, .minute]
+    case .second:  return [.year, .month, .day, .hour, .minute, .second]
+    case .weekOfYear: return [.yearForWeekOfYear, .weekOfYear]
+    default: return nil
     }
   }
 }

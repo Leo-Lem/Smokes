@@ -1,39 +1,52 @@
 // Created by Leopold Lemmermann on 28.04.23.
 
-import XCTest
 @testable import SmokesLibrary
+import XCTest
 
+@available(iOS 16, *)
 final class CalendarTests: XCTestCase {
-  private var cal: Calendar!
+  private var cal: Calendar {
+    var cal = Calendar(identifier: .iso8601)
+    cal.timeZone = .gmt
+    return cal
+  }
+  private let date = Date(timeIntervalSinceReferenceDate: 9_999_999)
   
-  override func setUp() { cal = .current }
-  
-  func test_givenAValidComponent_whenSettingStartOf_thenReturnsDate() throws {
-    for comp in valid {
-      XCTAssertNotNil(cal.start(of: comp, for: .now), "\(comp) returned nil")
+  func test_givenAValidComponent_whenGettingStartOf_thenReturnsDate() throws {
+    let expected: [Calendar.Component: TimeInterval] = [
+      .day: 9936000,
+      .weekOfYear: 9676800,
+      .month: 7776000,
+      .year: 0
+    ]
+    
+    for (comp, time) in expected {
+      XCTAssertEqual(cal.start(of: comp, for: date), Date(timeIntervalSinceReferenceDate: time))
     }
   }
   
-  func test_givenAnInvalidComponent_whenSettingStartOf_thenReturnsNil() throws {
-    for comp in invalid {
-      XCTAssertNil(cal.start(of: comp, for: .now), "\(comp) did not return nil")
+  func test_givenAnInvalidComponent_whenGettingStartOf_thenReturnsNil() throws {
+    for comp in [Calendar.Component.calendar, .weekdayOrdinal] {
+      XCTAssertNil(cal.start(of: comp, for: date), "\(comp) did not return nil")
     }
   }
   
-  func test_givenAValidComponent_whenSettingEndOf_thenReturnsDate() throws {
-    for comp in valid {
-      XCTAssertNotNil(cal.end(of: comp, for: .now), "\(comp) returned nil")
+  func test_givenAValidComponent_whenGettingEndOf_thenReturnsDate() throws {
+    let expected: [Calendar.Component: TimeInterval] = [
+      .day: 10022399,
+      .weekOfYear: 10281599,
+      .month: 10367999,
+      .year: 31535999
+    ]
+        
+    for (comp, time) in expected {
+      XCTAssertEqual(cal.end(of: comp, for: date), Date(timeIntervalSinceReferenceDate: time))
     }
   }
   
-  func test_givenAnInvalidComponent_whenSettingEndOf_thenReturnsNil() throws {
-    for comp in invalid {
-      XCTAssertNil(cal.end(of: comp, for: .now), "\(comp) did not return nil")
+  func test_givenAnInvalidComponent_whenGettingEndOf_thenReturnsNil() throws {
+    for comp in [Calendar.Component.calendar, .weekdayOrdinal] {
+      XCTAssertNil(cal.end(of: comp, for: date), "\(comp) did not return nil")
     }
   }
-}
-
-private extension CalendarTests {
-  var valid: Set<Calendar.Component> { [Calendar.Component.day, .weekOfYear, .month, .year] }
-  var invalid: Set<Calendar.Component> { [Calendar.Component.calendar, .weekdayOrdinal] }
 }
