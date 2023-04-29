@@ -8,8 +8,9 @@ extension Format {
   static func time(time: TimeInterval) -> Text {
     guard time.isFinite else { return Text("NO_DATA") }
     
-    return Text(Duration.seconds(time).formatted(.time(pattern: .hourMinute)))
+    let formatter = DateComponentsFormatter()
+    formatter.maximumUnitCount = 1
+    formatter.unitsStyle = .full
+    return Text(formatter.string(from: time) ?? "")
   }
 }
-
-// TODO: make nicer, depending on length (minutes, hours, days, months, etc)
