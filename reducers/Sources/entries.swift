@@ -5,14 +5,9 @@ import Foundation
 public struct Entries: ReducerProtocol {
   public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
-    case let .set(entries):
-      state.array = entries
-      return .send(.change)
-      
+    case let .set(entries): state.array = entries
     
-    case let .add(date):
-      state.insert(date, at: state.firstIndex { date < $0 } ?? state.endIndex)
-      return .send(.change)
+    case let .add(date): state.insert(date, at: state.firstIndex { date < $0 } ?? state.endIndex)
 
     case let .remove(date):
       @Dependency(\.calendar) var cal: Calendar
@@ -23,10 +18,6 @@ public struct Entries: ReducerProtocol {
       {
         state.remove(at: state.firstIndex(of: nearest)!)
       }
-
-      return .send(.change)
-
-    default: break
     }
 
     return .none
@@ -98,7 +89,5 @@ public extension Entries {
     case set([Date]),
          add(Date),
          remove(Date)
-
-    case change
   }
 }

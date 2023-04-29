@@ -5,7 +5,6 @@ import ComposableArchitecture
 public struct App: ReducerProtocol {
   public var body: some ReducerProtocol<State, Action> {
     Scope(state: \.entries, action: /Action.entries, child: Entries.init)
-    Scope(state: \.file, action: /Action.file, child: File.init)
     
     Reduce { state, action in
       switch action {
@@ -25,9 +24,6 @@ public struct App: ReducerProtocol {
         }
         .cancellable(id: "save", cancelInFlight: true)
         
-      case .entries(.change):
-        return .send(.file(.setEntries(state.entries.array)))
-        
       default: break
       }
       
@@ -43,16 +39,8 @@ public struct App: ReducerProtocol {
 public extension App {
   struct State: Equatable {
     public internal(set) var entries: Entries.State
-    public internal(set) var file: File.State
     
-    internal init(entries: Entries.State, file: File.State) {
-      self.entries = entries
-      self.file = file
-    }
-    
-    public init(_ entries: Entries.State = Entries.State([])) {
-      self.init(entries: entries, file: .init(entries: entries.array))
-    }
+    public init(_ entries: Entries.State = Entries.State([])) { self.entries = entries }
   }
 }
 
@@ -61,7 +49,6 @@ public extension App {
     case loadEntries,
          saveEntries
     
-    case entries(Entries.Action),
-         file(File.Action)
+    case entries(Entries.Action)
   }
 }

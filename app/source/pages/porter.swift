@@ -10,24 +10,22 @@ struct Porter: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
-    WithViewStore(store, observe: ViewState.init, send: ViewAction.send) { vs in
+    WithViewStore(store, observe: \.entries.array) { .entries(.set($0)) } content: { entries in
       VStack {
         Widget {
           displayPreview()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .animation(.default, value: preview)
-        .if(let: vs.file) { view, file in view
-          .fileExporter(
-            isPresented: $showingExporter,
-            document: file, contentType: .json, defaultFilename: String(localized: "SMOKES_FILENAME")
-          ) {
-            do { debugPrint(try $0.get()) } catch { debugPrint(error) }
+        .if(let: file) { $0
+          .fileExporter(isPresented: $showingExporter, document: $1, contentType: .json, defaultFilename: filename) {
+            handleError { [result = $0] in debugPrint(try result.get()) }
           }
           .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
-            do {
-              vs.send(.setData(try DataFile(at: try $0.get()).content))
-            } catch { debugPrint(error) }
+            handleError { [result = $0] in
+              file = try DataFile(at: try result.get())
+              try await entries.send(code.decode(file!.content, encoding))
+            }
           }
         }
 
@@ -35,9 +33,9 @@ struct Porter: View {
 
         Widget {
           HStack {
-            importer(isLoading: vs.file == nil && showingImporter)
+            importer(isLoading: file == nil && showingImporter)
             formatPicker()
-            exporter(isLoading: vs.file == nil && showingExporter)
+            exporter(isLoading: file == nil && showingExporter)
           }
         }
         .imageScale(.large)
@@ -48,26 +46,46 @@ struct Porter: View {
       .presentationDetents([.medium])
       .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
       .compactDismissButton()
-      .onAppear {
-        vs.send(.selectCoder(encoding))
-        vs.send(.encode)
-      }
-      .onChange(of: encoding) {
-        vs.send(.encode)
-        vs.send(.selectCoder($0))
-      }
-      .onChange(of: vs.file) { newFile in
-        preview = newFile.flatMap { String(data: $0.content, encoding: .utf8) }
-      }
+      .animation(.default, value: preview)
+      .task { update(entries.state) }
+      .task(id: CombineHashable(entries.state, encoding)) { update(entries.state) }
     }
   }
 
-  @State private var preview: String?
+  @AppStorage("porter_encoding") private var encoding: Encoding = .daily
+
   @State private var showingExporter = false
   @State private var showingImporter = false
-  @AppStorage("porter_fileCoder") private var encoding: Encoding = .daily
+
+  @State private var error: Error?
+  @State private var preview: String?
+  @State private var file: DataFile?
+  
+  private let filename = String(localized: "SMOKES_FILENAME")
 
   @Environment(\.dismiss) private var dismiss
+  @Dependency(\.code) private var code
+}
+
+private extension Porter {
+  func update(_ entries: [Date]) {
+    handleError {
+      file = nil
+      file = DataFile(try await code.encode(entries, encoding))
+      preview = file.flatMap { String(data: $0.content, encoding: .utf8) }
+    }
+  }
+
+  func handleError(_ throwing: @escaping () async throws -> Void) {
+    Task {
+      do {
+        try await throwing()
+      } catch {
+        // TODO: implement user facing error
+        self.error = error
+      }
+    }
+  }
 }
 
 extension Porter {
@@ -118,7 +136,7 @@ extension Encoding: RawRepresentable {
     default: return nil
     }
   }
-  
+
   public var rawValue: String {
     switch self {
     case .daily: return "DAILY_FORMAT"

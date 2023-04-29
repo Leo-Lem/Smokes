@@ -11,8 +11,8 @@ public extension DependencyValues {
 }
 
 public struct Code {
-  public var encode: ([Date], Encoding) throws -> Data
-  public var decode: (Data, Encoding) throws -> [Date]
+  public var encode: ([Date], Encoding) async throws -> Data
+  public var decode: (Data, Encoding) async throws -> [Date]
 }
 
 extension Code: DependencyKey {
