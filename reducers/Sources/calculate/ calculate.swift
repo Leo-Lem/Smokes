@@ -7,7 +7,7 @@ public struct Calculate: ReducerProtocol {
     Scope(state: \.filtereds, action: /Action.filtereds) { Filter(filter) }
     Scope(state: \.filteredAmounts, action: /Action.filteredAmounts) { AmountsFilter(filterAmounts) }
     
-    Scope(state: \.amounts, action: /Action.amounts) { Amounter(amount) }
+    Scope(state: \.amounts, action: /Action.amounts) { Amounter(cacheLimit: 50, amount) }
     Scope(state: \.averages, action: /Action.averages) { Averager(average) }
     Scope(state: \.trends, action: /Action.trends) { Trender(trend) }
     

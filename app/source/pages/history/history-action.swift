@@ -4,35 +4,36 @@ import ComposableArchitecture
 
 extension HistoryView {
   enum ViewAction: Equatable {
-    case add(Date),
-         remove(Date)
+    case add,
+         remove
     
-    case calculateDayAmount(Date),
-         calculateConfiguredAmount(Option, Date),
-         calculateUntilHereAmount(Date)
+    case calculateDayAmount,
+         calculateAmount(Option),
+         calculateUntilHereAmount
     
-    case calculateConfiguredEntries(Option, Date)
+    case calculatePlotData(Option)
 
-    static func send(_ action: Self) -> App.Action {
+    static func send(_ action: Self, selection: Date) -> App.Action {
       @Dependency(\.calendar) var cal
       
       switch action {
-      case let .add(date): return .entries(.add(date))
-      case let .remove(date): return .entries(.remove(date))
+      case .add: return .entries(.add(selection))
+      case .remove: return .entries(.remove(selection))
         
-      case let .calculateDayAmount(date): return .calculate(.amount(.day(date)))
-      case let .calculateUntilHereAmount(date): return .calculate(.amount(.to(date)))
-      case let .calculateConfiguredAmount(option, date): return .calculate(.amount(option.interval(date)))
+      case .calculateDayAmount: return .calculate(.amount(.day(selection)))
+      case .calculateUntilHereAmount: return .calculate(.amount(.to(selection)))
+      case let .calculateAmount(option): return .calculate(.amount(option.interval(selection)))
         
-      case let .calculateConfiguredEntries(option, date): return .calculate(.filter(option.interval(date)))
+      case let .calculatePlotData(option):
+        return .calculate(.filterAmounts(option.interval(selection), option.subdivision))
       }
     }
     
-    static func update(_ vs: ViewStore<ViewState, ViewAction>, selection: Date, option: Option) {
-      vs.send(.calculateDayAmount(selection))
-      vs.send(.calculateUntilHereAmount(selection))
-      vs.send(.calculateConfiguredAmount(option, selection))
-      vs.send(.calculateConfiguredEntries(option, selection))
+    static func update(_ vs: ViewStore<ViewState, ViewAction>, option: Option) {
+      vs.send(.calculateDayAmount)
+      vs.send(.calculateUntilHereAmount)
+      vs.send(.calculateAmount(option))
+      vs.send(.calculatePlotData(option))
     }
   }
 }

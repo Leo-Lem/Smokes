@@ -2,6 +2,7 @@
 
 public struct Calculator<Parameters: Hashable, Data: Hashable, Result: Equatable>: ReducerProtocol {
   let calculate: (Parameters, Data) async -> Result?
+  let cacheLimit: Int
 
   public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
@@ -11,6 +12,10 @@ public struct Calculator<Parameters: Hashable, Data: Hashable, Result: Equatable
           await send(.setResult(result, for: parameters))
         }
       }
+      
+    case let .invalidate(parameters):
+      state.cache.removeValue(forKey: parameters)
+      state.queue.removeAll { $0 == parameters }
 
     case let .setData(data):
       state.data = data
@@ -20,19 +25,30 @@ public struct Calculator<Parameters: Hashable, Data: Hashable, Result: Equatable
       }
 
     case let .setResult(result, parameters):
+      if state.cache.count > cacheLimit, let first = state.queue.first {
+        state.cache.removeValue(forKey: first)
+        state.queue.removeFirst()
+      }
+          
       state.cache[parameters] = result
+      state.queue.append(parameters)
     }
 
     return .none
   }
 
-  init(_ calculate: @escaping (Parameters, Data) async -> Result?) { self.calculate = calculate }
+  init(cacheLimit: Int = 10, _ calculate: @escaping (Parameters, Data) async -> Result?) {
+    self.calculate = calculate
+    self.cacheLimit = cacheLimit
+  }
 }
 
 public extension Calculator {
   struct State: Equatable {
     public internal(set) var cache = [Parameters: Result]()
     public internal(set) var data: Data
+    
+    fileprivate(set) var queue = [Parameters]()
 
     public subscript(_ parameters: Parameters) -> Result? { cache[parameters] }
 
@@ -44,6 +60,8 @@ public extension Calculator {
   enum Action {
     case calculate(Parameters)
 
+    case invalidate(Parameters)
+    
     case setData(Data),
          setResult(Result, for: Parameters)
   }

@@ -19,8 +19,8 @@ struct IntervalPicker: View {
           .tag(Interval?.none)
 
         ForEach(months, id: \.self) { month in
-          Text(month.start!.formatted(Date.FormatStyle().month(.narrow)))
-            .tag(month)
+          Text(month.end!.formatted(Date.FormatStyle().month(.abbreviated)))
+            .tag(Optional(month))
         }
       }
       .highlight(when: !selectedAlltime && selectedMonth != nil)
@@ -54,6 +54,7 @@ struct IntervalPicker: View {
     .animation(.default, value: selectedAlltime)
     .onChange(of: selectedMonth) {
       if let month = $0 { selection = month } else { selection = selectedYear }
+      selectedAlltime = false
     }
     .onChange(of: selectedAlltime) {
       if $0 { selection = .alltime } else { selection = selectedMonth ?? selectedYear }
