@@ -118,13 +118,12 @@ private extension HistoryView {
   }
 
   func amountsPlotWidget(_ vs: ViewStore<ViewState, ViewAction>) -> some View {
-    let bounds = option.interval(selection), sub = option.subdivision
-    let data = vs.optionPlotData?
-      .sorted { $0.key.start! < $1.key.start! }
-      .map { interval, amount in (format.plotInterval(interval, bounds: bounds, sub: sub) ?? "", amount) }
-
-    return Widget {
-      AmountsChart(data, description: Text(option.description))
+    Widget {
+      AmountsChart(
+        vs.optionPlotData?
+          .sorted { $0.key < $1.key }
+          .map { (format.plotInterval($0, bounds: option.interval(selection), sub: option.subdivision) ?? "", $1) },
+        description: Text(option.description))
     }
   }
 

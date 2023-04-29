@@ -47,7 +47,7 @@ struct StatsView: View {
 
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.format) private var format
-  
+
   private var isShowingTrend: Bool { selection != .alltime }
 }
 
@@ -57,7 +57,7 @@ extension StatsView {
       Widget {
         DescriptedValueContent(
           format.trend(vs.optionTrend), description: Text(option.description)
-          + Text(" ") + Text("(TREND)")
+            + Text(" ") + Text("(TREND)")
         )
       }
       .transition(.move(edge: vSize == .regular ? .trailing : .leading))
@@ -77,11 +77,16 @@ extension StatsView {
   }
 
   private func amountsPlotWidget(_ vs: ViewStore<ViewState, App.Action>) -> some View {
-    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { _ in
-      Text("COMING_SOON").frame(maxWidth: .infinity, maxHeight: .infinity)
+    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
+      AmountsChart(
+        vs.optionPlotData?
+          .sorted { $0.key < $1.key }
+          .map { (format.plotInterval($0, bounds: selection, sub: option.subdivision) ?? "", $1) },
+        description: Text(option.description)
+      )
     }
   }
-  
+
   private func intervalPicker(_ vs: ViewStore<ViewState, App.Action>) -> some View {
     Widget {
       IntervalPicker(selection: $selection, bounds: vs.bounds)

@@ -2,15 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:lib/Tests/Unit.xctestplan">
-   </FileRef>
-   <FileRef
-      location = "group:README.md">
-   </FileRef>
-   <FileRef
-      location = "group:LICENSE">
-   </FileRef>
-   <FileRef
       location = "group:/Users/leolem/dev/apps/ashtray/app/app.xcodeproj">
    </FileRef>
    <FileRef
@@ -27,5 +18,14 @@
    </FileRef>
    <FileRef
       location = "group:lib">
+   </FileRef>
+   <FileRef
+      location = "group:res">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
    </FileRef>
 </Workspace>

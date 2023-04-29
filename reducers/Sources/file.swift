@@ -2,6 +2,8 @@
 
 import Foundation
 
+// FIXME: file does not load properly, needs manual refreshing (may be a View problem though)
+
 public struct File: ReducerProtocol {
   public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
