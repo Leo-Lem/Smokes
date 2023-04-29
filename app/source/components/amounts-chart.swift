@@ -25,13 +25,15 @@ struct AmountsChart: View {
     }
   }
   
-  private var isEmpty: Bool {
-    if let amounts { return amounts .isEmpty || !amounts.contains(where: { $0.amount > 0 }) } else { return true }
-  }
+  private let isEmpty: Bool
   
   init(_ amounts: [(label: String, amount: Int)]?, description: Text? = nil) {
     self.amounts = amounts
     self.description = description
+    
+    if let amounts {
+      isEmpty = amounts .isEmpty // || !amounts.contains(where: { $0.amount > 0 })
+    } else { isEmpty = false }
   }
 }
 

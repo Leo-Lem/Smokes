@@ -90,6 +90,39 @@ private extension Porter {
   }
 }
 
+extension Porter {
+  enum ImportError: Error, LocalizedError {
+    case invalidFormat, invalidURL, missingPermission
+
+    var errorDescription: String? {
+      switch self {
+      case .invalidFormat: return String(localized: "INVALID_FORMAT_IMPORTERROR")
+      case .invalidURL: return String(localized: "INVALID_URL_IMPORTERROR")
+      case .missingPermission: return String(localized: "MISSING_PERMISSION_IMPORTERROR")
+      }
+    }
+  }
+}
+
+extension Encoding: RawRepresentable {
+  public init?(rawValue: String) {
+    switch rawValue {
+    case "DAILY_FORMAT": self = .daily
+    case "GROUPED_FORMAT": self = .grouped
+    case "EXACT_FORMAT": self = .exact
+    default: return nil
+    }
+  }
+
+  public var rawValue: String {
+    switch self {
+    case .daily: return "DAILY_FORMAT"
+    case .grouped: return "GROUPED_FORMAT"
+    case .exact: return "EXACT_FORMAT"
+    }
+  }
+}
+
 private extension Porter {
   @ViewBuilder func exporter(isLoading: Bool) -> some View {
     Button { showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
@@ -126,39 +159,6 @@ private extension Porter {
     if let preview {
       Text(preview).lineLimit(10)
     } else { ProgressView() }
-  }
-}
-
-extension Porter {
-  enum ImportError: Error, LocalizedError {
-    case invalidFormat, invalidURL, missingPermission
-
-    var errorDescription: String? {
-      switch self {
-      case .invalidFormat: return String(localized: "INVALID_FORMAT_IMPORTERROR")
-      case .invalidURL: return String(localized: "INVALID_URL_IMPORTERROR")
-      case .missingPermission: return String(localized: "MISSING_PERMISSION_IMPORTERROR")
-      }
-    }
-  }
-}
-
-extension Encoding: RawRepresentable {
-  public init?(rawValue: String) {
-    switch rawValue {
-    case "DAILY_FORMAT": self = .daily
-    case "GROUPED_FORMAT": self = .grouped
-    case "EXACT_FORMAT": self = .exact
-    default: return nil
-    }
-  }
-
-  public var rawValue: String {
-    switch self {
-    case .daily: return "DAILY_FORMAT"
-    case .grouped: return "GROUPED_FORMAT"
-    case .exact: return "EXACT_FORMAT"
-    }
   }
 }
 

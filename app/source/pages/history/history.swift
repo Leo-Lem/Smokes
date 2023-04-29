@@ -63,10 +63,8 @@ struct HistoryView: View {
       .onChange(of: option) { update(option: $0, selection: selection, entries: entries.state) }
       .onChange(of: selection) { update(option: option, selection: $0, entries: entries.state) }
       .onChange(of: entries.state) { update(option: option, selection: selection, entries: $0) }
-      .task { plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries.state) }
-      .task(id: CombineHashable(selection, option, entries.state)) {
-        plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries.state)
-      }
+      .task { await updatePlot(entries.state) }
+      .task(id: CombineHashable(selection, option, entries.state)) { await updatePlot(entries.state) }
     }
   }
 
@@ -94,6 +92,10 @@ private extension HistoryView {
     dayAmount = calculate.amount(.day(selection), entries)
     untilHereAmount = calculate.amount(.to(selection), entries)
     optionAmount = calculate.amount(option.interval(selection), entries)
+  }
+  
+  func updatePlot(_ entries: [Date]) async {
+    plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries)
   }
 }
 

@@ -20,13 +20,13 @@ struct StatsView: View {
           }
         } else {
           GridRow {
-            amountsPlotWidget().gridCellColumns(2)
-            averageTimeBetweenWidget()
+            amountsPlotWidget().gridCellColumns(isShowingTrend ? 2 : 3)
+            trendWidget()
           }
 
           GridRow {
-            trendWidget()
-            configurableAverageWidget().gridCellColumns(isShowingTrend ? 2 : 3)
+            averageTimeBetweenWidget()
+            configurableAverageWidget().gridCellColumns(2)
           }
         }
 
@@ -52,7 +52,7 @@ struct StatsView: View {
   @CodableAppStorage("stats_selection") private var selection = Interval.alltime
   @AppStorage("stats_option") private var option = Option.perday
   @AppStorage("stats_plotOption") private var plotOption = PlotOption.byyear
-  
+
   @State private var optionAverage: Double?
   @State private var optionTrend: Double?
   @State private var optionPlotData: [Interval: Int]?
@@ -71,8 +71,9 @@ private extension StatsView {
     optionTrend = selection == .alltime ? nil : calculate.trend(selection, option.subdivision, entries)
     averageTimeBetween = calculate.averageBreak(selection, entries)
   }
-  
+
   func updatePlotData(_ selection: Interval, _ entries: [Date]) async {
+    optionPlotData = nil
     optionPlotData = await calculate.amounts(selection, plotOption.subdivision, entries)
   }
 }
@@ -82,11 +83,10 @@ extension StatsView {
     if isShowingTrend {
       Widget {
         DescriptedValueContent(
-          format.trend(optionTrend), description: Text(option.description)
-            + Text(" ") + Text("(TREND)")
+          format.trend(optionTrend), description: Text(option.description) + Text(" ") + Text("(TREND)")
         )
       }
-      .transition(.move(edge: vSize == .regular ? .trailing : .leading))
+      .transition(.move(edge: .trailing))
     }
   }
 

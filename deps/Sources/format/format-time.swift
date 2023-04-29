@@ -11,3 +11,5 @@ extension Format {
     return Text(Duration.seconds(time).formatted(.time(pattern: .hourMinute)))
   }
 }
+
+// TODO: make nicer, depending on length (minutes, hours, days, months, etc)
