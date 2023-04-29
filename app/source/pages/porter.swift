@@ -2,9 +2,6 @@
 
 import ComposableArchitecture
 import SwiftUI
-import UniformTypeIdentifiers
-
-// TODO: add import error and alert
 
 struct Porter: View {
   @EnvironmentObject private var store: StoreOf<App>
@@ -16,18 +13,18 @@ struct Porter: View {
           displayPreview()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .animation(.default, value: preview)
         .if(let: file) { $0
           .fileExporter(isPresented: $showingExporter, document: $1, contentType: .json, defaultFilename: filename) {
             handleError { [result = $0] in debugPrint(try result.get()) }
           }
-          .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) {
-            handleError { [result = $0] in
+          .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
+            handleError {
               file = try DataFile(at: try result.get())
               try await entries.send(code.decode(file!.content, encoding))
             }
           }
         }
+        .alert(isPresented: .init { error != nil } set: { _ in error = nil }, error: error) {}
 
         Spacer()
 
@@ -57,10 +54,10 @@ struct Porter: View {
   @State private var showingExporter = false
   @State private var showingImporter = false
 
-  @State private var error: Error?
+  @State private var error: ImportError?
   @State private var preview: String?
   @State private var file: DataFile?
-  
+
   private let filename = String(localized: "SMOKES_FILENAME")
 
   @Environment(\.dismiss) private var dismiss
@@ -80,16 +77,21 @@ private extension Porter {
     Task {
       do {
         try await throwing()
-      } catch {
-        // TODO: implement user facing error
-        self.error = error
-      }
+      } catch let error as URLError where error.code == .noPermissionsToReadFile {
+        self.error = .missingPermission
+      } catch is URLError {
+        self.error = .invalidURL
+      } catch is DecodingError {
+        self.error = .invalidFormat
+      } catch let error as CocoaError where error.isCoderError {
+        self.error = .invalidFormat
+      } catch { debugPrint(error) }
     }
   }
 }
 
-extension Porter {
-  @ViewBuilder private func exporter(isLoading: Bool) -> some View {
+private extension Porter {
+  @ViewBuilder func exporter(isLoading: Bool) -> some View {
     Button { showingExporter = true } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
       .accessibilityIdentifier("export-button")
       .if(isLoading) { $0
@@ -98,7 +100,7 @@ extension Porter {
       }
   }
 
-  @ViewBuilder private func importer(isLoading: Bool) -> some View {
+  @ViewBuilder func importer(isLoading: Bool) -> some View {
     Button { showingImporter = true } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
       .accessibilityIdentifier("import-button")
       .if(isLoading) { $0
@@ -107,7 +109,7 @@ extension Porter {
       }
   }
 
-  @ViewBuilder private func formatPicker() -> some View {
+  @ViewBuilder func formatPicker() -> some View {
     Picker("", selection: $encoding) {
       ForEach(Encoding.allCases, id: \.self) { encoding in
         Text(LocalizedStringKey(encoding.rawValue))
@@ -120,10 +122,24 @@ extension Porter {
     .accessibilityIdentifier("format-picker")
   }
 
-  @ViewBuilder private func displayPreview() -> some View {
+  @ViewBuilder func displayPreview() -> some View {
     if let preview {
       Text(preview).lineLimit(10)
     } else { ProgressView() }
+  }
+}
+
+extension Porter {
+  enum ImportError: Error, LocalizedError {
+    case invalidFormat, invalidURL, missingPermission
+
+    var errorDescription: String? {
+      switch self {
+      case .invalidFormat: return String(localized: "INVALID_FORMAT_IMPORTERROR")
+      case .invalidURL: return String(localized: "INVALID_URL_IMPORTERROR")
+      case .missingPermission: return String(localized: "MISSING_PERMISSION_IMPORTERROR")
+      }
+    }
   }
 }
 

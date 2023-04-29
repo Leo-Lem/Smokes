@@ -14,7 +14,7 @@
 		6E04699E29CF978300000123 /* fact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04699D29CF978300000123 /* fact.swift */; };
 		6E0469A129CF9C0B00000123 /* SmokingFacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E0469A329CF9C0B00000123 /* SmokingFacts.json */; };
 		6E0C76D829FB315300AA5ED4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6E0C76D729FB315300AA5ED4 /* .swiftlint.yml */; };
-		6E178D9D29F67741008FF02E /* AmountsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E178D9C29F67741008FF02E /* AmountsChart.swift */; };
+		6E178D9D29F67741008FF02E /* amounts-chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E178D9C29F67741008FF02E /* amounts-chart.swift */; };
 		6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6D29BD90910025CBCC /* Localizable.strings */; };
 		6E1FD67E29F8FE6100149223 /* info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1FD67D29F8FE6100149223 /* info.swift */; };
 		6E24C16229DABCA900A03B33 /* IntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B83BE29D8312A00EB7E6F /* IntervalPicker.swift */; };
@@ -72,7 +72,7 @@
 		6E05A4B628F07F3A00CA0287 /* dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashboard.swift; sourceTree = "<group>"; };
 		6E05A50228F18F6600CA0287 /* SmokesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0C76D729FB315300AA5ED4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
-		6E178D9C29F67741008FF02E /* AmountsChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountsChart.swift; sourceTree = "<group>"; };
+		6E178D9C29F67741008FF02E /* amounts-chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "amounts-chart.swift"; sourceTree = "<group>"; };
 		6E1F8B6C29BD90910025CBCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E1F8B6E29BD90A00025CBCC /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E1FD67D29F8FE6100149223 /* info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = info.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				6EA97A1029CE8C4B0098CC61 /* background.swift */,
-				6E178D9C29F67741008FF02E /* AmountsChart.swift */,
+				6E178D9C29F67741008FF02E /* amounts-chart.swift */,
 				6E5CFE8429D6DCA7006DC2B6 /* widgets */,
 				6E825DB129D80CE300824079 /* content */,
 				6E825DB029D80CDD00824079 /* controls */,
@@ -487,7 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E178D9D29F67741008FF02E /* AmountsChart.swift in Sources */,
+				6E178D9D29F67741008FF02E /* amounts-chart.swift in Sources */,
 				6E825DB329D80CEB00824079 /* DescriptedValue-content.swift in Sources */,
 				6E014D9129A5D87C004EF7F5 /* IncrementMenu.swift in Sources */,
 				6E014D9429A5E513004EF7F5 /* DayPicker.swift in Sources */,

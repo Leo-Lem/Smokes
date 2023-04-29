@@ -22,7 +22,7 @@ public struct TabView<Tab: Tabbable>: View {
         .frame(maxWidth: displaySideTabbar ? 70 : nil, maxHeight: displaySideTabbar ? nil : 70)
         .padding(10)
     }
-    .animation(.easeInOut(duration: 0.5), value: selection)
+    .animation(.default, value: selection)
     .animation(.default, value: displaySideTabbar)
   }
 
