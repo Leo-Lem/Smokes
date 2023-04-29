@@ -18,7 +18,6 @@ final class AppTests: XCTestCase {
     
     await store.send(.loadEntries)
     await store.receive(/.entries(.set(.init(dates))), timeout: 1) { $0.entries = .init(dates) }
-    await store.receive(/.file(.setEntries(.init(dates))), timeout: 1) { $0.file.entries = .init(dates) }
   }
   
   func test_whenFailingToLoadEntries_thenSetsToEmpty() async throws {
@@ -30,7 +29,6 @@ final class AppTests: XCTestCase {
     
     await store.send(.loadEntries)
     await store.receive(/.entries(.set([])), timeout: 1) { $0.entries = [] }
-    await store.receive(/.file(.setEntries([])), timeout: 1) { $0.file.entries = []}
   }
   
   func test_whenSavingEntries_thenTriggersSave() async throws {

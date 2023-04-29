@@ -14,7 +14,6 @@ final class EntriesTests: XCTestCase {
     
     for date in dates {
       await store.send(.add(date)) { $0.append(date) }
-      await store.receive(/.change, timeout: 1)
     }
   }
   
@@ -24,10 +23,7 @@ final class EntriesTests: XCTestCase {
     
     let store = TestStore(initialState: .init(dates), reducer: Entries()) { $0.calendar = .current }
     
-    for date in dates {
-      await store.send(.remove(date)) { $0.removeFirst() }
-      await store.receive(/.change, timeout: 1)
-    }
+    for date in dates { await store.send(.remove(date)) { $0.removeFirst() } }
   }
   
   func test_givenEntriesAreEmpty_whenRemovingDate_thenNoChange() async throws {
@@ -36,10 +32,7 @@ final class EntriesTests: XCTestCase {
     
     let store = TestStore(initialState: [], reducer: Entries())
     
-    for date in dates {
-      await store.send(.remove(date))
-      await store.receive(/.change, timeout: 1)
-    }
+    for date in dates { await store.send(.remove(date)) }
   }
   
   func test_givenEntriesIsNotEmpty_whenGettingStartDate_thenReturnsStartOfDayOfMinimum() async throws {
