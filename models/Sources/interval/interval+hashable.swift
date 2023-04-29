@@ -1,7 +1,5 @@
 // Created by Leopold Lemmermann on 02.04.23.
 
-import Foundation
-
 extension Interval: Hashable {
   public static func == (lhs: Self, rhs: Self) -> Bool {
     switch (lhs, rhs) {

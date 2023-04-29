@@ -1,7 +1,11 @@
 // Created by Leopold Lemmermann on 05.03.23.
 
-import SwiftUI
-import UniformTypeIdentifiers
+import struct Foundation.Data
+import struct Foundation.URL
+import struct Foundation.URLError
+import protocol SwiftUI.FileDocument
+import class SwiftUI.FileWrapper
+import struct UniformTypeIdentifiers.UTType
 
 public struct DataFile: FileDocument, Equatable {
   public static var readableContentTypes = [UTType.json]

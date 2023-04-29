@@ -23,4 +23,23 @@ public enum Subdivision: Hashable, CaseIterable {
     default: return nil
     }
   }
+  
+  init?(_ interval: Interval) {
+    switch interval {
+    case .day: self = .day
+    case .week: self = .week
+    case .month: self = .month
+    case .year: self = .year
+    default: return nil
+    }
+  }
+  
+  func interval(_ date: Date) -> Interval {
+    switch self {
+    case .day: return .day(date)
+    case .week: return.week(date)
+    case .month: return .month(date)
+    case .year: return .year(date)
+    }
+  }
 }

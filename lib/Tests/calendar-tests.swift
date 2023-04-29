@@ -9,26 +9,31 @@ final class CalendarTests: XCTestCase {
   override func setUp() { cal = .current }
   
   func test_givenAValidComponent_whenSettingStartOf_thenReturnsDate() throws {
-    for comp in [Calendar.Component.second, .day, .weekOfYear, .month, .year] {
+    for comp in valid {
       XCTAssertNotNil(cal.start(of: comp, for: .now), "\(comp) returned nil")
     }
   }
   
   func test_givenAnInvalidComponent_whenSettingStartOf_thenReturnsNil() throws {
-    for comp in [Calendar.Component.calendar, .weekdayOrdinal] {
+    for comp in invalid {
       XCTAssertNil(cal.start(of: comp, for: .now), "\(comp) did not return nil")
     }
   }
   
   func test_givenAValidComponent_whenSettingEndOf_thenReturnsDate() throws {
-    for comp in [Calendar.Component.day, .weekOfYear, .month, .year] {
+    for comp in valid {
       XCTAssertNotNil(cal.end(of: comp, for: .now), "\(comp) returned nil")
     }
   }
   
   func test_givenAnInvalidComponent_whenSettingEndOf_thenReturnsNil() throws {
-    for comp in [Calendar.Component.calendar, .weekdayOrdinal] {
+    for comp in invalid {
       XCTAssertNil(cal.end(of: comp, for: .now), "\(comp) did not return nil")
     }
   }
+}
+
+private extension CalendarTests {
+  var valid: Set<Calendar.Component> { [Calendar.Component.day, .weekOfYear, .month, .year] }
+  var invalid: Set<Calendar.Component> { [Calendar.Component.calendar, .weekdayOrdinal] }
 }

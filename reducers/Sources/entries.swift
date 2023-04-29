@@ -45,12 +45,16 @@ public extension Entries {
 
       return cal.startOfDay(for: array.first ?? now)
     }
+    
+    public var endDate: Date {
+        @Dependency(\.calendar) var cal: Calendar
+        @Dependency(\.date.now) var now: Date
+      
+      return cal.endOfDay(for: now)
+    }
 
     public func clamp(_ interval: Interval) -> Interval {
-      @Dependency(\.calendar) var cal
-      @Dependency(\.date.now) var now
-
-      var start = startDate, end = cal.endOfDay(for: now)
+      var start = startDate, end = endDate
 
       switch interval {
       case .alltime: break

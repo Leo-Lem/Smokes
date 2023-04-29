@@ -3,8 +3,6 @@
 import Charts
 import SwiftUI
 
-// TODO: move the calculations into reducer
-
 struct AmountsChart: View {
   let amounts: [(label: String, amount: Int)]?
   let description: Text?
