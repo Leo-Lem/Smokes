@@ -4,7 +4,7 @@ An app to track your smoking habit and visualize different statistics.
 
 ## Webpage
 
-[smokes.leolem.dev](https://smokes.leolem.dev/facts)
+[smokes.leolem.dev](https://smokes.leolem.dev)
 
 ## Smokes' Facts API
 
