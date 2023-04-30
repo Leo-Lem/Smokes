@@ -80,7 +80,7 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:..\/reducers",
         "identifier" : "SmokesReducersTests",
         "name" : "SmokesReducersTests"
       }
