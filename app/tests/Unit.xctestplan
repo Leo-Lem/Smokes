@@ -1,0 +1,80 @@
+{
+  "configurations" : [
+    {
+      "id" : "D29083D0-E244-4F8B-93D7-747ACB61CC97",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:app.xcodeproj",
+          "identifier" : "6E48374428EC991100B67CA4",
+          "name" : "Smokes"
+        },
+        {
+          "containerPath" : "container:..\/deps",
+          "identifier" : "SmokesDependencies",
+          "name" : "SmokesDependencies"
+        },
+        {
+          "containerPath" : "container:..\/lib",
+          "identifier" : "SmokesLibrary",
+          "name" : "SmokesLibrary"
+        },
+        {
+          "containerPath" : "container:..\/models",
+          "identifier" : "SmokesModels",
+          "name" : "SmokesModels"
+        },
+        {
+          "containerPath" : "container:..\/reducers",
+          "identifier" : "SmokesReducers",
+          "name" : "SmokesReducers"
+        }
+      ]
+    },
+    "language" : "en",
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/deps",
+        "identifier" : "SmokesDependenciesTests",
+        "name" : "SmokesDependenciesTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/lib",
+        "identifier" : "SmokesLibraryTests",
+        "name" : "SmokesLibraryTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/models",
+        "identifier" : "SmokesModelsTests",
+        "name" : "SmokesModelsTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/reducers",
+        "identifier" : "SmokesReducersTests",
+        "name" : "SmokesReducersTests"
+      }
+    }
+  ],
+  "version" : 1
+}
