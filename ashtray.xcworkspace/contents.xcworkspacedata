@@ -5,6 +5,9 @@
       location = "group:/Users/leolem/dev/apps/ashtray/app/app.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:/Users/leolem/dev/apps/ashtray/facts">
+   </FileRef>
+   <FileRef
       location = "group:/Users/leolem/dev/apps/ashtray/reducers">
    </FileRef>
    <FileRef
@@ -12,9 +15,6 @@
    </FileRef>
    <FileRef
       location = "group:/Users/leolem/dev/apps/ashtray/models">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/leolem/dev/apps/ashtray/facts">
    </FileRef>
    <FileRef
       location = "group:lib">

@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "F80DCD67-02CB-4C40-AFC7-0B0057414BA1",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "FactsAPI",
+          "name" : "FactsAPI"
+        }
+      ]
+    },
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "FactsAPITests",
+        "name" : "FactsAPITests"
+      }
+    }
+  ],
+  "version" : 1
+}
