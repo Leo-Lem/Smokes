@@ -6,32 +6,31 @@ struct FactView: View {
   @Binding var isPresented: Bool
 
   var body: some View {
-    Text("")
     VStack {
       factBox()
       Spacer()
       progressBar()
     }
+    .animation(.easeInOut(duration: 2), value: fact)
     .onReceive(timer) { _ in progress = min(1, progress + 0.01) }
     .onChange(of: progress) { if $0 >= 1 { isPresented = false } }
-    .task { await fetchFact() }
+    .task { await fetch() }
   }
 
-  @State private var fact = ""
+  @AppStorage("smokes_fact") private var fact = String(localized: "COMING_SOON")
   @State private var progress = 0.0
 
   private let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
 
-  // TODO: integrate with the facts api
-  private func fetchFact() async {
-    if let url = Bundle.main.url(forResource: "SmokingFacts", withExtension: "json") {
-      do {
-        fact ?= try JSONDecoder().decode([String].self, from: Data(contentsOf: url)).randomElement()
-      } catch { debugPrint(error) }
-    } else {
-      debugPrint("Missing bundle resource 'SmokingFacts.json'...")
-      isPresented = false
-    }
+  private func fetch() async {
+    do {
+      let url = FACTS_URL.appendingPathComponent(LANGUAGE_CODE.identifier)
+      let (data, response) = try await URLSession.shared.data(from: url)
+      
+      guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
+      
+      fact ?= String(data: data, encoding: .utf8)
+    } catch { debugPrint("Fetching failed") }
   }
 }
 
@@ -47,7 +46,7 @@ extension FactView {
         .frame(maxWidth: 100, maxHeight: 2)
         .cornerRadius(2)
 
-      Text("FACT_OF_THE_DAY")
+      Text("SMOKES_FACTs")
         .font(.subheadline)
     }
     .frame(maxWidth: .infinity)

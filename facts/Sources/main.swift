@@ -2,12 +2,11 @@
 
 import Vapor
 
-var env = try Environment.detect()
-try LoggingSystem.bootstrap(from: &env)
-
-let app = Application(env)
-
-app.configure()
-
+let app = Application()
 defer { app.shutdown() }
-try app.run()
+
+app.http.server.configuration.port = 4567
+
+try app
+  .configure(Facts())
+  .run()

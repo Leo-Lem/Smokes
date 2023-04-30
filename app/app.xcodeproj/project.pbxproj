@@ -12,7 +12,6 @@
 		6E014D9629A5E61B004EF7F5 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E014D9529A5E61B004EF7F5 /* Widget.swift */; };
 		6E04699C29CF921C00000123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E04699B29CF921C00000123 /* LaunchScreen.storyboard */; };
 		6E04699E29CF978300000123 /* fact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04699D29CF978300000123 /* fact.swift */; };
-		6E0469A129CF9C0B00000123 /* SmokingFacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E0469A329CF9C0B00000123 /* SmokingFacts.json */; };
 		6E0C76D829FB315300AA5ED4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6E0C76D729FB315300AA5ED4 /* .swiftlint.yml */; };
 		6E178D9D29F67741008FF02E /* amounts-chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E178D9C29F67741008FF02E /* amounts-chart.swift */; };
 		6E1F8B6B29BD90910025CBCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F8B6D29BD90910025CBCC /* Localizable.strings */; };
@@ -66,8 +65,6 @@
 		6E014D9529A5E61B004EF7F5 /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
 		6E04699B29CF921C00000123 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E04699D29CF978300000123 /* fact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fact.swift; sourceTree = "<group>"; };
-		6E0469A229CF9C0B00000123 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/SmokingFacts.json; sourceTree = "<group>"; };
-		6E0469A529CF9C1E00000123 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/SmokingFacts.json; sourceTree = "<group>"; };
 		6E0469A629CFA4D700000123 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6E05A4B628F07F3A00CA0287 /* dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashboard.swift; sourceTree = "<group>"; };
 		6E05A50228F18F6600CA0287 /* SmokesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,13 +168,12 @@
 		6E48373C28EC991100B67CA4 = {
 			isa = PBXGroup;
 			children = (
-				6E8E0FCB29FDE87700C9CA99 /* Packages */,
 				6E48376428ECA06D00B67CA4 /* source */,
 				6E05A50328F18F6600CA0287 /* tests */,
 				6E48376628ECA06D00B67CA4 /* resources */,
 				6E48376528ECA06D00B67CA4 /* config */,
+				6E8E0FCB29FDE87700C9CA99 /* Packages */,
 				6E48374628EC991100B67CA4 /* Products */,
-				6E8E0FD029FDE8D300C9CA99 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,7 +239,6 @@
 			children = (
 				6E48378F28ECA08F00B67CA4 /* Assets.xcassets */,
 				6E04699B29CF921C00000123 /* LaunchScreen.storyboard */,
-				6E0469A329CF9C0B00000123 /* SmokingFacts.json */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -312,13 +307,6 @@
 				6E8E0FCF29FDE8C400C9CA99 /* lib */,
 			);
 			name = Packages;
-			sourceTree = "<group>";
-		};
-		6E8E0FD029FDE8D300C9CA99 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6ED91E1B293FB7A500728E2B /* ui */ = {
@@ -452,7 +440,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E0469A129CF9C0B00000123 /* SmokingFacts.json in Resources */,
 				6E48379028ECA08F00B67CA4 /* Assets.xcassets in Resources */,
 				6E0C76D829FB315300AA5ED4 /* .swiftlint.yml in Resources */,
 				6E04699C29CF921C00000123 /* LaunchScreen.storyboard in Resources */,
@@ -551,15 +538,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6E0469A329CF9C0B00000123 /* SmokingFacts.json */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E0469A229CF9C0B00000123 /* en */,
-				6E0469A529CF9C1E00000123 /* de */,
-			);
-			name = SmokingFacts.json;
-			sourceTree = "<group>";
-		};
 		6E1F8B6D29BD90910025CBCC /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

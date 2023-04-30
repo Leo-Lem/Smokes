@@ -11,7 +11,7 @@ let package = Package(
 
 let vapor = (name: "Vapor", package: "vapor")
 
-package.dependencies.append(.package(url: "https://github.com/vapor/\(vapor.package)", from: "4.76.0"))
+package.dependencies = [.package(url: "https://github.com/vapor/\(vapor.package)", from: "4.76.0")]
 
 // MARK: - (TARGETS)
 
@@ -20,7 +20,11 @@ let api: Target = .executableTarget(
   dependencies: [
     .product(name: vapor.name, package: vapor.package)
   ],
-  path: "Sources"
+  path: "Sources",
+  resources: [
+    .process("res/facts-en.json"),
+    .process("res/facts-de.json")
+  ]
 )
 
 let apiTests: Target = .testTarget(
@@ -33,4 +37,3 @@ let apiTests: Target = .testTarget(
 )
 
 package.targets = [api, apiTests]
-
