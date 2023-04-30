@@ -14,10 +14,8 @@ final class AppTests: XCTestCase {
       $0.persist.read = { dates }
     }
     
-    store.exhaustivity = .off
-    
     await store.send(.loadEntries)
-    await store.receive(/.entries(.set(.init(dates))), timeout: 1) { $0.entries = .init(dates) }
+    await store.receive(/.entries(.set(.init(dates))), timeout: .seconds(1)) { $0.entries = .init(dates) }
   }
   
   func test_whenFailingToLoadEntries_thenSetsToEmpty() async throws {
@@ -25,10 +23,8 @@ final class AppTests: XCTestCase {
       $0.persist.read = { throw URLError(.badURL) }
     }
     
-    store.exhaustivity = .off
-    
     await store.send(.loadEntries)
-    await store.receive(/.entries(.set([])), timeout: 1) { $0.entries = [] }
+    await store.receive(/.entries(.set([])), timeout: .seconds(1)) { $0.entries = [] }
   }
   
   func test_whenSavingEntries_thenTriggersSave() async throws {
