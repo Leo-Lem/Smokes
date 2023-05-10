@@ -45,14 +45,14 @@ struct HistoryView: View {
             .gridCellColumns(3)
 
             Widget {
-              dayAmountView()
-                .overlay(alignment: .bottomTrailing, content: editButton)
-
               if isEditing {
                 incrementView(entries)
-                  .transition(.move(edge: .bottom))
-                  .overlay(alignment: .bottomTrailing, content: stopEditButton)
+                  .transition(.move(edge: .top))
+                  .overlay(alignment: .topTrailing, content: stopEditButton)
               }
+
+              dayAmountView()
+                .overlay(alignment: .topTrailing, content: editButton)
             }
             .gridCellColumns(0)
           }
