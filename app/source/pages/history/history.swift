@@ -18,6 +18,7 @@ struct HistoryView: View {
             configurableAmountView()
             untilHereAmountView()
           }
+          .gridCellColumns(4)
 
           Widget {
             HStack {
@@ -41,6 +42,7 @@ struct HistoryView: View {
                 untilHereAmountView()
               }
             }
+            .gridCellColumns(3)
 
             Widget {
               dayAmountView()
@@ -52,10 +54,12 @@ struct HistoryView: View {
                   .overlay(alignment: .bottomTrailing, content: stopEditButton)
               }
             }
+            .gridCellColumns(0)
           }
         }
 
         dayPickerView()
+          .gridCellColumns(4)
       }
       .labelStyle(.iconOnly)
       .animation(.default, value: CombineHashable(entries.state, isEditing, option, dayAmount, optionAmount, plotData))
@@ -93,7 +97,7 @@ private extension HistoryView {
     untilHereAmount = calculate.amount(.to(selection), entries)
     optionAmount = calculate.amount(option.interval(selection), entries)
   }
-  
+
   func updatePlot(_ entries: [Date]) async {
     plotData = calculate.amounts(option.interval(selection), option.subdivision, entries)
   }
