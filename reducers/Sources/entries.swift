@@ -45,13 +45,27 @@ public extension Entries {
     }
 
     public func clamp(_ interval: Interval) -> Interval {
-      var start = startDate, end = endDate
+      var start: Date, end: Date
 
       switch interval {
-      case .alltime: break
-      case let .from(date): start = Swift.max(start, date)
-      case let .to(date): end = Swift.min(end, date)
-      default: return interval
+      case .alltime:
+        (start, end) = (startDate, endDate)
+      case let .fromTo(dateInterval):
+        start = Swift.max(startDate, dateInterval.start)
+        end = Swift.min(endDate, dateInterval.end)
+      case let .from(date):
+        start = Swift.max(startDate, date)
+        end = endDate
+      case let .to(date):
+        start = startDate
+        end = Swift.min(endDate, date)
+      case .day, .week, .month, .year:
+        let bounds = Interval.fromTo(.init(start: startDate, end: endDate))
+      
+        if bounds.contains(interval) { return interval }
+        
+        start = Swift.max(startDate, interval.start!)
+        end = Swift.min(endDate, interval.end!)
       }
       
       guard start <= end else { return .fromTo(.init()) }

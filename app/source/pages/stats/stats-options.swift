@@ -32,7 +32,7 @@ extension StatsView {
       switch interval {
       case .month: return [.byday, .byweek]
       case .year: return [.byweek, .bymonth]
-      case .alltime: return [.byweek, .bymonth, .byyear]
+      case .alltime: return [.bymonth, .byyear]
       default: return []
       }
     }
@@ -43,6 +43,15 @@ extension StatsView {
       case .byweek: return .week
       case .bymonth: return .month
       case .byyear: return .year
+      }
+    }
+    
+    func clamp(interval: Interval) -> Interval {
+      
+      switch self {
+      case .bymonth: return .fromTo(.init())
+      case .byyear: return .fromTo(.init())
+      default: return interval
       }
     }
   }

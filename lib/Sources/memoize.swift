@@ -1,5 +1,6 @@
 // Created by Leopold Lemmermann on 29.04.23.
 
+@MainActor
 public func memoize<I: Hashable, O>(_ function: @escaping (I) -> O) -> (I) -> O {
   var storage = [I: O]()
 
@@ -25,6 +26,7 @@ public func memoize<I1: Hashable, I2: Hashable, O>(_ function: @escaping (I1, I2
   }
 }
 
+@MainActor
 public func memoize<I1: Hashable, I2: Hashable, I3: Hashable, O>(
   _ function: @escaping (I1, I2, I3) -> O
 ) -> (I1, I2, I3) -> O {

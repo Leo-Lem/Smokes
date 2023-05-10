@@ -4,6 +4,11 @@ import Charts
 import ComposableArchitecture
 import SwiftUI
 
+// TODO: clamp alltime interval to
+// months: 24
+// years: 12
+// remove weeks
+
 struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
