@@ -34,23 +34,21 @@ struct StatsView: View {
         intervalPicker(entries.state.clamp(.alltime))
       }
       .animation(.default, values:
-        self.entries, selection, option, plotOption, optionAverage, optionTrend, averageTimeBetween)
+        entries.array,
+        selection, entries.state.clamp(selection), plotOption.clamp(entries.state.clamp(selection)),
+        option, plotOption, optionAverage, optionTrend, averageTimeBetween)
       .onChange(of: selection) {
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: plotOption.clamp(entries.state.clamp(selection))) { clampedSelection = $0 }
-      .onChange(of: entries.array) { self.entries = $0 }
-      .task(id: clampedSelection) {
-        updateOption()
-        updatePlot()
+      .onChange(of: entries.state.clamp(selection)) { updateOption($0, entries.array) }
+      .onChange(of: plotOption.clamp(entries.state.clamp(selection))) { updatePlot($0, entries.array) }
+      .onChange(of: entries.array) {
+        updateOption(entries.state.clamp(selection), $0)
+        updatePlot(plotOption.clamp(entries.state.clamp(selection)), $0)
       }
-      .task(id: self.entries) {
-        updateOption()
-        updatePlot()
-      }
-      .task(id: option) { updateOption() }
-      .task(id: plotOption) { updatePlot() }
+      .task(id: option) { updateOption(entries.state.clamp(selection), entries.array) }
+      .task(id: plotOption) { updatePlot(plotOption.clamp(entries.state.clamp(selection)), entries.array) }
     }
   }
 
@@ -63,9 +61,6 @@ struct StatsView: View {
   @State private var optionPlotData: [(String, Int)]?
   @State private var averageTimeBetween: TimeInterval?
 
-  @State private var clampedSelection = Interval.alltime
-  @State private var entries = [Date]()
-
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.format) private var format
   @Dependency(\.calculate) private var calculate
@@ -74,7 +69,7 @@ struct StatsView: View {
 }
 
 private extension StatsView {
-  private func updateOption() {
+  private func updateOption(_ clampedSelection: Interval, _ entries: [Date]) {
     optionAverage = nil
     optionTrend = nil
     averageTimeBetween = nil
@@ -84,7 +79,7 @@ private extension StatsView {
     averageTimeBetween = calculate.averageBreak(clampedSelection, entries)
   }
 
-  private func updatePlot() {
+  private func updatePlot(_ clampedSelection: Interval, _ entries: [Date]) {
     optionPlotData = nil
     optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries)?
       .sorted { $0.key < $1.key }
