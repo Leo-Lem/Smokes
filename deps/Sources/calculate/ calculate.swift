@@ -16,7 +16,7 @@ public extension DependencyValues {
 public struct Calculate {
   public var filter: (Interval, [Date]) -> [Date]
 
-  public var amounts: (Interval, Subdivision, [Date]) async -> [Interval: Int]?
+  public var amounts: (Interval, Subdivision, [Date]) -> [Interval: Int]?
 
   public var amount: (Interval, [Date]) -> Int
   public var average: (Interval, Subdivision, [Date]) -> Double?

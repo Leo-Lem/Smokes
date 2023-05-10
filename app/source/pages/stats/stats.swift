@@ -2,19 +2,16 @@
 
 import Charts
 import ComposableArchitecture
-import SwiftUI
 import struct SmokesReducers.Entries
-
-// TODO: clamp alltime interval to
-// months: 24
-// years: 12
-// remove weeks
+import SwiftUI
 
 struct StatsView: View {
   @EnvironmentObject private var store: StoreOf<App>
 
   var body: some View {
     WithViewStore(store, observe: \.entries) { entries in
+      let clampedSelection = plotOption.clamp(entries.state.clamp(selection))
+
       Grid {
         if vSize == .regular {
           configurableAverageWidget()
@@ -38,18 +35,27 @@ struct StatsView: View {
 
         intervalPicker(entries.state.clamp(.alltime))
       }
-      .animation(.default, value: CombineHashable(
-        entries.array, selection, option, plotOption, optionAverage, optionTrend, optionPlotData, averageTimeBetween
-      ))
-      .onChange(of: option) { update($0, clampedSelection(selection, with: entries.state), entries.array) }
+      .animation(.default, values:
+        entries.array, selection, option, plotOption, optionAverage, optionTrend, averageTimeBetween)
       .onChange(of: selection) {
-        update(option, clampedSelection($0, with: entries.state), entries.array)
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: entries.state) { update(option, clampedSelection(selection, with: $0), $0.array) }
-      .task(id: CombineHashable(selection, plotOption, option, entries.array)) {
-        await updatePlotData(clampedSelection(selection, with: entries.state), entries.array)
+      .onChange(of: clampedSelection, option, entries.array, update: $optionAverage) {
+        await calculate.average(clampedSelection, option.subdivision, entries.array)
+      }
+      .onChange(of: clampedSelection, option, entries.array, update: $optionTrend) {
+        await selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
+      }
+      .onChange(of: clampedSelection, option, entries.array, update: $averageTimeBetween) {
+        await calculate.averageBreak(clampedSelection, entries.array)
+      }
+      .onChange(
+        of: clampedSelection, plotOption, entries.array, update: $optionPlotData
+      ) { [subdivision = plotOption.subdivision, entries = entries.array, plotInterval = format.plotInterval] in
+        await calculate.amounts(clampedSelection, subdivision, entries)?
+          .sorted { $0.key < $1.key }
+          .map { (plotInterval($0, clampedSelection, subdivision) ?? "", $1) }
       }
     }
   }
@@ -60,7 +66,7 @@ struct StatsView: View {
 
   @State private var optionAverage: Double?
   @State private var optionTrend: Double?
-  @State private var optionPlotData: [Interval: Int]?
+  @State private var optionPlotData: [(String, Int)]?
   @State private var averageTimeBetween: TimeInterval?
 
   @Environment(\.verticalSizeClass) private var vSize
@@ -68,23 +74,6 @@ struct StatsView: View {
   @Dependency(\.calculate) private var calculate
 
   private var isShowingTrend: Bool { selection != .alltime }
-}
-
-private extension StatsView {
-  func update(_ option: Option, _ selection: Interval, _ entries: [Date]) {
-    optionAverage = calculate.average(selection, option.subdivision, entries)
-    optionTrend = selection == .alltime ? nil : calculate.trend(selection, option.subdivision, entries)
-    averageTimeBetween = calculate.averageBreak(selection, entries)
-  }
-
-  func updatePlotData(_ selection: Interval, _ entries: [Date]) async {
-    optionPlotData = nil
-    optionPlotData = await calculate.amounts(selection, plotOption.subdivision, entries)
-  }
-  
-  func clampedSelection(_ selection: Interval, with state: Entries.State) -> Interval {
-    plotOption.clamp(state.clamp(selection))
-  }
 }
 
 extension StatsView {
@@ -113,12 +102,7 @@ extension StatsView {
 
   private func amountsPlotWidget() -> some View {
     ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
-      AmountsChart(
-        optionPlotData?
-          .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, bounds: selection, sub: option.subdivision) ?? "", $1) },
-        description: Text(option.description)
-      )
+      AmountsChart(optionPlotData, description: Text(option.description))
     }
   }
 
