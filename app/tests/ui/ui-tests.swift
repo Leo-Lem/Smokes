@@ -11,6 +11,4 @@ final class SmokesUITests: XCTestCase {
 
   func test_addingAndRemovingSmoke() throws {}
   
-  // TODO: implement a few ui tests
-  
 }

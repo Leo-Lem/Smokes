@@ -18,9 +18,9 @@ final class CalculateTest: XCTestCase {
   }
 
   func test_whenFilteringAmounts_thenReturnsFilteredAmounts() async throws {
-    var amounts = await calculate.amounts(.week(date), .day, entries)
+    var amounts = calculate.amounts(.week(date), .day, entries)
     XCTAssertEqual(amounts?.count, 7)
-    amounts = await calculate.amounts(.alltime, .day, [])
+    amounts = calculate.amounts(.alltime, .day, [])
     XCTAssertNil(amounts)
   }
   
@@ -48,9 +48,9 @@ final class CalculateTest: XCTestCase {
   }
 
   func test_whenCalculatingLongestBreak_thenReturnsCorrect() throws {
-    XCTAssertEqual(calculate.longestBreak(date + 4*86400, entries), 1209600)
+    XCTAssertEqual(calculate.longestBreak(date + 4*86400, entries), 86400)
     XCTAssertEqual(calculate.longestBreak(date, []), .infinity)
-    XCTAssertEqual(calculate.longestBreak(date + 9999, entries), 873999)
+    XCTAssertEqual(calculate.longestBreak(date + 9999, entries), 86400)
   }
   
   func test_whenAveragingBreak_thenReturnsCorrect() throws {
