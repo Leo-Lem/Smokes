@@ -48,7 +48,6 @@ struct StatsView: View {
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
       .onChange(of: entries.state) { update(option, clampedSelection(selection, with: $0), $0.array) }
-//      .task { await updatePlotData(entries.state.clamp(selection), entries.array) }
       .task(id: CombineHashable(selection, plotOption, option, entries.array)) {
         await updatePlotData(clampedSelection(selection, with: entries.state), entries.array)
       }

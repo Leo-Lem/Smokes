@@ -62,7 +62,7 @@ struct IntervalPicker: View {
       selectedAlltime = false
     }
     .onChange(of: selectedYear) {
-      selection = $0
+      if case .year = selection { selection = $0 }
     }
     .onChange(of: selectedAlltime) {
       if $0 { selection = .alltime } else { selection = selectedMonth ?? selectedYear }
