@@ -32,7 +32,7 @@ struct AmountsChart: View {
     self.description = description
     
     if let amounts {
-      isEmpty = amounts .isEmpty // || !amounts.contains(where: { $0.amount > 0 })
+      isEmpty = !amounts.contains(where: { $0.amount > 0 })
     } else { isEmpty = false }
   }
 }

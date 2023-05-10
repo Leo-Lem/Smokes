@@ -17,7 +17,7 @@ struct InfoView: View {
       Divider()
       
       Section("LINKS") {
-        VStack {
+        VStack(alignment: .leading, spacing: 5) {
           Link(destination: INFO.LINKS.WEBPAGE) {
             Label("WEBPAGE \(INFO.LINKS.WEBPAGE)", systemImage: "safari")
           }
@@ -30,7 +30,7 @@ struct InfoView: View {
             Label("PRIVACY_POLICY \(INFO.LINKS.PRIVACY_POLICY)", systemImage: "person.badge.key")
           }
         }
-        .font(.caption)
+        .italic()
       }
       .lineLimit(1)
       

@@ -1,5 +1,6 @@
 // Created by Leopold Lemmermann on 08.03.23.
 
+import Dependencies
 import SwiftUI
 
 struct IntervalPicker: View {
@@ -48,18 +49,26 @@ struct IntervalPicker: View {
     }
     .minimumScaleFactor(0.5)
     .lineLimit(1)
-    .animation(.default, value: selection)
-    .animation(.default, value: selectedMonth)
-    .animation(.default, value: selectedYear)
-    .animation(.default, value: selectedAlltime)
+    .animation(.default, values: selection, selectedMonth, selectedYear, selectedAlltime)
     .onChange(of: selectedMonth) {
-      if let month = $0 {
-        selection = month
-        selectedYear = .year(month.end!)
-      } else {
-        selection = selectedYear
-      }
       selectedAlltime = false
+      
+      guard let month = $0 else { return selection = selectedYear }
+      
+      selectedYear = .year(month.end!)
+      
+      if month.start! > upperBound || month.end! < lowerBound {
+        selectedMonth = nil
+        selection = selectedYear
+      } else {
+        selection = month
+      }
+    }
+    .onChange(of: selectedYear) {
+      if case .year = selection {
+        selectedMonth = nil
+        selection = $0
+      }
     }
     .onChange(of: selectedAlltime) {
       if $0 { selection = .alltime } else { selection = selectedMonth ?? selectedYear }

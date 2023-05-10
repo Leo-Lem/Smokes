@@ -43,16 +43,14 @@ public extension Entries {
       
       return cal.endOfDay(for: now)
     }
+    
+    public var bounds: Interval { Interval.fromTo(.init(start: startDate, end: endDate)) }
 
     public func clamp(_ interval: Interval) -> Interval {
-      var start = startDate, end = endDate
-
-      switch interval {
-      case .alltime: break
-      case let .from(date): start = Swift.max(start, date)
-      case let .to(date): end = Swift.min(end, date)
-      default: return interval
-      }
+      if bounds.contains(interval) { return interval }
+      
+      let start = Swift.max(startDate, interval.start ?? startDate)
+      let end = Swift.min(endDate, interval.end ?? endDate)
       
       guard start <= end else { return .fromTo(.init()) }
 

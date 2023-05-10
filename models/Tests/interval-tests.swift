@@ -74,10 +74,10 @@ final class IntervalTests: XCTestCase {
     }
   }
   
-  func test_givenIsUncountable_whenCounting_thenReturnsNil() throws {
+  func test_givenIsUncountable_whenCounting_thenReturnsMax() throws {
     for interval in intervals where !interval.isCountable {
       for subdivision in Subdivision.allCases {
-        XCTAssertNil(interval.count(by: subdivision))
+        XCTAssertEqual(interval.count(by: subdivision), .max)
       }
     }
   }

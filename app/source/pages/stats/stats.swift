@@ -2,6 +2,7 @@
 
 import Charts
 import ComposableArchitecture
+import struct SmokesReducers.Entries
 import SwiftUI
 
 struct StatsView: View {
@@ -32,20 +33,24 @@ struct StatsView: View {
 
         intervalPicker(entries.state.clamp(.alltime))
       }
-      .animation(.default, value: CombineHashable(
-        entries.array, selection, option, plotOption, optionAverage, optionTrend, optionPlotData, averageTimeBetween
-      ))
-      .onChange(of: option) { update($0, entries.state.clamp(selection), entries.array) }
+      .animation(.default, values:
+        self.entries, selection, option, plotOption, optionAverage, optionTrend, averageTimeBetween)
       .onChange(of: selection) {
-        update(option, entries.state.clamp($0), entries.array)
-        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases(selection).first! }
-        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases(selection).first! }
+        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
+        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: entries.array) { update(option, entries.state.clamp(selection), $0) }
-      .task { await updatePlotData(entries.state.clamp(selection), entries.array) }
-      .task(id: CombineHashable(selection, plotOption, option, entries.array)) {
-        await updatePlotData(entries.state.clamp(selection), entries.array)
+      .onChange(of: plotOption.clamp(entries.state.clamp(selection))) { clampedSelection = $0 }
+      .onChange(of: entries.array) { self.entries = $0 }
+      .task(id: clampedSelection) {
+        updateOption()
+        updatePlot()
       }
+      .task(id: self.entries) {
+        updateOption()
+        updatePlot()
+      }
+      .task(id: option) { updateOption() }
+      .task(id: plotOption) { updatePlot() }
     }
   }
 
@@ -55,8 +60,11 @@ struct StatsView: View {
 
   @State private var optionAverage: Double?
   @State private var optionTrend: Double?
-  @State private var optionPlotData: [Interval: Int]?
+  @State private var optionPlotData: [(String, Int)]?
   @State private var averageTimeBetween: TimeInterval?
+
+  @State private var clampedSelection = Interval.alltime
+  @State private var entries = [Date]()
 
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.format) private var format
@@ -66,15 +74,21 @@ struct StatsView: View {
 }
 
 private extension StatsView {
-  func update(_ option: Option, _ selection: Interval, _ entries: [Date]) {
-    optionAverage = calculate.average(selection, option.subdivision, entries)
-    optionTrend = selection == .alltime ? nil : calculate.trend(selection, option.subdivision, entries)
-    averageTimeBetween = calculate.averageBreak(selection, entries)
+  private func updateOption() {
+    optionAverage = nil
+    optionTrend = nil
+    averageTimeBetween = nil
+
+    optionAverage = calculate.average(clampedSelection, option.subdivision, entries)
+    optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries)
+    averageTimeBetween = calculate.averageBreak(clampedSelection, entries)
   }
 
-  func updatePlotData(_ selection: Interval, _ entries: [Date]) async {
+  private func updatePlot() {
     optionPlotData = nil
-    optionPlotData = await calculate.amounts(selection, plotOption.subdivision, entries)
+    optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries)?
+      .sorted { $0.key < $1.key }
+      .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
   }
 }
 
@@ -104,12 +118,7 @@ extension StatsView {
 
   private func amountsPlotWidget() -> some View {
     ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
-      AmountsChart(
-        optionPlotData?
-          .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, bounds: selection, sub: option.subdivision) ?? "", $1) },
-        description: Text(option.description)
-      )
+      AmountsChart(optionPlotData, description: Text(option.description))
     }
   }
 
