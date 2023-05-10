@@ -3,6 +3,7 @@
 import Charts
 import ComposableArchitecture
 import SwiftUI
+import struct SmokesReducers.Entries
 
 // TODO: clamp alltime interval to
 // months: 24
@@ -40,16 +41,16 @@ struct StatsView: View {
       .animation(.default, value: CombineHashable(
         entries.array, selection, option, plotOption, optionAverage, optionTrend, optionPlotData, averageTimeBetween
       ))
-      .onChange(of: option) { update($0, entries.state.clamp(selection), entries.array) }
+      .onChange(of: option) { update($0, clampedSelection(selection, with: entries.state), entries.array) }
       .onChange(of: selection) {
-        update(option, entries.state.clamp($0), entries.array)
-        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases(selection).first! }
-        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases(selection).first! }
+        update(option, clampedSelection($0, with: entries.state), entries.array)
+        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
+        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: entries.array) { update(option, entries.state.clamp(selection), $0) }
-      .task { await updatePlotData(entries.state.clamp(selection), entries.array) }
+      .onChange(of: entries.state) { update(option, clampedSelection(selection, with: $0), $0.array) }
+//      .task { await updatePlotData(entries.state.clamp(selection), entries.array) }
       .task(id: CombineHashable(selection, plotOption, option, entries.array)) {
-        await updatePlotData(entries.state.clamp(selection), entries.array)
+        await updatePlotData(clampedSelection(selection, with: entries.state), entries.array)
       }
     }
   }
@@ -80,6 +81,10 @@ private extension StatsView {
   func updatePlotData(_ selection: Interval, _ entries: [Date]) async {
     optionPlotData = nil
     optionPlotData = await calculate.amounts(selection, plotOption.subdivision, entries)
+  }
+  
+  func clampedSelection(_ selection: Interval, with state: Entries.State) -> Interval {
+    plotOption.clamp(state.clamp(selection))
   }
 }
 

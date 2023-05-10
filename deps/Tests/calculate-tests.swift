@@ -33,7 +33,7 @@ final class CalculateTest: XCTestCase {
   
   func test_whenAveraging_thenReturnsCorrect() throws {
     XCTAssertEqual(calculate.average(.week(date), .day, entries)!, 1, accuracy: 0.1)
-    XCTAssertNil(calculate.average(.alltime, .day, entries))
+    XCTAssertEqual(calculate.average(.alltime, .day, entries), 0)
     XCTAssertEqual(calculate.average(.day(date), .day, entries), .infinity)
   }
   

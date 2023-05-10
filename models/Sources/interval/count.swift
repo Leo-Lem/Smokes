@@ -14,7 +14,7 @@ public extension Interval {
   func count(by subdivision: Subdivision) -> Int? {
     let cal = Calendar.current
     
-    guard let start, let end else { return nil }
+    guard let start, let end else { return .max }
     
     return cal.dateComponents([subdivision.comp], from: start, to: end).value(for: subdivision.comp)
   }

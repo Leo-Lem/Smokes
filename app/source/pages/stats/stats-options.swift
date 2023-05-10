@@ -1,5 +1,8 @@
 // Created by Leopold Lemmermann on 24.04.23.
 
+import Foundation
+import Dependencies
+
 extension StatsView {
   enum Option: String, ConfigurableWidgetOption {
     case perday = "PER_DAY", perweek = "PER_WEEK", permonth = "PER_MONTH", peryear = "PER_YEAR"
@@ -46,12 +49,15 @@ extension StatsView {
       }
     }
     
-    func clamp(interval: Interval) -> Interval {
+    func clamp(_ interval: Interval) -> Interval {
+      @Dependency(\.calendar) var cal: Calendar
       
-      switch self {
-      case .bymonth: return .fromTo(.init())
-      case .byyear: return .fromTo(.init())
-      default: return interval
+      if interval.count(by: .month) ?? 0 > 24, let end = interval.end {
+        return .fromTo(.init(start: cal.date(byAdding: .year, value: -2, to: end)!, end: end))
+      } else if interval.count(by: .year) ?? 0 > 12, let end = interval.end {
+        return .fromTo(.init(start: cal.date(byAdding: .year, value: -12, to: end)!, end: end))
+      } else {
+        return interval
       }
     }
   }
