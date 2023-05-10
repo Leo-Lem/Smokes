@@ -2,9 +2,20 @@
 
 import Foundation
 
-// NSCache is used here to provide a thread safe cache (contrary to Swift's Dictionary)
-
+@MainActor
 public func memoize<I1: Hashable, I2: Hashable, O>(_ function: @escaping (I1, I2) -> O) -> (I1, I2) -> O {
+  var storage = [CombineHashable: O]()
+
+  return { i1, i2 in
+    if let cached = storage[CombineHashable(i1, i2)] { return cached }
+
+    let result = function(i1, i2)
+    storage[CombineHashable(i1, i2)] = result
+    return result
+  }
+}
+
+public func memoizeThreadSafe<I1: Hashable, I2: Hashable, O>(_ function: @escaping (I1, I2) -> O) -> (I1, I2) -> O {
   let cache = NSCache<WrappedHashable<CombineHashable>, Wrapped<O>>()
 
   return { i1, i2 in

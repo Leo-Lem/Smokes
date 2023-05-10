@@ -10,8 +10,6 @@ struct StatsView: View {
 
   var body: some View {
     WithViewStore(store, observe: \.entries) { entries in
-      let clampedSelection = plotOption.clamp(entries.state.clamp(selection))
-
       Grid {
         if vSize == .regular {
           configurableAverageWidget()
@@ -36,57 +34,23 @@ struct StatsView: View {
         intervalPicker(entries.state.clamp(.alltime))
       }
       .animation(.default, values:
-        entries.array, selection, option, plotOption, optionAverage, optionTrend, averageTimeBetween)
+        self.entries, selection, option, plotOption, optionAverage, optionTrend, averageTimeBetween)
       .onChange(of: selection) {
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: clampedSelection) { _ in
-        optionAverage = nil
-        optionTrend = nil
-        averageTimeBetween = nil
-        optionPlotData = nil
-      }
+      .onChange(of: plotOption.clamp(entries.state.clamp(selection))) { clampedSelection = $0 }
+      .onChange(of: entries.array) { self.entries = $0 }
       .task(id: clampedSelection) {
-        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
-        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
-        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
-        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
-          .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
+        updateOption()
+        updatePlot()
       }
-      .onChange(of: entries.array) { _ in
-        optionAverage = nil
-        optionTrend = nil
-        averageTimeBetween = nil
-        optionPlotData = nil
+      .task(id: self.entries) {
+        updateOption()
+        updatePlot()
       }
-      .task(id: entries.array) {
-        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
-        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
-        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
-        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
-          .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
-      }
-      .onChange(of: option) { _ in
-        optionAverage = nil
-        optionTrend = nil
-        averageTimeBetween = nil
-      }
-      .task(id: option) {
-        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
-        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
-        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
-      }
-      .onChange(of: plotOption) { _ in
-        optionPlotData = nil
-      }
-      .task(id: plotOption) {
-        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
-          .sorted { $0.key < $1.key }
-          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
-      }
+      .task(id: option) { updateOption() }
+      .task(id: plotOption) { updatePlot() }
     }
   }
 
@@ -99,11 +63,33 @@ struct StatsView: View {
   @State private var optionPlotData: [(String, Int)]?
   @State private var averageTimeBetween: TimeInterval?
 
+  @State private var clampedSelection = Interval.alltime
+  @State private var entries = [Date]()
+
   @Environment(\.verticalSizeClass) private var vSize
   @Dependency(\.format) private var format
   @Dependency(\.calculate) private var calculate
 
   private var isShowingTrend: Bool { selection != .alltime }
+}
+
+private extension StatsView {
+  private func updateOption() {
+    optionAverage = nil
+    optionTrend = nil
+    averageTimeBetween = nil
+
+    optionAverage = calculate.average(clampedSelection, option.subdivision, entries)
+    optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries)
+    averageTimeBetween = calculate.averageBreak(clampedSelection, entries)
+  }
+
+  private func updatePlot() {
+    optionPlotData = nil
+    optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries)?
+      .sorted { $0.key < $1.key }
+      .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
+  }
 }
 
 extension StatsView {

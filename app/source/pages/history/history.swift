@@ -95,7 +95,7 @@ private extension HistoryView {
   }
   
   func updatePlot(_ entries: [Date]) async {
-    plotData = await calculate.amounts(option.interval(selection), option.subdivision, entries)
+    plotData = calculate.amounts(option.interval(selection), option.subdivision, entries)
   }
 }
 

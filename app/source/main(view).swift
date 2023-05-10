@@ -35,14 +35,14 @@ extension MainView {
     Button { selection = .info } label: { Label("INFO", systemImage: "info") }
       .labelStyle(.iconOnly)
       .buttonStyle(.borderedProminent)
-      .shadow(color: .primary, radius: 10)
+      .shadow(color: .primary, radius: 5)
   }
 
   @ViewBuilder private func showFactButton() -> some View {
     Button { selection = .fact } label: { Label("FACT", systemImage: "lightbulb") }
       .labelStyle(.iconOnly)
       .buttonStyle(.borderedProminent)
-      .shadow(color: .primary, radius: 10)
+      .shadow(color: .primary, radius: 5)
   }
 }
 
