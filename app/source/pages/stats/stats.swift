@@ -41,21 +41,51 @@ struct StatsView: View {
         if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
         if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
       }
-      .onChange(of: clampedSelection, option, entries.array, update: $optionAverage) {
-        await calculate.average(clampedSelection, option.subdivision, entries.array)
+      .onChange(of: clampedSelection) { _ in
+        optionAverage = nil
+        optionTrend = nil
+        averageTimeBetween = nil
+        optionPlotData = nil
       }
-      .onChange(of: clampedSelection, option, entries.array, update: $optionTrend) {
-        await selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
-      }
-      .onChange(of: clampedSelection, option, entries.array, update: $averageTimeBetween) {
-        await calculate.averageBreak(clampedSelection, entries.array)
-      }
-      .onChange(
-        of: clampedSelection, plotOption, entries.array, update: $optionPlotData
-      ) { [subdivision = plotOption.subdivision, entries = entries.array, plotInterval = format.plotInterval] in
-        await calculate.amounts(clampedSelection, subdivision, entries)?
+      .task(id: clampedSelection) {
+        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
+        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
+        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
+        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
           .sorted { $0.key < $1.key }
-          .map { (plotInterval($0, clampedSelection, subdivision) ?? "", $1) }
+          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
+      }
+      .onChange(of: entries.array) { _ in
+        optionAverage = nil
+        optionTrend = nil
+        averageTimeBetween = nil
+        optionPlotData = nil
+      }
+      .task(id: entries.array) {
+        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
+        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
+        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
+        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
+          .sorted { $0.key < $1.key }
+          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
+      }
+      .onChange(of: option) { _ in
+        optionAverage = nil
+        optionTrend = nil
+        averageTimeBetween = nil
+      }
+      .task(id: option) {
+        optionAverage = calculate.average(clampedSelection, option.subdivision, entries.array)
+        optionTrend = selection == .alltime ? nil : calculate.trend(clampedSelection, option.subdivision, entries.array)
+        averageTimeBetween = calculate.averageBreak(clampedSelection, entries.array)
+      }
+      .onChange(of: plotOption) { _ in
+        optionPlotData = nil
+      }
+      .task(id: plotOption) {
+        optionPlotData = calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
+          .sorted { $0.key < $1.key }
+          .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
       }
     }
   }

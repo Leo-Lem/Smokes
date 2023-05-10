@@ -35,13 +35,15 @@ struct DashboardView: View {
           }
         }
       }
-      .animation(.default, value: CombineHashable(
-        entries.state, amountOption, timeOption, dayAmount, untilHereAmount, optionAmount, optionTime
-      ))
+      .animation(.default, values:
+        entries.state, amountOption, timeOption, dayAmount, untilHereAmount, optionAmount, optionTime)
       .onAppear { update(entries: entries.state) }
       .onChange(of: entries.state, perform: update)
       .onChange(of: amountOption) { update(amountOption: $0, entries: entries.state) }
       .onChange(of: timeOption) { update(timeOption: $0, entries: entries.state) }
+      .onReceive(Timer.publish(every: 1, on: .current, in: .common).autoconnect()) { _ in
+        update(timeOption: timeOption, entries: entries.state)
+      }
     }
   }
   

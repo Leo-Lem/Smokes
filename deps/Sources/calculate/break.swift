@@ -13,7 +13,7 @@ extension Calculate {
   
   static func longestBreak(date: Date, entries: [Date]) -> TimeInterval {
     guard let first = entries.first else { return .infinity }
-    guard entries.count == 1 else { return first.distance(to: date) }
+    guard entries.count > 1 else { return date.timeIntervalSince(first) }
     
     return entries.reduce((previousDate: first, longest: TimeInterval.zero)) { result, date in
       (date, max(result.longest, date.timeIntervalSince(result.previousDate)))

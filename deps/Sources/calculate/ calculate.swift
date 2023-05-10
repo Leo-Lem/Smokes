@@ -29,11 +29,11 @@ public struct Calculate {
 
 extension Calculate: DependencyKey {
   public static var liveValue = Calculate(
-    filter: Self.filter,
-    amounts: Self.amounts,
+    filter: memoize(Self.filter),
+    amounts: memoize(Self.amounts),
     amount: memoize(Self.amount),
-    average: Self.average,
-    trend: Self.trend,
+    average: memoize(Self.average),
+    trend: memoize(Self.trend),
     break: Self.break,
     longestBreak: Self.longestBreak,
     averageBreak: Self.averageBreak
