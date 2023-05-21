@@ -1,7 +1,7 @@
 // Created by Leopold Lemmermann on 29.04.23.
 
 import Foundation
-import SmokesLibrary
+import LeosMisc
 
 public extension Interval {
   var start: Date? {

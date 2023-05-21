@@ -2,7 +2,7 @@
 
 import Dependencies
 import Foundation
-import func SmokesLibrary.memoize
+import func LeosMisc.memoize
 import SmokesModels
 
 public extension DependencyValues {

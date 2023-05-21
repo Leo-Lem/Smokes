@@ -2,7 +2,7 @@
   "configurations" : [
     {
       "id" : "F9D3D32E-160E-4184-99C9-14DA4565F5DA",
-      "name" : "Configuration 1",
+      "name" : "Config",
       "options" : {
 
       }
@@ -12,7 +12,7 @@
     "codeCoverage" : {
       "targets" : [
         {
-          "containerPath" : "container:",
+          "containerPath" : "container:models",
           "identifier" : "SmokesModels",
           "name" : "SmokesModels"
         }
@@ -22,8 +22,9 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:models",
         "identifier" : "SmokesModelsTests",
         "name" : "SmokesModelsTests"
       }

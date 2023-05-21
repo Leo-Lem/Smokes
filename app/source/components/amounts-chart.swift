@@ -39,6 +39,7 @@ struct AmountsChart: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct AmountsChart_Previews: PreviewProvider {
   static var previews: some View {
     Group {
@@ -53,3 +54,4 @@ struct AmountsChart_Previews: PreviewProvider {
     .padding()
   }
 }
+#endif

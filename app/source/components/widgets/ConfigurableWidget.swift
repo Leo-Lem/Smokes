@@ -49,6 +49,7 @@ struct ConfigurableWidget<Option: ConfigurableWidgetOption, Content: View>: View
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct ConfigurableWidget_Previews: PreviewProvider {
   static var previews: some View {
     Binding.Preview(AmountSelection.week) { binding in
@@ -67,3 +68,4 @@ enum AmountSelection: String, ConfigurableWidgetOption {
   case week, month, year
   var label: some View { Text(rawValue) }
 }
+#endif

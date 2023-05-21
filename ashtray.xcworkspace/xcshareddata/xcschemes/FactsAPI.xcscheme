@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SmokesReducers"
-               BuildableName = "SmokesReducers"
-               BlueprintName = "SmokesReducers"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "FactsAPI"
+               BuildableName = "FactsAPI"
+               BlueprintName = "FactsAPI"
+               ReferencedContainer = "container:facts">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FactsAPI_FactsAPI"
+               BuildableName = "FactsAPI_FactsAPI"
+               BlueprintName = "FactsAPI_FactsAPI"
+               ReferencedContainer = "container:facts">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,13 +43,13 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:../../Unit.xctestplan"
+            reference = "container:facts/Tests/ Unit.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -43,7 +57,18 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      viewDebuggingEnabled = "No">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "FactsAPI"
+            BuildableName = "FactsAPI"
+            BlueprintName = "FactsAPI"
+            ReferencedContainer = "container:facts">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -51,15 +76,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SmokesReducers"
-            BuildableName = "SmokesReducers"
-            BlueprintName = "SmokesReducers"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "FactsAPI"
+            BuildableName = "FactsAPI"
+            BlueprintName = "FactsAPI"
+            ReferencedContainer = "container:facts">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

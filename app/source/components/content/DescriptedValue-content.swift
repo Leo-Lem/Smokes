@@ -45,8 +45,10 @@ struct DescriptedValueContent: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct DescriptedValueContent_Previews: PreviewProvider {
   static var previews: some View {
     DescriptedValueContent(Text("Hello"), description: "Some description")
   }
 }
+#endif

@@ -37,6 +37,15 @@
       }
     },
     {
+      "identity" : "leosswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Leo-Lem/LeosSwift",
+      "state" : {
+        "revision" : "a23502eaaf1f0724527bef30a8d27e0dd3dfcd6b",
+        "version" : "0.1.0"
+      }
+    },
+    {
       "identity" : "multipart-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/multipart-kit.git",
@@ -113,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "revision" : "3e8eee1efe99d06e99426d421733b858b332186b",
-        "version" : "0.52.0"
+        "revision" : "b6559103c7867821b3848afe29afc1a386ae83f1",
+        "version" : "0.53.2"
       }
     },
     {
@@ -131,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "84b30e1af72e0ffe6dfbfe39d53b8173caacf224",
-        "version" : "0.10.2"
+        "revision" : "505aa98716275fbd045d8f934fee3337c82ffbd3",
+        "version" : "0.10.3"
       }
     },
     {
@@ -140,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "98650d886ec950b587d671261f06d6b59dec4052",
-        "version" : "0.4.1"
+        "revision" : "25c9b6789b4b7ada649a3808e6d8de1489082a33",
+        "version" : "0.5.0"
       }
     },
     {
@@ -176,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "f7c46552983b06b0958a1a4c8bc5199406ae4c8a",
-        "version" : "2.51.0"
+        "revision" : "2d8e6ca36fe3e8ed74b0883f593757a45463c34d",
+        "version" : "2.53.0"
       }
     },
     {
@@ -239,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/vapor",
       "state" : {
-        "revision" : "f4b00a5350238fe896d865d96d64f12fcbbeda95",
-        "version" : "4.76.0"
+        "revision" : "b42287f2c3909930be6329922906a6a8092943d2",
+        "version" : "4.76.2"
       }
     },
     {
@@ -248,8 +257,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/websocket-kit.git",
       "state" : {
-        "revision" : "2166cbe932b29b6419f9cd751e8b27c647e1238e",
-        "version" : "2.8.0"
+        "revision" : "17c0afbf24f4e288e183bc34317dc97b5cd084bd",
+        "version" : "2.9.0"
       }
     },
     {

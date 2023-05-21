@@ -4,6 +4,7 @@ import Charts
 import ComposableArchitecture
 import struct SmokesReducers.Entries
 import SwiftUI
+import LeosMisc
 
 struct HistoryView: View {
   @EnvironmentObject private var store: StoreOf<App>

@@ -2,7 +2,7 @@
   "configurations" : [
     {
       "id" : "ACA46AF8-0F0B-4241-B5B7-EBBA02E86D6D",
-      "name" : "Test Scheme Action",
+      "name" : "Config",
       "options" : {
 
       }
@@ -12,7 +12,7 @@
     "codeCoverage" : {
       "targets" : [
         {
-          "containerPath" : "container:",
+          "containerPath" : "container:deps",
           "identifier" : "SmokesDependencies",
           "name" : "SmokesDependencies"
         }
@@ -23,7 +23,7 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:deps",
         "identifier" : "SmokesDependenciesTests",
         "name" : "SmokesDependenciesTests"
       }

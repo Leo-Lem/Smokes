@@ -39,6 +39,7 @@ struct DayPicker: View {
 
 // MARK: (PREVIEWS) -
 
+#if DEBUG
 struct DayPicker_Previews: PreviewProvider {
   static var previews: some View {
     Group {
@@ -55,3 +56,4 @@ struct DayPicker_Previews: PreviewProvider {
     .padding()
   }
 }
+#endif

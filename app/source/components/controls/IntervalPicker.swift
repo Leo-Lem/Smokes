@@ -2,6 +2,7 @@
 
 import Dependencies
 import SwiftUI
+import LeosMisc
 
 struct IntervalPicker: View {
   @Binding var selection: Interval
@@ -112,6 +113,7 @@ private extension View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct ReducedIntervalPicker_Previews: PreviewProvider {
   static var previews: some View {
     Binding.Preview(Interval.alltime) { binding in
@@ -125,3 +127,4 @@ struct ReducedIntervalPicker_Previews: PreviewProvider {
     }
   }
 }
+#endif

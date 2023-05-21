@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 26.04.23.
 
 import SwiftUI
+import LeosMisc
 
 struct InfoView: View {
   var body: some View {
@@ -48,15 +49,16 @@ struct InfoView: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .presentationDetents([.medium])
     .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
-    .compactDismissButton()
   }
 }
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct InfoView_Previews: PreviewProvider {
   static var previews: some View {
     InfoView().previewInSheet()
       .environment(\.locale, .init(identifier: "de"))
   }
 }
+#endif

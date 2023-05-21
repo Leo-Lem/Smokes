@@ -2,6 +2,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import LeosMisc
 
 struct Porter: View {
   @EnvironmentObject private var store: StoreOf<App>
@@ -42,10 +43,10 @@ struct Porter: View {
       .labelStyle(.iconOnly)
       .presentationDetents([.medium])
       .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
-      .compactDismissButton()
       .animation(.default, value: preview)
       .task { update(entries.state) }
       .task(id: CombineHashable(entries.state, encoding)) { update(entries.state) }
+      .compactDismissButton()
     }
   }
 
@@ -164,9 +165,11 @@ private extension Porter {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct Porter_Previews: PreviewProvider {
   static var previews: some View {
     Porter().previewInSheet()
       .environmentObject(Store(initialState: .init(), reducer: App()))
   }
 }
+#endif

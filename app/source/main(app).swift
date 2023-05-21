@@ -1,5 +1,4 @@
 @_exported import SmokesDependencies
-@_exported import SmokesLibrary
 @_exported import SmokesModels
 @_exported import struct SmokesReducers.App
 

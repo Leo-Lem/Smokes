@@ -1,7 +1,7 @@
 // Created by Leopold Lemmermann on 29.04.23.
 
 import struct Foundation.Date
-import SmokesLibrary
+import LeosMisc
 import enum SmokesModels.Interval
 import enum SmokesModels.Subdivision
 

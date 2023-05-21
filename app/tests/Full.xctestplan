@@ -2,7 +2,7 @@
   "configurations" : [
     {
       "id" : "6A249B7B-C609-48A8-92FE-A37F5D6BE91D",
-      "name" : "Configuration 1",
+      "name" : "Config",
       "options" : {
 
       }
@@ -12,27 +12,22 @@
     "codeCoverage" : {
       "targets" : [
         {
-          "containerPath" : "container:app.xcodeproj",
+          "containerPath" : "container:app\/app.xcodeproj",
           "identifier" : "6E48374428EC991100B67CA4",
           "name" : "Smokes"
         },
         {
-          "containerPath" : "container:..\/deps",
+          "containerPath" : "container:deps",
           "identifier" : "SmokesDependencies",
           "name" : "SmokesDependencies"
         },
         {
-          "containerPath" : "container:..\/lib",
-          "identifier" : "SmokesLibrary",
-          "name" : "SmokesLibrary"
-        },
-        {
-          "containerPath" : "container:..\/models",
+          "containerPath" : "container:models",
           "identifier" : "SmokesModels",
           "name" : "SmokesModels"
         },
         {
-          "containerPath" : "container:..\/reducers",
+          "containerPath" : "container:reducers",
           "identifier" : "SmokesReducers",
           "name" : "SmokesReducers"
         }
@@ -48,7 +43,7 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:app.xcodeproj",
+        "containerPath" : "container:app\/app.xcodeproj",
         "identifier" : "6ED91E1F293FB7BB00728E2B",
         "name" : "SmokesUITests"
       }
@@ -56,7 +51,7 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:..\/deps",
+        "containerPath" : "container:deps",
         "identifier" : "SmokesDependenciesTests",
         "name" : "SmokesDependenciesTests"
       }
@@ -64,15 +59,7 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:..\/lib",
-        "identifier" : "SmokesLibraryTests",
-        "name" : "SmokesLibraryTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:..\/models",
+        "containerPath" : "container:models",
         "identifier" : "SmokesModelsTests",
         "name" : "SmokesModelsTests"
       }
@@ -80,7 +67,7 @@
     {
       "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:..\/reducers",
+        "containerPath" : "container:reducers",
         "identifier" : "SmokesReducersTests",
         "name" : "SmokesReducersTests"
       }

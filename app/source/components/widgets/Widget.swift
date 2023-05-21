@@ -17,6 +17,7 @@ struct Widget<Content: View>: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct Widget_Previews: PreviewProvider {
   static var previews: some View {
     Widget {
@@ -24,3 +25,4 @@ struct Widget_Previews: PreviewProvider {
     }
   }
 }
+#endif

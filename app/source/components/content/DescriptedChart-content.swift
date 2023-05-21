@@ -2,6 +2,7 @@
 
 import Charts
 import SwiftUI
+import LeosMisc
 
 struct DescriptedChartContent<Data: Collection, Chart: View>: View {
   let data: Data?
@@ -35,6 +36,7 @@ struct DescriptedChartContent<Data: Collection, Chart: View>: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct DescriptedChartContent_Previews: PreviewProvider {
   static var previews: some View {
     
@@ -47,3 +49,4 @@ struct DescriptedChartContent_Previews: PreviewProvider {
     .previewDisplayName("empty")
   }
 }
+#endif

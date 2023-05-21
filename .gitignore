@@ -1,18 +1,12 @@
 
 facts
 
-# Xcode
-*.xcodeproj
-*.xcworkspace
-
 # swiftpm
 .build
-Packages
-xcuserdata/
-DerivedData/
+xcuserdata
+*.xcuserdatad
 .swiftpm/config/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
-.netrc
 
 # misc
 .DS_STORE

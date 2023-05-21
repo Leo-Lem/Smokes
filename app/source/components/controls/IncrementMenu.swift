@@ -40,6 +40,7 @@ struct IncrementMenu: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct IncrementWidget_Previews: PreviewProvider {
   static var previews: some View {
     IncrementMenu(decrementDisabled: false) {} remove: {}
@@ -58,3 +59,4 @@ struct IncrementWidget_Previews: PreviewProvider {
       .previewDisplayName("Wide")
   }
 }
+#endif

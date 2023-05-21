@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SmokesLibrary"
-               BuildableName = "SmokesLibrary"
-               BlueprintName = "SmokesLibrary"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "SmokesDependencies"
+               BuildableName = "SmokesDependencies"
+               BlueprintName = "SmokesDependencies"
+               ReferencedContainer = "container:deps">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,8 +26,13 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:deps/Tests/ Unit.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -49,10 +54,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SmokesLibrary"
-            BuildableName = "SmokesLibrary"
-            BlueprintName = "SmokesLibrary"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "SmokesDependencies"
+            BuildableName = "SmokesDependencies"
+            BlueprintName = "SmokesDependencies"
+            ReferencedContainer = "container:deps">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

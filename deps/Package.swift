@@ -2,18 +2,14 @@
 
 import PackageDescription
 
-let package = Package(name: "SmokesDependencies", platforms: [.iOS(.v16), .macOS(.v10_15)])
+let package = Package(name: "SmokesDependencies", platforms: [.iOS(.v16), .macOS(.v13)])
 
 // MARK: - (DEPENDENCIES)
 
-let swiftDeps = (name: "Dependencies", package: "swift-dependencies")
-let models = (name: "SmokesModels", package: "models")
-let lib = (name: "SmokesLibrary", package: "lib")
-
 package.dependencies = [
-  .package(url: "https://github.com/pointfreeco/\(swiftDeps.package)", .upToNextMajor(from: "0.4.1")),
-  .package(path: "../\(models.package)"),
-  .package(path: "../\(lib.package)")
+  .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.5.0"),
+  .package(url: "https://github.com/Leo-Lem/LeosSwift", from: "0.1.0"),
+  .package(path: "../models"),
 ]
 
 // MARK: - (TARGETS)
@@ -21,9 +17,9 @@ package.dependencies = [
 let target = Target.target(
   name: package.name,
   dependencies: [
-    .product(name: swiftDeps.name, package: swiftDeps.package),
-    .product(name: models.name, package: models.package),
-    .product(name: lib.name, package: lib.package)
+    .product(name: "Dependencies", package: "swift-dependencies"),
+    .product(name: "LeosMisc", package: "LeosSwift"),
+    .product(name: "SmokesModels", package: "models")
   ],
   path: "Sources"
 )
@@ -38,4 +34,4 @@ package.targets = [target, tests]
 
 // MARK: - (PRODUCTS)
 
-package.products.append(.library(name: package.name, targets: [target.name]))
+package.products = [.library(name: package.name, targets: [target.name])]

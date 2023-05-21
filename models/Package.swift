@@ -2,21 +2,19 @@
 
 import PackageDescription
 
-let package = Package(name: "SmokesModels", platforms: [.iOS(.v16), .macOS(.v10_15)])
+let package = Package(name: "SmokesModels", platforms: [.iOS(.v16), .macOS(.v13)])
 
 // MARK: - (DEPENDENCIES)
 
-let lib = (name: "SmokesLibrary", package: "lib")
-
 package.dependencies = [
-  .package(path: "../\(lib.package)")
+  .package(url: "https://github.com/Leo-Lem/LeosSwift", from: "0.1.0"),
 ]
 
 // MARK: - (TARGETS)
 
 let target = Target.target(
   name: package.name,
-  dependencies: [.product(name: lib.name, package: lib.package)],
+  dependencies: [.product(name: "LeosMisc", package: "LeosSwift")],
   path: "Sources"
 )
 

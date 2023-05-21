@@ -2,6 +2,7 @@
 
 import Charts
 import ComposableArchitecture
+import LeosMisc
 import struct SmokesReducers.Entries
 import SwiftUI
 
@@ -129,19 +130,19 @@ extension StatsView {
 // MARK: - (PREVIEWS)
 
 #if DEBUG
-struct StatsView_Previews: PreviewProvider {
-  static var previews: some View {
-    Group {
-      StatsView()
-        .environment(\.verticalSizeClass, .regular)
-        .previewDisplayName("Regular")
+  struct StatsView_Previews: PreviewProvider {
+    static var previews: some View {
+      Group {
+        StatsView()
+          .environment(\.verticalSizeClass, .regular)
+          .previewDisplayName("Regular")
 
-      StatsView()
-        .environment(\.verticalSizeClass, .compact)
-        .previewDisplayName("Compact")
+        StatsView()
+          .environment(\.verticalSizeClass, .compact)
+          .previewDisplayName("Compact")
+      }
+      .padding()
+      .environmentObject(Store(initialState: .init(), reducer: App()))
     }
-    .padding()
-    .environmentObject(Store(initialState: .init(), reducer: App()))
   }
-}
 #endif

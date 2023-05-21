@@ -18,8 +18,10 @@ struct Background: View {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct Background_Previews: PreviewProvider {
   static var previews: some View {
     Background()
   }
 }
+#endif

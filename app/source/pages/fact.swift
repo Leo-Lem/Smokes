@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 26.03.23.
 
 import SwiftUI
+import LeosMisc
 
 struct FactView: View {
   @Binding var isPresented: Bool
@@ -71,8 +72,10 @@ extension FactView {
 
 // MARK: - (PREVIEWS)
 
+#if DEBUG
 struct LaunchView_Previews: PreviewProvider {
   static var previews: some View {
     FactView(isPresented: .constant(true))
   }
 }
+#endif
