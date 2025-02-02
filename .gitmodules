@@ -1,0 +1,3 @@
+[submodule "facts"]
+	path = facts
+	url = https://github.com/Leo-Lem/SmokesFactsAPI.git

@@ -105,7 +105,7 @@ extension Porter {
   }
 }
 
-extension Encoding: RawRepresentable {
+extension Encoding: @retroactive RawRepresentable {
   public init?(rawValue: String) {
     switch rawValue {
     case "DAILY_FORMAT": self = .daily
