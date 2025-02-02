@@ -4,20 +4,10 @@
 <dict>
 	<key>BUNDLE_ID</key>
 	<string>LeoLem.Smokes</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>asd</string>
-		</dict>
-		<dict/>
-	</array>
 	<key>CREATOR</key>
 	<string>Leopold Lemmermann</string>
 	<key>ENTRIES_FILENAME</key>
-	<string>entries.json</string>
+	<string>entries</string>
 	<key>FACTS_URL</key>
 	<string>https://smokes.leolem.dev/facts</string>
 	<key>GROUP_ID</key>

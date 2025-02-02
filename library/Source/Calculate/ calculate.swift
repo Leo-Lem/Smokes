@@ -12,35 +12,35 @@ public extension DependencyValues {
   }
 }
 
-@MainActor
-public struct Calculate {
-  public var filter: (Interval, [Date]) -> [Date]
+public struct Calculate: Sendable {
+  public var filter: @Sendable (Interval, [Date]) -> [Date]
 
-  public var amounts: (Interval, Subdivision, [Date]) -> [Interval: Int]?
+  public var amounts: @Sendable (Interval, Subdivision, [Date]) -> [Interval: Int]?
 
-  public var amount: (Interval, [Date]) -> Int
-  public var average: (Interval, Subdivision, [Date]) -> Double?
-  public var trend: (Interval, Subdivision, [Date]) -> Double?
+  public var amount: @Sendable (Interval, [Date]) -> Int
+  public var average: @Sendable (Interval, Subdivision, [Date]) -> Double?
+  public var trend: @Sendable (Interval, Subdivision, [Date]) -> Double?
 
-  public var `break`: (Date, [Date]) -> TimeInterval
-  public var longestBreak: (Date, [Date]) -> TimeInterval
-  public var averageBreak: (Interval, [Date]) -> TimeInterval
+  public var `break`: @Sendable (Date, [Date]) -> TimeInterval
+  public var longestBreak: @Sendable (Date, [Date]) -> TimeInterval
+  public var averageBreak: @Sendable (Interval, [Date]) -> TimeInterval
 }
 
-extension Calculate: @preconcurrency DependencyKey {
-  public static var liveValue = Calculate(
-    filter: memoize(Self.filter),
-    amounts: memoize(Self.amounts),
-    amount: memoize(Self.amount),
-    average: memoize(Self.average),
-    trend: memoize(Self.trend),
+// TODO: readd memoization
+extension Calculate: DependencyKey {
+  public static let liveValue = Calculate(
+    filter: Self.filter,
+    amounts: Self.amounts,
+    amount: Self.amount,
+    average: Self.average,
+    trend: Self.trend,
     break: Self.break,
     longestBreak: Self.longestBreak,
     averageBreak: Self.averageBreak
   )
 
   #if DEBUG
-  public static var previewValue = Calculate(
+  public static let previewValue = Calculate(
     filter: { $1 },
     amounts: { _, _, _ in
       Dictionary(

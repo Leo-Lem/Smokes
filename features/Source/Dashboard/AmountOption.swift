@@ -5,7 +5,10 @@ import struct Dependencies.Dependency
 import enum Types.Interval
 
 public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
-  case yesterday = "YESTERDAY", week = "THIS_WEEK", month = "THIS_MONTH", year = "THIS_YEAR"
+  case yesterday = "YESTERDAY", 
+       week = "THIS_WEEK",
+       month = "THIS_MONTH",
+       year = "THIS_YEAR"
 
   var interval: Interval {
     @Dependency(\.calendar) var cal
@@ -20,6 +23,3 @@ public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
   }
 }
 
-public enum TimeOption: String, ConfigurableWidgetOption, Sendable {
-  case sinceLast = "SINCE_LAST_SMOKE", longestBreak = "LONGEST_SMOKE_BREAK"
-}

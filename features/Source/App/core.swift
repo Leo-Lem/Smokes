@@ -9,11 +9,10 @@ import Dashboard
   public static var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
-      case .dashboard:
-        return .none
+      default: return .none
       }
     }
-//    .ifCaseLet(.dashboard, action: \.dashboard)
+    .ifCaseLet(\.dashboard, action: \.dashboard, then: Dashboard.init)
   }
 }
 extension Smokes.State: Equatable {}
