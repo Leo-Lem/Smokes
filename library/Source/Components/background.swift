@@ -2,8 +2,8 @@
 
 import SwiftUI
 
-struct Background: View {
-  var body: some View {
+public struct Background: View {
+  public var body: some View {
     ZStack {
       Color("BackgroundColor")
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -14,6 +14,8 @@ struct Background: View {
     }
     .ignoresSafeArea()
   }
+
+  public init() {}
 }
 
 #Preview {
