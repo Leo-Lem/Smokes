@@ -10,7 +10,8 @@ import Types
 public struct Dashboard: Sendable {
   @ObservableState
   public struct State: Equatable {
-    @Shared(.fileStorage(FileManager.document_url(Bundle.main[string: "ENTRIES_FILENAME"]))) public var entries = Dates()
+    @Shared(.fileStorage(FileManager.document_url(Bundle.main[string: "ENTRIES_FILENAME"])))
+    public var entries = Dates()
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 
@@ -40,11 +41,10 @@ public struct Dashboard: Sendable {
       case .remove:
         if
           let nearest = state.entries.min(by: { abs($0.distance(to: now)) < abs($1.distance(to: now)) }),
-          cal.isDate(nearest, inSameDayAs: now)
-        {
-          state.$entries.withLock {
-            _ = $0.remove(at: state.entries.firstIndex(of: nearest)!)
-          }
+          cal.isDate(nearest, inSameDayAs: now) {
+            state.$entries.withLock {
+              _ = $0.remove(at: state.entries.firstIndex(of: nearest)!)
+            }
         }
         return .send(.update)
 

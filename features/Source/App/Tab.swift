@@ -7,7 +7,7 @@ public enum Tab: String, Sendable {
        dashboard = "DASHBOARD",
        stats = "STATS"
 
-  var tabItem: some View {
+  public var tabItem: some View {
     VStack {
       Image(systemName: icon)
         .imageScale(.large)

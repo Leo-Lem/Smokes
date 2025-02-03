@@ -5,7 +5,7 @@ import struct Dependencies.Dependency
 import enum Types.Interval
 
 public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
-  case yesterday = "YESTERDAY", 
+  case yesterday = "YESTERDAY",
        week = "THIS_WEEK",
        month = "THIS_MONTH",
        year = "THIS_YEAR"
@@ -22,4 +22,3 @@ public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
     }
   }
 }
-

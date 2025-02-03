@@ -2,17 +2,11 @@
 
 import Components
 import ComposableArchitecture
-import struct ComposableArchitecture.Bindable
 import Format
 
 public struct DashboardView: View {
+  @ComposableArchitecture.Bindable var store: StoreOf<Dashboard>
   @Binding var porting: Bool
-  @Bindable var store: StoreOf<Dashboard>
-
-  public init(porting: Binding<Bool>, store: StoreOf<Dashboard>) {
-    self._porting = porting
-    self.store = store
-  }
 
   public var body: some View {
     Grid {
@@ -52,6 +46,11 @@ public struct DashboardView: View {
   }
 
   @Dependency(\.format) var format
+
+  public init(porting: Binding<Bool>, store: StoreOf<Dashboard>) {
+    self._porting = porting
+    self.store = store
+  }
 }
 
 #Preview {

@@ -2,38 +2,42 @@
 
 import ComposableArchitecture
 import Dashboard
+import Fact
 
 @Reducer
 public struct Smokes: Sendable {
   @ObservableState
   public struct State: Equatable {
     @Presents var dashboard: Dashboard.State?
-    var modal: Modal? = .fact
+    @Presents var fact: Fact.State?
+
     var tab = Tab.dashboard
+
+    public init() {}
   }
 
   public enum Action: Sendable {
     case dashboard(PresentationAction<Dashboard.Action>),
-         openModal(Modal),
-         closeModal,
+         fact(PresentationAction<Fact.Action>),
+         factButtonTapped,
          selectTab(Tab)
   }
 
   public var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .closeModal:
-        state.modal = nil
-      case let .openModal(modal):
-        state.modal = modal
       case let .selectTab(tab):
         state.tab = tab
-      default: break
+      case .factButtonTapped:
+        state.fact = Fact.State()
+      default:
+        break
       }
 
       return .none
     }
     .ifLet(\.$dashboard, action: \.dashboard) { Dashboard() }
+    .ifLet(\.$fact, action: \.fact) { Fact() }
   }
 
   public init() {}

@@ -11,6 +11,7 @@ let package = Package(name: "Library", platforms: [.iOS(.v16), .macOS(.v13)], de
 let deps = Target.Dependency.product(name: "Dependencies", package: "swift-dependencies")
 let ext = Target.Dependency.product(name: "Extensions", package: "Extensions")
 let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+
 let libs: [Target] = [
   .target(name: "Types", dependencies: [deps, ext], plugins: [lint]),
   .target(name: "Components", dependencies: [deps, ext, "Types"], plugins: [lint]),
