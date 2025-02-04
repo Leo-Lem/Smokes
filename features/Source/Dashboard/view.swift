@@ -50,6 +50,9 @@ public struct DashboardView: View {
 }
 
 #Preview {
-  DashboardView(store: Store(initialState: Dashboard.State(), reducer: Dashboard.init))
-    .padding()
+  DashboardView(store: Store(
+    initialState: Dashboard.State(transferring: Shared(value: false)),
+    reducer: Dashboard.init)
+  )
+  .padding()
 }

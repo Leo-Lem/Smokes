@@ -1,10 +1,10 @@
 // Created by Leopold Lemmermann on 05.03.23.
 
+import Code
 import Components
 import ComposableArchitecture
-import SwiftUI
 import Extensions
-import Code
+import SwiftUI
 
 @ViewAction(for: Transfer.self)
 public struct TransferView: View {

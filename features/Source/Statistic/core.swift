@@ -1,11 +1,11 @@
 // Created by Leopold Lemmermann on 04.02.25.
 
-import ComposableArchitecture
-import Types
+import Bundle
 import Calculate
+import ComposableArchitecture
 import Format
 import Foundation
-import Bundle
+import Types
 
 @Reducer
 public struct Statistic: Sendable {

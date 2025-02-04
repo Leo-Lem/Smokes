@@ -1,8 +1,8 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
 import Dependencies
-import Types
 import SwiftUI
+import Types
 
 public extension DependencyValues {
   var format: Format {

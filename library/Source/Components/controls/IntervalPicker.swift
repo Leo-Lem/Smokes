@@ -1,9 +1,9 @@
 // Created by Leopold Lemmermann on 08.03.23.
 
-import SwiftUI
-import Extensions
-import Types
 import struct Dependencies.Dependency
+import Extensions
+import SwiftUI
+import Types
 
 public struct IntervalPicker: View {
   @Binding var selection: Interval

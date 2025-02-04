@@ -1,11 +1,11 @@
 // Created by Leopold Lemmermann on 02.02.25.
 
+import Bundle
 import Calculate
 import ComposableArchitecture
 import Extensions
 import Foundation
 import Types
-import Bundle
 
 @Reducer
 public struct Dashboard: Sendable {
@@ -21,9 +21,7 @@ public struct Dashboard: Sendable {
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 
-    public init() {
-      _transferring = Shared(value: false)
-    }
+    public init(transferring: Shared<Bool>) { _transferring = transferring }
   }
 
   public enum Action: Sendable {

@@ -2,16 +2,18 @@
 
 import ComposableArchitecture
 import Dashboard
+import Fact
 import History
 import Statistic
-import Fact
 import Transfer
+
+// TODO: reactivate animations
 
 @Reducer
 public struct Smokes: Sendable {
   @ObservableState
   public struct State: Equatable {
-    var dashboard = Dashboard.State()
+    var dashboard: Dashboard.State
     var history = History.State()
     var statistic = Statistic.State()
 
@@ -27,7 +29,10 @@ public struct Smokes: Sendable {
       case history, dashboard, statistic
     }
 
-    public init() { _transferring = Shared(value: false) }
+    public init() {
+      _transferring = Shared(value: false)
+      dashboard = Dashboard.State(transferring: _transferring)
+    }
   }
 
   public enum Action: Sendable {
@@ -44,6 +49,12 @@ public struct Smokes: Sendable {
 
   public var body: some Reducer<State, Action> {
     Scope(state: \.dashboard, action: \.dashboard, child: Dashboard.init)
+      .onChange(of: \.transferring) { _, new in
+        Reduce { state, _ in
+          state.transfer = new ? Transfer.State() : nil
+          return .none
+        }
+      }
     Scope(state: \.history, action: \.history, child: History.init)
     Scope(state: \.statistic, action: \.statistic, child: Statistic.init)
     Reduce { state, action in

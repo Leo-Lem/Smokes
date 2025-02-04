@@ -1,9 +1,9 @@
 // Created by Leopold Lemmermann on 03.02.25.
 
+import Bundle
 import ComposableArchitecture
 import Extensions
 import Foundation
-import Bundle
 
 @Reducer
 public struct Fact {

@@ -42,34 +42,11 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:app\/app.xcodeproj",
+        "containerPath" : "container:smokes.xcodeproj",
         "identifier" : "6ED91E1F293FB7BB00728E2B",
         "name" : "SmokesUITests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:deps",
-        "identifier" : "SmokesDependenciesTests",
-        "name" : "SmokesDependenciesTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:models",
-        "identifier" : "SmokesModelsTests",
-        "name" : "SmokesModelsTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:reducers",
-        "identifier" : "SmokesReducersTests",
-        "name" : "SmokesReducersTests"
       }
     }
   ],

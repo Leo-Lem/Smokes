@@ -1,8 +1,8 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
 import Charts
-import SwiftUI
 import Extensions
+import SwiftUI
 
 public struct DescriptedChartContent<Data: Collection, Chart: View>: View {
   let data: Data?

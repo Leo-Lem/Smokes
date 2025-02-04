@@ -5,6 +5,7 @@ disabled_rules:
 - nesting
 
 opt_in_rules:
-- unused_import
 - sorted_imports
 
+analyzer_rules:
+- unused_import

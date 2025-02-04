@@ -3,14 +3,15 @@
 import Components
 import ComposableArchitecture
 import Dashboard
-import History
-import Statistic
 import Fact
+import History
 import Info
+import Statistic
 import Transfer
 
 public struct SmokesView: View {
-  @ComposableArchitecture.Bindable var store: StoreOf<Smokes>
+  @ComposableArchitecture.Bindable
+  var store: StoreOf<Smokes> = Store(initialState: Smokes.State(), reducer: Smokes.init)
 
   public var body: some View {
     if #available(iOS 18.0, *) {
@@ -36,12 +37,14 @@ public struct SmokesView: View {
       .overlay(alignment: .bottomLeading) {
         FloatingButton("INFO", systemImage: "info") { store.send(.infoButtonTapped) }
           .sheet(isPresented: $store.info.sending(\.info)) { InfoView() }
+          .padding()
       }
       .overlay(alignment: .bottomTrailing) {
         FloatingButton("FACT", systemImage: "lightbulb") { store.send(.factButtonTapped) }
           .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) { FactView(store: $0) }
+          .padding()
       }
-      .padding()
+      .padding(5)
       .background { Background() }
     } else {
       // TODO: update the custom tab view:
@@ -49,9 +52,9 @@ public struct SmokesView: View {
     }
   }
 
-  public init(store: StoreOf<Smokes>) { self.store = store }
+  public init() {}
 }
 
 #Preview {
-  SmokesView(store: Store(initialState: Smokes.State(), reducer: Smokes.init))
+  SmokesView()
 }
