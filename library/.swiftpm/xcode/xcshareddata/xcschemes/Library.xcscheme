@@ -71,9 +71,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Config"
-               BuildableName = "Config"
-               BlueprintName = "Config"
+               BlueprintIdentifier = "Bundle"
+               BuildableName = "Bundle"
+               BlueprintName = "Bundle"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Code"
+               BuildableName = "Code"
+               BlueprintName = "Code"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>

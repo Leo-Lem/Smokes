@@ -10,19 +10,19 @@ public extension DependencyValues {
   }
 }
 
-public struct Code {
-  public var encode: ([Date], Encoding) async throws -> Data
-  public var decode: (Data, Encoding) async throws -> [Date]
+public struct Code: Sendable {
+  public var encode: @Sendable ([Date], Encoding) async throws -> Data
+  public var decode: @Sendable (Data, Encoding) async throws -> [Date]
 }
 
 extension Code: DependencyKey {
-  public static var liveValue = Code(
+  public static let liveValue = Code(
     encode: { try $1.encode($0) },
     decode: { try $1.decode($0) }
   )
-  
+
   #if DEBUG
-  public static var previewValue = Code(
+  public static let previewValue = Code(
     encode: { _, _ in Data() },
     decode: { _, _ in [] }
   )

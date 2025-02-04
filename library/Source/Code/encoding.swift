@@ -3,7 +3,7 @@
 import Dependencies
 import Foundation
 
-public enum Encoding: Hashable, CaseIterable {
+public enum Encoding: String, Hashable, CaseIterable, Sendable {
   case daily, grouped, exact
 
   public func encode(_ entries: [Date]) throws -> Data {

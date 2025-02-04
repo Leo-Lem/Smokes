@@ -3,10 +3,11 @@
 import Components
 import ComposableArchitecture
 import Dashboard
-import Fact
-import Info
 import History
 import Statistic
+import Fact
+import Info
+import Transfer
 
 public struct SmokesView: View {
   @ComposableArchitecture.Bindable var store: StoreOf<Smokes>
@@ -14,17 +15,18 @@ public struct SmokesView: View {
   public var body: some View {
     if #available(iOS 18.0, *) {
       TabView(selection: $store.tab.sending(\.selectTab)) {
-        Tab("HISTORY", systemImage: "calendar", value: SmokesTab.history) {
+        Tab("HISTORY", systemImage: "calendar", value: Smokes.State.Tab.history) {
           HistoryView(store: store.scope(state: \.history, action: \.history))
             .padding(.bottom, 50)
         }
 
-        Tab("DASHBOARD", systemImage: "square", value: SmokesTab.dashboard) {
+        Tab("DASHBOARD", systemImage: "square", value: Smokes.State.Tab.dashboard) {
           DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
             .padding(.bottom, 50)
+            .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
         }
 
-        Tab("STATS", systemImage: "percent", value: SmokesTab.statistic) {
+        Tab("STATS", systemImage: "percent", value: Smokes.State.Tab.statistic) {
           StatisticView(store: store.scope(state: \.statistic, action: \.statistic))
             .padding(.bottom, 50)
         }

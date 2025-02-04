@@ -3,40 +3,40 @@
 import Dependencies
 import Foundation
 
-extension Encoding  {
+extension Encoding {
   func encode(grouped entries: [Date]) throws -> Data {
     try JSONSerialization.data(withJSONObject: prepare(entries), options: .prettyPrinted)
   }
-  
+
   func decode(grouped data: Data) throws -> [Date] {
     guard
       let decoded = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: [String: Int]]]
     else { throw CocoaError(.coderReadCorrupt) }
     return unprepare(decoded)
   }
-  
+
   private func prepare(_ entries: [Date]) -> [String: [String: [String: Int]]] {
     var counts = [String: [String: [String: Int]]]()
-          
+
     for entry in entries {
       let dateString = formatter.string(from: entry)
       let components = dateString.split(separator: " ")
       let year = String(components[0])
       let month = String(components[1])
       let day = String(components[2])
-          
+
       if counts[year] == nil { counts[year] = [:] }
       if counts[year]![month] == nil { counts[year]![month] = [:] }
       counts[year]![month]![day, default: 0] += 1
     }
-          
+
     return counts
   }
 
   private func unprepare(_ prepared: [String: [String: [String: Int]]]) -> [Date] {
     @Dependency(\.calendar) var cal
     var dates: [Date] = []
-          
+
     prepared.forEach { year, months in
       months.forEach { month, days in
         days.forEach { day, count in
@@ -45,7 +45,7 @@ extension Encoding  {
         }
       }
     }
-          
+
     return dates.sorted()
   }
 

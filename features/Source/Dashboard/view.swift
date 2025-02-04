@@ -27,7 +27,7 @@ public struct DashboardView: View {
         Widget {
           DescriptedValueContent(format.amount(store.untilHereAmount), description: "UNTIL_NOW")
             .overlay(alignment: .bottomLeading) {
-              Button { store.send(.port) } label: { Label("OPEN_PORTER", systemImage: "folder") }
+              Button { store.send(.transfer) } label: { Label("OPEN_PORTER", systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }

@@ -9,7 +9,7 @@ extension Encoding {
     encoder.outputFormatting = .prettyPrinted
     return try encoder.encode(entries.sorted(by: >))
   }
-  
+
   func decode(exact data: Data) throws -> [Date] {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601

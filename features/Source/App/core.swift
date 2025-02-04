@@ -2,13 +2,10 @@
 
 import ComposableArchitecture
 import Dashboard
-import Fact
 import History
 import Statistic
-
-public enum SmokesTab: Sendable {
-  case history, dashboard, statistic
-}
+import Fact
+import Transfer
 
 @Reducer
 public struct Smokes: Sendable {
@@ -19,12 +16,18 @@ public struct Smokes: Sendable {
     var statistic = Statistic.State()
 
     @Presents var fact: Fact.State?
-    var info: Bool = false
-    @Shared var porting: Bool
+    var info: Bool = false // TODO: make optional state with reducer
+    @Presents var transfer: Transfer.State?
 
-    var tab = SmokesTab.dashboard
+    @Shared var transferring: Bool
 
-    public init() { _porting = Shared(value: false) }
+    var tab = Tab.dashboard
+
+    public enum Tab: Sendable {
+      case history, dashboard, statistic
+    }
+
+    public init() { _transferring = Shared(value: false) }
   }
 
   public enum Action: Sendable {
@@ -32,10 +35,11 @@ public struct Smokes: Sendable {
          history(History.Action),
          statistic(Statistic.Action),
          fact(PresentationAction<Fact.Action>),
+         transfer(PresentationAction<Transfer.Action>),
          info(Bool),
          infoButtonTapped,
          factButtonTapped,
-         selectTab(SmokesTab)
+         selectTab(State.Tab)
   }
 
   public var body: some Reducer<State, Action> {
@@ -58,6 +62,7 @@ public struct Smokes: Sendable {
       return .none
     }
     .ifLet(\.$fact, action: \.fact) { Fact() }
+    .ifLet(\.$transfer, action: \.transfer) { Transfer() }
   }
 
   public init() {}

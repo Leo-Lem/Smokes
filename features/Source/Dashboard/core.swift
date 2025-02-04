@@ -16,13 +16,13 @@ public struct Dashboard: Sendable {
     )))
     public var entries = Dates()
 
-    @Shared var porting: Bool
+    @Shared var transferring: Bool
 
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 
     public init() {
-      _porting = Shared(value: false)
+      _transferring = Shared(value: false)
     }
   }
 
@@ -31,7 +31,7 @@ public struct Dashboard: Sendable {
          remove,
          changeAmountOption(AmountOption),
          changeTimeOption(TimeOption),
-         port
+         transfer
   }
 
   public var body: some Reducer<State, Action> {
@@ -53,8 +53,8 @@ public struct Dashboard: Sendable {
         state.$amountOption.withLock { $0 = option }
       case let .changeTimeOption(option):
         state.$timeOption.withLock { $0 = option }
-      case .port:
-        state.$porting.withLock { $0 = true }
+      case .transfer:
+        state.$transferring.withLock { $0 = true }
       }
       return .none
     }
