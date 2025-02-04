@@ -1,87 +1,76 @@
 // Created by Leopold Lemmermann on 12.03.23.
 
 import Charts
+import Components
 import ComposableArchitecture
 import Extensions
 import SwiftUI
 
-struct StatisticView: View {
-  @EnvironmentObject private var store: StoreOf<App>
+public struct StatisticView: View {
+  @ComposableArchitecture.Bindable var store: StoreOf<Statistic>
 
-  var body: some View {
-    WithViewStore(store, observe: \.entries) { entries in
-      Grid {
-        if vSize == .regular {
-          configurableAverageWidget()
-          amountsPlotWidget().gridCellColumns(2)
-
-          GridRow {
-            averageTimeBetweenWidget().gridCellColumns(isShowingTrend ? 1 : 2)
-            trendWidget()
-          }
-        } else {
-          GridRow {
-            amountsPlotWidget().gridCellColumns(isShowingTrend ? 2 : 3)
-            trendWidget()
-          }
-
-          GridRow {
-            averageTimeBetweenWidget()
-            configurableAverageWidget().gridCellColumns(2)
-          }
-        }
-
-        intervalPicker(entries.state.clamp(.alltime))
+  public var body: some View {
+    Grid {
+      ConfigurableWidget(
+        selection: $store.option.sending(\.option),
+        enabled: StatisticOption.enabledCases(store.selection)
+      ) {
+        DescriptedValueContent(store.optionAverageFormatted, description: $0.description)
       }
-      .onChange(of: selection) {
-        if !Option.enabledCases($0).contains(option) { option = Option.enabledCases($0).first! }
-        if !PlotOption.enabledCases($0).contains(plotOption) { plotOption = PlotOption.enabledCases($0).first! }
+
+      ConfigurableWidget(
+        selection: $store.plotOption.sending(\.plotOption),
+        enabled: PlotOption.enabledCases(store.selection)
+      ) { option in
+        AmountsChart(store.optionPlotData, description: Text(option.description))
+      }
+      .gridCellColumns(2)
+
+      GridRow {
+        Widget {
+          DescriptedValueContent(store.averageTimeBetweenFormatted, description: "AVERAGE_TIME_BETWEEN")
+        }
+        .gridCellColumns(store.showingTrend ? 1 : 2)
+
+        if store.showingTrend {
+          Widget {
+            DescriptedValueContent(
+              store.optionTrendFormatted,
+              description: Text(store.option.description) + Text(" ") + Text("(TREND)")
+            )
+          }
+          .transition(.move(edge: .trailing))
+        }
+      }
+
+      Widget {
+        IntervalPicker(selection: $store.selection.sending(\.select), bounds: store.bounds)
+          .labelStyle(.iconOnly)
+          .buttonStyle(.borderedProminent)
       }
     }
   }
 
-  @Dependency(\.format) private var format
+  public init(store: StoreOf<Statistic>) { self.store = store }
 }
 
-extension StatsView {
-  @ViewBuilder private func trendWidget() -> some View {
-    if isShowingTrend {
-      Widget {
-        DescriptedValueContent(
-          format.trend(optionTrend), description: Text(option.description) + Text(" ") + Text("(TREND)")
-        )
-      }
-      .transition(.move(edge: .trailing))
-    }
+extension Statistic.State {
+  fileprivate var optionAverageFormatted: Text? {
+    @Dependency(\.format) var format
+    return format.average(optionAverage)
   }
 
-  private func configurableAverageWidget() -> some View {
-    ConfigurableWidget(selection: $option, enabled: Option.enabledCases(selection)) {
-      DescriptedValueContent(format.average(optionAverage), description: $0.description)
-    }
+  fileprivate var averageTimeBetweenFormatted: Text {
+    @Dependency(\.format) var format
+    return format.time(averageTimeBetween)
   }
 
-  private func averageTimeBetweenWidget() -> some View {
-    Widget {
-      DescriptedValueContent(format.time(averageTimeBetween), description: "AVERAGE_TIME_BETWEEN")
-    }
-  }
-
-  private func amountsPlotWidget() -> some View {
-    ConfigurableWidget(selection: $plotOption, enabled: PlotOption.enabledCases(selection)) { option in
-      AmountsChart(optionPlotData, description: Text(option.description))
-    }
-  }
-
-  private func intervalPicker(_ bounds: Interval) -> some View {
-    Widget {
-      IntervalPicker(selection: $selection, bounds: bounds)
-        .labelStyle(.iconOnly)
-        .buttonStyle(.borderedProminent)
-    }
+  fileprivate var optionTrendFormatted: Text? {
+    @Dependency(\.format) var format
+    return format.trend(optionTrend)
   }
 }
 
 #Preview {
-  StatisticView()
+  StatisticView(store: Store(initialState: Statistic.State(), reducer: Statistic.init))
 }

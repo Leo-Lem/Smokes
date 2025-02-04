@@ -91,7 +91,6 @@
 				6ED3746C2D4F8535008586CC /* facts */,
 				6ED3746D2D4F8535008586CC /* LICENSE */,
 				6ED374692D4F8535008586CC /* CNAME */,
-				6E5FFE292D5122310009B117 /* Frameworks */,
 				6E48374628EC991100B67CA4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,13 +103,6 @@
 				6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6E5FFE292D5122310009B117 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

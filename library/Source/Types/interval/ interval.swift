@@ -4,7 +4,7 @@
 import struct Foundation.Date
 import struct Foundation.DateInterval
 
-public enum Interval: Codable {
+public enum Interval: Codable, Sendable {
   case day(Date), week(Date), month(Date), year(Date)
   case alltime, from(Date), to(Date), fromTo(DateInterval)
 }

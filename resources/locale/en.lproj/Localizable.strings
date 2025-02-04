@@ -1,7 +1,7 @@
 // MARK: - (TABS)
 "HISTORY" = "history";
 "DASHBOARD" = "dashboard";
-"STATS" = "stats";
+"STATISTIC" = "stats";
 "FACT" = "fact";
 "INFO" = "about";
 

@@ -5,11 +5,11 @@ import Extensions
 import Types
 import struct Dependencies.Dependency
 
-struct IntervalPicker: View {
+public struct IntervalPicker: View {
   @Binding var selection: Interval
   let bounds: Interval
 
-  var body: some View {
+  public var body: some View {
     HStack {
       Button {
         if selectedMonth != nil { selectedMonth = previous } else { selectedYear ?= previous }
@@ -84,7 +84,7 @@ struct IntervalPicker: View {
   private let lowerBound: Date
   private let upperBound: Date
 
-  init(selection: Binding<Interval>, bounds: Interval) {
+  public init(selection: Binding<Interval>, bounds: Interval) {
     guard let start = bounds.start, let end = bounds.end else { fatalError("IntervalPicker requires bounds.") }
     self.bounds = bounds
 

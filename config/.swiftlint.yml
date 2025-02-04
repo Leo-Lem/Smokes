@@ -3,3 +3,8 @@ disabled_rules:
 - identifier_name
 - opening_brace
 - nesting
+
+opt_in_rules:
+- unused_import
+- sorted_imports
+

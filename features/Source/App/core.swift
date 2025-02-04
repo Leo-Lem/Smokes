@@ -4,9 +4,10 @@ import ComposableArchitecture
 import Dashboard
 import Fact
 import History
+import Statistic
 
 public enum SmokesTab: Sendable {
-  case history, dashboard, stats
+  case history, dashboard, statistic
 }
 
 @Reducer
@@ -15,9 +16,10 @@ public struct Smokes: Sendable {
   public struct State: Equatable {
     var dashboard = Dashboard.State()
     var history = History.State()
+    var statistic = Statistic.State()
+
     @Presents var fact: Fact.State?
     var info: Bool = false
-
     @Shared var porting: Bool
 
     var tab = SmokesTab.dashboard
@@ -28,6 +30,7 @@ public struct Smokes: Sendable {
   public enum Action: Sendable {
     case dashboard(Dashboard.Action),
          history(History.Action),
+         statistic(Statistic.Action),
          fact(PresentationAction<Fact.Action>),
          info(Bool),
          infoButtonTapped,
@@ -36,6 +39,9 @@ public struct Smokes: Sendable {
   }
 
   public var body: some Reducer<State, Action> {
+    Scope(state: \.dashboard, action: \.dashboard, child: Dashboard.init)
+    Scope(state: \.history, action: \.history, child: History.init)
+    Scope(state: \.statistic, action: \.statistic, child: Statistic.init)
     Reduce { state, action in
       switch action {
       case let .selectTab(tab):

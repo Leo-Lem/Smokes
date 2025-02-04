@@ -10,13 +10,13 @@ import Bundle
 @Reducer
 public struct Statistic: Sendable {
   @ObservableState
-  public struct State: Equatable {
+  public struct State: Equatable, Sendable {
     @Shared(.fileStorage(FileManager.document_url(
       Dependency(\.bundle).wrappedValue.string("ENTRIES_FILENAME")
     )))
     public var entries = Dates()
 
-    @Shared(.appStorage("stats_selection")) var selection = Interval.alltime
+    @Shared(.fileStorage(FileManager.document_url("stats_selection"))) var selection = Interval.alltime
     @Shared(.appStorage("stats_option")) var option = StatisticOption.perday
     @Shared(.appStorage("stats_plotOption")) var plotOption = PlotOption.byyear
 
@@ -40,10 +40,11 @@ public struct Statistic: Sendable {
         state.$selection.withLock { $0 = interval }
         return .run { [state] send in
           if !StatisticOption.enabledCases(interval).contains(state.option) {
-            send(.option(StatisticOption.enabledCases(interval).first!))
+            await send(.option(StatisticOption.enabledCases(interval).first!))
           }
+
           if !PlotOption.enabledCases(interval).contains(state.plotOption) {
-            send(.plotOption(PlotOption.enabledCases(interval).first!))
+            await send(.plotOption(PlotOption.enabledCases(interval).first!))
           }
         }
       }
@@ -57,21 +58,22 @@ public struct Statistic: Sendable {
 extension Statistic.State {
   var subdivision: Subdivision { option.subdivision }
   var clampedSelection: Interval { entries.clamp(selection) }
+  var bounds: Interval { entries.clamp(.alltime) }
 
-  var optionAverage: Double {
+  var optionAverage: Double? {
     @Dependency(\.calculate) var calculate
     return calculate.average(clampedSelection, subdivision, entries.array)
   }
 
-  var optionTrend: Double {
+  var optionTrend: Double? {
     @Dependency(\.calculate) var calculate
     return selection == .alltime ? nil : calculate.trend(clampedSelection, subdivision, entries.array)
   }
 
-  var optionPlotData: [(String, Int)] {
+  var optionPlotData: [(String, Int)]? {
     @Dependency(\.calculate) var calculate
     @Dependency(\.format) var format
-    return calculate.amounts(clampedSelection, plotOption.subdivision, entries)?
+    return calculate.amounts(clampedSelection, plotOption.subdivision, entries.array)?
       .sorted { $0.key < $1.key }
       .map { (format.plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
   }
@@ -80,4 +82,6 @@ extension Statistic.State {
     @Dependency(\.calculate) var calculate
     return calculate.averageBreak(clampedSelection, entries.array)
   }
+
+  var showingTrend: Bool { selection != .alltime }
 }
