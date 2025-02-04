@@ -15,8 +15,22 @@
     {
       "target" : {
         "containerPath" : "container:",
+        "identifier" : "TransferTests",
+        "name" : "TransferTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
         "identifier" : "HistoryTests",
         "name" : "HistoryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "StatisticTests",
+        "name" : "StatisticTests"
       }
     },
     {
@@ -36,15 +50,15 @@
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "AppTests",
-        "name" : "AppTests"
+        "identifier" : "DashboardTests",
+        "name" : "DashboardTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "DashboardTests",
-        "name" : "DashboardTests"
+        "identifier" : "AppTests",
+        "name" : "AppTests"
       }
     }
   ],
