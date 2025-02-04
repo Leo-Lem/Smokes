@@ -3,6 +3,7 @@
 import ComposableArchitecture
 import Extensions
 import Foundation
+import Bundle
 
 @Reducer
 public struct Fact {
@@ -19,7 +20,8 @@ public struct Fact {
   public enum Action: Sendable {
     case countdown,
          fetch,
-         appear
+         appear,
+         dismiss
   }
 
   public var body: some ReducerOf<Self> {
@@ -27,28 +29,40 @@ public struct Fact {
       switch action {
       case .appear:
         return .merge(.send(.countdown), .send(.fetch))
+
+      case .dismiss:
+        return .run { [dismiss] _ in
+#if DEBUG
+          @Dependency(\.isPresented) var isPresented
+          if isPresented {
+            await dismiss()
+          }
+#else
+          await dismiss()
+#endif
+        }
+
       case .countdown:
         state.countdown -= 50
-        return .run { [state, dismiss, clock] send in
-          if state.countdown < 0 { await dismiss() }
+        return .run { [state, clock] send in
+          if state.countdown < 0 { await send(.dismiss) }
           try? await clock.sleep(for: .milliseconds(50))
           await send(.countdown)
         }
 
       case .fetch:
-        return .run { [state, session, fail] _ in
+        return .run { [state, session, bundle] _ in
           do {
-            // TODO: activate
-//            let url = URL(string: Bundle.main[string: "FACTS_URL"])!
-//              .appendingPathComponent(Locale.language_code.identifier)
-//            let (data, response) = try await session.data(from: url)
-//            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
-//
-//            state.$fact.withLock {
-//              $0 ?= String(data: data, encoding: .utf8)
-//            }
+            let url = URL(string: bundle.string("FACTS_URL"))!
+              .appendingPathComponent(Locale.language_code.identifier)
+            let (data, response) = try await session.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
+
+            state.$fact.withLock {
+              $0 ?= String(data: data, encoding: .utf8)
+            }
           } catch {
-            fail("Failed to fetch fact: \(error)")
+            print("Failed to fetch fact: \(error)")
           }
         }
       }
@@ -57,8 +71,8 @@ public struct Fact {
 
   @Dependency(\.urlSession) var session
   @Dependency(\.dismiss) var dismiss
-  @Dependency(\.assertionFailure) var fail
   @Dependency(\.continuousClock) var clock
+  @Dependency(\.bundle) var bundle
 
   public init() {}
 }

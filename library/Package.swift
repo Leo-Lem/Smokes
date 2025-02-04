@@ -17,6 +17,7 @@ let libs: [Target] = [
   .target(name: "Components", dependencies: [deps, ext, "Types"], plugins: [lint]),
   .target(name: "Calculate", dependencies: [deps, ext, "Types"], plugins: [lint]),
   .target(name: "Format", dependencies: [deps, ext, "Types"], plugins: [lint]),
+  .target(name: "Bundle", dependencies: [deps, ext], plugins: [lint]),
 ]
 
 package.targets.append(contentsOf: libs.flatMap {[

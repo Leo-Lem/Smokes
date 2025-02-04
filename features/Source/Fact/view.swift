@@ -35,15 +35,15 @@ public struct FactView: View {
           .background(.ultraThinMaterial)
           .cornerRadius(5)
 
-        Button(action: dismiss.callAsFunction) { Label("SKIP", systemImage: "chevron.forward.to.line") }
+        Button {
+          store.send(.dismiss)
+        } label: { Label("SKIP", systemImage: "chevron.forward.to.line") }
           .buttonStyle(.borderedProminent)
           .labelStyle(.iconOnly)
       }
     }
     .onAppear { store.send(.appear) }
   }
-
-  @Environment(\.dismiss) var dismiss
 
   public init(store: StoreOf<Fact>) { self.store = store }
 }

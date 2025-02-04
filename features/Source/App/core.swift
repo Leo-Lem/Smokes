@@ -10,6 +10,7 @@ public struct Smokes: Sendable {
   public struct State: Equatable {
     @Presents var dashboard: Dashboard.State?
     @Presents var fact: Fact.State?
+    var info: Bool = false
 
     var tab = Tab.dashboard
 
@@ -19,6 +20,8 @@ public struct Smokes: Sendable {
   public enum Action: Sendable {
     case dashboard(PresentationAction<Dashboard.Action>),
          fact(PresentationAction<Fact.Action>),
+         info(Bool),
+         infoButtonTapped,
          factButtonTapped,
          selectTab(Tab)
   }
@@ -30,6 +33,10 @@ public struct Smokes: Sendable {
         state.tab = tab
       case .factButtonTapped:
         state.fact = Fact.State()
+      case .infoButtonTapped:
+        state.info = true
+      case let .info(info):
+        state.info = info
       default:
         break
       }
