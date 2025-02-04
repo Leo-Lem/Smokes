@@ -15,8 +15,15 @@
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "DashboardTests",
-        "name" : "DashboardTests"
+        "identifier" : "HistoryTests",
+        "name" : "HistoryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "InfoTests",
+        "name" : "InfoTests"
       }
     },
     {
@@ -31,6 +38,13 @@
         "containerPath" : "container:",
         "identifier" : "AppTests",
         "name" : "AppTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "DashboardTests",
+        "name" : "DashboardTests"
       }
     }
   ],

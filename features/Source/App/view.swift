@@ -2,49 +2,43 @@
 
 import Components
 import ComposableArchitecture
-import Extensions
 import Dashboard
 import Fact
 import Info
+import History
 
 public struct SmokesView: View {
   @ComposableArchitecture.Bindable var store: StoreOf<Smokes>
 
   public var body: some View {
-    TabView(selection: $store.tab.sending(\.selectTab))
+    if #available(iOS 18.0, *) {
+      TabView(selection: $store.tab.sending(\.selectTab)) {
+        Tab("HISTORY", systemImage: "calendar", value: SmokesTab.history) {
+          HistoryView(store: store.scope(state: \.history, action: \.history))
+        }
+
+        Tab("DASHBOARD", systemImage: "square", value: SmokesTab.dashboard) {
+          DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
+        }
+      }
+      .tabViewStyle(.page(indexDisplayMode: .always))
+      .indexViewStyle(.page(backgroundDisplayMode: .always))
       .overlay(alignment: .bottomLeading) {
         FloatingButton("INFO", systemImage: "info") { store.send(.infoButtonTapped) }
-          .sheet(isPresented: $store.info.sending(\.info), content: InfoView.init)
+          .sheet(isPresented: $store.info.sending(\.info)) { InfoView() }
       }
       .overlay(alignment: .bottomTrailing) {
         FloatingButton("FACT", systemImage: "lightbulb") { store.send(.factButtonTapped) }
-          .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact), content: FactView.init)
+          .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) { FactView(store: $0) }
       }
       .padding()
-//      .overlay {
-//        if selection == .fact {
-//          FactView(isPresented: Binding { selection == .fact } set: { _ in selection = .tab })
-//            .transition(.move(edge: .top))
-//            .padding()
-//        }
-//      }
       .background { Background() }
+    } else {
+      // TODO: update the custom tab view: https://stackoverflow.com/questions/75320164/swiftui-custom-tabview-with-paging-style
+    }
   }
 
   public init(store: StoreOf<Smokes>) { self.store = store }
-}
-
-extension Tab: Tabbable {
-  public static let allCases = [Self.history, .dashboard, .stats]
-
-  public var tab: some View {
-    switch self {
-//    case .history: HistoryView()
-//    case .dashboard: DashboardView()
-//    case .stats: StatsView()
-    default: EmptyView()
-    }
-  }
 }
 
 #Preview {

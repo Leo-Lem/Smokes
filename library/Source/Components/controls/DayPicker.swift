@@ -4,11 +4,11 @@ import Dependencies
 import SwiftUI
 import Types
 
-struct DayPicker: View {
+public struct DayPicker: View {
   @Binding var selection: Date
   let bounds: Interval
 
-  var body: some View {
+  public var body: some View {
     HStack {
       Button { selection = previousDay } label: { Label("PREVIOUS_DAY", systemImage: "chevron.left") }
         .disabled(bounds.start.flatMap { previousDay <= $0 } ?? false)
@@ -36,6 +36,11 @@ struct DayPicker: View {
 
   private var previousDay: Date { cal.date(byAdding: .day, value: -1, to: selection)! }
   private var nextDay: Date { cal.date(byAdding: .day, value: 1, to: selection)! }
+
+  public init(selection: Binding<Date>, bounds: Interval = .alltime) {
+    self._selection = selection
+    self.bounds = bounds
+  }
 }
 
 #Preview {

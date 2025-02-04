@@ -3,27 +3,36 @@
 import ComposableArchitecture
 import Dashboard
 import Fact
+import History
+
+public enum SmokesTab: Sendable {
+  case history, dashboard, stats
+}
 
 @Reducer
 public struct Smokes: Sendable {
   @ObservableState
   public struct State: Equatable {
-    @Presents var dashboard: Dashboard.State?
+    var dashboard = Dashboard.State()
+    var history = History.State()
     @Presents var fact: Fact.State?
     var info: Bool = false
 
-    var tab = Tab.dashboard
+    @Shared var porting: Bool
 
-    public init() {}
+    var tab = SmokesTab.dashboard
+
+    public init() { _porting = Shared(value: false) }
   }
 
   public enum Action: Sendable {
-    case dashboard(PresentationAction<Dashboard.Action>),
+    case dashboard(Dashboard.Action),
+         history(History.Action),
          fact(PresentationAction<Fact.Action>),
          info(Bool),
          infoButtonTapped,
          factButtonTapped,
-         selectTab(Tab)
+         selectTab(SmokesTab)
   }
 
   public var body: some Reducer<State, Action> {
@@ -34,16 +43,14 @@ public struct Smokes: Sendable {
       case .factButtonTapped:
         state.fact = Fact.State()
       case .infoButtonTapped:
-        state.info = true
+        return .send(.info(true))
       case let .info(info):
         state.info = info
-      default:
-        break
+      default: break
       }
 
       return .none
     }
-    .ifLet(\.$dashboard, action: \.dashboard) { Dashboard() }
     .ifLet(\.$fact, action: \.fact) { Fact() }
   }
 

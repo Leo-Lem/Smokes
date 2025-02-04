@@ -19,8 +19,10 @@ let bundle = Target.Dependency.product(name: "Bundle", package: "Library")
 let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
 
 let libs: [Target] = [
-  .target(name: "App", dependencies: [tca, comps, "Dashboard", "Fact", "Info"], plugins: [lint]),
-  .target(name: "Dashboard", dependencies: [tca, comps, types, format, calc], plugins: [lint]),
+  .target(name: "App", dependencies: [tca, comps, "Dashboard", "History", "Statistic", "Fact", "Info"], plugins: [lint]),
+  .target(name: "Dashboard", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
+  .target(name: "History", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
+  .target(name: "Statistic", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
   .target(name: "Fact", dependencies: [tca, ext, bundle], plugins: [lint]),
   .target(name: "Info", dependencies: [ext, bundle], plugins: [lint]),
 ]

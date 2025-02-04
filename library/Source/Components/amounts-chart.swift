@@ -3,11 +3,11 @@
 import Charts
 import SwiftUI
 
-struct AmountsChart: View {
+public struct AmountsChart: View {
   let amounts: [(label: String, amount: Int)]?
   let description: Text?
 
-  var body: some View {
+  public var body: some View {
     DescriptedChartContent(data: amounts, description: description) { amounts in
       Chart(amounts, id: \.label) { label, amount in
         BarMark(x: .value("DATE", label), y: .value("AMOUNT", amount))
@@ -27,7 +27,7 @@ struct AmountsChart: View {
 
   private let isEmpty: Bool
 
-  init(_ amounts: [(label: String, amount: Int)]?, description: Text? = nil) {
+  public init(_ amounts: [(label: String, amount: Int)]?, description: Text? = nil) {
     self.amounts = amounts
     self.description = description
 

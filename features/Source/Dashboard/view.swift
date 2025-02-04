@@ -6,7 +6,6 @@ import Format
 
 public struct DashboardView: View {
   @ComposableArchitecture.Bindable var store: StoreOf<Dashboard>
-  @Binding var porting: Bool
 
   public var body: some View {
     Grid {
@@ -28,14 +27,14 @@ public struct DashboardView: View {
         Widget {
           DescriptedValueContent(format.amount(store.untilHereAmount), description: "UNTIL_NOW")
             .overlay(alignment: .bottomLeading) {
-              Button { porting = true } label: { Label("OPEN_PORTER", systemImage: "folder") }
+              Button { store.send(.port) } label: { Label("OPEN_PORTER", systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }
         }
 
         Widget {
-          IncrementMenu(decrementDisabled: store.dayAmount ?? 0 <= 0) {
+          IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
             store.send(.add)
           } remove: {
             store.send(.remove)
@@ -47,13 +46,10 @@ public struct DashboardView: View {
 
   @Dependency(\.format) var format
 
-  public init(porting: Binding<Bool>, store: StoreOf<Dashboard>) {
-    self._porting = porting
-    self.store = store
-  }
+  public init(store: StoreOf<Dashboard>) { self.store = store }
 }
 
 #Preview {
-  DashboardView(porting: .constant(false), store: Store(initialState: Dashboard.State(), reducer: Dashboard.init))
+  DashboardView(store: Store(initialState: Dashboard.State(), reducer: Dashboard.init))
     .padding()
 }

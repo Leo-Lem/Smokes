@@ -5,20 +5,25 @@ import ComposableArchitecture
 import Extensions
 import Foundation
 import Types
+import Bundle
 
 @Reducer
 public struct Dashboard: Sendable {
   @ObservableState
   public struct State: Equatable {
-    @Shared(.fileStorage(FileManager.document_url(Bundle.main[string: "ENTRIES_FILENAME"])))
+    @Shared(.fileStorage(FileManager.document_url(
+      Dependency(\.bundle).wrappedValue.string("ENTRIES_FILENAME")
+    )))
     public var entries = Dates()
+
+    @Shared var porting: Bool
+
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 
-    var dayAmount: Int?
-    var untilHereAmount: Int?
-    var optionAmount: Int?
-    var optionTime: TimeInterval?
+    public init() {
+      _porting = Shared(value: false)
+    }
   }
 
   public enum Action: Sendable {
@@ -26,7 +31,7 @@ public struct Dashboard: Sendable {
          remove,
          changeAmountOption(AmountOption),
          changeTimeOption(TimeOption),
-         update
+         port
   }
 
   public var body: some Reducer<State, Action> {
@@ -36,43 +41,56 @@ public struct Dashboard: Sendable {
         state.$entries.withLock {
           $0.insert(now, at: state.entries.firstIndex { now < $0 } ?? state.entries.endIndex)
         }
-        return .send(.update)
-
       case .remove:
         if
           let nearest = state.entries.min(by: { abs($0.distance(to: now)) < abs($1.distance(to: now)) }),
           cal.isDate(nearest, inSameDayAs: now) {
-            state.$entries.withLock {
-              _ = $0.remove(at: state.entries.firstIndex(of: nearest)!)
-            }
-        }
-        return .send(.update)
-
-      case let .changeAmountOption(option):
-        state.optionAmount = calculate.amount(option.interval, state.entries.array)
-
-      case let .changeTimeOption(option):
-        state.optionTime = switch option {
-          case .sinceLast: calculate.break(now, state.entries.array)
-          case .longestBreak: calculate.longestBreak(now, state.entries.array)
+          state.$entries.withLock {
+            _ = $0.remove(at: state.entries.firstIndex(of: nearest)!)
           }
-
-      case .update:
-        state.dayAmount = calculate.amount(.day(now), state.entries.array)
-        state.untilHereAmount = calculate.amount(.to(cal.endOfDay(for: now)), state.entries.array)
-        return .concatenate(
-          .send(.changeAmountOption(state.amountOption)),
-          .send(.changeTimeOption(state.timeOption))
-        )
+        }
+      case let .changeAmountOption(option):
+        state.$amountOption.withLock { $0 = option }
+      case let .changeTimeOption(option):
+        state.$timeOption.withLock { $0 = option }
+      case .port:
+        state.$porting.withLock { $0 = true }
       }
-
       return .none
     }
   }
 
   @Dependency(\.date.now) var now
   @Dependency(\.calendar) var cal
-  @Dependency(\.calculate) var calculate
 
   public init() {}
+}
+
+public extension Dashboard.State {
+  var dayAmount: Int {
+    @Dependency(\.calculate) var calculate
+    @Dependency(\.date.now) var now
+    return calculate.amount(.day(now), entries.array)
+  }
+
+  var untilHereAmount: Int {
+    @Dependency(\.calculate) var calculate
+    @Dependency(\.date.now) var now
+    @Dependency(\.calendar) var cal
+    return calculate.amount(.to(cal.endOfDay(for: now)), entries.array)
+  }
+
+  var optionAmount: Int {
+    @Dependency(\.calculate) var calculate
+    return calculate.amount(amountOption.interval, entries.array)
+  }
+
+  var optionTime: TimeInterval {
+    @Dependency(\.calculate) var calculate
+    @Dependency(\.date.now) var now
+    return switch timeOption {
+    case .sinceLast: calculate.break(now, entries.array)
+    case .longestBreak: calculate.longestBreak(now, entries.array)
+    }
+  }
 }
