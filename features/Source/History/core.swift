@@ -11,9 +11,7 @@ import Types
   @ObservableState public struct State: Equatable {
     @Shared(.fileStorage(FileManager.document_url(
       Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    )))
-    public var entries = Dates()
-
+    ))) public var entries = Dates()
     @Shared(.appStorage("history_option")) var option = HistoryOption.week
 
     var selection: Date
@@ -32,31 +30,23 @@ import Types
     }
   }
   
-  public enum Action: ViewAction, Sendable {
-    case add
-    case remove
-
-    case view(View)
-
-    @CasePathable public enum View: BindableAction, Sendable {
-      case binding(BindingAction<State>)
-
-      case addButtonTapped
-      case removeButtonTapped
-    }
+  public enum Action: BindableAction, Sendable {
+    case binding(BindingAction<State>)
+    case addButtonTapped
+    case removeButtonTapped
   }
 
   public var body: some Reducer<State, Action> {
-    BindingReducer(action: \.view)
+    BindingReducer()
 
     Reduce { state, action in
       switch action {
-      case .add:
+      case .addButtonTapped:
         state.$entries.withLock {
           $0.insert(state.selection, at: state.entries.firstIndex { state.selection < $0 } ?? state.entries.endIndex)
         }
 
-      case .remove:
+      case .removeButtonTapped:
         if
           let nearest = state.entries
             .min(by: { abs($0.distance(to: state.selection)) < abs($1.distance(to: state.selection)) }),
@@ -66,16 +56,7 @@ import Types
             }
         }
 
-      case let .view(action):
-        switch action {
-        case .addButtonTapped:
-          return .send(.add)
-
-        case .removeButtonTapped:
-          return .send(.remove)
-
-        case .binding: break
-        }
+      case .binding: break
       }
 
       return .none

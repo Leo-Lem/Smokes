@@ -6,39 +6,34 @@ import ComposableArchitecture
 import Extensions
 import Format
 import SwiftUI
+import enum Generated.L10n
 
-@ViewAction(for: History.self)
 public struct HistoryView: View {
   @ComposableArchitecture.Bindable public var store: StoreOf<History>
 
   public var body: some View {
     Grid {
       Widget {
-        AmountsChart(
-          store.plotData?
-            .sorted { $0.key < $1.key }
-            .map { (format.plotInterval($0, bounds: store.interval, sub: store.subdivision) ?? "", $1) },
-          description: Text(store.option.description)
-        )
+        AmountsChart(store.plotDataFormatted, description: Text(store.option.description))
       }
 
       GridRow {
         ConfigurableWidget(selection: $store.option) { option in
-          DescriptedValueContent(format.amount(store.optionAmount), description: option.description)
+          DescriptedValueContent(store.optionAmountFormatted, description: option.description)
         }
 
         Widget {
-          DescriptedValueContent(format.amount(store.untilHereAmount), description: "UNTIL_THIS_DAY")
+          DescriptedValueContent(store.untilHereAmountFormatted, description: "UNTIL_THIS_DAY")
         }
       }
 
       Widget {
         HStack {
-          DescriptedValueContent(format.amount(store.dayAmount), description: "THIS_DAY")
+          DescriptedValueContent(store.dayAmountFormatted, description: "THIS_DAY")
             .overlay(alignment: .topTrailing) {
               if !store.editing {
                 Button { store.editing = true } label: {
-                  Label("MODIFY", systemImage: "square.and.pencil")
+                  Label(L10n.Action.modify, systemImage: "square.and.pencil")
                     .font(.title2)
                     .accessibilityIdentifier("start-modifying-button")
                 }
@@ -47,9 +42,9 @@ public struct HistoryView: View {
 
           if store.editing {
             IncrementMenu(decrementDisabled: store.dayAmount < 1) {
-              send(.addButtonTapped)
+              store.send(.addButtonTapped)
             } remove: {
-              send(.removeButtonTapped)
+              store.send(.removeButtonTapped)
             }
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
@@ -73,9 +68,31 @@ public struct HistoryView: View {
     }
   }
 
-  @Dependency(\.format) var format
-
   public init(store: StoreOf<History>) { self.store = store }
+}
+
+fileprivate extension History.State {
+  var dayAmountFormatted: Text {
+    @Dependency(\.format.amount) var amount
+    return amount(dayAmount)
+  }
+
+  var untilHereAmountFormatted: Text? {
+    @Dependency(\.format) var format
+    return format.amount(untilHereAmount)
+  }
+
+  var optionAmountFormatted: Text {
+    @Dependency(\.format.amount) var amount
+    return amount(optionAmount)
+  }
+
+  var plotDataFormatted: [(String, Int)]? {
+    @Dependency(\.format.plotInterval) var plotInterval
+    return plotData?
+      .sorted { $0.key < $1.key }
+      .map { (plotInterval($0, interval, subdivision) ?? "", $1) }
+  }
 }
 
 #Preview {

@@ -16,19 +16,19 @@ public struct SmokesView: View {
 
   public var body: some View {
     if #available(iOS 18.0, *) {
-      TabView(selection: $store.tab.sending(\.selectTab)) {
-        Tab(L10n.history, systemImage: "calendar", value: Smokes.State.Tab.history) {
+      TabView(selection: $store.tab) {
+        Tab(L10n.history, systemImage: "calendar", value: 0) {
           HistoryView(store: store.scope(state: \.history, action: \.history))
             .padding(.bottom, 50)
         }
 
-        Tab(L10n.dashboard, systemImage: "square", value: Smokes.State.Tab.dashboard) {
+        Tab(L10n.dashboard, systemImage: "square", value: 1) {
           DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
             .padding(.bottom, 50)
             .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
         }
 
-        Tab(L10n.statistic, systemImage: "percent", value: Smokes.State.Tab.statistic) {
+        Tab(L10n.statistic, systemImage: "percent", value: 2) {
           StatisticView(store: store.scope(state: \.statistic, action: \.statistic))
             .padding(.bottom, 50)
         }

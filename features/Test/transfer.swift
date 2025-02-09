@@ -31,8 +31,7 @@ struct TransferTest {
     await store.receive(\.preview) { $0.preview = content }
   }
 
-  // TODO: fix this
-//  @Test(arguments: Encoding.allCases)
+  @Test(arguments: Encoding.allCases)
   func selectEncoding(_ encoding: Encoding) async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue

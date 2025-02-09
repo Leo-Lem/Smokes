@@ -8,22 +8,16 @@ import SwiftUI
 import enum Generated.L10n
 
 public struct StatisticView: View {
-  @ComposableArchitecture.Bindable var store: StoreOf<Statistic>
+  @ComposableArchitecture.Bindable public var store: StoreOf<Statistic>
 
   public var body: some View {
     Grid {
-      ConfigurableWidget(
-        selection: $store.option.sending(\.option),
-        enabled: StatisticOption.enabledCases(store.selection)
-      ) {
+      ConfigurableWidget(selection: $store.option, enabled: store.enabledOptions) {
         DescriptedValueContent(store.optionAverageFormatted, description: $0.description)
       }
 
-      ConfigurableWidget(
-        selection: $store.plotOption.sending(\.plotOption),
-        enabled: PlotOption.enabledCases(store.selection)
-      ) { option in
-        AmountsChart(store.optionPlotData, description: Text(option.description))
+      ConfigurableWidget(selection: $store.plotOption, enabled: store.enabledPlotOptions) { option in
+        AmountsChart(store.optionPlotDataFormatted, description: Text(option.description))
       }
       .gridCellColumns(2)
 
@@ -45,7 +39,7 @@ public struct StatisticView: View {
       }
 
       Widget {
-        IntervalPicker(selection: $store.selection.sending(\.select), bounds: store.bounds)
+        IntervalPicker(selection: $store.selection, bounds: store.bounds)
           .labelStyle(.iconOnly)
           .buttonStyle(.borderedProminent)
       }
@@ -62,13 +56,20 @@ fileprivate extension Statistic.State {
   }
 
   var averageTimeBetweenFormatted: Text {
-    @Dependency(\.format) var format
-    return format.time(averageTimeBetween)
+    @Dependency(\.format.time) var time
+    return time(averageTimeBetween)
   }
 
   var optionTrendFormatted: Text? {
     @Dependency(\.format) var format
     return format.trend(optionTrend)
+  }
+
+  var optionPlotDataFormatted: [(String, Int)]? {
+    @Dependency(\.format.plotInterval) var plotInterval
+    return optionPlotData?
+      .sorted { $0.key < $1.key }
+      .map { (plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
   }
 }
 

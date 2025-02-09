@@ -35,9 +35,10 @@ let libs: [Target] = [
 
 package.targets = libs + [
   .testTarget(
-    name: "FeaturesTests",
+    name: "FeaturesTest",
     dependencies: libs.map { .byName(name: $0.name) },
-    path: "Test"
+    path: "Test",
+    plugins: [lint]
   )
 ]
 

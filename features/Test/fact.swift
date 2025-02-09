@@ -43,4 +43,3 @@ struct FactTest {
     await store.receive(\.dismiss)
   }
 }
-

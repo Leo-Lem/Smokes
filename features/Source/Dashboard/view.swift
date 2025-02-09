@@ -6,29 +6,29 @@ import Format
 import Generated
 
 public struct DashboardView: View {
-  @ComposableArchitecture.Bindable var store: StoreOf<Dashboard>
+  @ComposableArchitecture.Bindable public var store: StoreOf<Dashboard>
 
   public var body: some View {
     Grid {
       Widget {
-        DescriptedValueContent(format.amount(store.dayAmount), description: L10n.Amount.today)
+        DescriptedValueContent(store.dayAmountFormatted, description: L10n.Amount.today)
       }
 
       GridRow {
-        ConfigurableWidget(selection: $store.amountOption.sending(\.changeAmountOption)) { option in
-          DescriptedValueContent(format.amount(store.optionAmount), description: option.description)
+        ConfigurableWidget(selection: $store.amountOption) { option in
+          DescriptedValueContent(store.optionAmountFormatted, description: option.description)
         }
 
-        ConfigurableWidget(selection: $store.timeOption.sending(\.changeTimeOption)) { option in
-          DescriptedValueContent(format.time(store.optionTime), description: option.description)
+        ConfigurableWidget(selection: $store.timeOption) { option in
+          DescriptedValueContent(store.optionTimeFormatted, description: option.description)
         }
       }
 
       GridRow {
         Widget {
-          DescriptedValueContent(format.amount(store.untilHereAmount), description: L10n.Amount.Until.now)
+          DescriptedValueContent(store.untilHereAmountFormatted, description: L10n.Amount.Until.now)
             .overlay(alignment: .bottomLeading) {
-              Button { store.send(.transfer) } label: { Label(L10n.Transfer.open, systemImage: "folder") }
+              Button { store.transferring = true } label: { Label(L10n.Transfer.open, systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }
@@ -36,18 +36,38 @@ public struct DashboardView: View {
 
         Widget {
           IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
-            store.send(.add)
+            store.send(.addButtonTapped)
           } remove: {
-            store.send(.remove)
+            store.send(.removeButtonTapped)
           }
         }
       }
     }
   }
 
-  @Dependency(\.format) var format
-
   public init(store: StoreOf<Dashboard>) { self.store = store }
+}
+
+fileprivate extension Dashboard.State {
+  var dayAmountFormatted: Text {
+    @Dependency(\.format.amount) var amount
+    return amount(dayAmount)
+  }
+
+  var optionAmountFormatted: Text {
+    @Dependency(\.format.amount) var amount
+    return amount(optionAmount)
+  }
+
+  var optionTimeFormatted: Text {
+    @Dependency(\.format.time) var time
+    return time(optionTime)
+  }
+
+  var untilHereAmountFormatted: Text {
+    @Dependency(\.format.amount) var amount
+    return amount(untilHereAmount)
+  }
 }
 
 #Preview {

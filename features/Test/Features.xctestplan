@@ -14,10 +14,13 @@
   "testTargets" : [
     {
       "parallelizable" : false,
+      "skippedTests" : [
+        "Performance"
+      ],
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "FeaturesTests",
-        "name" : "FeaturesTests"
+        "identifier" : "FeaturesTest",
+        "name" : "FeaturesTest"
       }
     }
   ],

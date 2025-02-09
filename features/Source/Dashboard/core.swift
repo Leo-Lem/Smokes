@@ -7,39 +7,45 @@ import Extensions
 import Foundation
 import Types
 
-@Reducer
-public struct Dashboard: Sendable {
-  @ObservableState
-  public struct State: Equatable {
+@Reducer public struct Dashboard: Sendable {
+  @ObservableState public struct State: Equatable {
+    @Shared public var transferring: Bool
     @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle).wrappedValue.string("ENTRIES_FILENAME")
-    )))
-    public var entries = Dates()
-
-    @Shared var transferring: Bool
-
+      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
+    ))) public var entries = Dates()
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 
-    public init(transferring: Shared<Bool>) { _transferring = transferring }
+    public init(
+      transferring: Shared<Bool> = Shared(value: false),
+      entries: Dates = Dates(),
+      amountOption: AmountOption = .week,
+      timeOption: TimeOption = .sinceLast
+    ) {
+      _transferring = transferring
+      _entries = Shared(value: entries)
+      _amountOption = Shared(value: amountOption)
+      _timeOption = Shared(value: timeOption)
+    }
   }
 
-  public enum Action: Sendable {
-    case add,
-         remove,
-         changeAmountOption(AmountOption),
-         changeTimeOption(TimeOption),
-         transfer
+  public enum Action: BindableAction, Sendable {
+    case binding(BindingAction<State>)
+    case addButtonTapped
+    case removeButtonTapped
   }
 
   public var body: some Reducer<State, Action> {
+    BindingReducer()
+
     Reduce { state, action in
       switch action {
-      case .add:
+      case .addButtonTapped:
         state.$entries.withLock {
           $0.insert(now, at: state.entries.firstIndex { now < $0 } ?? state.entries.endIndex)
         }
-      case .remove:
+        
+      case .removeButtonTapped:
         if
           let nearest = state.entries.min(by: { abs($0.distance(to: now)) < abs($1.distance(to: now)) }),
           cal.isDate(nearest, inSameDayAs: now) {
@@ -47,12 +53,8 @@ public struct Dashboard: Sendable {
             _ = $0.remove(at: state.entries.firstIndex(of: nearest)!)
           }
         }
-      case let .changeAmountOption(option):
-        state.$amountOption.withLock { $0 = option }
-      case let .changeTimeOption(option):
-        state.$timeOption.withLock { $0 = option }
-      case .transfer:
-        state.$transferring.withLock { $0 = true }
+
+      case .binding: break
       }
       return .none
     }
@@ -66,21 +68,21 @@ public struct Dashboard: Sendable {
 
 public extension Dashboard.State {
   var dayAmount: Int {
-    @Dependency(\.calculate) var calculate
+    @Dependency(\.calculate.amount) var amount
     @Dependency(\.date.now) var now
-    return calculate.amount(.day(now), entries.array)
+    return amount(.day(now), entries.array)
   }
 
   var untilHereAmount: Int {
-    @Dependency(\.calculate) var calculate
+    @Dependency(\.calculate.amount) var amount
     @Dependency(\.date.now) var now
     @Dependency(\.calendar) var cal
-    return calculate.amount(.to(cal.endOfDay(for: now)), entries.array)
+    return amount(.to(cal.endOfDay(for: now)), entries.array)
   }
 
   var optionAmount: Int {
-    @Dependency(\.calculate) var calculate
-    return calculate.amount(amountOption.interval, entries.array)
+    @Dependency(\.calculate.amount) var amount
+    return amount(amountOption.interval, entries.array)
   }
 
   var optionTime: TimeInterval {

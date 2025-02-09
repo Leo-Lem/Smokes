@@ -7,13 +7,11 @@ import Format
 import Foundation
 import Types
 
-@Reducer public struct Statistic: Sendable {
+@Reducer public struct Statistic {
   @ObservableState public struct State: Equatable, Sendable {
     @Shared(.fileStorage(FileManager.document_url(
       Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    )))
-    public var entries = Dates()
-
+    ))) public var entries = Dates()
     @Shared(.fileStorage(FileManager.document_url("stats_selection"))) var selection = Interval.alltime
     @Shared(.appStorage("stats_option")) var option = StatisticOption.perday
     @Shared(.appStorage("stats_plotOption")) var plotOption = PlotOption.byyear
@@ -31,41 +29,35 @@ import Types
     }
   }
 
-  public enum Action: Sendable {
-    case option(StatisticOption),
-         plotOption(PlotOption),
-         select(Interval)
+  @CasePathable public enum Action: BindableAction, Sendable {
+    case binding(BindingAction<State>)
   }
 
   public var body: some Reducer<State, Action> {
-    Reduce { state, action in
-      switch action {
-      case let .option(option):
-        state.$option.withLock { $0 = option }
-
-      case let .plotOption(option):
-        state.$plotOption.withLock { $0 = option }
-
-      case let .select(interval):
-        state.$selection.withLock { $0 = interval }
-        return .run { [state] send in
-          if !StatisticOption.enabledCases(interval).contains(state.option) {
-            guard let option = StatisticOption.enabledCases(interval).first else {
-              return assert(false, "no enabled option")
+    BindingReducer()
+      .onChange(of: \.selection) { _, new in
+        Reduce { state, action in
+          if case .binding(\.selection) = action {
+            return .run { [state] _ in
+              if !StatisticOption.enabledCases(new).contains(state.option) {
+                guard let option = StatisticOption.enabledCases(new).first else {
+                  return assert(false, "no enabled option")
+                }
+                state.$option.withLock { $0 = option }
+              }
+              
+              if !PlotOption.enabledCases(new).contains(state.plotOption) {
+                guard let option = PlotOption.enabledCases(new).first else {
+                  return assert(false, "no enabled plot option")
+                }
+                state.$plotOption.withLock { $0 = option }
+              }
             }
-            await send(.option(option))
           }
 
-          if !PlotOption.enabledCases(interval).contains(state.plotOption) {
-            guard let option = PlotOption.enabledCases(interval).first else {
-              return assert(false, "no enabled plot option")
-            }
-            await send(.plotOption(option))
-          }
+          return .none
         }
       }
-      return .none
-    }
   }
 
   public init() {}
@@ -86,12 +78,9 @@ extension Statistic.State {
     return selection == .alltime ? nil : trend(clampedSelection, subdivision, entries.array)
   }
 
-  var optionPlotData: [(String, Int)]? {
+  var optionPlotData: [Interval: Int]? {
     @Dependency(\.calculate.amounts) var amounts
-    @Dependency(\.format.plotInterval) var plotInterval
-    return amounts(clampedSelection, plotOption.subdivision, entries.array)?
-      .sorted { $0.key < $1.key }
-      .map { (plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
+    return amounts(clampedSelection, plotOption.subdivision, entries.array)
   }
 
   var averageTimeBetween: TimeInterval {
@@ -100,4 +89,6 @@ extension Statistic.State {
   }
 
   var showingTrend: Bool { selection != .alltime }
+  var enabledOptions: [StatisticOption] { StatisticOption.enabledCases(selection) }
+  var enabledPlotOptions: [PlotOption] { PlotOption.enabledCases(selection) }
 }
