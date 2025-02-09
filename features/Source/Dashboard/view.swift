@@ -11,7 +11,7 @@ public struct DashboardView: View {
   public var body: some View {
     Grid {
       Widget {
-        DescriptedValueContent(format.amount(store.dayAmount), description: L10n.today)
+        DescriptedValueContent(format.amount(store.dayAmount), description: L10n.Amount.today)
       }
 
       GridRow {
@@ -26,9 +26,9 @@ public struct DashboardView: View {
 
       GridRow {
         Widget {
-          DescriptedValueContent(format.amount(store.untilHereAmount), description: L10n.untilNow)
+          DescriptedValueContent(format.amount(store.untilHereAmount), description: L10n.Amount.Until.now)
             .overlay(alignment: .bottomLeading) {
-              Button { store.send(.transfer) } label: { Label(L10n.openPorter, systemImage: "folder") }
+              Button { store.send(.transfer) } label: { Label(L10n.Transfer.open, systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }

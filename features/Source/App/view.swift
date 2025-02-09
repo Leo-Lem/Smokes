@@ -37,7 +37,7 @@ public struct SmokesView: View {
       .indexViewStyle(.page(backgroundDisplayMode: .always))
       .overlay(alignment: .bottomLeading) {
         FloatingButton(L10n.info, systemImage: "info") { store.send(.infoButtonTapped) }
-          .sheet(isPresented: $store.info.sending(\.info)) { InfoView() }
+          .sheet(item: $store.scope(state: \.info, action: \.info)) { InfoView(store: $0) }
           .padding()
       }
       .overlay(alignment: .bottomTrailing) {

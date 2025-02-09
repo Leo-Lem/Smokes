@@ -1,103 +1,76 @@
-// TODO: clean up the identifiers for swiftgen.
-// MARK: - (TABS)
 "history" = "Bericht";
+
 "dashboard" = " ";
+
 "statistic" = "Statistik";
-"fact" = "Fakt";
-"info" = "Info";
+"statistic.daily" = "pro Tag";
+"statistic.weekly" = "pro Woche";
+"statistic.monthly" = "pro Monat";
+"statistic.yearly" = "pro Jahr";
+"statistic.trend" = "(Trend)";
 
-
-
-// MARK: - (AMOUNTS)
-"TODAY" = "Heute";
-"YESTERDAY" = "Gestern";
-
-"THIS_DAY" = "Dieser Tag";
-"THIS_WEEK" = "Diese Woche";
-"THIS_MONTH" = "Diesen Monat";
-"THIS_YEAR" = "Dieses Jahr";
-
-"UNTIL_NOW" = "Bis hierhin";
-"UNTIL_THIS_DAY" = "Bis hierhin";
-
-
-
-// MARK: - (TIME)
-"SINCE_LAST_SMOKE" = "rauchfrei seit";
-"LONGEST_SMOKE_BREAK" = "längste Pause";
-"AVERAGE_TIME_BETWEEN" = "Zeit zwischen Ziggis";
-
-
-
-// MARK: - (STATS)
-"PER_DAY" = "pro Tag";
-"PER_WEEK" = "pro Woche";
-"PER_MONTH" = "pro Monat";
-"PER_YEAR" = "pro Jahr";
-"(TREND)" = "(Trend)";
-
-
-
-// MARK: - (FILE)
-"EXPORT" = "Exportieren";
-"IMPORT" = "Importieren";
-"OPEN_PORTER" = "Exporter öffnen";
-"PICK_FORMAT" = "Format auswählen";
-"DAILY_FORMAT" = "Täglich";
-"EXACT_FORMAT" = "Exakt";
-"GROUPED_FORMAT" = "Übersicht";
-"SMOKES_FILENAME" = "Smokes-Daten";
-"IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt…";
-"NO_PREVIEW" = "Keine Vorschau";
-"transfer.error" = "Etwas ist schiefgelaufen…";
+"transfer.export" = "Exportieren";
+"transfer.import" = "Importieren";
+"transfer.open" = "Exporter öffnen";
+"transfer.format" = "Format auswählen";
+"transfer.format.daily" = "Täglich";
+"transfer.format.exact" = "Exakt";
+"transfer.format.grouped" = "Übersicht";
+"transfer.filename" = "Smokes-Daten";
+"transfer.nopreview" = "Keine Vorschau";
+"transfer.error" = "Entschuldige, dieses Format ist unbekannt…";
 "transfer.error.format" = "Falsches Format…";
 "transfer.error.url" = "URL Fehler… Bitte versuche es erneut";
 "transfer.error.permission" = "Zugriff verweigert…";
 
+"info" = "Info";
+"info.description" = "Der erste Schritt zum aufhören ist Erkenntnis!";
+"info.links" = "Links";
+"info.links.webpage %@" = "Webseite > %@";
+"info.links.support %@" = "Support > %@";
+"info.links.privacy %@" = "Datenschutz > %@";
+"info.credits" = "Team";
+"info.developers %@" = "Entwickelt von %@";
+"info.designers %@" = "Design von %@";
 
+"fact" = "Fakt";
+"fact.description" = "Smokes' Facts - Rauchende Tatsachen";
+"fact.comingsoon" = "Demnächst Verfügbar";
 
-// MARK: - (INFO)
-"APP_DESCRIPTION" = "Der erste Schritt zum aufhören ist Erkenntnis!";
-"LINKS" = "Links";
-"WEBPAGE %@" = "Webseite > %@";
-"SUPPORT %@" = "Support > %@";
-"PRIVACY_POLICY %@" = "Datenschutz > %@";
-"CREDITS" = "Team";
-"DEVELOPERS %@" = "Entwickelt von %@";
-"DESIGNERS %@" = "Design von %@";
+"amount.today" = "Heute";
+"amount.yesterday" = "Gestern";
+"amount.day" = "Dieser Tag";
+"amount.week" = "Diese Woche";
+"amount.month" = "Diesen Monat";
+"amount.year" = "Dieses Jahr";
+"amount.until.now" = "Bis hierhin";
+"amount.until.here" = "Bis hierhin";
 
+"time.since" = "rauchfrei seit";
+"time.longest" = "längste Pause";
+"time.between" = "Zeit zwischen Ziggis";
 
+"plot.show" = "Graph anzeigen";
+"plot.date" = "Datum";
+"plot.smokes" = "Ziggis";
+"plot.daily" = "nach Tagen";
+"plot.weekly" = "nach Wochen";
+"plot.monthly" = "nach Monaten";
+"plot.yearly" = "nach Jahren";
 
-// MARK: - (PLOTS)
-"SHOW_PLOT" = "Graph anzeigen";
-"DATE" = "Datum";
-"SMOKES" = "Ziggis";
-"BY_DAY" = "nach Tagen";
-"BY_WEEK" = "nach Wochen";
-"BY_MONTH" = "nach Monaten";
-"BY_YEAR" = "nach Jahren";
+"action.modify" = "Bearbeiten";
+"action.dismiss" = "Ausblenden";
+"action.alltime" = "Bis hierhin";
+"action.add" = "Hinzufügen";
+"action.remove" = "Entfernen";
+"action.previous" = "Rückwärts";
+"action.next" = "Vorwärts";
+"action.day.previous" = "Voriger Tag";
+"action.day.next" = "Nächster Tag";
+"action.day.pick" = "Tag auswählen";
+"action.skip" = "überspringen";
+"action.configure" = "Konfigurieren";
 
-
-
-// MARK: - (ACTIONS)
-"MODIFY" = "Bearbeiten";
-"DISMISS" = "Ausblenden";
-"SELECT_ALLTIME" = "Bis hierhin";
-"ADD" = "Hinzufügen";
-"REMOVE" = "Entfernen";
-"PREVIOUS_DAY" = "Voriger Tag";
-"NEXT_DAY" = "Nächster Tag";
-"PREVIOUS" = "Rückwärts";
-"NEXT" = "Vorwärts";
-"PICK_DAY" = "Tag auswählen";
-
-
-
-// MARK: - (OTHERS)
-"LOADING" = "Wird geladen";
-"NO_DESCRIPTION" = "Keine Beschreibung vorhanden";
-"NO_DATA" = "Keine Daten";
-"SMOKES_FACTs" = "Smokes' Facts - Rauchende Tatsachen";
-"SKIP" = "überspringen";
-"CONFIGURE" = "Konfigurieren";
-"COMING_SOON" = "Demnächst Verfügbar";
+"loading" = "Wird geladen";
+"placeholder.description" = "Keine Beschreibung vorhanden";
+"placeholder.data" = "Keine Daten";

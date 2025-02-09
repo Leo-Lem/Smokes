@@ -36,7 +36,7 @@
 "(TREND)" = "(trend)";
 
 
-
+// TODO: update for swiftgen
 // MARK: - (FILE)
 "EXPORT" = "export";
 "IMPORT" = "import";

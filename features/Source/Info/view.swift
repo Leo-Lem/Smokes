@@ -1,13 +1,16 @@
 // Created by Leopold Lemmermann on 26.04.23.
 
 import Bundle
+import ComposableArchitecture
 import Extensions
 import SwiftUI
 
 public struct InfoView: View {
+  public let store: StoreOf<Info>
+
   public var body: some View {
     VStack {
-      Text(bundle.string("BUNDLE_NAME"))
+      Text(string("BUNDLE_NAME"))
         .font(.largeTitle)
         .bold()
         .padding()
@@ -20,18 +23,18 @@ public struct InfoView: View {
 
       Section("LINKS") {
         List {
-          Link(destination: URL(string: bundle.string("MARKETING_WEBPAGE"))!) {
-            Label("WEBPAGE \(bundle.string("MARKETING_WEBPAGE"))", systemImage: "safari")
+          Button { store.send(.openMarketing) } label: {
+            Label("WEBPAGE \(string("MARKETING_WEBPAGE"))", systemImage: "safari")
           }
           .listRowBackground(Color.clear)
 
-          Link(destination: URL(string: bundle.string("SUPPORT_WEBPAGE"))!) {
-            Label("SUPPORT \(bundle.string("SUPPORT_WEBPAGE"))", systemImage: "questionmark.circle")
+          Button { store.send(.openSupport) } label: {
+            Label("SUPPORT \(string("SUPPORT_WEBPAGE"))", systemImage: "questionmark.circle")
           }
           .listRowBackground(Color.clear)
 
-          Link(destination: URL(string: bundle.string("PRIVACY_POLICY"))!) {
-            Label("PRIVACY_POLICY \(bundle.string("PRIVACY_POLICY"))", systemImage: "person.badge.key")
+          Button { store.send(.openPrivacy) } label: {
+            Label("PRIVACY_POLICY \(string("PRIVACY_POLICY"))", systemImage: "person.badge.key")
           }
           .listRowBackground(Color.clear)
         }
@@ -45,8 +48,8 @@ public struct InfoView: View {
 
       Section("CREDITS") {
         VStack {
-          Text("DEVELOPERS \(bundle.string("CREATOR"))")
-          Text("DESIGNERS \(bundle.string("CREATOR"))")
+          Text("DEVELOPERS \(string("CREATOR"))")
+          Text("DESIGNERS \(string("CREATOR"))")
         }
         .font(.caption)
       }
@@ -57,12 +60,12 @@ public struct InfoView: View {
     .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
   }
 
-  @Dependency(\.bundle) var bundle
+  @Dependency(\.bundle.string) var string
 
-  public init() {}
+  public init(store: StoreOf<Info>) { self.store = store }
 }
 
 #Preview {
-  InfoView()
+  InfoView(store: Store(initialState: Info.State(), reducer: Info.init))
     .previewInSheet()
 }

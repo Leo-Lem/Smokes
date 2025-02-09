@@ -3,7 +3,7 @@ output_dir: ${DERIVED_SOURCES_DIR}
 
 strings:
   inputs:
-    - locale/en.lproj/Localizable.strings
+    - locale/de.lproj/Localizable.strings
     - locale/en.lproj/Localizable.stringsdict
   outputs:
     templateName: structured-swift5

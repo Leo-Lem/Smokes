@@ -7,41 +7,55 @@ import Extensions
 import Foundation
 import Types
 
-@Reducer
-public struct History: Sendable {
-  @ObservableState
-  public struct State: Equatable {
+@Reducer public struct History {
+  @ObservableState public struct State: Equatable {
     @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle).wrappedValue.string("ENTRIES_FILENAME")
+      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
     )))
     public var entries = Dates()
 
     @Shared(.appStorage("history_option")) var option = HistoryOption.week
-    var selection = Dependency(\.date.now).wrappedValue - 86400
-    var editing = false
 
-    public init() {}
+    var selection: Date
+    var editing: Bool
+
+    public init(
+      entries: Dates = Dates(),
+      option: HistoryOption = .week,
+      selection: Date = Dependency(\.date.now).wrappedValue - 86400,
+      editing: Bool = false
+    ) {
+      self._entries = Shared(value: entries)
+      self._option = Shared(value: option)
+      self.selection = selection
+      self.editing = editing
+    }
   }
+  
+  public enum Action: ViewAction, Sendable {
+    case add
+    case remove
 
-  public enum Action: Sendable {
-    case startEditing,
-         stopEditing,
-         add,
-         remove,
-         changeOption(HistoryOption),
-         changeSelection(Date)
+    case view(View)
+
+    @CasePathable public enum View: BindableAction, Sendable {
+      case binding(BindingAction<State>)
+
+      case addButtonTapped
+      case removeButtonTapped
+    }
   }
 
   public var body: some Reducer<State, Action> {
+    BindingReducer(action: \.view)
+
     Reduce { state, action in
       switch action {
-      case .startEditing: state.editing = true
-      case .stopEditing: state.editing = false
-
       case .add:
         state.$entries.withLock {
           $0.insert(state.selection, at: state.entries.firstIndex { state.selection < $0 } ?? state.entries.endIndex)
         }
+
       case .remove:
         if
           let nearest = state.entries
@@ -52,8 +66,16 @@ public struct History: Sendable {
             }
         }
 
-      case let .changeOption(option): state.$option.withLock { $0 = option }
-      case let .changeSelection(selection): state.selection = selection
+      case let .view(action):
+        switch action {
+        case .addButtonTapped:
+          return .send(.add)
+
+        case .removeButtonTapped:
+          return .send(.remove)
+
+        case .binding: break
+        }
       }
 
       return .none
@@ -69,27 +91,27 @@ public extension History.State {
   var interval: Interval { option.interval(selection) }
   var subdivision: Subdivision { option.subdivision }
 
-  var dayAmount: Int {
-    @Dependency(\.calculate) var calculate
-    return calculate.amount(.day(selection), entries.array)
-  }
-  var untilHereAmount: Int? {
-    @Dependency(\.calculate) var calculate
-    @Dependency(\.calendar) var cal
-    return calculate.amount(.to(cal.endOfDay(for: selection)), entries.array)
-  }
-  var optionAmount: Int {
-    @Dependency(\.calculate) var calculate
-    return calculate.amount(interval, entries.array)
-  }
-  var plotData: [Interval: Int]? {
-    @Dependency(\.calculate) var calculate
-    return calculate.amounts(interval, subdivision, entries.array)
-  }
-
   var bounds: Interval {
     @Dependency(\.calendar) var cal
     @Dependency(\.date.now) var now
     return Interval.to(cal.endOfDay(for: now))
+  }
+
+  var dayAmount: Int {
+    @Dependency(\.calculate.amount) var amount
+    return amount(.day(selection), entries.array)
+  }
+  var untilHereAmount: Int? {
+    @Dependency(\.calculate.amount) var amount
+    @Dependency(\.calendar) var cal
+    return amount(.to(cal.endOfDay(for: selection)), entries.array)
+  }
+  var optionAmount: Int {
+    @Dependency(\.calculate.amount) var amount
+    return amount(interval, entries.array)
+  }
+  var plotData: [Interval: Int]? {
+    @Dependency(\.calculate.amounts) var amounts
+    return amounts(interval, subdivision, entries.array)
   }
 }

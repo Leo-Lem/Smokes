@@ -51,10 +51,10 @@ public struct Fact {
         }
 
       case .fetch:
-        return .run { [state, session, bundle] _ in
+        return .run { [state, session, bundled] _ in
           do {
-            let url = URL(string: bundle.string("FACTS_URL"))!
-              .appendingPathComponent(Locale.language_code.identifier)
+            let url = URL(string: bundled("FACTS_URL"))!
+              .appendingPathComponent(Locale.current.identifier)
             let (data, response) = try await session.data(from: url)
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
 
@@ -72,7 +72,7 @@ public struct Fact {
   @Dependency(\.urlSession) var session
   @Dependency(\.dismiss) var dismiss
   @Dependency(\.continuousClock) var clock
-  @Dependency(\.bundle) var bundle
+  @Dependency(\.bundle.string) var bundled
 
   public init() {}
 }

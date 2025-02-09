@@ -5,6 +5,7 @@ import Components
 import ComposableArchitecture
 import Extensions
 import SwiftUI
+import enum Generated.L10n
 
 public struct StatisticView: View {
   @ComposableArchitecture.Bindable var store: StoreOf<Statistic>
@@ -54,20 +55,66 @@ public struct StatisticView: View {
   public init(store: StoreOf<Statistic>) { self.store = store }
 }
 
-extension Statistic.State {
-  fileprivate var optionAverageFormatted: Text? {
+fileprivate extension Statistic.State {
+  var optionAverageFormatted: Text? {
     @Dependency(\.format) var format
     return format.average(optionAverage)
   }
 
-  fileprivate var averageTimeBetweenFormatted: Text {
+  var averageTimeBetweenFormatted: Text {
     @Dependency(\.format) var format
     return format.time(averageTimeBetween)
   }
 
-  fileprivate var optionTrendFormatted: Text? {
+  var optionTrendFormatted: Text? {
     @Dependency(\.format) var format
     return format.trend(optionTrend)
+  }
+}
+
+extension StatisticOption: RawRepresentable, ConfigurableWidgetOption {
+  public static let allCases = [Self.perday, .perweek, .permonth, .peryear]
+
+  public init?(rawValue: String) {
+    switch rawValue {
+    case L10n.Statistic.daily: self = .perday
+    case L10n.Statistic.weekly: self = .perweek
+    case L10n.Statistic.monthly: self = .permonth
+    case L10n.Statistic.yearly: self = .peryear
+    default: return nil
+    }
+  }
+
+  public var rawValue: String {
+    switch self {
+    case .perday: L10n.Statistic.daily
+    case .perweek: L10n.Statistic.weekly
+    case .permonth: L10n.Statistic.monthly
+    case .peryear: L10n.Statistic.yearly
+    }
+  }
+}
+
+extension PlotOption: RawRepresentable, ConfigurableWidgetOption {
+  public static let allCases = [Self.byday, .byweek, .bymonth, .byyear]
+
+  public init?(rawValue: String) {
+    switch rawValue {
+    case L10n.Plot.daily: self = .byday
+    case L10n.Plot.weekly: self = .byweek
+    case L10n.Plot.monthly: self = .bymonth
+    case L10n.Plot.yearly: self = .byyear
+    default: return nil
+    }
+  }
+
+  public var rawValue: String {
+    switch self {
+    case .byday: L10n.Plot.daily
+    case .byweek: L10n.Plot.weekly
+    case .bymonth: L10n.Plot.monthly
+    case .byyear: L10n.Plot.yearly
+    }
   }
 }
 

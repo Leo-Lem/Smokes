@@ -4,8 +4,8 @@ import Components
 import Dependencies
 import Types
 
-public enum PlotOption: String, ConfigurableWidgetOption, Sendable {
-  case byday = "BY_DAY", byweek = "BY_WEEK", bymonth = "BY_MONTH", byyear = "BY_YEAR"
+public enum PlotOption: Sendable {
+  case byday, byweek, bymonth, byyear
 
   static func enabledCases(_ interval: Interval) -> [Self] {
     switch interval {
@@ -26,7 +26,7 @@ public enum PlotOption: String, ConfigurableWidgetOption, Sendable {
   }
 
   func clamp(_ interval: Interval) -> Interval {
-    @Dependency(\.calendar) var cal: Calendar
+    @Dependency(\.calendar) var cal
 
     if interval.count(by: .month) ?? 0 > 24, let end = interval.end {
       return .fromTo(.init(start: cal.date(byAdding: .year, value: -2, to: end)!, end: end))

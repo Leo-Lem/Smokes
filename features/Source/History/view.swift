@@ -7,6 +7,7 @@ import Extensions
 import Format
 import SwiftUI
 
+@ViewAction(for: History.self)
 public struct HistoryView: View {
   @ComposableArchitecture.Bindable public var store: StoreOf<History>
 
@@ -22,7 +23,7 @@ public struct HistoryView: View {
       }
 
       GridRow {
-        ConfigurableWidget(selection: $store.option.sending(\.changeOption)) { option in
+        ConfigurableWidget(selection: $store.option) { option in
           DescriptedValueContent(format.amount(store.optionAmount), description: option.description)
         }
 
@@ -36,7 +37,7 @@ public struct HistoryView: View {
           DescriptedValueContent(format.amount(store.dayAmount), description: "THIS_DAY")
             .overlay(alignment: .topTrailing) {
               if !store.editing {
-                Button { store.send(.startEditing, animation: .default) } label: {
+                Button { store.editing = true } label: {
                   Label("MODIFY", systemImage: "square.and.pencil")
                     .font(.title2)
                     .accessibilityIdentifier("start-modifying-button")
@@ -46,13 +47,13 @@ public struct HistoryView: View {
 
           if store.editing {
             IncrementMenu(decrementDisabled: store.dayAmount < 1) {
-              store.send(.add)
+              send(.addButtonTapped)
             } remove: {
-              store.send(.remove)
+              send(.removeButtonTapped)
             }
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
-              Button { store.send(.stopEditing, animation: .default) } label: {
+              Button { store.editing = false } label: {
                 Label("DISMISS", systemImage: "xmark.circle")
                   .font(.title2)
                   .accessibilityIdentifier("stop-modifying-button")
@@ -64,7 +65,7 @@ public struct HistoryView: View {
       .labelStyle(.iconOnly)
 
       Widget {
-        DayPicker(selection: $store.selection.sending(\.changeSelection), bounds: store.bounds)
+        DayPicker(selection: $store.selection, bounds: store.bounds)
           .labelStyle(.iconOnly)
           .buttonStyle(.borderedProminent)
       }

@@ -3,8 +3,8 @@
 import Components
 import Types
 
-public enum StatisticOption: String, ConfigurableWidgetOption, Sendable {
-  case perday = "PER_DAY", perweek = "PER_WEEK", permonth = "PER_MONTH", peryear = "PER_YEAR"
+public enum StatisticOption: Sendable {
+  case perday, perweek, permonth, peryear
 
   static func enabledCases(_ interval: Interval) -> [Self] {
     switch interval {

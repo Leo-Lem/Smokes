@@ -4,6 +4,7 @@ import ComposableArchitecture
 import Dashboard
 import Fact
 import History
+import Info
 import Statistic
 import Transfer
 
@@ -18,7 +19,7 @@ public struct Smokes: Sendable {
     var statistic = Statistic.State()
 
     @Presents var fact: Fact.State?
-    var info: Bool = false // TODO: make optional state with reducer
+    @Presents var info: Info.State?
     @Presents var transfer: Transfer.State?
 
     @Shared var transferring: Bool
@@ -40,8 +41,8 @@ public struct Smokes: Sendable {
          history(History.Action),
          statistic(Statistic.Action),
          fact(PresentationAction<Fact.Action>),
+         info(PresentationAction<Info.Action>),
          transfer(PresentationAction<Transfer.Action>),
-         info(Bool),
          infoButtonTapped,
          factButtonTapped,
          selectTab(State.Tab)
@@ -64,15 +65,14 @@ public struct Smokes: Sendable {
       case .factButtonTapped:
         state.fact = Fact.State()
       case .infoButtonTapped:
-        return .send(.info(true))
-      case let .info(info):
-        state.info = info
+        state.info = Info.State()
       default: break
       }
 
       return .none
     }
     .ifLet(\.$fact, action: \.fact) { Fact() }
+    .ifLet(\.$info, action: \.info) { Info() }
     .ifLet(\.$transfer, action: \.transfer) { Transfer() }
   }
 
