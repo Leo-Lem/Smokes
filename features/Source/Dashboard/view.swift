@@ -3,6 +3,7 @@
 import Components
 import ComposableArchitecture
 import Format
+import Generated
 
 public struct DashboardView: View {
   @ComposableArchitecture.Bindable var store: StoreOf<Dashboard>
@@ -10,7 +11,7 @@ public struct DashboardView: View {
   public var body: some View {
     Grid {
       Widget {
-        DescriptedValueContent(format.amount(store.dayAmount), description: "TODAY")
+        DescriptedValueContent(format.amount(store.dayAmount), description: L10n.today)
       }
 
       GridRow {
@@ -25,9 +26,9 @@ public struct DashboardView: View {
 
       GridRow {
         Widget {
-          DescriptedValueContent(format.amount(store.untilHereAmount), description: "UNTIL_NOW")
+          DescriptedValueContent(format.amount(store.untilHereAmount), description: L10n.untilNow)
             .overlay(alignment: .bottomLeading) {
-              Button { store.send(.transfer) } label: { Label("OPEN_PORTER", systemImage: "folder") }
+              Button { store.send(.transfer) } label: { Label(L10n.openPorter, systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }

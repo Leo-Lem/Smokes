@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 76;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,23 +35,9 @@
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6E9132752D52A56100E25F16 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				/Localized/locale/Localizable.strings,
-				/Localized/locale/Localizable.stringsdict,
-				assets/Assets.xcassets,
-				assets/LaunchScreen.storyboard,
-			);
-			target = 6E48374428EC991100B67CA4 /* Smokes */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6ED374A22D4F8565008586CC /* config */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = config; sourceTree = "<group>"; };
-		6ED374AF2D4F8565008586CC /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E9132752D52A56100E25F16 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
-		6ED374D12D4F8565008586CC /* tests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = tests; sourceTree = "<group>"; };
+		6ED374D12D4F8565008586CC /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
+		6EF802132D58A12900069BB1 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +65,8 @@
 			children = (
 				6ED3746F2D4F8535008586CC /* README.md */,
 				6E91322E2D523C3700E25F16 /* Smokes.swift */,
-				6ED374D12D4F8565008586CC /* tests */,
-				6ED374A22D4F8565008586CC /* config */,
-				6ED374AF2D4F8565008586CC /* resources */,
+				6EF802132D58A12900069BB1 /* resource */,
+				6ED374D12D4F8565008586CC /* test */,
 				6E6C05292D4F930400CAFDBC /* features */,
 				6ED3746E2D4F8535008586CC /* library */,
 				6ED3746B2D4F8535008586CC /* extensions */,
@@ -164,6 +149,7 @@
 				};
 			};
 			buildConfigurationList = 6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "smokes" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -177,7 +163,6 @@
 				6E136CD62D4F7FCD00800130 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				6E136CE02D4F82B200800130 /* XCLocalSwiftPackageReference "../extensions" */,
 			);
-			preferredProjectObjectVersion = 56;
 			productRefGroup = 6E48374628EC991100B67CA4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -305,11 +290,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resources/previews;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = config/Info.plist;
+				INFOPLIST_FILE = resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -481,11 +466,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resources/previews;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = config/Info.plist;
+				INFOPLIST_FILE = resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -519,11 +504,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resources/previews;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = config/Info.plist;
+				INFOPLIST_FILE = resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Smokes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

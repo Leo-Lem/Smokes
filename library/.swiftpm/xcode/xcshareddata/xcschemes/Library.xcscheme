@@ -15,6 +15,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Bundle"
+               BuildableName = "Bundle"
+               BlueprintName = "Bundle"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Format"
+               BuildableName = "Format"
+               BlueprintName = "Format"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "Types"
                BuildableName = "Types"
                BlueprintName = "Types"
@@ -57,34 +85,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Format"
-               BuildableName = "Format"
-               BlueprintName = "Format"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Bundle"
-               BuildableName = "Bundle"
-               BlueprintName = "Bundle"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "Code"
                BuildableName = "Code"
                BlueprintName = "Code"
@@ -100,8 +100,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Test/Library.xctestplan"
-            default = "YES">
+            reference = "container:Test/Library.xctestplan">
          </TestPlanReference>
       </TestPlans>
    </TestAction>
@@ -125,9 +124,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Types"
-            BuildableName = "Types"
-            BlueprintName = "Types"
+            BlueprintIdentifier = "Bundle"
+            BuildableName = "Bundle"
+            BlueprintName = "Bundle"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

@@ -9,56 +9,14 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+
   },
   "testTargets" : [
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "TransferTests",
-        "name" : "TransferTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "HistoryTests",
-        "name" : "HistoryTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "StatisticTests",
-        "name" : "StatisticTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "InfoTests",
-        "name" : "InfoTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "FactTests",
-        "name" : "FactTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "DashboardTests",
-        "name" : "DashboardTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AppTests",
-        "name" : "AppTests"
+        "identifier" : "FeaturesTests",
+        "name" : "FeaturesTests"
       }
     }
   ],

@@ -29,20 +29,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Dashboard"
-               BuildableName = "Dashboard"
-               BlueprintName = "Dashboard"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "History"
                BuildableName = "History"
                BlueprintName = "History"
@@ -57,9 +43,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Statistic"
-               BuildableName = "Statistic"
-               BlueprintName = "Statistic"
+               BlueprintIdentifier = "Transfer"
+               BuildableName = "Transfer"
+               BlueprintName = "Transfer"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,9 +85,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Transfer"
-               BuildableName = "Transfer"
-               BlueprintName = "Transfer"
+               BlueprintIdentifier = "Statistic"
+               BuildableName = "Statistic"
+               BlueprintName = "Statistic"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Dashboard"
+               BuildableName = "Dashboard"
+               BlueprintName = "Dashboard"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>

@@ -7,7 +7,7 @@ import Testing
 
 @testable import Fact
 
-struct Test {
+struct FactTest {
   let clock = TestClock()
 
   @Test func testCountdown() async throws {
@@ -22,6 +22,8 @@ struct Test {
       await clock.advance(by: .milliseconds(50))
       await store.receive(\.countdown) { $0.countdown -= 50 }
     }
+
+    await store.receive(\.dismiss)
   }
 }
 

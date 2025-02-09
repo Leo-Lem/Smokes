@@ -4,6 +4,7 @@ import Components
 import ComposableArchitecture
 import Dashboard
 import Fact
+import Generated
 import History
 import Info
 import Statistic
@@ -16,18 +17,18 @@ public struct SmokesView: View {
   public var body: some View {
     if #available(iOS 18.0, *) {
       TabView(selection: $store.tab.sending(\.selectTab)) {
-        Tab("HISTORY", systemImage: "calendar", value: Smokes.State.Tab.history) {
+        Tab(L10n.history, systemImage: "calendar", value: Smokes.State.Tab.history) {
           HistoryView(store: store.scope(state: \.history, action: \.history))
             .padding(.bottom, 50)
         }
 
-        Tab("DASHBOARD", systemImage: "square", value: Smokes.State.Tab.dashboard) {
+        Tab(L10n.dashboard, systemImage: "square", value: Smokes.State.Tab.dashboard) {
           DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
             .padding(.bottom, 50)
             .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
         }
 
-        Tab("STATS", systemImage: "percent", value: Smokes.State.Tab.statistic) {
+        Tab(L10n.statistic, systemImage: "percent", value: Smokes.State.Tab.statistic) {
           StatisticView(store: store.scope(state: \.statistic, action: \.statistic))
             .padding(.bottom, 50)
         }
@@ -35,12 +36,12 @@ public struct SmokesView: View {
       .tabViewStyle(.page(indexDisplayMode: .always))
       .indexViewStyle(.page(backgroundDisplayMode: .always))
       .overlay(alignment: .bottomLeading) {
-        FloatingButton("INFO", systemImage: "info") { store.send(.infoButtonTapped) }
+        FloatingButton(L10n.info, systemImage: "info") { store.send(.infoButtonTapped) }
           .sheet(isPresented: $store.info.sending(\.info)) { InfoView() }
           .padding()
       }
       .overlay(alignment: .bottomTrailing) {
-        FloatingButton("FACT", systemImage: "lightbulb") { store.send(.factButtonTapped) }
+        FloatingButton(L10n.fact, systemImage: "lightbulb") { store.send(.factButtonTapped) }
           .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) { FactView(store: $0) }
           .padding()
       }

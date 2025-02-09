@@ -1,9 +1,10 @@
+// TODO: clean up the identifiers for swiftgen.
 // MARK: - (TABS)
-"HISTORY" = "Bericht";
-"DASHBOARD" = " ";
-"STATISTIC" = "Statistik";
-"FACT" = "Fakt";
-"INFO" = "Info";
+"history" = "Bericht";
+"dashboard" = " ";
+"statistic" = "Statistik";
+"fact" = "Fakt";
+"info" = "Info";
 
 
 
@@ -48,9 +49,10 @@
 "SMOKES_FILENAME" = "Smokes-Daten";
 "IMPORT_FAILED" = "Entschuldige, dieses Format ist unbekannt…";
 "NO_PREVIEW" = "Keine Vorschau";
-"INVALID_FORMAT_IMPORTERROR" = "Falsches Format…";
-"INVALID_URL_IMPORTERROR" = "URL Fehler… Bitte versuche es erneut";
-"MISSING_PERMISSION_IMPORTERROR" = "Zugriff verweigert…";
+"transfer.error" = "Etwas ist schiefgelaufen…";
+"transfer.error.format" = "Falsches Format…";
+"transfer.error.url" = "URL Fehler… Bitte versuche es erneut";
+"transfer.error.permission" = "Zugriff verweigert…";
 
 
 

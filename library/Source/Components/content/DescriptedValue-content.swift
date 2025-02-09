@@ -41,6 +41,11 @@ public struct DescriptedValueContent: View {
   public init(_ value: Text?, description: Text) {
     (self.value, self.description) = (value, description)
   }
+
+  public init(_ value: Text?, description: String) {
+    self.value = value
+    self.description = Text(description)
+  }
 }
 
 #Preview {
