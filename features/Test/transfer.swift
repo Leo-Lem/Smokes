@@ -74,13 +74,13 @@ struct TransferTest {
     let no_permission_url = URL(string: "not.a.file.url")!
     await store.send(.view(.import(Result<URL, Error>.success(no_permission_url))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Zugriff verweigert…") }
+      $0.alert = AlertState { TextState("Permission denied…") }
     }
 
     let other_error_url = URL.documentsDirectory
     await store.send(.view(.import(Result<URL, Error>.success(other_error_url))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Entschuldige, dieses Format ist unbekannt…") }
+      $0.alert = AlertState { TextState("Something went wrong…") }
     }
   }
 
@@ -119,7 +119,7 @@ struct TransferTest {
     
     await store.send(.view(.export(Result<URL, Error>.failure(NSError(domain: "", code: 0)))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Entschuldige, dieses Format ist unbekannt…") }
+      $0.alert = AlertState { TextState("Something went wrong…") }
     }
   }
 

@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 31.03.23.
 
 import SwiftUI
+import enum Generated.L10n
 
 public protocol ConfigurableWidgetOption: Hashable, CaseIterable {
   associatedtype Label: View
@@ -28,7 +29,7 @@ public struct ConfigurableWidget<Option: ConfigurableWidgetOption, Content: View
           Button { self.selection = selection } label: { selection.label }
         }
       } label: {
-        Label("CONFIGURE", systemImage: "arrowtriangle.down.circle.fill")
+        Label(L10n.Action.configure, systemImage: "arrowtriangle.down.circle.fill")
           .imageScale(.large)
       }
       .padding(5)

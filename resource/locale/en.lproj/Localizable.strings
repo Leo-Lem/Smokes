@@ -1,102 +1,76 @@
-// MARK: - (TABS)
-"HISTORY" = "history";
-"DASHBOARD" = "dashboard";
-"STATISTIC" = "stats";
-"FACT" = "fact";
-"INFO" = "about";
+"history" = "History";
 
+"dashboard" = "Dashboard";
 
+"statistic" = "Statistics";
+"statistic.daily" = "per day";
+"statistic.weekly" = "per week";
+"statistic.monthly" = "per month";
+"statistic.yearly" = "per year";
+"statistic.trend" = "(trend)";
 
-// MARK: - (AMOUNTS)
-"TODAY" = "today";
-"YESTERDAY" = "yesterday";
-
-"THIS_DAY" = "this day";
-"THIS_WEEK" = "this week";
-"THIS_MONTH" = "this month";
-"THIS_YEAR" = "this year";
-
-"UNTIL_NOW" = "until now";
-"UNTIL_THIS_DAY" = "until this day";
-
-
-
-// MARK: - (TIME)
-"SINCE_LAST_SMOKE" = "smokefree for";
-"LONGEST_SMOKE_BREAK" = "longest break";
-"AVERAGE_TIME_BETWEEN" = "time between smokes";
-
-
-
-// MARK: - (STATS)
-"PER_DAY" = "per day";
-"PER_WEEK" = "per week";
-"PER_MONTH" = "per month";
-"PER_YEAR" = "per year";
-"(TREND)" = "(trend)";
-
-
-// TODO: update for swiftgen
-// MARK: - (FILE)
-"EXPORT" = "export";
-"IMPORT" = "import";
-"OPEN_PORTER" = "open exporter";
-"PICK_FORMAT" = "pick format";
-"DAILY_FORMAT" = "daily";
-"EXACT_FORMAT" = "exact";
-"GROUPED_FORMAT" = "grouped";
-"SMOKES_FILENAME" = "Smokes-Data";
-"IMPORT_FAILED" = "Sorry, this format is unknown...";
-"NO_PREVIEW" = "No Preview";
+"transfer.export" = "export";
+"transfer.import" = "import";
+"transfer.open" = "open exporter";
+"transfer.format" = "pick format";
+"transfer.format.daily" = "daily";
+"transfer.format.exact" = "exact";
+"transfer.format.grouped" = "grouped";
+"transfer.filename" = "smokes";
+"transfer.nopreview" = "No Preview";
 "transfer.error" = "Something went wrong…";
 "transfer.error.format" = "Invalid format…";
 "transfer.error.url" = "URL error… Please try again";
-"transfer.error.permission" = "Missing permission";
+"transfer.error.permission" = "Permission denied…";
 
+"info" = "info";
+"info.description" = "We're here to help you get an overview of your smoking habit, and help you to overcome it!";
+"info.links" = "Links";
+"info.links.webpage %@" = "Webpage > %@";
+"info.links.support %@" = "Support > %@";
+"info.links.privacy %@" = "Privacy Policy > %@";
+"info.credits" = "Credits";
+"info.developers %@" = "Developed by %@";
+"info.designers %@" = "Designed by %@";
 
+"fact" = "fact";
+"fact.description" = "Smokes' Facts";
+"fact.comingsoon" = "Coming soon";
 
-// MARK: - (INFO)
-"APP_DESCRIPTION" = "We're here to help you get an overview of your smoking habit, and help you to overcome it!";
-"LINKS" = "Links";
-"WEBPAGE %@" = "Webpage > %@";
-"SUPPORT %@" = "Support > %@";
-"PRIVACY_POLICY %@" = "Privacy Policy > %@";
-"CREDITS" = "Credits";
-"DEVELOPERS %@" = "Developed by %@";
-"DESIGNERS %@" = "Designed by %@";
+"amount.today" = "today";
+"amount.yesterday" = "yesterday";
+"amount.day" = "this day";
+"amount.week" = "this week";
+"amount.month" = "this month";
+"amount.year" = "this year";
+"amount.until.now" = "until now";
+"amount.until.here" = "until this day";
 
+"time.since" = "smokefree for";
+"time.longest" = "longest break";
+"time.between" = "time between smokes";
 
+"plot.show" = "show plot";
+"plot.date" = "date";
+"plot.smokes" = "smokes";
+"plot.daily" = "by day";
+"plot.weekly" = "by week";
+"plot.monthly" = "by month";
+"plot.yearly" = "by year";
 
-// MARK: - (PLOTS)
-"SHOW_PLOT" = "show plot";
-"DATE" = "date";
-"SMOKES" = "smokes";
-"BY_DAY" = "by day";
-"BY_WEEK" = "by week";
-"BY_MONTH" = "by month";
-"BY_YEAR" = "by year";
+"action.modify" = "modify";
+"action.dismiss" = "dismiss";
+"action.alltime" = "alltime";
+"action.add" = "add";
+"action.remove" = "remove";
+"action.previous" = "previous";
+"action.next" = "next";
+"action.day.previous" = "previous day";
+"action.day.next" = "next day";
+"action.day.pick" = "pick day";
+"action.skip" = "skip";
+"action.configure" = "configure";
 
-
-
-// MARK: - (ACTIONS)
-"ADD" = "add";
-"REMOVE" = "remove";
-"MODIFY" = "modify";
-"DISMISS" = "dismiss";
-"SELECT_ALLTIME" = "alltime";
-"PREVIOUS_DAY" = "previous day";
-"NEXT_DAY" = "next day";
-"PREVIOUS" = "previous";
-"NEXT" = "next";
-"PICK_DAY" = "pick day";
-
-
-
-// MARK: - (OTHERS)
-"LOADING" = "loading";
-"NO_DESCRIPTION" = "no description";
-"NO_DATA" = "No data";
-"SMOKES_FACTs" = "Smokes' Facts";
-"SKIP" = "skip";
-"CONFIGURE" = "Configure";
-"COMING_SOON" = "Coming Soon";
+"loading" = "loading";
+"placeholder.description" = "No description";
+"placeholder.data" = "No data";

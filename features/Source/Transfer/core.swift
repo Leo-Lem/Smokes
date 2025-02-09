@@ -13,9 +13,7 @@ public struct Transfer {
   @ObservableState public struct State: Equatable, Sendable {
     @Shared(.fileStorage(FileManager.document_url(
       Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    )))
-    public var entries = Dates()
-
+    ))) var entries = Dates()
     @Shared(.appStorage("transfer_encoding")) var encoding = Encoding.daily
 
     @Presents var alert: AlertState<Action.Alert>?
@@ -149,8 +147,6 @@ public struct Transfer {
 }
 
 extension Transfer.State {
-  var filename: String { String(localized: "SMOKES_FILENAME") }
-
   var loadingExport: Bool { file == nil && exporting }
   var loadingImport: Bool { file == nil && importing }
 }

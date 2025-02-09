@@ -14,9 +14,6 @@
   "testTargets" : [
     {
       "parallelizable" : false,
-      "skippedTests" : [
-        "Performance"
-      ],
       "target" : {
         "containerPath" : "container:",
         "identifier" : "FeaturesTest",

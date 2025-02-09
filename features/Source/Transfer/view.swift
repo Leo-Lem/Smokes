@@ -5,6 +5,7 @@ import Components
 import ComposableArchitecture
 import Extensions
 import SwiftUI
+import enum Generated.L10n
 
 @ViewAction(for: Transfer.self)
 public struct TransferView: View {
@@ -28,7 +29,9 @@ public struct TransferView: View {
 
       Widget {
         HStack {
-          Button { send(.importButtonTapped) } label: { Label("IMPORT", systemImage: "square.and.arrow.down") }
+          Button { send(.importButtonTapped) } label: {
+            Label(L10n.Transfer.import, systemImage: "square.and.arrow.down")
+          }
             .accessibilityIdentifier("import-button")
             .fileImporter(isPresented: $store.importing, allowedContentTypes: [.json]) { send(.import($0)) }
             .if(store.loadingImport) { $0
@@ -38,16 +41,18 @@ public struct TransferView: View {
 
           Picker("", selection: $store.encoding) {
             ForEach(Encoding.allCases, id: \.self) { encoding in
-              Text(LocalizedStringKey(encoding.rawValue))
+              Text(encoding.title)
             }
           }
           .pickerStyle(.segmented)
           .accessibilityElement()
-          .accessibilityLabel("PICK_FORMAT")
-          .accessibilityValue(LocalizedStringKey(store.encoding.rawValue))
+          .accessibilityLabel(L10n.Transfer.format)
+          .accessibilityValue(store.encoding.title)
           .accessibilityIdentifier("format-picker")
 
-          Button { send(.exportButtonTapped) } label: { Label("EXPORT", systemImage: "square.and.arrow.up") }
+          Button { send(.exportButtonTapped) } label: {
+            Label(L10n.Transfer.export, systemImage: "square.and.arrow.up")
+          }
             .accessibilityIdentifier("export-button")
             .fileExporter(
               isPresented: $store.exporting, document: store.file, contentType: .json, defaultFilename: store.filename
@@ -72,21 +77,16 @@ public struct TransferView: View {
   public init(store: StoreOf<Transfer>) { self.store = store }
 }
 
-extension Encoding {
-  public init?(rawValue: String) {
-    switch rawValue {
-    case "DAILY_FORMAT": self = .daily
-    case "GROUPED_FORMAT": self = .grouped
-    case "EXACT_FORMAT": self = .exact
-    default: return nil
-    }
-  }
+fileprivate extension Transfer.State {
+  var filename: String { L10n.Transfer.filename }
+}
 
-  public var rawValue: String {
+fileprivate extension Encoding {
+  var title: String {
     switch self {
-    case .daily: return "DAILY_FORMAT"
-    case .grouped: return "GROUPED_FORMAT"
-    case .exact: return "EXACT_FORMAT"
+    case .daily: return L10n.Transfer.Format.daily
+    case .grouped: return L10n.Transfer.Format.grouped
+    case .exact: return L10n.Transfer.Format.exact
     }
   }
 }

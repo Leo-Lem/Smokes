@@ -1,7 +1,8 @@
 // Created by Leopold Lemmermann on 23.02.23.
 
-@testable import SmokesDependencies
 import XCTest
+
+@testable import Code
 
 @MainActor
 final class EncodingTests: XCTestCase {

@@ -6,7 +6,7 @@ import Testing
 
 @testable import Dashboard
 
-@MainActor struct Test {
+@MainActor struct DashboardTest {
   @Test
   func adding() async throws {
     let now = Date.now

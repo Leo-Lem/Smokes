@@ -1,7 +1,8 @@
 // Created by Leopold Lemmermann on 02.04.23.
 
-@testable import SmokesModels
 import XCTest
+
+@testable import Types
 
 final class IntervalTests: XCTestCase {
   private let cal = {
@@ -109,7 +110,9 @@ final class IntervalTests: XCTestCase {
   }
   
   func test_givenContainsInterval_whenContains_thenReturnsTrue() throws {
-    for interval in intervals { XCTAssertTrue(interval.contains(.fromTo(.init(start: date, duration: 0))), "\(interval)") }
+    for interval in intervals {
+      XCTAssertTrue(interval.contains(.fromTo(.init(start: date, duration: 0))), "\(interval)")
+    }
   }
   
   func test_givenDoesNotContainInterval_whenContains_thenReturnsFalse() throws {

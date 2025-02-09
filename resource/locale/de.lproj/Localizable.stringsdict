@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld SMOKES_PLURAL_VALUE</key>
+	<key>smokes.value %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@VARIABLE@</string>
@@ -20,7 +20,7 @@
 			<string>%lld</string>
 		</dict>
 	</dict>
-	<key>%lld SMOKES_PLURAL_LABEL</key>
+	<key>smokes.label %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@VARIABLE@</string>
@@ -38,7 +38,7 @@
 			<string>Ziggis</string>
 		</dict>
 	</dict>
-	<key>%lf SMOKES_PLURAL_VALUE</key>
+	<key>smokes.value %lf</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@VARIABLE@</string>
@@ -54,7 +54,7 @@
 			<string>%.2f</string>
 		</dict>
 	</dict>
-	<key>%lf SMOKES_PLURAL_LABEL</key>
+	<key>smokes.label %lf</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@VARIABLE@</string>

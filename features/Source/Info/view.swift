@@ -4,6 +4,7 @@ import Bundle
 import ComposableArchitecture
 import Extensions
 import SwiftUI
+import enum Generated.L10n
 
 public struct InfoView: View {
   public let store: StoreOf<Info>
@@ -15,26 +16,26 @@ public struct InfoView: View {
         .bold()
         .padding()
 
-      Text("APP_DESCRIPTION")
+      Text(L10n.Info.description)
         .multilineTextAlignment(.center)
 
     Spacer()
       Divider()
 
-      Section("LINKS") {
+      Section(L10n.Info.links) {
         List {
           Button { store.send(.openMarketing) } label: {
-            Label("WEBPAGE \(string("MARKETING_WEBPAGE"))", systemImage: "safari")
+            Label(L10n.Info.Links.webpage(string("MARKETING_WEBPAGE")), systemImage: "safari")
           }
           .listRowBackground(Color.clear)
 
           Button { store.send(.openSupport) } label: {
-            Label("SUPPORT \(string("SUPPORT_WEBPAGE"))", systemImage: "questionmark.circle")
+            Label(L10n.Info.Links.support(string("SUPPORT_WEBPAGE")), systemImage: "questionmark.circle")
           }
           .listRowBackground(Color.clear)
 
           Button { store.send(.openPrivacy) } label: {
-            Label("PRIVACY_POLICY \(string("PRIVACY_POLICY"))", systemImage: "person.badge.key")
+            Label(L10n.Info.Links.privacy(string("PRIVACY_POLICY")), systemImage: "person.badge.key")
           }
           .listRowBackground(Color.clear)
         }
@@ -46,10 +47,10 @@ public struct InfoView: View {
 
       Divider()
 
-      Section("CREDITS") {
+      Section(L10n.Info.credits) {
         VStack {
-          Text("DEVELOPERS \(string("CREATOR"))")
-          Text("DESIGNERS \(string("CREATOR"))")
+          Text(L10n.Info.developers(string("CREATOR")))
+          Text(L10n.Info.designers(string("CREATOR")))
         }
         .font(.caption)
       }

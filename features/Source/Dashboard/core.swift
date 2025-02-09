@@ -6,6 +6,7 @@ import ComposableArchitecture
 import Extensions
 import Foundation
 import Types
+import enum Generated.L10n
 
 @Reducer public struct Dashboard: Sendable {
   @ObservableState public struct State: Equatable {

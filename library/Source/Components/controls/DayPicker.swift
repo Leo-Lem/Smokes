@@ -3,6 +3,7 @@
 import Dependencies
 import SwiftUI
 import Types
+import enum Generated.L10n
 
 public struct DayPicker: View {
   @Binding var selection: Date
@@ -10,7 +11,7 @@ public struct DayPicker: View {
 
   public var body: some View {
     HStack {
-      Button { selection = previousDay } label: { Label("PREVIOUS_DAY", systemImage: "chevron.left") }
+      Button { selection = previousDay } label: { Label(L10n.Action.Day.previous, systemImage: "chevron.left") }
         .disabled(bounds.start.flatMap { previousDay <= $0 } ?? false)
         .accessibilityIdentifier("previous-day-button")
 
@@ -19,13 +20,13 @@ public struct DayPicker: View {
       DatePicker("", selection: $selection, in: (bounds.start ?? .distantPast) ... (bounds.end ?? .distantFuture))
         .labelsHidden()
         .accessibilityElement()
-        .accessibilityLabel("PICK_DAY")
+        .accessibilityLabel(L10n.Action.Day.pick)
         .accessibilityValue(selection.formatted(date: .numeric, time: .omitted))
         .accessibilityIdentifier("day-picker")
 
       Spacer()
 
-      Button { selection = nextDay } label: { Label("NEXT_DAY", systemImage: "chevron.right") }
+      Button { selection = nextDay } label: { Label(L10n.Action.Day.next, systemImage: "chevron.right") }
         .disabled(bounds.end.flatMap { nextDay >= $0 } ?? false)
         .accessibilityIdentifier("next-day-button")
     }

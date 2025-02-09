@@ -9,10 +9,16 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+
   },
   "testTargets" : [
-
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "LibraryTest",
+        "name" : "LibraryTest"
+      }
+    }
   ],
   "version" : 1
 }

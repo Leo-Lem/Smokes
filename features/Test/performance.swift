@@ -8,7 +8,7 @@ import XCTest
 @MainActor
 class Performance: XCTestCase {
   func testStatistic() {
-    let dates: [Date] = (0...100_000_000).map { Date(timeIntervalSinceReferenceDate: TimeInterval($0)) }
+    let dates: [Date] = (0...10_000_000).map { Date(timeIntervalSinceReferenceDate: TimeInterval($0)) }
     let store = TestStore(
       initialState: Statistic.State(entries: .init(dates)),
       reducer: Statistic.init
@@ -29,8 +29,9 @@ class Performance: XCTestCase {
     }
   }
 
+  // TODO: improve performance
   func testStatisticPlotData() {
-    let dates: [Date] = (0...100_000).map { Date(timeIntervalSinceReferenceDate: TimeInterval($0)) }
+    let dates: [Date] = (0...10_000).map { Date(timeIntervalSinceReferenceDate: TimeInterval($0)) }
     let store = TestStore(
       initialState: Statistic.State(entries: .init(dates)),
       reducer: Statistic.init

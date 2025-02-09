@@ -23,13 +23,13 @@ public struct HistoryView: View {
         }
 
         Widget {
-          DescriptedValueContent(store.untilHereAmountFormatted, description: "UNTIL_THIS_DAY")
+          DescriptedValueContent(store.untilHereAmountFormatted, description: L10n.Amount.Until.here)
         }
       }
 
       Widget {
         HStack {
-          DescriptedValueContent(store.dayAmountFormatted, description: "THIS_DAY")
+          DescriptedValueContent(store.dayAmountFormatted, description: L10n.Amount.day)
             .overlay(alignment: .topTrailing) {
               if !store.editing {
                 Button { store.editing = true } label: {
@@ -49,7 +49,7 @@ public struct HistoryView: View {
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
               Button { store.editing = false } label: {
-                Label("DISMISS", systemImage: "xmark.circle")
+                Label(L10n.Action.dismiss, systemImage: "xmark.circle")
                   .font(.title2)
                   .accessibilityIdentifier("stop-modifying-button")
               }

@@ -1,8 +1,10 @@
 // Created by Leopold Lemmermann on 28.04.23.
 
-@testable import SmokesDependencies
-import SmokesModels
 import XCTest
+
+@testable import Calculate
+
+// TODO: integrate with dependencies
 
 @MainActor
 final class CalculateTest: XCTestCase {

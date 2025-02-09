@@ -16,7 +16,7 @@
 "transfer.format.daily" = "Täglich";
 "transfer.format.exact" = "Exakt";
 "transfer.format.grouped" = "Übersicht";
-"transfer.filename" = "Smokes-Daten";
+"transfer.filename" = "Smokes";
 "transfer.nopreview" = "Keine Vorschau";
 "transfer.error" = "Entschuldige, dieses Format ist unbekannt…";
 "transfer.error.format" = "Falsches Format…";

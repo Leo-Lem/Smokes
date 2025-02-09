@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 22.02.23.
 
 import SwiftUI
+import enum Generated.L10n
 
 public struct IncrementMenu: View {
   public let decrementDisabled: Bool
@@ -12,7 +13,7 @@ public struct IncrementMenu: View {
 
       ZStack(alignment: .topLeading) {
         Button(action: add) {
-          Label("ADD", systemImage: "plus")
+          Label(L10n.Action.add, systemImage: "plus")
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .font(.largeTitle)
@@ -20,7 +21,7 @@ public struct IncrementMenu: View {
         }
 
         Button(action: remove) {
-          Label("REMOVE", systemImage: "minus")
+          Label(L10n.Action.remove, systemImage: "minus")
             .frame(maxWidth: size / 4, maxHeight: size / 4)
             .background(.ultraThickMaterial)
             .cornerRadius(5)

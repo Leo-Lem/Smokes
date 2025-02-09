@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E136CD82D4F7FCD00800130 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E136CD72D4F7FCD00800130 /* ComposableArchitecture */; };
 		6E5FFE2B2D5122310009B117 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5FFE2A2D5122310009B117 /* App */; };
 		6E91322F2D523C3700E25F16 /* Smokes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91322E2D523C3700E25F16 /* Smokes.swift */; };
 /* End PBXBuildFile section */
@@ -35,8 +34,18 @@
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6E4F71CC2D593C0B008EBF3D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ui.swift,
+			);
+			target = 6ED91E1F293FB7BB00728E2B /* SmokesUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6ED374D12D4F8565008586CC /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
+		6ED374D12D4F8565008586CC /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E4F71CC2D593C0B008EBF3D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
 		6EF802132D58A12900069BB1 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -46,7 +55,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E5FFE2B2D5122310009B117 /* App in Frameworks */,
-				6E136CD82D4F7FCD00800130 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +73,8 @@
 			children = (
 				6ED3746F2D4F8535008586CC /* README.md */,
 				6E91322E2D523C3700E25F16 /* Smokes.swift */,
-				6EF802132D58A12900069BB1 /* resource */,
 				6ED374D12D4F8565008586CC /* test */,
+				6EF802132D58A12900069BB1 /* resource */,
 				6E6C05292D4F930400CAFDBC /* features */,
 				6ED3746E2D4F8535008586CC /* library */,
 				6ED3746B2D4F8535008586CC /* extensions */,
@@ -104,7 +112,6 @@
 			);
 			name = Smokes;
 			packageProductDependencies = (
-				6E136CD72D4F7FCD00800130 /* ComposableArchitecture */,
 				6E5FFE2A2D5122310009B117 /* App */,
 			);
 			productName = xxxxx;
@@ -160,7 +167,6 @@
 			mainGroup = 6E48373C28EC991100B67CA4;
 			packageReferences = (
 				6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				6E136CD62D4F7FCD00800130 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				6E136CE02D4F82B200800130 /* XCLocalSwiftPackageReference "../extensions" */,
 			);
 			productRefGroup = 6E48374628EC991100B67CA4 /* Products */;
@@ -624,14 +630,6 @@
 				minimumVersion = 0.1.0;
 			};
 		};
-		6E136CD62D4F7FCD00800130 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -639,11 +637,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-		6E136CD72D4F7FCD00800130 /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6E136CD62D4F7FCD00800130 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
 		};
 		6E5FFE2A2D5122310009B117 /* App */ = {
 			isa = XCSwiftPackageProductDependency;

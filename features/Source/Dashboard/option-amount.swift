@@ -4,11 +4,12 @@ import Components
 import struct Dependencies.Dependency
 import enum Types.Interval
 
+// TODO: move to L10n
 public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
-  case yesterday = "YESTERDAY",
-       week = "THIS_WEEK",
-       month = "THIS_MONTH",
-       year = "THIS_YEAR"
+  case yesterday = "amount.yesterday",
+       week = "amount.week",
+       month = "amount.month",
+       year = "amount.year"
 
   var interval: Interval {
     @Dependency(\.calendar) var cal
