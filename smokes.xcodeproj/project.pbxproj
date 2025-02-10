@@ -190,7 +190,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				6E136CE02D4F82B200800130 /* XCLocalSwiftPackageReference "../extensions" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6E48374628EC991100B67CA4 /* Products */;
@@ -640,13 +639,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		6E136CE02D4F82B200800130 /* XCLocalSwiftPackageReference "../extensions" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../extensions;
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {

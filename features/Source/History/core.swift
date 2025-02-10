@@ -9,10 +9,8 @@ import Types
 
 @Reducer public struct History {
   @ObservableState public struct State: Equatable {
-    @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    ))) public var entries = Dates()
-    @Shared(.appStorage("history_option")) var option = HistoryOption.week
+    @Shared public var entries: Dates
+    @Shared var option: HistoryOption
 
     var selection: Date
     var editing: Bool
@@ -23,8 +21,8 @@ import Types
       selection: Date = Dependency(\.date.now).wrappedValue - 86400,
       editing: Bool = false
     ) {
-      self._entries = Shared(value: entries)
-      self._option = Shared(value: option)
+      _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
+      _option = Shared(wrappedValue: option, .appStorage("history_option"))
       self.selection = selection
       self.editing = editing
     }

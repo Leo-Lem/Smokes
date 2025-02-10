@@ -36,13 +36,13 @@ public struct FactView: View {
           .cornerRadius(5)
 
         Button {
-          store.send(.dismiss)
+          store.send(.dismiss, animation: .default)
         } label: { Label("skip", systemImage: "chevron.forward.to.line") }
           .buttonStyle(.borderedProminent)
           .labelStyle(.iconOnly)
       }
     }
-    .onAppear { store.send(.appear) }
+    .onAppear { store.send(.appear, animation: .default) }
   }
 
   public init(store: StoreOf<Fact>) { self.store = store }

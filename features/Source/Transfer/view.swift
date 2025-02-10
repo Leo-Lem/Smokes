@@ -23,22 +23,23 @@ public struct TransferView: View {
         }
       }
       .alert($store.scope(state: \.alert, action: \.alert))
+      .animation(.default, value: store.preview)
 
       Spacer()
 
       Widget {
         HStack {
-          Button { send(.importButtonTapped) } label: {
-            Label(String(localized: "import"), systemImage: "square.and.arrow.down")
+          Button { send(.importButtonTapped, animation: .default) } label: {
+            Label("import", systemImage: "square.and.arrow.down")
           }
-            .accessibilityIdentifier("import-button")
-            .fileImporter(isPresented: $store.importing, allowedContentTypes: [.json]) { send(.import($0)) }
-            .if(store.loadingImport) { $0
-              .hidden()
-              .overlay(content: ProgressView.init)
-            }
+          .accessibilityIdentifier("import-button")
+          .fileImporter(isPresented: $store.importing, allowedContentTypes: [.json]) { send(.import($0)) }
+          .if(store.loadingImport) { $0
+            .hidden()
+            .overlay(content: ProgressView.init)
+          }
 
-          Picker(String(localized: "pick format"), selection: $store.encoding) {
+          Picker("pick format", selection: $store.encoding) {
             ForEach(Encoding.allCases, id: \.self) { encoding in
               Text(encoding.title)
             }
@@ -48,18 +49,17 @@ public struct TransferView: View {
           .accessibilityValue(store.encoding.title)
           .accessibilityIdentifier("format-picker")
 
-          Button { send(.exportButtonTapped) } label: {
-            Label(String(localized: "export"), systemImage: "square.and.arrow.up")
+          Button { send(.exportButtonTapped, animation: .default) } label: {
+            Label("export", systemImage: "square.and.arrow.up")
           }
-            .accessibilityIdentifier("export-button")
-            .fileExporter(
-              isPresented: $store.exporting, document: store.file, contentType: .json, defaultFilename: "smokes"
-            ) { send(.export($0))}
-            .if(store.loadingExport) { $0
-              .hidden()
-              .overlay(content: ProgressView.init)
-            }
-
+          .accessibilityIdentifier("export-button")
+          .fileExporter(
+            isPresented: $store.exporting, document: store.file, contentType: .json, defaultFilename: "smokes"
+          ) { send(.export($0))}
+          .if(store.loadingExport) { $0
+            .hidden()
+            .overlay(content: ProgressView.init)
+          }
         }
       }
       .imageScale(.large)
@@ -68,8 +68,8 @@ public struct TransferView: View {
     .padding(5)
     .labelStyle(.iconOnly)
     .presentationDetents([.medium])
-    .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
-    .onAppear { send(.appear) }
+    .presentationBackground(.ultraThinMaterial)
+    .onAppear { send(.appear, animation: .default) }
   }
 
   public init(store: StoreOf<Transfer>) { self.store = store }

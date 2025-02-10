@@ -10,9 +10,9 @@ import Types
 @Reducer public struct Dashboard: Sendable {
   @ObservableState public struct State: Equatable {
     @Shared public var transferring: Bool
-    @Shared(.fileStorage(FileManager.document_url("entries"))) public var entries = Dates()
-    @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
-    @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
+    @Shared public var entries: Dates
+    @Shared var amountOption: AmountOption
+    @Shared var timeOption: TimeOption
 
     public init(
       transferring: Shared<Bool> = Shared(value: false),
@@ -21,9 +21,9 @@ import Types
       timeOption: TimeOption = .sinceLast
     ) {
       _transferring = transferring
-      _entries = Shared(value: entries)
-      _amountOption = Shared(value: amountOption)
-      _timeOption = Shared(value: timeOption)
+      _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
+      _amountOption = Shared(wrappedValue: amountOption, .appStorage("dashboard_amountOption"))
+      _timeOption = Shared(wrappedValue: timeOption, .appStorage("dashbaord_timeOption"))
     }
   }
 
@@ -83,6 +83,7 @@ public extension Dashboard.State {
     return amount(amountOption.interval, entries.array)
   }
 
+  // TODO: refresh
   var optionTime: TimeInterval {
     @Dependency(\.calculate) var calculate
     @Dependency(\.date.now) var now

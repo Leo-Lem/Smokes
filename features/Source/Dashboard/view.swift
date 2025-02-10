@@ -35,13 +35,15 @@ public struct DashboardView: View {
 
         Widget {
           IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
-            store.send(.addButtonTapped)
+            store.send(.addButtonTapped, animation: .default)
           } remove: {
-            store.send(.removeButtonTapped)
+            store.send(.removeButtonTapped, animation: .default)
           }
         }
       }
     }
+    .animation(.default, values: store.optionAmount)
+    .animation(.default, values: store.optionTime)
   }
 
   public init(store: StoreOf<Dashboard>) { self.store = store }
@@ -70,9 +72,6 @@ fileprivate extension Dashboard.State {
 }
 
 #Preview {
-  DashboardView(store: Store(
-    initialState: Dashboard.State(transferring: Shared(value: false)),
-    reducer: Dashboard.init)
-  )
-  .padding()
+  DashboardView(store: Store(initialState: Dashboard.State(), reducer: Dashboard.init))
+    .padding()
 }

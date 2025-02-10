@@ -10,7 +10,7 @@ import Statistic
 import Transfer
 
 public struct SmokesView: View {
-  @Bindable var store: StoreOf<Smokes> = Store(initialState: Smokes.State(), reducer: Smokes.init)
+  @Bindable public var store: StoreOf<Smokes>
 
   public var body: some View {
     TabView(selection: $store.tab) {
@@ -39,14 +39,20 @@ public struct SmokesView: View {
     }
     .overlay(alignment: .bottomTrailing) {
       FloatingButton("Fact", systemImage: "lightbulb") { store.send(.factButtonTapped) }
-        .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) { FactView(store: $0) }
+        .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) {
+          FactView(store: $0)
+            .padding()
+            .presentationBackground(.ultraThinMaterial)
+        }
         .padding()
     }
     .padding(5)
     .background { Background() }
   }
 
-  public init() {}
+  public init(store: StoreOf<Smokes> = Store(initialState: Smokes.State(), reducer: Smokes.init)) {
+    self.store = store
+  }
 }
 
 #Preview {

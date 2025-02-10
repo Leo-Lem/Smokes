@@ -13,9 +13,4 @@ struct Main: App {
 }
 
 // TODO: add tips
-// TODO: reactivate animations
-// TODO: update the custom tab view: https://stackoverflow.com/questions/75320164/swiftui-custom-tabview-with-paging-style
-
-#Preview {
-  SmokesView()
-}
+// TODO: update custom tab view: https://stackoverflow.com/questions/75320164/swiftui-custom-tabview-with-paging-style

@@ -41,9 +41,9 @@ public struct HistoryView: View {
 
           if store.editing {
             IncrementMenu(decrementDisabled: store.dayAmount < 1) {
-              store.send(.addButtonTapped)
+              store.send(.addButtonTapped, animation: .default)
             } remove: {
-              store.send(.removeButtonTapped)
+              store.send(.removeButtonTapped, animation: .default)
             }
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
@@ -65,6 +65,9 @@ public struct HistoryView: View {
       }
       .gridCellColumns(2)
     }
+    .animation(.default, values: store.editing)
+    .animation(.default, values: store.selection)
+    .animation(.default, values: store.option)
   }
 
   public init(store: StoreOf<History>) { self.store = store }

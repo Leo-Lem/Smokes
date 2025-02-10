@@ -44,6 +44,9 @@ public struct StatisticView: View {
           .buttonStyle(.borderedProminent)
       }
     }
+    .animation(.default, values: store.selection)
+    .animation(.default, values: store.option)
+    .animation(.default, values: store.plotOption)
   }
 
   public init(store: StoreOf<Statistic>) { self.store = store }

@@ -10,20 +10,31 @@ import Types
 @Reducer
 public struct Transfer {
   @ObservableState public struct State: Equatable, Sendable {
-    @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    ))) var entries = Dates()
-    @Shared(.appStorage("transfer_encoding")) var encoding = Encoding.daily
-
+    @Shared var entries: Dates
+    @Shared var encoding: Encoding
     @Presents var alert: AlertState<Action.Alert>?
-
     var importing = false
     var exporting = false
-
     var preview: String?
     var file: DataFile?
 
-    public init() {}
+    public init(
+      entries: Dates = Dates(),
+      encoding: Encoding = Encoding.daily,
+      alert: AlertState<Action.Alert>? = nil,
+      importing: Bool = false,
+      exporting: Bool = false,
+      preview: String? = nil,
+      file: DataFile? = nil
+    ) {
+      _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
+      _encoding = Shared(wrappedValue: encoding, .appStorage("transfer_encoding"))
+      self.alert = alert
+      self.importing = importing
+      self.exporting = exporting
+      self.preview = preview
+      self.file = file
+    }
   }
 
   public enum Action: Sendable, ViewAction {
@@ -125,6 +136,9 @@ public struct Transfer {
           } catch {
             return .send(.failure(String(localized: "Something went wrong…")))
           }
+
+        case .binding(\.encoding):
+          return .send(.select(state.encoding))
 
         case .binding: break
         }

@@ -9,12 +9,10 @@ import Types
 
 @Reducer public struct Statistic {
   @ObservableState public struct State: Equatable, Sendable {
-    @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    ))) public var entries = Dates()
-    @Shared(.fileStorage(FileManager.document_url("stats_selection"))) var selection = Interval.alltime
-    @Shared(.appStorage("stats_option")) var option = StatisticOption.perday
-    @Shared(.appStorage("stats_plotOption")) var plotOption = PlotOption.byyear
+    @Shared var entries: Dates
+    @Shared var selection: Interval
+    @Shared var option: StatisticOption
+    @Shared var plotOption: PlotOption
 
     public init(
       entries: Dates = Dates(),
@@ -22,10 +20,10 @@ import Types
       option: StatisticOption = .perday,
       plotOption: PlotOption = .byyear
     ) {
-      self._entries = Shared(value: entries)
-      self._selection = Shared(value: selection)
-      self._option = Shared(value: option)
-      self._plotOption = Shared(value: plotOption)
+      _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
+      _selection = Shared(wrappedValue: selection, .fileStorage(.documentsDirectory.appending(path: "stats_selection")))
+      _option = Shared(wrappedValue: option, .appStorage("stats_option"))
+      _plotOption = Shared(wrappedValue: plotOption, .appStorage("stats_plotOption"))
     }
   }
 

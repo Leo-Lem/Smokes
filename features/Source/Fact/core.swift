@@ -9,12 +9,13 @@ import Foundation
 public struct Fact {
   @ObservableState
   public struct State: Equatable, Sendable {
-    @Shared(.appStorage("smokes_fact")) var fact = "Coming soon…"
-    var countdown = 5000
+    @Shared var fact: String
+    var progress = 0.0
 
-    var progress: Double { 1 - Double(countdown) / 5000 }
-
-    public init() {}
+    public init(fact: String = "Coming soon…", progress: Double = 0.0) {
+      _fact = Shared(wrappedValue: fact, .appStorage("smokes_fact"))
+      self.progress = progress
+    }
   }
 
   public enum Action: Sendable {
@@ -43,9 +44,9 @@ public struct Fact {
         }
 
       case .countdown:
-        state.countdown -= 50
+        state.progress += 0.01
         return .run { [state, clock] send in
-          if state.countdown < 0 { await send(.dismiss) }
+          guard state.progress <= 0.99 else { return await send(.dismiss) }
           try? await clock.sleep(for: .milliseconds(50))
           await send(.countdown)
         }
