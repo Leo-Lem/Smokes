@@ -66,6 +66,8 @@ struct StatisticTest {
       deps.bundle.string = { $0 }
     }
 
+    store.state.$selection.withLock { $0 = interval }
+
     #expect(interval == .alltime || store.state.showingTrend)
   }
 }

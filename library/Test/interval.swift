@@ -4,6 +4,7 @@ import XCTest
 
 @testable import Types
 
+// TODO: update to use swift testing
 final class IntervalTests: XCTestCase {
   private let cal = {
     var cal = Calendar.current

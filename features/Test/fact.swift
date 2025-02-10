@@ -33,11 +33,11 @@ struct FactTest {
       deps.dismiss = .init { #expect(true) }
     }
 
-    await store.send(.countdown) { $0.countdown -= 50 }
+    await store.send(.countdown) { $0.progress += 0.01 }
 
-    while store.state.countdown >= 0 {
+    while store.state.progress <= 0.99 {
       await clock.advance(by: .milliseconds(50))
-      await store.receive(\.countdown) { $0.countdown -= 50 }
+      await store.receive(\.countdown) { $0.progress += 0.01 }
     }
 
     await store.receive(\.dismiss)
