@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E5FFE2B2D5122310009B117 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5FFE2A2D5122310009B117 /* App */; };
+		6E558D882D5A6D61001069E2 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6E558D872D5A6D61001069E2 /* App */; };
 		6E91322F2D523C3700E25F16 /* Smokes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91322E2D523C3700E25F16 /* Smokes.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,18 +35,41 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6E4F71CC2D593C0B008EBF3D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		6E4F71CC2D593C0B008EBF3D /* Exceptions for "test" folder in "SmokesUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ui.swift,
 			);
 			target = 6ED91E1F293FB7BB00728E2B /* SmokesUITests */;
 		};
+		6E558D852D5A6BBE001069E2 /* Exceptions for "resource" folder in "Smokes" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				LaunchScreen.storyboard,
+				Localizable.xcstrings,
+			);
+			target = 6E48374428EC991100B67CA4 /* Smokes */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6ED374D12D4F8565008586CC /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E4F71CC2D593C0B008EBF3D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
-		6EF802132D58A12900069BB1 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
+		6ED374D12D4F8565008586CC /* test */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6E4F71CC2D593C0B008EBF3D /* Exceptions for "test" folder in "SmokesUITests" target */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+		6EF802132D58A12900069BB1 /* resource */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6E558D852D5A6BBE001069E2 /* Exceptions for "resource" folder in "Smokes" target */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E5FFE2B2D5122310009B117 /* App in Frameworks */,
+				6E558D882D5A6D61001069E2 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +135,7 @@
 			);
 			name = Smokes;
 			packageProductDependencies = (
-				6E5FFE2A2D5122310009B117 /* App */,
+				6E558D872D5A6D61001069E2 /* App */,
 			);
 			productName = xxxxx;
 			productReference = 6E48374528EC991100B67CA4 /* Smokes.app */;
@@ -156,7 +179,6 @@
 				};
 			};
 			buildConfigurationList = 6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "smokes" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -165,10 +187,12 @@
 				de,
 			);
 			mainGroup = 6E48373C28EC991100B67CA4;
+			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				6E136CE02D4F82B200800130 /* XCLocalSwiftPackageReference "../extensions" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 6E48374628EC991100B67CA4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -285,6 +309,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Test;
@@ -307,18 +332,18 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = LeoLem.Smokes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
@@ -405,6 +430,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -460,6 +486,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -483,18 +510,18 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = LeoLem.Smokes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -521,18 +548,18 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = LeoLem.Smokes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -638,7 +665,7 @@
 			package = 6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
-		6E5FFE2A2D5122310009B117 /* App */ = {
+		6E558D872D5A6D61001069E2 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
 		};

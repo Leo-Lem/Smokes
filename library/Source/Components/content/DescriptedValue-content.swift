@@ -1,7 +1,6 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
 import SwiftUI
-import enum Generated.L10n
 
 public struct DescriptedValueContent: View {
   let value: Text?, description: Text
@@ -31,7 +30,7 @@ public struct DescriptedValueContent: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .accessibilityElement()
     .accessibilityLabel(description)
-    .accessibilityValue(value ?? Text(L10n.loading))
+    .accessibilityValue(value ?? Text("Loading", comment: "Accessibility label for loading state."))
     .accessibilityAddTraits(.isStaticText)
   }
 

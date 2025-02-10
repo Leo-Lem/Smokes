@@ -2,7 +2,6 @@
 
 import Charts
 import SwiftUI
-import enum Generated.L10n
 
 public struct AmountsChart: View {
   let amounts: [(label: String, amount: Int)]?
@@ -11,13 +10,14 @@ public struct AmountsChart: View {
   public var body: some View {
     DescriptedChartContent(data: amounts, description: description) { amounts in
       Chart(amounts, id: \.label) { label, amount in
-        BarMark(x: .value(L10n.Plot.date, label), y: .value(L10n.Plot.smokes, amount))
+        BarMark(x: .value(String(localized: "date", comment: "Axis label for the date."), label),
+                y: .value(String(localized: "smokes", comment: "Axis label for the amount of smokes."), amount))
       }
       .minimumScaleFactor(0.5)
-      .chartYAxisLabel(LocalizedStringKey(L10n.Plot.smokes))
+      .chartYAxisLabel(String(localized: "smokes", comment: "Axis label for the amount of smokes."))
       .overlay {
         if isEmpty {
-          Text(L10n.Placeholder.data)
+          Text("no data", comment: "Placeholder when there is no data.")
             .font(.largeTitle)
             .bold()
             .rotationEffect(.degrees(-10))

@@ -5,10 +5,9 @@ import Components
 import ComposableArchitecture
 import Extensions
 import SwiftUI
-import enum Generated.L10n
 
 public struct StatisticView: View {
-  @ComposableArchitecture.Bindable public var store: StoreOf<Statistic>
+  @Bindable public var store: StoreOf<Statistic>
 
   public var body: some View {
     Grid {
@@ -23,7 +22,8 @@ public struct StatisticView: View {
 
       GridRow {
         Widget {
-          DescriptedValueContent(store.averageTimeBetweenFormatted, description: "AVERAGE_TIME_BETWEEN")
+          DescriptedValueContent(store.averageTimeBetweenFormatted,
+                                 description: String(localized: "time between smokes"))
         }
         .gridCellColumns(store.showingTrend ? 1 : 2)
 
@@ -31,7 +31,7 @@ public struct StatisticView: View {
           Widget {
             DescriptedValueContent(
               store.optionTrendFormatted,
-              description: Text(store.option.description) + Text(" ") + Text("(TREND)")
+              description: Text(store.option.description) + Text(" ") + Text("(trend)")
             )
           }
           .transition(.move(edge: .trailing))
@@ -78,20 +78,20 @@ extension StatisticOption: RawRepresentable, ConfigurableWidgetOption {
 
   public init?(rawValue: String) {
     switch rawValue {
-    case L10n.Statistic.daily: self = .perday
-    case L10n.Statistic.weekly: self = .perweek
-    case L10n.Statistic.monthly: self = .permonth
-    case L10n.Statistic.yearly: self = .peryear
+    case String(localized: "per day"): self = .perday
+    case String(localized: "per week"): self = .perweek
+    case String(localized: "per month"): self = .permonth
+    case String(localized: "per year"): self = .peryear
     default: return nil
     }
   }
 
   public var rawValue: String {
     switch self {
-    case .perday: L10n.Statistic.daily
-    case .perweek: L10n.Statistic.weekly
-    case .permonth: L10n.Statistic.monthly
-    case .peryear: L10n.Statistic.yearly
+    case .perday: String(localized: "per day")
+    case .perweek: String(localized: "per week")
+    case .permonth: String(localized: "per month")
+    case .peryear: String(localized: "per year")
     }
   }
 }
@@ -101,20 +101,20 @@ extension PlotOption: RawRepresentable, ConfigurableWidgetOption {
 
   public init?(rawValue: String) {
     switch rawValue {
-    case L10n.Plot.daily: self = .byday
-    case L10n.Plot.weekly: self = .byweek
-    case L10n.Plot.monthly: self = .bymonth
-    case L10n.Plot.yearly: self = .byyear
+    case String(localized: "by day"): self = .byday
+    case String(localized: "by week"): self = .byweek
+    case String(localized: "by month"): self = .bymonth
+    case String(localized: "by year"): self = .byyear
     default: return nil
     }
   }
 
   public var rawValue: String {
     switch self {
-    case .byday: L10n.Plot.daily
-    case .byweek: L10n.Plot.weekly
-    case .bymonth: L10n.Plot.monthly
-    case .byyear: L10n.Plot.yearly
+    case .byday: String(localized: "by day")
+    case .byweek: String(localized: "by week")
+    case .bymonth: String(localized: "by month")
+    case .byyear: String(localized: "by year")
     }
   }
 }

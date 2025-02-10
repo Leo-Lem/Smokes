@@ -3,7 +3,6 @@
 import Dependencies
 import SwiftUI
 import Types
-import enum Generated.L10n
 
 public struct DayPicker: View {
   @Binding var selection: Date
@@ -11,22 +10,30 @@ public struct DayPicker: View {
 
   public var body: some View {
     HStack {
-      Button { selection = previousDay } label: { Label(L10n.Action.Day.previous, systemImage: "chevron.left") }
+      Button { selection = previousDay } label: {
+        Label(String(localized: "previous day", comment: "Button label for going back one day."),
+              systemImage: "chevron.left")
+      }
         .disabled(bounds.start.flatMap { previousDay <= $0 } ?? false)
         .accessibilityIdentifier("previous-day-button")
 
       Spacer()
 
-      DatePicker("", selection: $selection, in: (bounds.start ?? .distantPast) ... (bounds.end ?? .distantFuture))
+      DatePicker(
+        String(localized: "pick", comment: "Label for selecting a date."),
+        selection: $selection, in: (bounds.start ?? .distantPast) ... (bounds.end ?? .distantFuture)
+      )
         .labelsHidden()
         .accessibilityElement()
-        .accessibilityLabel(L10n.Action.Day.pick)
         .accessibilityValue(selection.formatted(date: .numeric, time: .omitted))
         .accessibilityIdentifier("day-picker")
 
       Spacer()
 
-      Button { selection = nextDay } label: { Label(L10n.Action.Day.next, systemImage: "chevron.right") }
+      Button { selection = nextDay } label: {
+        Label(String(localized: "next day", comment: "Button label for going forward one day."),
+              systemImage: "chevron.right")
+      }
         .disabled(bounds.end.flatMap { nextDay >= $0 } ?? false)
         .accessibilityIdentifier("next-day-button")
     }

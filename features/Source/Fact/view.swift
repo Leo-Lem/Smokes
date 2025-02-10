@@ -3,7 +3,6 @@
 import ComposableArchitecture
 import Extensions
 import SwiftUI
-import enum Generated.L10n
 
 public struct FactView: View {
   let store: StoreOf<Fact>
@@ -20,7 +19,7 @@ public struct FactView: View {
           .frame(maxWidth: 100, maxHeight: 2)
           .cornerRadius(2)
 
-        Text(L10n.Fact.description)
+        Text("Smokes' Facts")
           .font(.subheadline)
       }
       .frame(maxWidth: .infinity)
@@ -38,7 +37,7 @@ public struct FactView: View {
 
         Button {
           store.send(.dismiss)
-        } label: { Label(L10n.Action.skip, systemImage: "chevron.forward.to.line") }
+        } label: { Label("skip", systemImage: "chevron.forward.to.line") }
           .buttonStyle(.borderedProminent)
           .labelStyle(.iconOnly)
       }

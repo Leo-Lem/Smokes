@@ -3,15 +3,14 @@
 import Components
 import ComposableArchitecture
 import Format
-import Generated
 
 public struct DashboardView: View {
-  @ComposableArchitecture.Bindable public var store: StoreOf<Dashboard>
+  @Bindable public var store: StoreOf<Dashboard>
 
   public var body: some View {
     Grid {
       Widget {
-        DescriptedValueContent(store.dayAmountFormatted, description: L10n.Amount.today)
+        DescriptedValueContent(store.dayAmountFormatted, description: String(localized: "today"))
       }
 
       GridRow {
@@ -26,9 +25,9 @@ public struct DashboardView: View {
 
       GridRow {
         Widget {
-          DescriptedValueContent(store.untilHereAmountFormatted, description: L10n.Amount.Until.now)
+          DescriptedValueContent(store.untilHereAmountFormatted, description: String(localized: "until now"))
             .overlay(alignment: .bottomLeading) {
-              Button { store.transferring = true } label: { Label(L10n.Transfer.open, systemImage: "folder") }
+              Button { store.transferring = true } label: { Label("open exporter", systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
             }

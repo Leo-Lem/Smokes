@@ -4,38 +4,38 @@ import Bundle
 import ComposableArchitecture
 import Extensions
 import SwiftUI
-import enum Generated.L10n
 
 public struct InfoView: View {
   public let store: StoreOf<Info>
 
   public var body: some View {
     VStack {
-      Text(string("BUNDLE_NAME"))
+      Text(string("CFBundleName"))
         .font(.largeTitle)
         .bold()
         .padding()
 
-      Text(L10n.Info.description)
+      Text("We're here to help you get an overview of your smoking habit, and help you to overcome it!")
         .multilineTextAlignment(.center)
 
     Spacer()
       Divider()
 
-      Section(L10n.Info.links) {
+      Section("Links") {
         List {
+          // TODO: add link button from launchlab
           Button { store.send(.openMarketing) } label: {
-            Label(L10n.Info.Links.webpage(string("MARKETING_WEBPAGE")), systemImage: "safari")
+            Label("Webpage", systemImage: "safari")
           }
           .listRowBackground(Color.clear)
 
           Button { store.send(.openSupport) } label: {
-            Label(L10n.Info.Links.support(string("SUPPORT_WEBPAGE")), systemImage: "questionmark.circle")
+            Label("Support", systemImage: "questionmark.circle")
           }
           .listRowBackground(Color.clear)
 
           Button { store.send(.openPrivacy) } label: {
-            Label(L10n.Info.Links.privacy(string("PRIVACY_POLICY")), systemImage: "person.badge.key")
+            Label("Privacy Policy", systemImage: "person.badge.key")
           }
           .listRowBackground(Color.clear)
         }
@@ -47,10 +47,10 @@ public struct InfoView: View {
 
       Divider()
 
-      Section(L10n.Info.credits) {
+      Section("Credits") {
         VStack {
-          Text(L10n.Info.developers(string("CREATOR")))
-          Text(L10n.Info.designers(string("CREATOR")))
+          Text("Developed by \(string("CREATOR"))")
+          Text("Designed by \(string("CREATOR"))")
         }
         .font(.caption)
       }

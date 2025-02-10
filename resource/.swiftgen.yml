@@ -1,0 +1,22 @@
+input_dir: ..
+output_dir: ${DERIVED_SOURCES_DIR}
+
+strings:
+  inputs:
+    - locale/en.lproj/Localizable.strings
+    - locale/en.lproj/Localizable.stringsdict
+  outputs:
+    templateName: structured-swift5
+    output: strings.gen.swift
+    params:
+      publicAccess: true
+      bundle: Bundle.main
+
+plist:
+  inputs: Info.plist
+  outputs:
+    templateName: runtime-swift5
+    output: plist.gen.swift
+    params:
+      publicAccess: true
+      bundle: Bundle.main

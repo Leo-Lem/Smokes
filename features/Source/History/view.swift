@@ -6,10 +6,9 @@ import ComposableArchitecture
 import Extensions
 import Format
 import SwiftUI
-import enum Generated.L10n
 
 public struct HistoryView: View {
-  @ComposableArchitecture.Bindable public var store: StoreOf<History>
+  @Bindable public var store: StoreOf<History>
 
   public var body: some View {
     Grid {
@@ -23,17 +22,17 @@ public struct HistoryView: View {
         }
 
         Widget {
-          DescriptedValueContent(store.untilHereAmountFormatted, description: L10n.Amount.Until.here)
+          DescriptedValueContent(store.untilHereAmountFormatted, description: String(localized: "until here"))
         }
       }
 
       Widget {
         HStack {
-          DescriptedValueContent(store.dayAmountFormatted, description: L10n.Amount.day)
+          DescriptedValueContent(store.dayAmountFormatted, description: String(localized: "this day"))
             .overlay(alignment: .topTrailing) {
               if !store.editing {
                 Button { store.editing = true } label: {
-                  Label(L10n.Action.modify, systemImage: "square.and.pencil")
+                  Label("modify", systemImage: "square.and.pencil")
                     .font(.title2)
                     .accessibilityIdentifier("start-modifying-button")
                 }
@@ -49,7 +48,7 @@ public struct HistoryView: View {
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
               Button { store.editing = false } label: {
-                Label(L10n.Action.dismiss, systemImage: "xmark.circle")
+                Label("dismiss", systemImage: "xmark.circle")
                   .font(.title2)
                   .accessibilityIdentifier("stop-modifying-button")
               }

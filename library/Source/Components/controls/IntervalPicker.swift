@@ -4,7 +4,6 @@ import struct Dependencies.Dependency
 import Extensions
 import SwiftUI
 import Types
-import enum Generated.L10n
 
 public struct IntervalPicker: View {
   @Binding var selection: Interval
@@ -14,9 +13,12 @@ public struct IntervalPicker: View {
     HStack {
       Button {
         if selectedMonth != nil { selectedMonth = previous } else { selectedYear ?= previous }
-      } label: { Label(L10n.Action.previous, systemImage: "chevron.left") }
-        .disabled(previous == nil)
-        .accessibilityIdentifier("previous-button")
+      } label: {
+        Label(String(localized: "Previous", comment: "Button for selecting the unit before the current one."),
+              systemImage: "chevron.left")
+      }
+      .disabled(previous == nil)
+      .accessibilityIdentifier("previous-button")
 
       Picker("month", selection: $selectedMonth) {
         Text("-")
@@ -39,14 +41,18 @@ public struct IntervalPicker: View {
 
       Button {
         if selectedMonth != nil { selectedMonth = next } else { selectedYear ?= next }
-      } label: { Label(L10n.Action.next, systemImage: "chevron.right") }
-        .disabled(next == nil)
-        .accessibilityIdentifier("next-button")
+      } label: {
+        Label(String(localized: "next", comment: "Button for selecting the unit after the current one."),
+              systemImage: "chevron.right")
+      }
+      .disabled(next == nil)
+      .accessibilityIdentifier("next-button")
 
       Spacer()
 
       Button { selectedAlltime.toggle() } label: {
-        Label(L10n.Amount.Until.now, systemImage: "chevron.forward.to.line")
+        Label(String(localized: "until now", comment: "Button for selecting the interval until now"),
+              systemImage: "chevron.forward.to.line")
       }
       .highlight(when: selectedAlltime)
     }

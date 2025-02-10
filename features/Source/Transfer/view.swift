@@ -5,11 +5,10 @@ import Components
 import ComposableArchitecture
 import Extensions
 import SwiftUI
-import enum Generated.L10n
 
 @ViewAction(for: Transfer.self)
 public struct TransferView: View {
-  @ComposableArchitecture.Bindable public var store: StoreOf<Transfer>
+  @Bindable public var store: StoreOf<Transfer>
 
   public var body: some View {
     VStack {
@@ -30,7 +29,7 @@ public struct TransferView: View {
       Widget {
         HStack {
           Button { send(.importButtonTapped) } label: {
-            Label(L10n.Transfer.import, systemImage: "square.and.arrow.down")
+            Label(String(localized: "import"), systemImage: "square.and.arrow.down")
           }
             .accessibilityIdentifier("import-button")
             .fileImporter(isPresented: $store.importing, allowedContentTypes: [.json]) { send(.import($0)) }
@@ -39,23 +38,22 @@ public struct TransferView: View {
               .overlay(content: ProgressView.init)
             }
 
-          Picker("", selection: $store.encoding) {
+          Picker(String(localized: "pick format"), selection: $store.encoding) {
             ForEach(Encoding.allCases, id: \.self) { encoding in
               Text(encoding.title)
             }
           }
           .pickerStyle(.segmented)
           .accessibilityElement()
-          .accessibilityLabel(L10n.Transfer.format)
           .accessibilityValue(store.encoding.title)
           .accessibilityIdentifier("format-picker")
 
           Button { send(.exportButtonTapped) } label: {
-            Label(L10n.Transfer.export, systemImage: "square.and.arrow.up")
+            Label(String(localized: "export"), systemImage: "square.and.arrow.up")
           }
             .accessibilityIdentifier("export-button")
             .fileExporter(
-              isPresented: $store.exporting, document: store.file, contentType: .json, defaultFilename: store.filename
+              isPresented: $store.exporting, document: store.file, contentType: .json, defaultFilename: "smokes"
             ) { send(.export($0))}
             .if(store.loadingExport) { $0
               .hidden()
@@ -77,16 +75,12 @@ public struct TransferView: View {
   public init(store: StoreOf<Transfer>) { self.store = store }
 }
 
-fileprivate extension Transfer.State {
-  var filename: String { L10n.Transfer.filename }
-}
-
 fileprivate extension Encoding {
   var title: String {
     switch self {
-    case .daily: return L10n.Transfer.Format.daily
-    case .grouped: return L10n.Transfer.Format.grouped
-    case .exact: return L10n.Transfer.Format.exact
+    case .daily: return String(localized: "daily")
+    case .grouped: return String(localized: "exact")
+    case .exact: return String(localized: "grouped")
     }
   }
 }

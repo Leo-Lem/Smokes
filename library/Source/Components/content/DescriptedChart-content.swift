@@ -3,7 +3,6 @@
 import Charts
 import Extensions
 import SwiftUI
-import enum Generated.L10n
 
 public struct DescriptedChartContent<Data: Collection, Chart: View>: View {
   let data: Data?
@@ -31,7 +30,7 @@ public struct DescriptedChartContent<Data: Collection, Chart: View>: View {
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .accessibilityElement()
-    .accessibilityLabel(description ?? Text(L10n.Placeholder.description))
+    .accessibilityLabel(description ?? Text("No description", comment: "Placeholder when there is no description."))
   }
 }
 

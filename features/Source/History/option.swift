@@ -5,9 +5,9 @@ import struct Foundation.Date
 import Types
 
 public enum HistoryOption: String, ConfigurableWidgetOption, Sendable {
-  case week = "amount.week",
-       month = "amount.month",
-       year = "amount.year"
+  case week = "this week",
+       month = "this month",
+       year = "this year"
 
   func interval(_ date: Date) -> Interval {
     switch self {

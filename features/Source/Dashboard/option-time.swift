@@ -5,6 +5,6 @@ import struct Dependencies.Dependency
 import enum Types.Interval
 
 public enum TimeOption: String, ConfigurableWidgetOption, Sendable {
-  case sinceLast = "time.sinc",
-       longestBreak = "time.longest"
+  case sinceLast = "smokefree for",
+       longestBreak = "longest break"
 }

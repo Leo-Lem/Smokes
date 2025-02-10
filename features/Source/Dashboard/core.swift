@@ -6,14 +6,11 @@ import ComposableArchitecture
 import Extensions
 import Foundation
 import Types
-import enum Generated.L10n
 
 @Reducer public struct Dashboard: Sendable {
   @ObservableState public struct State: Equatable {
     @Shared public var transferring: Bool
-    @Shared(.fileStorage(FileManager.document_url(
-      Dependency(\.bundle.string).wrappedValue("ENTRIES_FILENAME")
-    ))) public var entries = Dates()
+    @Shared(.fileStorage(FileManager.document_url("entries"))) public var entries = Dates()
     @Shared(.appStorage("dashboard_amountOption")) var amountOption = AmountOption.week
     @Shared(.appStorage("dashboard_timeOption")) var timeOption = TimeOption.sinceLast
 

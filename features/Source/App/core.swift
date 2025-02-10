@@ -8,8 +8,6 @@ import Info
 import Statistic
 import Transfer
 
-// TODO: reactivate animations
-
 @Reducer public struct Smokes: Sendable {
   @ObservableState public struct State: Equatable {
     @Shared var transferring: Bool

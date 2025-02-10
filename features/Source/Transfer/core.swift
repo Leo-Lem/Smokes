@@ -4,7 +4,6 @@ import Bundle
 import Code
 import ComposableArchitecture
 import Foundation
-import enum Generated.L10n
 import struct Extensions.DataFile
 import Types
 
@@ -114,9 +113,9 @@ public struct Transfer {
           } catch {
             return switch error {
             case let error as URLError where error.code == .noPermissionsToReadFile:
-                .send(.failure(L10n.Transfer.Error.permission))
+                .send(.failure(String(localized: "Permission denied…")))
             default:
-                .send(.failure(L10n.Transfer.error))
+                .send(.failure(String(localized: "Something went wrong…")))
             }
           }
 
@@ -124,7 +123,7 @@ public struct Transfer {
           do {
             debugPrint(try result.get())
           } catch {
-            return .send(.failure(L10n.Transfer.error))
+            return .send(.failure(String(localized: "Something went wrong…")))
           }
 
         case .binding: break

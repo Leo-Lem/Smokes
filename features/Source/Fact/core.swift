@@ -4,13 +4,12 @@ import Bundle
 import ComposableArchitecture
 import Extensions
 import Foundation
-import enum Generated.L10n
 
 @Reducer
 public struct Fact {
   @ObservableState
   public struct State: Equatable, Sendable {
-    @Shared(.appStorage("smokes_fact")) var fact = L10n.Fact.comingsoon
+    @Shared(.appStorage("smokes_fact")) var fact = "Coming soon…"
     var countdown = 5000
 
     var progress: Double { 1 - Double(countdown) / 5000 }

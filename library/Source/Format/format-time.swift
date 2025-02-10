@@ -2,12 +2,11 @@
 
 import typealias Foundation.TimeInterval
 import SwiftUI
-import enum Generated.L10n
 
 @available(iOS 16, *)
 extension Format {
   static func time(time: TimeInterval) -> Text {
-    guard time.isFinite else { return Text(L10n.Placeholder.data) }
+    guard time.isFinite else { return Text("No data", comment: "Placeholder when no data is available.") }
 
     let formatter = DateComponentsFormatter()
     formatter.maximumUnitCount = 1
