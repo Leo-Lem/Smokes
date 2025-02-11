@@ -11,7 +11,6 @@ struct InfoTest {
   @Test(arguments: [Info.Action.openSupport, .openPrivacy, .openMarketing])
   func testOpening(_ action: Info.Action) async throws {
     let store = TestStore(initialState: Info.State(), reducer: Info.init) { deps in
-      deps.bundle.string = { _ in "expected" }
       deps.openURL = .init { url in
         #expect(url == URL(string: "expected")!)
         return true

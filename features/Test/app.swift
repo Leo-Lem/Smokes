@@ -8,7 +8,6 @@ import Testing
 @MainActor struct AppTest {
   @Test func info() async throws {
     let store = TestStore(initialState: Smokes.State(), reducer: Smokes.init) { deps in
-      deps.bundle.string = { _ in "" }
       deps.date.now = .now
     }
 
@@ -19,7 +18,6 @@ import Testing
 
   @Test func fact() async throws {
     let store = TestStore(initialState: Smokes.State(), reducer: Smokes.init) { deps in
-      deps.bundle.string = { _ in "" }
       deps.date.now = .now
     }
 
@@ -30,7 +28,6 @@ import Testing
 
   @Test func transfer() async throws {
     let store = TestStore(initialState: Smokes.State(), reducer: Smokes.init) { deps in
-      deps.bundle.string = { _ in "" }
       deps.date.now = .now
     }
 

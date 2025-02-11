@@ -58,7 +58,7 @@ public struct IntervalPicker: View {
     }
     .minimumScaleFactor(0.5)
     .lineLimit(1)
-    .animation(.default, values: selection, selectedMonth, selectedYear, selectedAlltime)
+    .animation(.default, value: .combine(selection, selectedMonth, selectedYear, selectedAlltime))
     .onChange(of: selectedMonth) { _, new in
       selectedAlltime = false
 

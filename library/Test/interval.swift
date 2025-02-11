@@ -68,7 +68,6 @@ final class IntervalTests: XCTestCase {
       case (.year, .month): return 11
       case (.fromTo, .day): return 11
       case (.fromTo, .week): return 1
-      case (.fromTo, _): break
       default: XCTFail("Invalid combination \(interval) \(subdivision)")
       }
       

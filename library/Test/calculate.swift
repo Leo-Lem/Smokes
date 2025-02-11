@@ -4,7 +4,7 @@ import XCTest
 
 @testable import Calculate
 
-// TODO: integrate with dependencies
+// TODO: update to swift testing
 
 @MainActor
 final class CalculateTest: XCTestCase {

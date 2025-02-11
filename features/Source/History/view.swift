@@ -63,7 +63,7 @@ public struct HistoryView: View {
         .widgetStyle()
         .gridCellColumns(2)
     }
-    .animation(.default, values: CombineHashable(store.editing, store.selection, store.option))
+    .animation(.default, value: .combine(store.editing, store.selection, store.option))
   }
 
   public init(store: StoreOf<History>) { self.store = store }

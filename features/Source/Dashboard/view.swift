@@ -21,18 +21,18 @@ public struct DashboardView: View {
           store.optionTime.isFinite ? "\(store.optionTime, format: .timeInterval)" : "No data",
           description: "\(store.timeOption.rawValue)"
         )
-          .widgetStyle($store.timeOption)
+        .widgetStyle($store.timeOption)
       }
 
       GridRow {
           LoadableWithDescription("\(store.untilHereAmount) smokes", description: "until now")
-            .widgetStyle()
             .overlay(alignment: .bottomLeading) {
               Button("open exporter", systemImage: "folder") { store.transferring = true }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
                 .popoverTip(TransferTip())
             }
+            .widgetStyle()
 
           IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
             store.send(.addButtonTapped, animation: .default)
@@ -42,7 +42,7 @@ public struct DashboardView: View {
           .widgetStyle()
       }
     }
-    .animation(.default, values: CombineHashable(store.optionAmount, store.optionTime))
+    .animation(.default, value: .combine(store.optionAmount, store.optionTime))
     .onAppear { store.send(.reload) }
   }
 

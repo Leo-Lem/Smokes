@@ -17,7 +17,6 @@ struct TransferTest {
     let file = DataFile(data)
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code.encode = { _, _ in data }
-      deps.bundle = .testValue
     }
 
     await store.send(.file(file)) { $0.file = file}
@@ -35,7 +34,6 @@ struct TransferTest {
   func selectEncoding(_ encoding: Encoding) async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue
-      deps.bundle = .testValue
     }
     store.exhaustivity = .off
 
@@ -50,7 +48,6 @@ struct TransferTest {
   func buttonTaps() async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue
-      deps.bundle = .testValue
     }
 
     await store.send(.view(.importButtonTapped)) {
@@ -68,7 +65,6 @@ struct TransferTest {
   func importFailure() async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue
-      deps.bundle = .testValue
     }
 
     let no_permission_url = URL(string: "not.a.file.url")!
@@ -94,7 +90,6 @@ struct TransferTest {
 
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code.decode = { _, _ in .init(dates) }
-      deps.bundle = .testValue
     }
     store.exhaustivity = .off
 
@@ -114,7 +109,6 @@ struct TransferTest {
   func exportFailure() async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue
-      deps.bundle = .testValue
     }
     
     await store.send(.view(.export(Result<URL, Error>.failure(NSError(domain: "", code: 0)))))
@@ -131,7 +125,6 @@ struct TransferTest {
 
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code.encode = { _, _ in content.data(using: .utf8)! }
-      deps.bundle = .testValue
     }
 
     await store.send(.view(.export(result)))

@@ -52,7 +52,7 @@ public struct StatisticView: View {
         .widgetStyle()
         .popoverTip(AlltimeTip())
     }
-    .animation(.default, values: CombineHashable(store.selection, store.option, store.plotOption))
+    .animation(.default, value: .combine(store.selection, store.option, store.plotOption))
   }
 
   public init(store: StoreOf<Statistic>) { self.store = store }

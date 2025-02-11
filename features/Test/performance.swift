@@ -12,9 +12,7 @@ class Performance: XCTestCase {
     let store = TestStore(
       initialState: Statistic.State(entries: .init(dates)),
       reducer: Statistic.init
-    ) { deps in
-      deps.bundle.string = { _ in "" }
-    }
+    )
 
     withDependencies { deps in
       deps.calculate = .liveValue
@@ -35,13 +33,10 @@ class Performance: XCTestCase {
     let store = TestStore(
       initialState: Statistic.State(entries: .init(dates)),
       reducer: Statistic.init
-    ) { deps in
-      deps.bundle.string = { _ in "" }
-    }
+    )
 
     withDependencies { deps in
       deps.calculate = .liveValue
-      deps.format = .liveValue
       deps.calendar = .current
       deps.date.now = .distantFuture
     } operation: {

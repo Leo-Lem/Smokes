@@ -1,6 +1,6 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
-import Components
+import SwiftUI
 import struct Dependencies.Dependency
 import enum Types.Interval
 

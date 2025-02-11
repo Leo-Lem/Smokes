@@ -14,7 +14,6 @@ import Testing
       initialState: Dashboard.State(),
       reducer: Dashboard.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.date.now = now
     }
     
@@ -31,7 +30,6 @@ import Testing
       initialState: Dashboard.State(entries: [now, next]),
       reducer: Dashboard.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.calendar = .current
       deps.date.now = next
     }
@@ -47,7 +45,6 @@ import Testing
       initialState: Dashboard.State(),
       reducer: Dashboard.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.calendar = .current
       deps.date.now = .distantPast
     }

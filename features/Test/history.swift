@@ -14,9 +14,7 @@ struct HistoryTest {
     let store = TestStore(
       initialState: History.State(selection: now),
       reducer: History.init
-    ) { deps in
-      deps.bundle.string = { $0 }
-    }
+    )
 
     await store.send(.addButtonTapped){
       $0.$entries.withLock { $0.append(now) }
@@ -31,7 +29,6 @@ struct HistoryTest {
       initialState: History.State(entries: [now, next], selection: next),
       reducer: History.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.calendar = .current
     }
 
@@ -46,7 +43,6 @@ struct HistoryTest {
       initialState: History.State(),
       reducer: History.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.calendar = .current
       deps.date.now = .distantPast
     }

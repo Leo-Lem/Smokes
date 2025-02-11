@@ -12,7 +12,6 @@ struct FactTest {
   func appear() async throws {
     let store = TestStore(initialState: Fact.State(), reducer: Fact.init) { deps in
       deps.continuousClock = ImmediateClock()
-      deps.bundle.string = { _ in "http://nothing.to.see.here" }
       deps.urlSession = URLSession(configuration: .ephemeral)
     }
     store.exhaustivity = .off

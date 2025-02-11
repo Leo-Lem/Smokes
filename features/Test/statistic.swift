@@ -14,7 +14,6 @@ struct StatisticTest {
       initialState: Statistic.State(selection: .alltime, option: .permonth, plotOption: .bymonth),
       reducer: Statistic.init
     ) { deps in
-      deps.bundle.string = { $0 }
       deps.calendar = .current
     }
 
@@ -36,9 +35,7 @@ struct StatisticTest {
     let store = TestStore(
       initialState: Statistic.State(selection: .month(.distantPast)),
       reducer: Statistic.init
-    ) { deps in
-      deps.bundle.string = { $0 }
-    }
+    )
 
     withDependencies { deps in
       deps.date.now = .distantPast
@@ -47,7 +44,6 @@ struct StatisticTest {
       deps.calculate.trend = { _, _, _ in 1.0 }
       deps.calculate.amounts = { _, _, _ in [.alltime: 1] }
       deps.calculate.averageBreak = { _, _ in 1.0 }
-      deps.format.plotInterval = { _, _, _ in "1" }
     } operation: {
       #expect(store.state.optionAverage == 1.0)
       #expect(store.state.optionTrend == 1.0)
@@ -62,9 +58,7 @@ struct StatisticTest {
     let store = TestStore(
       initialState: Statistic.State(selection: interval),
       reducer: Statistic.init
-    ) { deps in
-      deps.bundle.string = { $0 }
-    }
+    )
 
     store.state.$selection.withLock { $0 = interval }
 
