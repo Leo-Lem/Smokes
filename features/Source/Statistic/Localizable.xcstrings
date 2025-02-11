@@ -1,10 +1,32 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    " " : {
+    "(trend)" : {
 
     },
-    "(trend)" : {
+    "%.2f" : {
+
+    },
+    "%.2f smokes" : {
+
+    },
+    "%@" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ smokes" : {
+
+    },
+    "No data" : {
 
     },
     "Select alltime" : {

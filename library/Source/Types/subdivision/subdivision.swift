@@ -2,7 +2,7 @@
 
 import Foundation
 
-public enum Subdivision: Hashable, CaseIterable {
+public enum Subdivision: Hashable, CaseIterable, Codable, Sendable {
   case day, week, month, year
 
   var comp: Calendar.Component {

@@ -21,8 +21,6 @@ struct Main: App {
   }
 }
 
-// TODO: update custom tab view: https://stackoverflow.com/questions/75320164/swiftui-custom-tabview-with-paging-style
-
 #Preview {
   SmokesView()
 }

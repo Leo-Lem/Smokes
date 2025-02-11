@@ -9,9 +9,10 @@ public protocol ConfigurableWidgetOption: Hashable, CaseIterable {
 
 public extension ConfigurableWidgetOption where Self: RawRepresentable<String> {
   var label: some View { Text(description) }
-  var description: LocalizedStringKey { LocalizedStringKey(rawValue) }
+  var description: LocalizedStringResource { LocalizedStringResource(stringLiteral: rawValue) }
 }
 
+// TODO: make the protocol unnecessary
 public struct ConfigurableWidget<Option: ConfigurableWidgetOption, Content: View>: View {
   @Binding var selection: Option
   let enabledOptions: [Option]

@@ -12,26 +12,38 @@ public struct StatisticView: View {
   public var body: some View {
     Grid {
       ConfigurableWidget(selection: $store.option, enabled: store.enabledOptions) {
-        DescriptedValueContent(store.optionAverageFormatted, description: $0.description)
+        LoadableWithDescription(
+          store.optionAverage.flatMap{ $0.isFinite ? "\($0, format: .average) smokes" : "No data" },
+          description: $0.description
+        )
       }
 
       ConfigurableWidget(selection: $store.plotOption, enabled: store.enabledPlotOptions) { option in
-        AmountsChart(store.optionPlotDataFormatted, description: Text(option.description))
+        LoadableWithDescription(
+          store.optionPlotData?
+            .sorted(by: \.key)
+            .map { ($0.formatted(.interval(bounds: store.selection, subdivision: store.subdivision)), $1) },
+          description: option.description
+        ) {
+          AmountsChart($0)
+        }
       }
       .gridCellColumns(2)
 
       GridRow {
         Widget {
-          DescriptedValueContent(store.averageTimeBetweenFormatted,
-                                 description: String(localized: "time between smokes"))
+          LoadableWithDescription(
+            store.averageTimeBetween.isFinite ? "\(store.averageTimeBetween, format: .timeInterval)" : "No Data",
+            description: "time between smokes"
+          )
         }
         .gridCellColumns(store.showingTrend ? 1 : 2)
 
         if store.showingTrend {
           Widget {
-            DescriptedValueContent(
-              store.optionTrendFormatted,
-              description: Text(store.option.description) + Text(" ") + Text("(trend)")
+            LoadableWithDescription(
+              store.optionTrend.flatMap { $0.isFinite ? "\($0, format: .trend) smokes" : "No data" },
+              description: "\(store.option.description) \(String(localized: "(trend)"))"
             )
           }
           .transition(.move(edge: .trailing))
@@ -45,38 +57,13 @@ public struct StatisticView: View {
       }
       .popoverTip(AlltimeTip())
     }
-    .animation(.default, values: store.selection)
-    .animation(.default, values: store.option)
-    .animation(.default, values: store.plotOption)
+    .animation(.default, values: CombineHashable(store.selection, store.option, store.plotOption))
   }
 
   public init(store: StoreOf<Statistic>) { self.store = store }
 }
 
-fileprivate extension Statistic.State {
-  var optionAverageFormatted: Text? {
-    @Dependency(\.format) var format
-    return format.average(optionAverage)
-  }
-
-  var averageTimeBetweenFormatted: Text {
-    @Dependency(\.format.time) var time
-    return time(averageTimeBetween)
-  }
-
-  var optionTrendFormatted: Text? {
-    @Dependency(\.format) var format
-    return format.trend(optionTrend)
-  }
-
-  var optionPlotDataFormatted: [(String, Int)]? {
-    @Dependency(\.format.plotInterval) var plotInterval
-    return optionPlotData?
-      .sorted { $0.key < $1.key }
-      .map { (plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
-  }
-}
-
 #Preview {
   StatisticView(store: Store(initialState: Statistic.State(), reducer: Statistic.init))
+    .padding()
 }

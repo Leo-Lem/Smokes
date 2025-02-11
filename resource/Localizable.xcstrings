@@ -65,6 +65,17 @@
         }
       }
     },
+    "%@ smokes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Ziggis"
+          }
+        }
+      }
+    },
     "%lld smokes" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -485,6 +496,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nächster Tag"
+          }
+        }
+      }
+    },
+    "No" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine"
           }
         }
       }

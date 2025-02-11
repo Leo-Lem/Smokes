@@ -13,6 +13,7 @@ public struct SmokesView: View {
   @Bindable public var store: StoreOf<Smokes>
 
   public var body: some View {
+    // TODO: update custom: https://stackoverflow.com/questions/75320164/swiftui-custom-tabview-with-paging-style
     TabView(selection: $store.tab) {
       Tab("History", systemImage: "calendar", value: 0) {
         HistoryView(store: store.scope(state: \.history, action: \.history))

@@ -16,7 +16,6 @@ let libs: [Target] = [
   .target(name: "Types", dependencies: [deps, ext], plugins: [lint]),
   .target(name: "Components", dependencies: [deps, ext, "Types"], plugins: [lint]),
   .target(name: "Calculate", dependencies: [deps, ext, "Types"], plugins: [lint]),
-  .target(name: "Format", dependencies: [deps, ext, "Types"], plugins: [lint]),
   .target(name: "Code", dependencies: [deps], plugins: [lint])
 ]
 

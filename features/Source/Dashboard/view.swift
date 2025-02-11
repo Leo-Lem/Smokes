@@ -2,6 +2,7 @@
 
 import Components
 import ComposableArchitecture
+import Extensions
 import Format
 
 public struct DashboardView: View {
@@ -10,25 +11,25 @@ public struct DashboardView: View {
   public var body: some View {
     Grid {
       Widget {
-        DescriptedValueContent(store.dayAmountFormatted, description: String(localized: "today"))
+        LoadableWithDescription("\(store.dayAmount) smokes", description: "today")
       }
 
       GridRow {
         ConfigurableWidget(selection: $store.amountOption) { option in
-          DescriptedValueContent(store.optionAmountFormatted, description: option.description)
+          LoadableWithDescription("\(store.optionAmount) smokes", description: option.description)
         }
         .popoverTip(OptionTip())
 
         ConfigurableWidget(selection: $store.timeOption) { option in
-          DescriptedValueContent(store.optionTimeFormatted, description: option.description)
+          LoadableWithDescription("\(store.optionTime, format: .timeInterval)", description: option.description)
         }
       }
 
       GridRow {
         Widget {
-          DescriptedValueContent(store.untilHereAmountFormatted, description: String(localized: "until now"))
+          LoadableWithDescription("\(store.untilHereAmount) smokes", description: "until now")
             .overlay(alignment: .bottomLeading) {
-              Button { store.transferring = true } label: { Label("open exporter", systemImage: "folder") }
+              Button("open exporter", systemImage: "folder") { store.transferring = true }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
                 .popoverTip(TransferTip())
@@ -44,34 +45,11 @@ public struct DashboardView: View {
         }
       }
     }
-    .animation(.default, values: store.optionAmount)
-    .animation(.default, values: store.optionTime)
+    .animation(.default, values: CombineHashable(store.optionAmount, store.optionTime))
     .onAppear { store.send(.reload) }
   }
 
   public init(store: StoreOf<Dashboard>) { self.store = store }
-}
-
-fileprivate extension Dashboard.State {
-  var dayAmountFormatted: Text {
-    @Dependency(\.format.amount) var amount
-    return amount(dayAmount)
-  }
-
-  var optionAmountFormatted: Text {
-    @Dependency(\.format.amount) var amount
-    return amount(optionAmount)
-  }
-
-  var optionTimeFormatted: Text {
-    @Dependency(\.format.time) var time
-    return time(optionTime)
-  }
-
-  var untilHereAmountFormatted: Text {
-    @Dependency(\.format.amount) var amount
-    return amount(untilHereAmount)
-  }
 }
 
 #Preview {

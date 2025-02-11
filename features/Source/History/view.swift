@@ -13,30 +13,35 @@ public struct HistoryView: View {
   public var body: some View {
     Grid {
       Widget {
-        AmountsChart(store.plotDataFormatted, description: Text(store.option.description))
+        LoadableWithDescription(
+          store.plotData?
+            .sorted(by: \.key)
+            .map { ($0.formatted(.interval(bounds: store.interval, subdivision: store.subdivision)), $1) },
+          description: store.option.description
+        ) {
+          AmountsChart($0)
+        }
       }
 
       GridRow {
         ConfigurableWidget(selection: $store.option) { option in
-          DescriptedValueContent(store.optionAmountFormatted, description: option.description)
+          LoadableWithDescription("\(store.optionAmount) smokes", description: option.description)
         }
 
         Widget {
-          DescriptedValueContent(store.untilHereAmountFormatted, description: String(localized: "until here"))
+          LoadableWithDescription(store.untilHereAmount.flatMap{"\($0) smokes"}, description: "until here")
         }
       }
 
       Widget {
         HStack {
-          DescriptedValueContent(store.dayAmountFormatted, description: String(localized: "this day"))
+          LoadableWithDescription("\(store.dayAmount) smokes", description: "this day")
             .overlay(alignment: .topTrailing) {
               if !store.editing {
-                Button { store.editing = true } label: {
-                  Label("modify", systemImage: "square.and.pencil")
-                }
-                .font(.title2)
-                .accessibilityIdentifier("start-modifying-button")
-                .popoverTip(EditTip())
+                Button("modify", systemImage: "square.and.pencil") { store.editing = true }
+                  .font(.title2)
+                  .accessibilityIdentifier("start-modifying-button")
+                  .popoverTip(EditTip())
               }
             }
 
@@ -48,11 +53,9 @@ public struct HistoryView: View {
             }
             .transition(.move(edge: .trailing))
             .overlay(alignment: .topTrailing) {
-              Button { store.editing = false } label: {
-                Label("dismiss", systemImage: "xmark.circle")
-              }
-              .font(.title2)
-              .accessibilityIdentifier("stop-modifying-button")
+              Button("dismiss", systemImage: "xmark.circle") { store.editing = false }
+                .font(.title2)
+                .accessibilityIdentifier("stop-modifying-button")
             }
           }
         }
@@ -66,38 +69,13 @@ public struct HistoryView: View {
       }
       .gridCellColumns(2)
     }
-    .animation(.default, values: store.editing)
-    .animation(.default, values: store.selection)
-    .animation(.default, values: store.option)
+    .animation(.default, values: CombineHashable(store.editing, store.selection, store.option))
   }
 
   public init(store: StoreOf<History>) { self.store = store }
 }
 
-fileprivate extension History.State {
-  var dayAmountFormatted: Text {
-    @Dependency(\.format.amount) var amount
-    return amount(dayAmount)
-  }
-
-  var untilHereAmountFormatted: Text? {
-    @Dependency(\.format) var format
-    return format.amount(untilHereAmount)
-  }
-
-  var optionAmountFormatted: Text {
-    @Dependency(\.format.amount) var amount
-    return amount(optionAmount)
-  }
-
-  var plotDataFormatted: [(String, Int)]? {
-    @Dependency(\.format.plotInterval) var plotInterval
-    return plotData?
-      .sorted { $0.key < $1.key }
-      .map { (plotInterval($0, interval, subdivision) ?? "", $1) }
-  }
-}
-
 #Preview {
   HistoryView(store: Store(initialState: History.State(), reducer: History.init))
+    .padding()
 }
