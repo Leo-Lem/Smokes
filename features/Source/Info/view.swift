@@ -12,6 +12,7 @@ public struct InfoView: View {
     VStack {
       Text(string("CFBundleDisplayName"))
         .font(.largeTitle)
+        .lineLimit(1)
         .bold()
         .padding()
 
@@ -23,27 +24,23 @@ public struct InfoView: View {
 
       Section("Links") {
         List {
-          // TODO: add link button from launchlab
-          Button { store.send(.openMarketing) } label: {
-            Label("Webpage", systemImage: "safari")
-          }
-          .listRowBackground(Color.clear)
+          Group {
+            Button("Webpage", systemImage: "safari") { store.send(.openMarketing) }
+              .labelStyle(.external(color: .green, transfer: true))
 
-          Button { store.send(.openSupport) } label: {
-            Label("Support", systemImage: "questionmark.circle")
-          }
-          .listRowBackground(Color.clear)
+            Button("Support", systemImage: "questionmark.circle") { store.send(.openSupport) }
+              .labelStyle(.external(color: .red, transfer: true))
 
-          Button { store.send(.openPrivacy) } label: {
-            Label("Privacy Policy", systemImage: "person.badge.key")
+            Button("Privacy Policy", systemImage: "person.badge.key") { store.send(.openPrivacy) }
+              .labelStyle(.external(color: .gray, transfer: true))
           }
           .listRowBackground(Color.clear)
         }
-        .scrollDisabled(true)
+        .bold()
         .listStyle(.plain)
-        .italic()
+        .buttonStyle(.borderless)
+        .scrollDisabled(true)
       }
-      .lineLimit(1)
 
       Divider()
 

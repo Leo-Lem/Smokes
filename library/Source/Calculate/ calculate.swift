@@ -2,7 +2,6 @@
 
 import Dependencies
 import Foundation
-import func Extensions.memoize
 import Types
 
 public extension DependencyValues {
@@ -26,7 +25,6 @@ public struct Calculate: Sendable {
   public var averageBreak: @Sendable (Interval, [Date]) -> TimeInterval
 }
 
-// TODO: readd memoization
 extension Calculate: DependencyKey {
   public static let liveValue = Calculate(
     filter: Self.filter,
