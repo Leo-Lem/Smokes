@@ -2,11 +2,16 @@
 
 import PackageDescription
 
-let package = Package(name: "Library", platforms: [.iOS(.v16), .macOS(.v13)], dependencies: [
-  .package(path: "../extensions"),
-  .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
-  .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0")
-])
+let package = Package(
+  name: "Library",
+  defaultLocalization: "en",
+  platforms: [.iOS(.v18), .macOS(.v15)],
+  dependencies: [
+    .package(path: "../extensions"),
+    .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
+    .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0")
+  ]
+)
 
 let deps = Target.Dependency.product(name: "Dependencies", package: "swift-dependencies")
 let ext = Target.Dependency.product(name: "Extensions", package: "Extensions")

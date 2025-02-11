@@ -11,51 +11,46 @@ public struct StatisticView: View {
 
   public var body: some View {
     Grid {
-      ConfigurableWidget(selection: $store.option, enabled: store.enabledOptions) {
-        LoadableWithDescription(
-          store.optionAverage.flatMap{ $0.isFinite ? "\($0, format: .average) smokes" : "No data" },
-          description: $0.description
-        )
-      }
+      LoadableWithDescription(
+        store.optionAverage.flatMap{ $0.isFinite ? "\($0, format: .average) smokes" : "No data" },
+        description: "\(store.option.rawValue)"
+      )
+      .widgetStyle($store.option, enabled: store.enabledOptions)
 
-      ConfigurableWidget(selection: $store.plotOption, enabled: store.enabledPlotOptions) { option in
-        LoadableWithDescription(
-          store.optionPlotData?
-            .sorted(by: \.key)
-            .map { ($0.formatted(.interval(bounds: store.selection, subdivision: store.subdivision)), $1) },
-          description: option.description
-        ) {
-          AmountsChart($0)
-        }
+      LoadableWithDescription(
+        store.optionPlotData?
+          .sorted(by: \.key)
+          .map { ($0.formatted(.interval(bounds: store.selection, subdivision: store.subdivision)), $1) },
+        description: "\(store.plotOption.rawValue)"
+      ) {
+        AmountsChart($0)
       }
+      .widgetStyle($store.plotOption, enabled: store.enabledPlotOptions)
       .gridCellColumns(2)
 
       GridRow {
-        Widget {
-          LoadableWithDescription(
-            store.averageTimeBetween.isFinite ? "\(store.averageTimeBetween, format: .timeInterval)" : "No Data",
-            description: "time between smokes"
-          )
-        }
+        LoadableWithDescription(
+          store.averageTimeBetween.isFinite ? "\(store.averageTimeBetween, format: .timeInterval)" : "No Data",
+          description: "time between smokes"
+        )
+        .widgetStyle()
         .gridCellColumns(store.showingTrend ? 1 : 2)
 
         if store.showingTrend {
-          Widget {
-            LoadableWithDescription(
-              store.optionTrend.flatMap { $0.isFinite ? "\($0, format: .trend) smokes" : "No data" },
-              description: "\(store.option.description) \(String(localized: "(trend)"))"
-            )
-          }
+          LoadableWithDescription(
+            store.optionTrend.flatMap { $0.isFinite ? "\($0, format: .trend) smokes" : "No data" },
+            description: "\(store.option.rawValue) \(String(localized: "(trend)"))"
+          )
+          .widgetStyle()
           .transition(.move(edge: .trailing))
         }
       }
 
-      Widget {
-        IntervalPicker(selection: $store.selection, bounds: store.bounds)
-          .labelStyle(.iconOnly)
-          .buttonStyle(.borderedProminent)
-      }
-      .popoverTip(AlltimeTip())
+      IntervalPicker(selection: $store.selection, bounds: store.bounds)
+        .labelStyle(.iconOnly)
+        .buttonStyle(.borderedProminent)
+        .widgetStyle()
+        .popoverTip(AlltimeTip())
     }
     .animation(.default, values: CombineHashable(store.selection, store.option, store.plotOption))
   }

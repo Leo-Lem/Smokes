@@ -49,7 +49,11 @@ public struct SmokesView: View {
         .popoverTip(FactTip())
     }
     .padding(5)
-    .background { Background() }
+    .background {
+      Image(decorative: "no-smoking").resizable().scaledToFit()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("BackgroundColor"), ignoresSafeAreaEdges: .all)
+    }
   }
 
   public init(store: StoreOf<Smokes> = Store(initialState: Smokes.State(), reducer: Smokes.init)) {

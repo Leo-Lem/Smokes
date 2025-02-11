@@ -8,9 +8,13 @@ public struct TimeIntervalFormatStyle: FormatStyle, Sendable {
   public init() {}
 
   public func format(_ time: TimeInterval) -> String {
+    guard time.isFinite else {
+      assert(false, "TimeInterval must be finite")
+      return ""
+    }
     let formatter = DateComponentsFormatter()
     formatter.maximumUnitCount = 1
     formatter.unitsStyle = .full
-    return formatter.string(from: time) ?? "\(time)"
+    return formatter.string(from: time) ?? time.formatted()
   }
 }

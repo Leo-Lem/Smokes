@@ -3,46 +3,43 @@
 import Components
 import ComposableArchitecture
 import Extensions
-import Format
 
 public struct DashboardView: View {
   @Bindable public var store: StoreOf<Dashboard>
 
   public var body: some View {
     Grid {
-      Widget {
-        LoadableWithDescription("\(store.dayAmount) smokes", description: "today")
+      LoadableWithDescription("\(store.dayAmount) smokes", description: "today")
+        .widgetStyle()
+
+      GridRow {
+        LoadableWithDescription("\(store.optionAmount) smokes", description: "\(store.amountOption.rawValue)")
+          .widgetStyle($store.amountOption)
+          .popoverTip(OptionTip())
+
+        LoadableWithDescription(
+          store.optionTime.isFinite ? "\(store.optionTime, format: .timeInterval)" : "No data",
+          description: "\(store.timeOption.rawValue)"
+        )
+          .widgetStyle($store.timeOption)
       }
 
       GridRow {
-        ConfigurableWidget(selection: $store.amountOption) { option in
-          LoadableWithDescription("\(store.optionAmount) smokes", description: option.description)
-        }
-        .popoverTip(OptionTip())
-
-        ConfigurableWidget(selection: $store.timeOption) { option in
-          LoadableWithDescription("\(store.optionTime, format: .timeInterval)", description: option.description)
-        }
-      }
-
-      GridRow {
-        Widget {
           LoadableWithDescription("\(store.untilHereAmount) smokes", description: "until now")
+            .widgetStyle()
             .overlay(alignment: .bottomLeading) {
               Button("open exporter", systemImage: "folder") { store.transferring = true }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
                 .popoverTip(TransferTip())
             }
-        }
 
-        Widget {
           IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
             store.send(.addButtonTapped, animation: .default)
           } remove: {
             store.send(.removeButtonTapped, animation: .default)
           }
-        }
+          .widgetStyle()
       }
     }
     .animation(.default, values: CombineHashable(store.optionAmount, store.optionTime))

@@ -4,7 +4,7 @@ import Components
 import struct Dependencies.Dependency
 import enum Types.Interval
 
-public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
+public enum AmountOption: String, CaseIterable, Sendable {
   case yesterday = "yesterday",
        week = "this week",
        month = "this month",
@@ -23,7 +23,7 @@ public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
   }
 }
 
-public enum TimeOption: String, ConfigurableWidgetOption, Sendable {
+public enum TimeOption: String, CaseIterable, Sendable {
   case sinceLast = "smokefree for",
        longestBreak = "longest break"
 }

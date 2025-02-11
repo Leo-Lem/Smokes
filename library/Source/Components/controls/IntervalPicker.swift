@@ -59,10 +59,10 @@ public struct IntervalPicker: View {
     .minimumScaleFactor(0.5)
     .lineLimit(1)
     .animation(.default, values: selection, selectedMonth, selectedYear, selectedAlltime)
-    .onChange(of: selectedMonth) {
+    .onChange(of: selectedMonth) { _, new in
       selectedAlltime = false
 
-      guard let month = $0 else { return selection = selectedYear }
+      guard let month = new else { return selection = selectedYear }
 
       selectedYear = .year(month.end!)
 
@@ -73,14 +73,14 @@ public struct IntervalPicker: View {
         selection = month
       }
     }
-    .onChange(of: selectedYear) {
+    .onChange(of: selectedYear) { _, new in
       if case .year = selection {
         selectedMonth = nil
-        selection = $0
+        selection = new
       }
     }
-    .onChange(of: selectedAlltime) {
-      if $0 { selection = .alltime } else { selection = selectedMonth ?? selectedYear }
+    .onChange(of: selectedAlltime) { _, new in
+      if new { selection = .alltime } else { selection = selectedMonth ?? selectedYear }
     }
   }
 

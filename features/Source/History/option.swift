@@ -1,10 +1,9 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
-import protocol Components.ConfigurableWidgetOption
 import struct Foundation.Date
 import Types
 
-public enum HistoryOption: String, ConfigurableWidgetOption, Sendable {
+public enum HistoryOption: String, CaseIterable, Sendable {
   case week = "this week",
        month = "this month",
        year = "this year"

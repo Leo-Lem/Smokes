@@ -2,7 +2,6 @@
 
 import Calculate
 import ComposableArchitecture
-import Format
 import Foundation
 import Types
 

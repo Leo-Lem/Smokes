@@ -1,10 +1,9 @@
 // Created by Leopold Lemmermann on 24.04.23.
 
-import Components
 import Dependencies
 import Types
 
-public enum StatisticOption: String, ConfigurableWidgetOption, Sendable {
+public enum StatisticOption: String, CaseIterable, Sendable {
   case perday = "per day",
        perweek = "per week",
        permonth = "per month",
@@ -29,7 +28,7 @@ public enum StatisticOption: String, ConfigurableWidgetOption, Sendable {
   }
 }
 
-public enum PlotOption: String, ConfigurableWidgetOption, Sendable {
+public enum PlotOption: String, CaseIterable, Sendable {
   case byday = "by day",
        byweek = "by week",
        bymonth = "by month",
