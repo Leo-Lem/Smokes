@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 04.02.25.
 
-import Bundle
 import Calculate
 import ComposableArchitecture
 import Format

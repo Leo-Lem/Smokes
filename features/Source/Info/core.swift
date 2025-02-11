@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 09.02.25.
 
-import Bundle
 import ComposableArchitecture
 import Foundation
 
@@ -23,14 +22,13 @@ public struct Info {
       case .openPrivacy: "SmokesPrivacyUrl"
       case .openMarketing: "SmokesMarketingUrl"
       }
-      return .run { [open, string] _ in
-        await open(URL(string: string(name))!)
+      return .run { [open] _ in
+        await open(Bundle.main[url: name])
       }
     }
   }
 
   @Dependency(\.openURL) var open
-  @Dependency(\.bundle.string) var string
 
   public init() {}
 }

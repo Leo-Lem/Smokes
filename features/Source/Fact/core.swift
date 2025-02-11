@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 03.02.25.
 
-import Bundle
 import ComposableArchitecture
 import Extensions
 import Foundation
@@ -52,10 +51,9 @@ public struct Fact {
         }
 
       case .fetch:
-        return .run { [state, session, bundled] _ in
+        return .run { [state, session] _ in
           do {
-            let url = URL(string: bundled("SmokesFactsUrl"))!
-              .appendingPathComponent(Locale.current.identifier)
+            let url = Bundle.main[url: "SmokesFactsUrl"].appendingPathComponent(Locale.current.identifier)
             let (data, response) = try await session.data(from: url)
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
 
@@ -73,7 +71,6 @@ public struct Fact {
   @Dependency(\.urlSession) var session
   @Dependency(\.dismiss) var dismiss
   @Dependency(\.continuousClock) var clock
-  @Dependency(\.bundle.string) var bundled
 
   public init() {}
 }

@@ -21,19 +21,18 @@ let types = Target.Dependency.product(name: "Types", package: "Library")
 let format = Target.Dependency.product(name: "Format", package: "Library")
 let calc = Target.Dependency.product(name: "Calculate", package: "Library")
 let code = Target.Dependency.product(name: "Code", package: "Library")
-let bundle = Target.Dependency.product(name: "Bundle", package: "Library")
 let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
 
 let libs: [Target] = [
   .target(name: "App", dependencies: [
     tca, comps, "Dashboard", "History", "Statistic", "Fact", "Info", "Transfer"
   ], plugins: [lint]),
-  .target(name: "Dashboard", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
-  .target(name: "History", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
-  .target(name: "Statistic", dependencies: [tca, comps, types, bundle, format, calc], plugins: [lint]),
-  .target(name: "Fact", dependencies: [tca, ext, bundle], plugins: [lint]),
-  .target(name: "Info", dependencies: [tca, ext, bundle], plugins: [lint]),
-  .target(name: "Transfer", dependencies: [tca, ext, comps, types, bundle,code], plugins: [lint]),
+  .target(name: "Dashboard", dependencies: [tca, comps, types, format, calc], plugins: [lint]),
+  .target(name: "History", dependencies: [tca, comps, types, format, calc], plugins: [lint]),
+  .target(name: "Statistic", dependencies: [tca, comps, types, format, calc], plugins: [lint]),
+  .target(name: "Fact", dependencies: [tca, ext], plugins: [lint]),
+  .target(name: "Info", dependencies: [tca, ext], plugins: [lint]),
+  .target(name: "Transfer", dependencies: [tca, ext, comps, types,code], plugins: [lint]),
 ]
 
 package.targets = libs + [

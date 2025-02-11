@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 02.02.25.
 
-import Bundle
 import Calculate
 import ComposableArchitecture
 import Extensions
@@ -14,21 +13,26 @@ import Types
     @Shared var amountOption: AmountOption
     @Shared var timeOption: TimeOption
 
+    var now: Date
+
     public init(
       transferring: Shared<Bool> = Shared(value: false),
       entries: Dates = Dates(),
       amountOption: AmountOption = .week,
-      timeOption: TimeOption = .sinceLast
+      timeOption: TimeOption = .sinceLast,
+      now: Date = Dependency(\.date.now).wrappedValue
     ) {
       _transferring = transferring
       _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
       _amountOption = Shared(wrappedValue: amountOption, .appStorage("dashboard_amountOption"))
       _timeOption = Shared(wrappedValue: timeOption, .appStorage("dashbaord_timeOption"))
+      self.now = now
     }
   }
 
   public enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
+    case reload
     case addButtonTapped
     case removeButtonTapped
   }
@@ -38,6 +42,13 @@ import Types
 
     Reduce { state, action in
       switch action {
+      case .reload:
+        state.now = now
+        return .run { send in
+          try? await clock.sleep(for: .seconds(1))
+          await send(.reload)
+        }
+
       case .addButtonTapped:
         state.$entries.withLock {
           $0.insert(now, at: state.entries.firstIndex { now < $0 } ?? state.entries.endIndex)
@@ -58,6 +69,7 @@ import Types
     }
   }
 
+  @Dependency(\.continuousClock) var clock
   @Dependency(\.date.now) var now
   @Dependency(\.calendar) var cal
 
@@ -67,13 +79,11 @@ import Types
 public extension Dashboard.State {
   var dayAmount: Int {
     @Dependency(\.calculate.amount) var amount
-    @Dependency(\.date.now) var now
     return amount(.day(now), entries.array)
   }
 
   var untilHereAmount: Int {
     @Dependency(\.calculate.amount) var amount
-    @Dependency(\.date.now) var now
     @Dependency(\.calendar) var cal
     return amount(.to(cal.endOfDay(for: now)), entries.array)
   }
@@ -83,10 +93,8 @@ public extension Dashboard.State {
     return amount(amountOption.interval, entries.array)
   }
 
-  // TODO: refresh
   var optionTime: TimeInterval {
     @Dependency(\.calculate) var calculate
-    @Dependency(\.date.now) var now
     return switch timeOption {
     case .sinceLast: calculate.break(now, entries.array)
     case .longestBreak: calculate.longestBreak(now, entries.array)

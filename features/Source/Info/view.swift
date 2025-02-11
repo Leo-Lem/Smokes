@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 26.04.23.
 
-import Bundle
 import ComposableArchitecture
 import Extensions
 import SwiftUI
@@ -10,7 +9,7 @@ public struct InfoView: View {
 
   public var body: some View {
     VStack {
-      Text(string("CFBundleDisplayName"))
+      Text(Bundle.main[string: "CFBundleDisplayName"])
         .font(.largeTitle)
         .lineLimit(1)
         .bold()
@@ -46,8 +45,8 @@ public struct InfoView: View {
 
       Section("Credits") {
         VStack {
-          Text("Developed by \(string("SmokesCreator"))")
-          Text("Designed by \(string("SmokesCreator"))")
+          Text("Developed by \(Bundle.main[string: "SmokesCreator"])")
+          Text("Designed by \(Bundle.main[string: "SmokesCreator"])")
         }
         .font(.caption)
       }
@@ -57,8 +56,6 @@ public struct InfoView: View {
     .presentationDetents([.medium])
     .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
   }
-
-  @Dependency(\.bundle.string) var string
 
   public init(store: StoreOf<Info>) { self.store = store }
 }

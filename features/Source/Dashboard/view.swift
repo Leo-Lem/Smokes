@@ -46,6 +46,7 @@ public struct DashboardView: View {
     }
     .animation(.default, values: store.optionAmount)
     .animation(.default, values: store.optionTime)
+    .onAppear { store.send(.reload) }
   }
 
   public init(store: StoreOf<Dashboard>) { self.store = store }
