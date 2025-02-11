@@ -1,0 +1,21 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Dashboard" : {
+
+    },
+    "History" : {
+
+    },
+    "Smokes' Facts" : {
+      "comment" : "Title of the fact tip."
+    },
+    "Statistic" : {
+
+    },
+    "View an interesting fact about smoking." : {
+
+    }
+  },
+  "version" : "1.0"
+}

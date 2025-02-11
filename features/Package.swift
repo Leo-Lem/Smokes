@@ -2,12 +2,17 @@
 
 import PackageDescription
 
-let package = Package(name: "Features", platforms: [.iOS(.v18), .macOS(.v15)], dependencies: [
-  .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
-  .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0"),
-  .package(path: "../library"),
-  .package(path: "../extensions")
-])
+let package = Package(
+  name: "Features",
+  defaultLocalization: "en",
+  platforms: [.iOS(.v18), .macOS(.v15)],
+  dependencies: [
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
+    .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0"),
+    .package(path: "../library"),
+    .package(path: "../extensions")
+  ]
+)
 
 let tca = Target.Dependency.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 let ext = Target.Dependency.product(name: "Extensions", package: "Extensions")

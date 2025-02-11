@@ -33,9 +33,10 @@ public struct HistoryView: View {
               if !store.editing {
                 Button { store.editing = true } label: {
                   Label("modify", systemImage: "square.and.pencil")
-                    .font(.title2)
-                    .accessibilityIdentifier("start-modifying-button")
                 }
+                .font(.title2)
+                .accessibilityIdentifier("start-modifying-button")
+                .popoverTip(EditTip())
               }
             }
 
@@ -49,9 +50,9 @@ public struct HistoryView: View {
             .overlay(alignment: .topTrailing) {
               Button { store.editing = false } label: {
                 Label("dismiss", systemImage: "xmark.circle")
-                  .font(.title2)
-                  .accessibilityIdentifier("stop-modifying-button")
               }
+              .font(.title2)
+              .accessibilityIdentifier("stop-modifying-button")
             }
           }
         }

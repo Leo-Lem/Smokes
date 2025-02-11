@@ -19,9 +19,9 @@ public struct Info {
   public var body: some Reducer<State, Action> {
     Reduce { _, action in
       let name = switch action {
-      case .openSupport: "SUPPORT_WEBPAGE"
-      case .openPrivacy: "PRIVACY_POLICY"
-      case .openMarketing: "MARKETING_WEBPAGE"
+      case .openSupport: "SmokesSupportUrl"
+      case .openPrivacy: "SmokesPrivacyUrl"
+      case .openMarketing: "SmokesMarketingUrl"
       }
       return .run { [open, string] _ in
         await open(URL(string: string(name))!)

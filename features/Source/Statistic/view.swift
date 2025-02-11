@@ -43,6 +43,7 @@ public struct StatisticView: View {
           .labelStyle(.iconOnly)
           .buttonStyle(.borderedProminent)
       }
+      .popoverTip(AlltimeTip())
     }
     .animation(.default, values: store.selection)
     .animation(.default, values: store.option)
@@ -73,52 +74,6 @@ fileprivate extension Statistic.State {
     return optionPlotData?
       .sorted { $0.key < $1.key }
       .map { (plotInterval($0, selection, plotOption.subdivision) ?? "", $1) }
-  }
-}
-
-extension StatisticOption: RawRepresentable, ConfigurableWidgetOption {
-  public static let allCases = [Self.perday, .perweek, .permonth, .peryear]
-
-  public init?(rawValue: String) {
-    switch rawValue {
-    case String(localized: "per day"): self = .perday
-    case String(localized: "per week"): self = .perweek
-    case String(localized: "per month"): self = .permonth
-    case String(localized: "per year"): self = .peryear
-    default: return nil
-    }
-  }
-
-  public var rawValue: String {
-    switch self {
-    case .perday: String(localized: "per day")
-    case .perweek: String(localized: "per week")
-    case .permonth: String(localized: "per month")
-    case .peryear: String(localized: "per year")
-    }
-  }
-}
-
-extension PlotOption: RawRepresentable, ConfigurableWidgetOption {
-  public static let allCases = [Self.byday, .byweek, .bymonth, .byyear]
-
-  public init?(rawValue: String) {
-    switch rawValue {
-    case String(localized: "by day"): self = .byday
-    case String(localized: "by week"): self = .byweek
-    case String(localized: "by month"): self = .bymonth
-    case String(localized: "by year"): self = .byyear
-    default: return nil
-    }
-  }
-
-  public var rawValue: String {
-    switch self {
-    case .byday: String(localized: "by day")
-    case .byweek: String(localized: "by week")
-    case .bymonth: String(localized: "by month")
-    case .byyear: String(localized: "by year")
-    }
   }
 }
 

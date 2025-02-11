@@ -10,7 +10,7 @@ public struct InfoView: View {
 
   public var body: some View {
     VStack {
-      Text(string("CFBundleName"))
+      Text(string("CFBundleDisplayName"))
         .font(.largeTitle)
         .bold()
         .padding()
@@ -49,8 +49,8 @@ public struct InfoView: View {
 
       Section("Credits") {
         VStack {
-          Text("Developed by \(string("CREATOR"))")
-          Text("Designed by \(string("CREATOR"))")
+          Text("Developed by \(string("SmokesCreator"))")
+          Text("Designed by \(string("SmokesCreator"))")
         }
         .font(.caption)
       }

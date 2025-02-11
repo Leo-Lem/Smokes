@@ -22,3 +22,8 @@ public enum AmountOption: String, ConfigurableWidgetOption, Sendable {
     }
   }
 }
+
+public enum TimeOption: String, ConfigurableWidgetOption, Sendable {
+  case sinceLast = "smokefree for",
+       longestBreak = "longest break"
+}

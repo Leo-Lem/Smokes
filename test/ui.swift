@@ -3,7 +3,7 @@ import XCTest
 @MainActor class SmokesUITests: XCTestCase {
   var app: XCUIApplication!
 
-  override func setUp() {
+  override func setUp() async throws {
     app = XCUIApplication()
     app.launch()
   }

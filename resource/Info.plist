@@ -2,21 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BUNDLE_ID</key>
-	<string>LeoLem.Smokes</string>
-	<key>CREATOR</key>
+	<key>SmokesCreator</key>
 	<string>Leopold Lemmermann</string>
-	<key>ENTRIES_FILENAME</key>
-	<string>entries</string>
-	<key>FACTS_URL</key>
+	<key>SmokesFactsUrl</key>
 	<string>https://smokes.leolem.dev/facts</string>
-	<key>GROUP_ID</key>
-	<string>group.LeoLem.Smokes</string>
-	<key>MARKETING_WEBPAGE</key>
+	<key>SmokesMarketingUrl</key>
 	<string>https://smokes.leolem.dev</string>
-	<key>PRIVACY_POLICY</key>
+	<key>SmokesPrivacyUrl</key>
 	<string>https://smokes.leolem.dev/privacy</string>
-	<key>SUPPORT_WEBPAGE</key>
+	<key>SmokesSupportUrl</key>
 	<string>https://github.com/Leo-Lem/Smokes</string>
 </dict>
 </plist>

@@ -4,8 +4,36 @@ import Components
 import Dependencies
 import Types
 
-public enum PlotOption: Sendable {
-  case byday, byweek, bymonth, byyear
+public enum StatisticOption: String, ConfigurableWidgetOption, Sendable {
+  case perday = "per day",
+       perweek = "per week",
+       permonth = "per month",
+       peryear = "per year"
+
+  static func enabledCases(_ interval: Interval) -> [Self] {
+    switch interval {
+    case .month: return [.perday, .perweek]
+    case .year: return [.perday, .perweek, .permonth]
+    case .alltime: return [.perday, .perweek, .permonth, .peryear]
+    default: return []
+    }
+  }
+
+  var subdivision: Subdivision {
+    switch self {
+    case .perday: return .day
+    case .perweek: return .week
+    case .permonth: return .month
+    case .peryear: return .year
+    }
+  }
+}
+
+public enum PlotOption: String, ConfigurableWidgetOption, Sendable {
+  case byday = "by day",
+       byweek = "by week",
+       bymonth = "by month",
+       byyear = "by year"
 
   static func enabledCases(_ interval: Interval) -> [Self] {
     switch interval {

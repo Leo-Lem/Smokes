@@ -17,6 +17,7 @@ public struct DashboardView: View {
         ConfigurableWidget(selection: $store.amountOption) { option in
           DescriptedValueContent(store.optionAmountFormatted, description: option.description)
         }
+        .popoverTip(OptionTip())
 
         ConfigurableWidget(selection: $store.timeOption) { option in
           DescriptedValueContent(store.optionTimeFormatted, description: option.description)
@@ -30,6 +31,7 @@ public struct DashboardView: View {
               Button { store.transferring = true } label: { Label("open exporter", systemImage: "folder") }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
+                .popoverTip(TransferTip())
             }
         }
 

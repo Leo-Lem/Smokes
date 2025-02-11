@@ -1,0 +1,12 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "skip" : {
+
+    },
+    "Smokes' Facts" : {
+      "comment" : "Title of the fact tip."
+    }
+  },
+  "version" : "1.0"
+}

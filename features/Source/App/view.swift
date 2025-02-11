@@ -45,6 +45,7 @@ public struct SmokesView: View {
             .presentationBackground(.ultraThinMaterial)
         }
         .padding()
+        .popoverTip(FactTip())
     }
     .padding(5)
     .background { Background() }

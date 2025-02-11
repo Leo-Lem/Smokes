@@ -54,7 +54,7 @@ public struct Fact {
       case .fetch:
         return .run { [state, session, bundled] _ in
           do {
-            let url = URL(string: bundled("FACTS_URL"))!
+            let url = URL(string: bundled("SmokesFactsUrl"))!
               .appendingPathComponent(Locale.current.identifier)
             let (data, response) = try await session.data(from: url)
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
