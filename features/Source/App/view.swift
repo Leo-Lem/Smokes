@@ -14,18 +14,18 @@ public struct SmokesView: View {
 
   public var body: some View {
     TabView(selection: $store.tab) {
-      Tab("History", systemImage: "calendar", value: 0) {
+      Tab(.localizable(.history), systemImage: "calendar", value: 0) {
         HistoryView(store: store.scope(state: \.history, action: \.history))
           .padding(.bottom, 50)
       }
 
-      Tab("Dashboard", systemImage: "square", value: 1) {
+      Tab(.localizable(.dashboard), systemImage: "square", value: 1) {
         DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
           .padding(.bottom, 50)
           .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
       }
 
-      Tab("Statistic", systemImage: "percent", value: 2) {
+      Tab(.localizable(.statistic), systemImage: "percent", value: 2) {
         StatisticView(store: store.scope(state: \.statistic, action: \.statistic))
           .padding(.bottom, 50)
       }
@@ -34,12 +34,12 @@ public struct SmokesView: View {
     .indexViewStyle(.page(backgroundDisplayMode: .always))
     .padding(5)
     .overlay(alignment: .bottomLeading) {
-      FloatingButton("Info", systemImage: "info") { store.send(.infoButtonTapped) }
+      FloatingButton(.init(localizable: .info), systemImage: "info") { store.send(.infoButtonTapped) }
         .sheet(item: $store.scope(state: \.info, action: \.info)) { InfoView(store: $0) }
         .padding()
     }
     .overlay(alignment: .bottomTrailing) {
-      FloatingButton("Fact", systemImage: "lightbulb") { store.send(.factButtonTapped) }
+      FloatingButton(.init(localizable: .fact), systemImage: "lightbulb") { store.send(.factButtonTapped) }
         .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) {
           FactView(store: $0)
             .padding()

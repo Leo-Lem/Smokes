@@ -4,9 +4,15 @@ import struct Foundation.Date
 import Types
 
 public enum HistoryOption: String, CaseIterable, Sendable {
-  case week = "this week",
-       month = "this month",
-       year = "this year"
+  case week, month, year
+
+  public var rawValue: String {
+    switch self {
+    case .week: String(localizable: .week)
+    case .month: String(localizable: .month)
+    case .year: String(localizable: .year)
+    }
+  }
 
   func interval(_ date: Date) -> Interval {
     switch self {

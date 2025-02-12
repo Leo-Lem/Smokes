@@ -11,8 +11,8 @@ public struct Fact {
     @Shared var fact: String
     var progress = 0.0
 
-    public init(fact: String = "Coming soon…", progress: Double = 0.0) {
-      _fact = Shared(wrappedValue: fact, .appStorage("smokes_fact"))
+    public init(fact: String? = nil, progress: Double = 0.0) {
+      _fact = Shared(wrappedValue: fact ?? String(localizable: .comingSoon), .appStorage("smokes_fact"))
       self.progress = progress
     }
   }

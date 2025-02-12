@@ -3,13 +3,13 @@
 import TipKit
 
 struct OptionTip: Tip {
-  let title = Text("Select an option")
-  let message: Text? = Text("Individualize your experience.")
+  let title = Text(.localizable(.optionTipTitle))
+  let message: Text? = Text(.localizable(.optionTipMessage))
   let image: Image? = Image(systemName: "arrowtriangle.down.circle.fill")
 }
 
 struct TransferTip: Tip {
-  let title = Text("Export and Import")
-  let message: Text? = Text("Keep your data safe and easily accessible.")
+  let title = Text(.localizable(.transferTipTitle))
+  let message: Text? = Text(.localizable(.transferTipMessage))
   let image: Image? = Image(systemName: "folder")
 }

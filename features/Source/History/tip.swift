@@ -3,7 +3,7 @@
 import TipKit
 
 struct EditTip: Tip {
-  let title = Text("Edit history")
-  let message: Text? = Text("Modify the past amounts here.")
+  let title = Text(.localizable(.editTipTitle))
+  let message: Text? = Text(.localizable(.editTipMessage))
   let image: Image? = Image(systemName: "square.and.pencil")
 }

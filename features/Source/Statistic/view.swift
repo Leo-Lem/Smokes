@@ -11,7 +11,7 @@ public struct StatisticView: View {
   public var body: some View {
     Grid {
       LoadableWithDescription(
-        store.optionAverage.flatMap{ $0.isFinite ? "\($0.formatted(.average)) smokes" : "No data" },
+        store.optionAverage.flatMap{String(localizable: $0.isFinite ? .smokes($0.formatted(.average)) : .noData)},
         description: store.option.rawValue
       )
       .widgetStyle($store.option, enabled: store.enabledOptions)
@@ -29,16 +29,18 @@ public struct StatisticView: View {
 
       GridRow {
         LoadableWithDescription(
-          store.averageTimeBetween.isFinite ? store.averageTimeBetween.formatted(.timeInterval) : "No Data",
-          description: "time between smokes"
+          store.averageTimeBetween.isFinite
+          ? store.averageTimeBetween.formatted(.timeInterval)
+          : String(localizable: .noData),
+          description: String(localizable: .timeBetween)
         )
         .widgetStyle()
         .gridCellColumns(store.showingTrend ? 1 : 2)
 
         if store.showingTrend {
           LoadableWithDescription(
-            store.optionTrend.flatMap { $0.isFinite ? "\($0.formatted(.trend)) smokes" : "No data" },
-            description: "\(store.option.rawValue) (trend)"
+            store.optionTrend.flatMap{String(localizable: $0.isFinite ? .smokes($0.formatted(.trend)) : .noData)},
+            description: String(localizable: .trend(store.option.rawValue))
           )
           .widgetStyle()
           .transition(.move(edge: .trailing))

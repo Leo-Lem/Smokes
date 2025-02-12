@@ -12,16 +12,18 @@ public extension View {
       )
   }
 
-  func widgetStyle<Option>(_ selection: Binding<Option>,
-                           enabled: Option.AllCases = Option.allCases,
-                           alignment: Alignment = .topLeading) -> some View
-  where Option: Hashable & CaseIterable & RawRepresentable<String>, Option.AllCases: RandomAccessCollection {
+  func widgetStyle<Option>(
+    _ selection: Binding<Option>,
+    enabled: Option.AllCases = Option.allCases,
+    alignment: Alignment = .topLeading
+  ) -> some View where Option: Hashable & CaseIterable & RawRepresentable<String>,
+                        Option.AllCases: RandomAccessCollection {
     self
       .widgetStyle()
       .overlay(alignment: alignment) {
         Menu("configure", systemImage: "arrowtriangle.down.circle.fill") {
           ForEach(enabled, id: \.self) { option in
-            Button(LocalizedStringKey(option.rawValue)) {
+            Button(option.rawValue) {
               selection.wrappedValue = option
             }
           }

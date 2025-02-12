@@ -19,7 +19,7 @@ public struct FactView: View {
           .frame(maxWidth: 100, maxHeight: 2)
           .cornerRadius(2)
 
-        Text(.localizable(.factTip))
+        Text(.localizable(.title))
           .font(.subheadline)
       }
       .frame(maxWidth: .infinity)

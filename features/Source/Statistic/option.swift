@@ -4,10 +4,16 @@ import Dependencies
 import Types
 
 public enum StatisticOption: String, CaseIterable, Sendable {
-  case perday = "per day",
-       perweek = "per week",
-       permonth = "per month",
-       peryear = "per year"
+  case perday, perweek, permonth, peryear
+
+  public var rawValue: String {
+    switch self {
+    case .perday: return String(localizable: .perDay)
+    case .perweek: return String(localizable: .perWeek)
+    case .permonth: return String(localizable: .perMonth)
+    case .peryear: return String(localizable: .perYear)
+    }
+  }
 
   static func enabledCases(_ interval: Interval) -> [Self] {
     switch interval {
@@ -29,10 +35,16 @@ public enum StatisticOption: String, CaseIterable, Sendable {
 }
 
 public enum PlotOption: String, CaseIterable, Sendable {
-  case byday = "by day",
-       byweek = "by week",
-       bymonth = "by month",
-       byyear = "by year"
+  case byday, byweek, bymonth, byyear
+
+  public var rawValue: String {
+    switch self {
+    case .byday: return String(localizable: .byDay)
+    case .byweek: return String(localizable: .byWeek)
+    case .bymonth: return String(localizable: .byMonth)
+    case .byyear: return String(localizable: .byYear)
+    }
+  }
 
   static func enabledCases(_ interval: Interval) -> [Self] {
     switch interval {

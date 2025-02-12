@@ -15,30 +15,36 @@ public struct HistoryView: View {
         store.plotData?
           .sorted(by: \.key)
           .map { ($0.formatted(.interval(bounds: store.interval, subdivision: store.subdivision)), $1) },
-        description: "\(store.option.rawValue)"
+        description: store.option.rawValue
       ) {
         AmountsChart($0)
       }
       .widgetStyle()
 
       GridRow {
-        LoadableWithDescription("\(store.optionAmount) smokes", description: "\(store.option.rawValue)")
+        LoadableWithDescription(String(localizable: .smokesLld(store.optionAmount)), description: store.option.rawValue)
           .widgetStyle($store.option)
 
-        LoadableWithDescription(store.untilHereAmount.flatMap{"\($0) smokes"}, description: "until here")
-          .widgetStyle()
+        LoadableWithDescription(
+          store.untilHereAmount.flatMap{String(localizable: .smokesLld($0))},
+          description: String(localizable: .untilHere)
+        )
+        .widgetStyle()
       }
 
       HStack {
-        LoadableWithDescription("\(store.dayAmount) smokes", description: "this day")
-          .overlay(alignment: .topTrailing) {
-            if !store.editing {
-              Button("modify", systemImage: "square.and.pencil") { store.editing = true }
-                .font(.title2)
-                .accessibilityIdentifier("start-modifying-button")
-                .popoverTip(EditTip())
-            }
+        LoadableWithDescription(
+          String(localizable: .smokesLld(store.dayAmount)),
+          description: String(localizable: .day)
+        )
+        .overlay(alignment: .topTrailing) {
+          if !store.editing {
+            Button(.localizable(.modify), systemImage: "square.and.pencil") { store.editing = true }
+              .font(.title2)
+              .accessibilityIdentifier("start-modifying-button")
+              .popoverTip(EditTip())
           }
+        }
 
         if store.editing {
           IncrementMenu(decrementDisabled: store.dayAmount < 1) {
@@ -48,7 +54,7 @@ public struct HistoryView: View {
           }
           .transition(.move(edge: .trailing))
           .overlay(alignment: .topTrailing) {
-            Button("dismiss", systemImage: "xmark.circle") { store.editing = false }
+            Button(.localizable(.dismiss), systemImage: "xmark.circle") { store.editing = false }
               .font(.title2)
               .accessibilityIdentifier("stop-modifying-button")
           }

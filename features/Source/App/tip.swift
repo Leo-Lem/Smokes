@@ -3,7 +3,7 @@
 import TipKit
 
 struct FactTip: Tip {
-  let title = Text("Smokes' Facts", comment: "Title of the fact tip.")
-  let message: Text? = Text("View an interesting fact about smoking.")
+  let title = Text(.localizable(.factTipTitle))
+  let message: Text? = Text(.localizable(.factTipMessage))
   let image: Image? = Image(systemName: "lightbulb")
 }

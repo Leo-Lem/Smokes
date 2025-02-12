@@ -5,10 +5,16 @@ import struct Dependencies.Dependency
 import enum Types.Interval
 
 public enum AmountOption: String, CaseIterable, Sendable {
-  case yesterday = "yesterday",
-       week = "this week",
-       month = "this month",
-       year = "this year"
+  case yesterday, week, month, year
+
+  public var rawValue: String {
+    switch self {
+    case .yesterday: String(localizable: .yesterday)
+    case .week: String(localizable: .week)
+    case .month: String(localizable: .month)
+    case .year: String(localizable: .year)
+    }
+  }
 
   var interval: Interval {
     @Dependency(\.calendar) var cal
@@ -24,6 +30,12 @@ public enum AmountOption: String, CaseIterable, Sendable {
 }
 
 public enum TimeOption: String, CaseIterable, Sendable {
-  case sinceLast = "smokefree for",
-       longestBreak = "longest break"
+  case sinceLast, longestBreak
+
+  public var rawValue: String {
+    switch self {
+    case .sinceLast: String(localizable: .sinceLast)
+    case .longestBreak: String(localizable: .longestBreak)
+    }
+  }
 }

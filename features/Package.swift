@@ -28,11 +28,11 @@ let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: 
 
 let libs: [Target] = [
   .target(name: "App", dependencies: [
-    tca, comps, "Dashboard", "History", "Statistic", "Fact", "Info", "Transfer"
+    tca, comps, xcstrings, "Dashboard", "History", "Statistic", "Fact", "Info", "Transfer"
   ], plugins: [lint]),
-  .target(name: "Dashboard", dependencies: [tca, ext, comps, types, calc], plugins: [lint]),
-  .target(name: "History", dependencies: [tca, ext, comps, types, calc], plugins: [lint]),
-  .target(name: "Statistic", dependencies: [tca, ext, comps, types, calc], plugins: [lint]),
+  .target(name: "Dashboard", dependencies: [tca, ext, comps, types, calc, xcstrings], plugins: [lint]),
+  .target(name: "History", dependencies: [tca, ext, comps, types, calc, xcstrings], plugins: [lint]),
+  .target(name: "Statistic", dependencies: [tca, ext, comps, types, calc, xcstrings], plugins: [lint]),
   .target(name: "Fact", dependencies: [tca, ext, xcstrings], plugins: [lint]),
   .target(name: "Info", dependencies: [tca, ext, xcstrings], plugins: [lint]),
   .target(name: "Transfer", dependencies: [tca, ext, comps, types, code, xcstrings], plugins: [lint]),

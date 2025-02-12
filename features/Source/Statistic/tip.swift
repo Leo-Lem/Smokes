@@ -3,7 +3,7 @@
 import TipKit
 
 struct AlltimeTip: Tip {
-  let title = Text("Select alltime")
-  let message: Text? = Text("View statistics over all time.")
+  let title = Text(.localizable(.alltimeTipTitle))
+  let message: Text? = Text(.localizable(.alltimeTipMessage))
   let image: Image? = Image(systemName: "chevron.forward.to.line")
 }

@@ -9,25 +9,31 @@ public struct DashboardView: View {
 
   public var body: some View {
     Grid {
-      LoadableWithDescription("\(store.dayAmount) smokes", description: "today")
-        .widgetStyle()
+      LoadableWithDescription(
+        String(localizable: .smokesLld(store.dayAmount)),
+        description: String(localizable: .today)
+      )
+      .widgetStyle()
 
       GridRow {
-        LoadableWithDescription("\(store.optionAmount) smokes", description: store.amountOption.rawValue)
-          .widgetStyle($store.amountOption)
-          .popoverTip(OptionTip())
+        LoadableWithDescription(
+          String(localizable: .smokesLld(store.optionAmount)),
+          description: store.amountOption.rawValue
+        )
+        .widgetStyle($store.amountOption)
+        .popoverTip(OptionTip())
 
         LoadableWithDescription(
-          store.optionTime.isFinite ? store.optionTime.formatted(.timeInterval) : "No data",
+          store.optionTime.isFinite ? store.optionTime.formatted(.timeInterval) : String(localizable: .noData),
           description: store.timeOption.rawValue
         )
         .widgetStyle($store.timeOption)
       }
 
       GridRow {
-          LoadableWithDescription("\(store.untilHereAmount) smokes", description: "until now")
+        LoadableWithDescription(String(localizable: .smokesLld(store.untilHereAmount)), description: String(localizable: .untilNow))
             .overlay(alignment: .bottomLeading) {
-              Button("open exporter", systemImage: "folder") { store.transferring = true }
+              Button(.localizable(.openExporter), systemImage: "folder") { store.transferring = true }
                 .labelStyle(.iconOnly)
                 .accessibilityIdentifier("show-porter-button")
                 .popoverTip(TransferTip())
