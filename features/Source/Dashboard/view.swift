@@ -13,13 +13,13 @@ public struct DashboardView: View {
         .widgetStyle()
 
       GridRow {
-        LoadableWithDescription("\(store.optionAmount) smokes", description: "\(store.amountOption.rawValue)")
+        LoadableWithDescription("\(store.optionAmount) smokes", description: store.amountOption.rawValue)
           .widgetStyle($store.amountOption)
           .popoverTip(OptionTip())
 
         LoadableWithDescription(
-          store.optionTime.isFinite ? "\(store.optionTime, format: .timeInterval)" : "No data",
-          description: "\(store.timeOption.rawValue)"
+          store.optionTime.isFinite ? store.optionTime.formatted(.timeInterval) : "No data",
+          description: store.timeOption.rawValue
         )
         .widgetStyle($store.timeOption)
       }

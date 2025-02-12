@@ -24,5 +24,3 @@ struct Main: App {
 #Preview {
   SmokesView()
 }
-
-// TODO: move localizations to packages

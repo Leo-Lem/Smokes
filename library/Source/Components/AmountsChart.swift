@@ -12,7 +12,7 @@ public struct AmountsChart: View {
               y: .value(String(localized: "smokes"), amount))
     }
     .minimumScaleFactor(0.5)
-    .chartYAxisLabel("smokes")
+    .chartYAxisLabel(String(localized: "smokes"))
   }
 
   public init(_ amounts: [(label: String, amount: Int)]) { self.amounts = amounts }

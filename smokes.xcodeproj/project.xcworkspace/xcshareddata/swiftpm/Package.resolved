@@ -334,6 +334,15 @@
       }
     },
     {
+      "identity" : "xcstrings-tool-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/liamnichols/xcstrings-tool-plugin.git",
+      "state" : {
+        "revision" : "e99d6ad477aaf87d5808997b09ad0accb420a25e",
+        "version" : "0.5.2"
+      }
+    },
+    {
       "identity" : "xctest-dynamic-overlay",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",

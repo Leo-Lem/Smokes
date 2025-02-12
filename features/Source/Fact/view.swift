@@ -19,7 +19,7 @@ public struct FactView: View {
           .frame(maxWidth: 100, maxHeight: 2)
           .cornerRadius(2)
 
-        Text("Smokes' Facts")
+        Text(.localizable(.factTip))
           .font(.subheadline)
       }
       .frame(maxWidth: .infinity)
@@ -35,11 +35,11 @@ public struct FactView: View {
           .background(.ultraThinMaterial)
           .cornerRadius(5)
 
-        Button {
+        Button(.localizable(.skip), systemImage: "chevron.forward.to.line") {
           store.send(.dismiss, animation: .default)
-        } label: { Label("skip", systemImage: "chevron.forward.to.line") }
-          .buttonStyle(.borderedProminent)
-          .labelStyle(.iconOnly)
+        }
+        .buttonStyle(.borderedProminent)
+        .labelStyle(.iconOnly)
       }
     }
     .onAppear { store.send(.appear, animation: .default) }

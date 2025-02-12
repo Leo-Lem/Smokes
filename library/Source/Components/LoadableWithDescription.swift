@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct LoadableWithDescription<V: CustomStringConvertible, Content: View>: View {
   let value: V?
-  let description: LocalizedStringResource?
+  let description: LocalizedStringKey?
   let content: (V) -> Content
 
   public var body: some View {
@@ -29,14 +29,17 @@ public struct LoadableWithDescription<V: CustomStringConvertible, Content: View>
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .accessibilityElement()
-    .accessibilityLabel(String(localized: description ?? "No description"))
+    .accessibilityLabel(description ?? "No description")
     .accessibilityValue(value?.description ?? "Loading")
   }
 
-  public init(_ value: V?, description: LocalizedStringResource? = nil,
-              @ViewBuilder content: @escaping (V) -> Content) {
+  public init(
+    _ value: V?,
+    description: String? = nil,
+    @ViewBuilder content: @escaping (V) -> Content
+  ) {
     self.value = value
-    self.description = description
+    self.description = description.flatMap { LocalizedStringKey($0) }
     self.content = content
   }
 }
@@ -44,23 +47,19 @@ public struct LoadableWithDescription<V: CustomStringConvertible, Content: View>
 extension LoadableWithDescription where Content == AnyView {
   public init<CollectionContent: View>(
     collection: V?,
-    description: LocalizedStringResource?,
+    description: String?,
     @ViewBuilder content: @escaping (V) -> CollectionContent
   ) where V: Collection {
-    self.value = collection
-    self.description = description
-    self.content = {
+    self.init(collection, description: description) {
       AnyView(erasing: content($0).replaceWhenEmpty($0))
     }
   }
 
   public init(
-    _ value: LocalizedStringResource?,
-    description: LocalizedStringResource? = nil
+    _ value: String?,
+    description: String? = nil
   ) where V == String {
-    self.value = value.flatMap { String(localized: $0) }
-    self.description = description
-    self.content = {
+    self.init(value, description: description) {
       AnyView(erasing:
         Text($0)
           .font(.largeTitle)

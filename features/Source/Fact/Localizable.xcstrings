@@ -1,11 +1,40 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "skip" : {
-
+    "factTip" : {
+      "comment" : "Title of the fact tip.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smokes' Facts - Rauchende Tatsachen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smokes' Facts"
+          }
+        }
+      }
     },
-    "Smokes' Facts" : {
-      "comment" : "Title of the fact tip."
+    "skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überspringen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "skip"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

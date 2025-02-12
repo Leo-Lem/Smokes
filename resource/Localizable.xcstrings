@@ -756,7 +756,7 @@
         }
       }
     },
-    "Statistics" : {
+    "Statistic" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {

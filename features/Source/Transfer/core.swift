@@ -40,8 +40,9 @@ public struct Transfer {
     case select(Encoding),
          updateFile(Dates),
          preview(String?), file(DataFile?),
-         loadEntries, addEntries(Dates),
-         failure(String)
+         loadEntries, addEntries(Dates)
+
+    case failure(String)
 
     case alert(PresentationAction<Alert>)
     public enum Alert: Equatable, Sendable {}
@@ -123,9 +124,9 @@ public struct Transfer {
           } catch {
             return switch error {
             case let error as URLError where error.code == .noPermissionsToReadFile:
-                .send(.failure(String(localized: "Permission denied…")))
+                .send(.failure(String(localizable: .noPermission)))
             default:
-                .send(.failure(String(localized: "Something went wrong…")))
+                .send(.failure(String(localizable: .error)))
             }
           }
 
@@ -133,7 +134,7 @@ public struct Transfer {
           do {
             debugPrint(try result.get())
           } catch {
-            return .send(.failure(String(localized: "Something went wrong…")))
+            return .send(.failure(String(localizable: .error)))
           }
 
         case .binding(\.encoding):

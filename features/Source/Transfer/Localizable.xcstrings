@@ -1,82 +1,138 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "daily" : {
+    "dail" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "nach Tagen"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "daily"
+          }
         }
       }
     },
-    "exact" : {
+    "error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entschuldige, dieses Format ist unbekannt…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong…"
+          }
+        }
+      }
+    },
+    "exac" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exakt"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "exact"
+          }
         }
       }
     },
-    "export" : {
+    "expor" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exportieren"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "export"
+          }
         }
       }
     },
-    "grouped" : {
+    "groupe" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Übersicht"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "grouped"
+          }
         }
       }
     },
-    "import" : {
+    "impor" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importieren"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "import"
+          }
         }
       }
     },
-    "Permission denied…" : {
+    "noPermission" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zugriff verweigert…"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permission denied…"
+          }
         }
       }
     },
-    "pick format" : {
+    "pickFormat" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format auswählen"
           }
-        }
-      }
-    },
-    "Something went wrong…" : {
-      "localizations" : {
-        "de" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entschuldige, dieses Format ist unbekannt…"
+            "value" : "pick format"
           }
         }
       }

@@ -29,7 +29,7 @@ public struct TransferView: View {
       Spacer()
 
       HStack {
-        Button(String(localized: "import", bundle: .module), systemImage: "square.and.arrow.down") {
+        Button(.localizable(.impor), systemImage: "square.and.arrow.down") {
           send(.importButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("import-button")
@@ -39,7 +39,7 @@ public struct TransferView: View {
           .overlay(content: ProgressView.init)
         }
 
-        Picker(String(localized: "pick format", bundle: .module), selection: $store.encoding) {
+        Picker(.localizable(.pickFormat), selection: $store.encoding) {
           ForEach(Encoding.allCases, id: \.self) { encoding in
             Text(encoding.title)
           }
@@ -49,7 +49,7 @@ public struct TransferView: View {
         .accessibilityValue(store.encoding.title)
         .accessibilityIdentifier("format-picker")
 
-        Button(String(localized: "export", bundle: .module), systemImage: "square.and.arrow.up") {
+        Button(.localizable(.expor), systemImage: "square.and.arrow.up") {
           send(.exportButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("export-button")
@@ -77,11 +77,12 @@ public struct TransferView: View {
 
 fileprivate extension Encoding {
   var title: String {
-    switch self {
-    case .daily: return String(localized: "daily")
-    case .grouped: return String(localized: "exact")
-    case .exact: return String(localized: "grouped")
-    }
+//    switch self {
+//    case .daily: return .localizable(.daily)
+//    case .grouped: return .localizable(.exact)
+//    case .exact: return .localizable(.grouped)
+//    }
+    return ""
   }
 }
 

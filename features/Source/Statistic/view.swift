@@ -11,8 +11,8 @@ public struct StatisticView: View {
   public var body: some View {
     Grid {
       LoadableWithDescription(
-        store.optionAverage.flatMap{ $0.isFinite ? "\($0, format: .average) smokes" : "No data" },
-        description: "\(store.option.rawValue)"
+        store.optionAverage.flatMap{ $0.isFinite ? "\($0.formatted(.average)) smokes" : "No data" },
+        description: store.option.rawValue
       )
       .widgetStyle($store.option, enabled: store.enabledOptions)
 
@@ -20,7 +20,7 @@ public struct StatisticView: View {
         store.optionPlotData?
           .sorted(by: \.key)
           .map { ($0.formatted(.interval(bounds: store.selection, subdivision: store.subdivision)), $1) },
-        description: "\(store.plotOption.rawValue)"
+        description: store.plotOption.rawValue
       ) {
         AmountsChart($0)
       }
@@ -29,7 +29,7 @@ public struct StatisticView: View {
 
       GridRow {
         LoadableWithDescription(
-          store.averageTimeBetween.isFinite ? "\(store.averageTimeBetween, format: .timeInterval)" : "No Data",
+          store.averageTimeBetween.isFinite ? store.averageTimeBetween.formatted(.timeInterval) : "No Data",
           description: "time between smokes"
         )
         .widgetStyle()
@@ -37,8 +37,8 @@ public struct StatisticView: View {
 
         if store.showingTrend {
           LoadableWithDescription(
-            store.optionTrend.flatMap { $0.isFinite ? "\($0, format: .trend) smokes" : "No data" },
-            description: "\(store.option.rawValue) \(String(localized: "(trend)"))"
+            store.optionTrend.flatMap { $0.isFinite ? "\($0.formatted(.trend)) smokes" : "No data" },
+            description: "\(store.option.rawValue) (trend)"
           )
           .widgetStyle()
           .transition(.move(edge: .trailing))

@@ -1,39 +1,84 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Credits" : {
+    "credits" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Team"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credits"
+          }
         }
       }
     },
-    "Designed by %@" : {
+    "description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der erste Schritt zum aufhören ist Erkenntnis!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We're here to help you get a grip on your smoking habit, and help you to overcome it!"
+          }
+        }
+      }
+    },
+    "designed %@" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Design von %@"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Designed by %@"
+          }
         }
       }
     },
-    "Developed by %@" : {
+    "developed %@" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entwickelt von %@"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Developed by %@"
+          }
         }
       }
     },
-    "Links" : {
+    "links" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Links"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Links"
@@ -41,19 +86,33 @@
         }
       }
     },
-    "Privacy Policy" : {
+    "privacy" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Datenschutzerklärung"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
         }
       }
     },
-    "Support" : {
+    "support" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Support"
@@ -61,22 +120,19 @@
         }
       }
     },
-    "We're here to help you get a grip on your smoking habit, and help you to overcome it!" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der erste Schritt zum aufhören ist Erkenntnis!"
-          }
-        }
-      }
-    },
-    "Webpage" : {
+    "webpage" : {
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Webseite"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webpage"
           }
         }
       }
