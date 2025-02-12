@@ -217,17 +217,6 @@
         }
       }
     },
-    "Credits" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Team"
-          }
-        }
-      }
-    },
     "daily" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -1,6 +1,6 @@
 // Created by Leopold Lemmermann on 26.04.23.
 
-import ComposableArchitecture
+import typealias ComposableArchitecture.StoreOf
 import Extensions
 import SwiftUI
 
@@ -15,23 +15,29 @@ public struct InfoView: View {
         .bold()
         .padding()
 
-      Text("We're here to help you get an overview of your smoking habit, and help you to overcome it!")
+      Text("We're here to help you get a grip on your smoking habit, and help you to overcome it!", bundle: .module)
         .multilineTextAlignment(.center)
 
     Spacer()
       Divider()
 
-      Section("Links") {
+      Section(String(localized: "Links", bundle: .module)) {
         List {
           Group {
-            Button("Webpage", systemImage: "safari") { store.send(.openMarketing) }
-              .labelStyle(.external(color: .green, transfer: true))
+            Button(String(localized: "Webpage", bundle: .module), systemImage: "safari") {
+              store.send(.openMarketing)
+            }
+            .labelStyle(.external(color: .green, transfer: true))
 
-            Button("Support", systemImage: "questionmark.circle") { store.send(.openSupport) }
-              .labelStyle(.external(color: .red, transfer: true))
+            Button(String(localized: "Support", bundle: .module), systemImage: "questionmark.circle") {
+              store.send(.openSupport)
+            }
+            .labelStyle(.external(color: .red, transfer: true))
 
-            Button("Privacy Policy", systemImage: "person.badge.key") { store.send(.openPrivacy) }
-              .labelStyle(.external(color: .gray, transfer: true))
+            Button(String(localized: "Privacy Policy", bundle: .module), systemImage: "person.badge.key") {
+              store.send(.openPrivacy)
+            }
+            .labelStyle(.external(color: .gray, transfer: true))
           }
           .listRowBackground(Color.clear)
         }
@@ -43,10 +49,10 @@ public struct InfoView: View {
 
       Divider()
 
-      Section("Credits") {
+      Section(String(localized: "Credits", bundle: .module)) {
         VStack {
-          Text("Developed by \(Bundle.main[string: "SmokesCreator"])")
-          Text("Designed by \(Bundle.main[string: "SmokesCreator"])")
+          Text("Developed by \(Bundle.main[string: "SmokesCreator"])", bundle: .module)
+          Text("Designed by \(Bundle.main[string: "SmokesCreator"])", bundle: .module)
         }
         .font(.caption)
       }
@@ -54,13 +60,13 @@ public struct InfoView: View {
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .presentationDetents([.medium])
-    .presentationBackground(.ultraThinMaterial, legacy: Color("BackgroundColor"))
+    .presentationBackground(.ultraThinMaterial)
   }
 
   public init(store: StoreOf<Info>) { self.store = store }
 }
 
 #Preview {
-  InfoView(store: Store(initialState: Info.State(), reducer: Info.init))
+  InfoView(store: StoreOf<Info>(initialState: Info.State(), reducer: Info.init))
     .previewInSheet()
 }
