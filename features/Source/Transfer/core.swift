@@ -159,6 +159,6 @@ public struct Transfer {
 }
 
 extension Transfer.State {
-  var loadingExport: Bool { file == nil && exporting }
-  var loadingImport: Bool { file == nil && importing }
+  var loadingExport: Bool { file == nil }
+  var loadingImport: Bool { file == nil }
 }

@@ -4,7 +4,6 @@ import Charts
 import Components
 import ComposableArchitecture
 import Extensions
-import SwiftUI
 
 public struct StatisticView: View {
   @Bindable public var store: StoreOf<Statistic>

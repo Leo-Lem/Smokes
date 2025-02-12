@@ -29,8 +29,8 @@ public struct TransferView: View {
       Spacer()
 
       HStack {
-        Button { send(.importButtonTapped, animation: .default) } label: {
-          Label("import", systemImage: "square.and.arrow.down")
+        Button(String(localized: "import", bundle: .module), systemImage: "square.and.arrow.down") {
+          send(.importButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("import-button")
         .fileImporter(isPresented: $store.importing, allowedContentTypes: [.json]) { send(.import($0)) }
@@ -39,7 +39,7 @@ public struct TransferView: View {
           .overlay(content: ProgressView.init)
         }
 
-        Picker("pick format", selection: $store.encoding) {
+        Picker(String(localized: "pick format", bundle: .module), selection: $store.encoding) {
           ForEach(Encoding.allCases, id: \.self) { encoding in
             Text(encoding.title)
           }
@@ -49,8 +49,8 @@ public struct TransferView: View {
         .accessibilityValue(store.encoding.title)
         .accessibilityIdentifier("format-picker")
 
-        Button { send(.exportButtonTapped, animation: .default) } label: {
-          Label("export", systemImage: "square.and.arrow.up")
+        Button(String(localized: "export", bundle: .module), systemImage: "square.and.arrow.up") {
+          send(.exportButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("export-button")
         .fileExporter(
@@ -60,8 +60,8 @@ public struct TransferView: View {
           .hidden()
           .overlay(content: ProgressView.init)
         }
-        .widgetStyle()
       }
+      .widgetStyle()
       .imageScale(.large)
       .font(.headline)
     }
