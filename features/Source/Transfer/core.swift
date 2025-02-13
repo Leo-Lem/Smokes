@@ -87,10 +87,17 @@ public struct Transfer {
 
       case .loadEntries:
         if let file = state.file {
-          return .run { [encoding = state.encoding] send in
+          return .run { send in
             @Dependency(\.code.decode) var decode
-            let dates = Dates(try await decode(file.content, encoding))
-            await send(.addEntries(dates))
+
+            for encoding in Encoding.allCases {
+              do {
+                let dates = Dates(try await decode(file.content, encoding))
+                return await send(.addEntries(dates))
+              } catch {}
+            }
+
+            await send(.failure(String(localizable: .error)))
           }
         } else {
           preconditionFailure()

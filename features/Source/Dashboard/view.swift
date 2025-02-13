@@ -6,6 +6,7 @@ import SwiftUIComponents
 
 public struct DashboardView: View {
   @Bindable public var store: StoreOf<Dashboard>
+  public var transfer: () -> Void
 
   public var body: some View {
     Grid {
@@ -36,7 +37,7 @@ public struct DashboardView: View {
           description: String(localizable: .untilNow)
         )
           .overlay(alignment: .bottomLeading) {
-            Button(.localizable(.openExporter), systemImage: "folder") { store.transferring = true }
+            Button(.localizable(.openExporter), systemImage: "folder", action: transfer)
               .labelStyle(.iconOnly)
               .accessibilityIdentifier("show-porter-button")
               .popoverTip(TransferTip())
@@ -55,7 +56,10 @@ public struct DashboardView: View {
     .onAppear { store.send(.reload) }
   }
 
-  public init(store: StoreOf<Dashboard>) { self.store = store }
+  public init(store: StoreOf<Dashboard>, transfer: @escaping () -> Void = {}) {
+    self.store = store
+    self.transfer = transfer
+  }
 }
 
 #Preview {

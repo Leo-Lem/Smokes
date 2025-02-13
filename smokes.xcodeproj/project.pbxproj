@@ -126,15 +126,14 @@
 			children = (
 				6ED3746F2D4F8535008586CC /* README.md */,
 				6E91322E2D523C3700E25F16 /* Smokes.swift */,
-				6ED374D12D4F8565008586CC /* test */,
-				6EF802132D58A12900069BB1 /* resource */,
 				6E6C05292D4F930400CAFDBC /* features */,
 				6ED3746E2D4F8535008586CC /* library */,
 				6ED3746C2D4F8535008586CC /* facts */,
 				6ED3746B2D4F8535008586CC /* extensions */,
+				6EF802132D58A12900069BB1 /* resource */,
+				6ED374D12D4F8565008586CC /* test */,
 				6ED3746D2D4F8535008586CC /* LICENSE */,
 				6ED374692D4F8535008586CC /* CNAME */,
-				6E9CE30A2D5E464F00D69754 /* Frameworks */,
 				6E48374628EC991100B67CA4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -147,13 +146,6 @@
 				6EF6A6952D5E3BB300D3E43C /* SmokesPerformanceTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6E9CE30A2D5E464F00D69754 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

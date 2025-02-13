@@ -10,8 +10,6 @@ import Transfer
 
 @Reducer public struct Smokes: Sendable {
   @ObservableState public struct State: Equatable {
-    @Shared var transferring: Bool
-
     var dashboard: Dashboard.State
     var history: History.State
     var statistic: Statistic.State
@@ -23,8 +21,7 @@ import Transfer
     var tab: Int
 
     public init(
-      transferring: Shared<Bool> = Shared(value: false),
-      dashboard: Dashboard.State? = nil,
+      dashboard: Dashboard.State = Dashboard.State(),
       history: History.State = History.State(),
       statistic: Statistic.State = Statistic.State(),
       fact: Fact.State? = nil,
@@ -32,8 +29,7 @@ import Transfer
       transfer: Transfer.State? = nil,
       tab: Int = 1
     ) {
-      _transferring = transferring
-      self.dashboard = Dashboard.State(transferring: _transferring)
+      self.dashboard = dashboard
       self.history = history
       self.statistic = statistic
       _fact = .init(wrappedValue: fact)
@@ -43,9 +39,7 @@ import Transfer
     }
   }
 
-  public enum Action: BindableAction, Sendable {
-    case binding(BindingAction<State>)
-
+  public enum Action: ViewAction, Sendable {
     case dashboard(Dashboard.Action),
          history(History.Action),
          statistic(Statistic.Action),
@@ -53,30 +47,34 @@ import Transfer
          info(PresentationAction<Info.Action>),
          transfer(PresentationAction<Transfer.Action>)
 
-    case infoButtonTapped
-    case factButtonTapped
+    case view(View)
+    @CasePathable public enum View: BindableAction, Sendable {
+      case binding(BindingAction<State>)
+
+      case infoButtonTapped
+      case factButtonTapped
+      case transferButtonTapped
+    }
   }
 
   public var body: some Reducer<State, Action> {
-    BindingReducer()
+    BindingReducer(action: \.view)
 
     Scope(state: \.dashboard, action: \.dashboard, child: Dashboard.init)
-      .onChange(of: \.transferring) { _, new in
-        Reduce { state, _ in
-          state.transfer = new ? Transfer.State() : nil
-          return .none
-        }
-      }
     Scope(state: \.history, action: \.history, child: History.init)
     Scope(state: \.statistic, action: \.statistic, child: Statistic.init)
 
     Reduce { state, action in
-      switch action {
-      case .factButtonTapped:
-        state.fact = Fact.State()
-      case .infoButtonTapped:
-        state.info = Info.State()
-      default: break
+      if case let .view(action) = action {
+        switch action {
+        case .factButtonTapped:
+          state.fact = Fact.State()
+        case .infoButtonTapped:
+          state.info = Info.State()
+        case .transferButtonTapped:
+          state.transfer = Transfer.State()
+        case .binding: break
+        }
       }
 
       return .none

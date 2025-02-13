@@ -78,8 +78,8 @@ fileprivate extension Encoding {
   var title: String {
     switch self {
     case .daily: return String(localizable: .daily)
-    case .grouped: return String(localizable: .exact)
-    case .exact: return String(localizable: .grouped)
+    case .grouped: return String(localizable: .grouped)
+    case .exact: return String(localizable: .exact)
     }
   }
 }

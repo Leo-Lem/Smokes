@@ -11,7 +11,7 @@ import Testing
       deps.date.now = .now
     }
 
-    await store.send(.infoButtonTapped) {
+    await store.send(.view(.infoButtonTapped)) {
       $0.info = .init()
     }
   }
@@ -21,7 +21,7 @@ import Testing
       deps.date.now = .now
     }
 
-    await store.send(.factButtonTapped) {
+    await store.send(.view(.factButtonTapped)) {
       $0.fact = .init()
     }
   }
@@ -31,8 +31,7 @@ import Testing
       deps.date.now = .now
     }
 
-    await store.send(\.dashboard.binding.transferring, true) {
-      $0.$transferring.withLock { $0 = true }
+    await store.send(.view(.transferButtonTapped)) {
       $0.transfer = .init()
     }
   }

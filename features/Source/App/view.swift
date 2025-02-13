@@ -9,6 +9,7 @@ import Statistic
 import SwiftUIComponents
 import Transfer
 
+@ViewAction(for: Smokes.self)
 public struct SmokesView: View {
   @Bindable public var store: StoreOf<Smokes>
 
@@ -20,9 +21,11 @@ public struct SmokesView: View {
       }
 
       Tab(.localizable(.dashboard), systemImage: "square", value: 1) {
-        DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard))
-          .padding(.bottom, 50)
-          .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
+        DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard)) {
+          send(.transferButtonTapped)
+        }
+        .padding(.bottom, 50)
+        .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
       }
 
       Tab(.localizable(.statistic), systemImage: "percent", value: 2) {
@@ -34,12 +37,12 @@ public struct SmokesView: View {
     .indexViewStyle(.page(backgroundDisplayMode: .always))
     .padding(5)
     .overlay(alignment: .bottomLeading) {
-      FloatingButton(.init(localizable: .info), systemImage: "info") { store.send(.infoButtonTapped) }
+      FloatingButton(.init(localizable: .info), systemImage: "info") { send(.infoButtonTapped) }
         .sheet(item: $store.scope(state: \.info, action: \.info)) { InfoView(store: $0) }
         .padding()
     }
     .overlay(alignment: .bottomTrailing) {
-      FloatingButton(.init(localizable: .fact), systemImage: "lightbulb") { store.send(.factButtonTapped) }
+      FloatingButton(.init(localizable: .fact), systemImage: "lightbulb") { send(.factButtonTapped) }
         .fullScreenCover(item: $store.scope(state: \.fact, action: \.fact)) {
           FactView(store: $0)
             .padding()

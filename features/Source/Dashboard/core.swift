@@ -8,7 +8,6 @@ import Types
 
 @Reducer public struct Dashboard: Sendable {
   @ObservableState public struct State: Equatable {
-    @Shared public var transferring: Bool
     @Shared public var entries: Dates
     @Shared var amountOption: AmountOption
     @Shared var timeOption: TimeOption
@@ -16,13 +15,11 @@ import Types
     var now: Date
 
     public init(
-      transferring: Shared<Bool> = Shared(value: false),
       entries: Dates = Dates(),
       amountOption: AmountOption = .week,
       timeOption: TimeOption = .sinceLast,
       now: Date = Dependency(\.date.now).wrappedValue
     ) {
-      _transferring = transferring
       _entries = Shared(wrappedValue: entries, .fileStorage(.documentsDirectory.appending(path: "entries.json")))
       _amountOption = Shared(wrappedValue: amountOption, .appStorage("dashboard_amountOption"))
       _timeOption = Shared(wrappedValue: timeOption, .appStorage("dashbaord_timeOption"))
