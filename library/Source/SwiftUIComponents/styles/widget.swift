@@ -21,7 +21,7 @@ public extension View {
     self
       .widgetStyle()
       .overlay(alignment: alignment) {
-        Menu("configure", systemImage: "arrowtriangle.down.circle.fill") {
+        Menu(.localizable(.configure), systemImage: "arrowtriangle.down.circle.fill") {
           ForEach(enabled, id: \.self) { option in
             Button(option.rawValue) {
               selection.wrappedValue = option

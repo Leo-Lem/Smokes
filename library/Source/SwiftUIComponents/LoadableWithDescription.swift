@@ -29,8 +29,8 @@ public struct LoadableWithDescription<V: CustomStringConvertible, Content: View>
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .accessibilityElement()
-    .accessibilityLabel(description ?? "No description")
-    .accessibilityValue(value?.description ?? "Loading")
+    .accessibilityLabel(description ?? .localizable(.noDescription))
+    .accessibilityValue(value?.description ?? String(localizable: .loading))
   }
 
   public init(

@@ -1,12 +1,12 @@
 // Created by Leopold Lemmermann on 02.02.25.
 
-import Components
 import ComposableArchitecture
 import Dashboard
 import Fact
 import History
 import Info
 import Statistic
+import SwiftUIComponents
 import Transfer
 
 public struct SmokesView: View {

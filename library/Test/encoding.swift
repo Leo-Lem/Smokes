@@ -1,42 +1,33 @@
 // Created by Leopold Lemmermann on 23.02.23.
 
-import XCTest
-
 @testable import Code
+import Foundation
+import Testing
 
-@MainActor
-final class EncodingTests: XCTestCase {
-  func test_whenEncodingEntries_thenDataIsNotEmpty() async throws {
+struct EncodingTest {
+  @Test(arguments: Encoding.allCases)
+  func whenEncodingEntries_thenDataIsNotEmpty(encoding: Encoding) async throws {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let entries = [base - 999_999, base, base + 999_999]
-    
-    for encoding in Encoding.allCases {
-      XCTAssertFalse(try encoding.encode(entries).isEmpty)
-    }
+    #expect(try encoding.encode(entries).count > 0)
   }
-  
-  func test_whenEncodingEmptyEntries_thenDataIsEmpty() async throws {
-    for encoding in Encoding.allCases {
-      XCTAssertTrue(try encoding.encode([]).isEmpty)
-    }
+
+  @Test(arguments: Encoding.allCases)
+  func whenEncodingEmptyEntries_thenDataIsEmpty(encoding: Encoding) async throws {
+    #expect(try encoding.encode([]).isEmpty)
   }
-  
-  // some encodings remove certain information,
-  // so the exact dates would not be matched
-  // but the total should always stay the same
-  func test_whenDecodingValidData_thenReturnsCorrectTotal() async throws {
+
+  /// Some encodings remove certain information, so exact dates would not match. The total should always stay the same.
+  @Test(arguments: Encoding.allCases)
+  func whenDecodingValidData_thenReturnsCorrectEntries(encoding: Encoding) async throws {
     let base = Date(timeIntervalSinceReferenceDate: 0)
     let entries = [base - 999_999, base, base + 999_999]
-    
-    for encoding in Encoding.allCases {
-      let data = try encoding.encode(entries)
-      XCTAssertEqual(try encoding.decode(data).count, entries.count)
-    }
+    let data = try encoding.encode(entries)
+    #expect(try encoding.decode(data).count == entries.count)
   }
-  
-  func test_whenDecodingEmptyData_thenReturnsEmptyEntries() async throws {
-    for encoding in Encoding.allCases {
-      XCTAssertTrue(try encoding.decode(Data()).isEmpty)
-    }
+
+  @Test(arguments: Encoding.allCases)
+  func whenDecodingEmptyData_thenReturnsEmptyEntries(encoding: Encoding) async throws {
+    #expect(try encoding.decode(Data()).isEmpty)
   }
 }

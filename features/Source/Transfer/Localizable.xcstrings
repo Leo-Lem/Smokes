@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "dail" : {
+    "daily" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
@@ -35,7 +35,7 @@
         }
       }
     },
-    "exac" : {
+    "exact" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
@@ -52,7 +52,7 @@
         }
       }
     },
-    "expor" : {
+    "export" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
@@ -69,7 +69,7 @@
         }
       }
     },
-    "groupe" : {
+    "grouped" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
@@ -86,7 +86,7 @@
         }
       }
     },
-    "impor" : {
+    "import" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {

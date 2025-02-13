@@ -1,8 +1,8 @@
 // Created by Leopold Lemmermann on 02.02.25.
 
-import Components
 import ComposableArchitecture
 import Extensions
+import SwiftUIComponents
 
 public struct DashboardView: View {
   @Bindable public var store: StoreOf<Dashboard>
@@ -31,14 +31,17 @@ public struct DashboardView: View {
       }
 
       GridRow {
-        LoadableWithDescription(String(localizable: .smokesLld(store.untilHereAmount)), description: String(localizable: .untilNow))
-            .overlay(alignment: .bottomLeading) {
-              Button(.localizable(.openExporter), systemImage: "folder") { store.transferring = true }
-                .labelStyle(.iconOnly)
-                .accessibilityIdentifier("show-porter-button")
-                .popoverTip(TransferTip())
-            }
-            .widgetStyle()
+        LoadableWithDescription(
+          String(localizable: .smokesLld(store.untilHereAmount)),
+          description: String(localizable: .untilNow)
+        )
+          .overlay(alignment: .bottomLeading) {
+            Button(.localizable(.openExporter), systemImage: "folder") { store.transferring = true }
+              .labelStyle(.iconOnly)
+              .accessibilityIdentifier("show-porter-button")
+              .popoverTip(TransferTip())
+          }
+          .widgetStyle()
 
           IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
             store.send(.addButtonTapped, animation: .default)

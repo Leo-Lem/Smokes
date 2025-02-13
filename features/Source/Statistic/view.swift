@@ -1,9 +1,9 @@
 // Created by Leopold Lemmermann on 12.03.23.
 
 import Charts
-import Components
 import ComposableArchitecture
 import Extensions
+import SwiftUIComponents
 
 public struct StatisticView: View {
   @Bindable public var store: StoreOf<Statistic>

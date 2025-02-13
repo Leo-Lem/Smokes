@@ -14,24 +14,23 @@ public struct IntervalPicker: View {
       Button {
         if selectedMonth != nil { selectedMonth = previous } else { selectedYear ?= previous }
       } label: {
-        Label(String(localized: "Previous", comment: "Button for selecting the unit before the current one."),
-              systemImage: "chevron.left")
+        Label(.localizable(.previous), systemImage: "chevron.left")
       }
       .disabled(previous == nil)
       .accessibilityIdentifier("previous-button")
 
-      Picker("month", selection: $selectedMonth) {
-        Text("-")
+      Picker(String(localizable: .month), selection: $selectedMonth) {
+        Text(localizable: .none)
           .tag(Interval?.none)
 
         ForEach(months, id: \.self) { month in
           Text(month.end!.formatted(Date.FormatStyle().month(.abbreviated)))
-            .tag(Optional(month))
+            .tag(month)
         }
       }
       .highlight(when: !selectedAlltime && selectedMonth != nil)
 
-      Picker("year", selection: $selectedYear) {
+      Picker(String(localizable: .year), selection: $selectedYear) {
         ForEach(years, id: \.self) { year in
           Text(year.end!.formatted(Date.FormatStyle().year(.defaultDigits)))
             .tag(year)
@@ -39,22 +38,16 @@ public struct IntervalPicker: View {
       }
       .highlight(when: !selectedAlltime)
 
-      Button {
+      Button(.localizable(.next), systemImage: "chevron.right") {
         if selectedMonth != nil { selectedMonth = next } else { selectedYear ?= next }
-      } label: {
-        Label(String(localized: "next", comment: "Button for selecting the unit after the current one."),
-              systemImage: "chevron.right")
       }
       .disabled(next == nil)
       .accessibilityIdentifier("next-button")
 
       Spacer()
 
-      Button { selectedAlltime.toggle() } label: {
-        Label(String(localized: "until now", comment: "Button for selecting the interval until now"),
-              systemImage: "chevron.forward.to.line")
-      }
-      .highlight(when: selectedAlltime)
+      Button(.localizable(.untilNow), systemImage: "chevron.forward.to.line") { selectedAlltime.toggle() }
+        .highlight(when: selectedAlltime)
     }
     .minimumScaleFactor(0.5)
     .lineLimit(1)

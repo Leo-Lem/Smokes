@@ -8,11 +8,11 @@ public struct AmountsChart: View {
 
   public var body: some View {
     Chart(amounts, id: \.label) { label, amount in
-      BarMark(x: .value(String(localized: "date"), label),
-              y: .value(String(localized: "smokes"), amount))
+      BarMark(x: .value(String(localizable: .date), label),
+              y: .value(String(localizable: .smokes), amount))
     }
     .minimumScaleFactor(0.5)
-    .chartYAxisLabel(String(localized: "smokes"))
+    .chartYAxisLabel(String(localizable: .smokes))
   }
 
   public init(_ amounts: [(label: String, amount: Int)]) { self.amounts = amounts }

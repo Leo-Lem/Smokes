@@ -1,10 +1,9 @@
 // Created by Leopold Lemmermann on 05.03.23.
 
 import Code
-import Components
 import ComposableArchitecture
 import Extensions
-import SwiftUI
+import SwiftUIComponents
 
 @ViewAction(for: Transfer.self)
 public struct TransferView: View {
@@ -29,7 +28,7 @@ public struct TransferView: View {
       Spacer()
 
       HStack {
-        Button(.localizable(.impor), systemImage: "square.and.arrow.down") {
+        Button(.localizable(.import), systemImage: "square.and.arrow.down") {
           send(.importButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("import-button")
@@ -49,7 +48,7 @@ public struct TransferView: View {
         .accessibilityValue(store.encoding.title)
         .accessibilityIdentifier("format-picker")
 
-        Button(.localizable(.expor), systemImage: "square.and.arrow.up") {
+        Button(.localizable(.export), systemImage: "square.and.arrow.up") {
           send(.exportButtonTapped, animation: .default)
         }
         .accessibilityIdentifier("export-button")
@@ -77,12 +76,11 @@ public struct TransferView: View {
 
 fileprivate extension Encoding {
   var title: String {
-//    switch self {
-//    case .daily: return .localizable(.daily)
-//    case .grouped: return .localizable(.exact)
-//    case .exact: return .localizable(.grouped)
-//    }
-    return ""
+    switch self {
+    case .daily: return String(localizable: .daily)
+    case .grouped: return String(localizable: .exact)
+    case .exact: return String(localizable: .grouped)
+    }
   }
 }
 

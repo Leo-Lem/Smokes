@@ -12,7 +12,7 @@ public struct IncrementMenu: View {
 
       ZStack(alignment: .topLeading) {
         Button(action: add) {
-          Label(String(localized: "add", comment: "Button label for incrementing."), systemImage: "plus")
+          Label(.localizable(.add), systemImage: "plus")
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .font(.largeTitle)
@@ -20,7 +20,7 @@ public struct IncrementMenu: View {
         }
 
         Button(action: remove) {
-          Label(String(localized: "remove", comment: "Button label for decrementing."), systemImage: "minus")
+          Label(.localizable(.remove), systemImage: "minus")
             .frame(maxWidth: size / 4, maxHeight: size / 4)
             .background(.ultraThickMaterial)
             .cornerRadius(5)

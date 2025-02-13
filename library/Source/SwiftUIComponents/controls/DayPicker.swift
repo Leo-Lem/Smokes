@@ -11,8 +11,7 @@ public struct DayPicker: View {
   public var body: some View {
     HStack {
       Button { selection = previousDay } label: {
-        Label(String(localized: "previous day", comment: "Button label for going back one day."),
-              systemImage: "chevron.left")
+        Label(.localizable(.previousDay), systemImage: "chevron.left")
       }
         .disabled(bounds.start.flatMap { previousDay <= $0 } ?? false)
         .accessibilityIdentifier("previous-day-button")
@@ -20,7 +19,7 @@ public struct DayPicker: View {
       Spacer()
 
       DatePicker(
-        String(localized: "pick", comment: "Label for selecting a date."),
+        .localizable(.pickDay),
         selection: $selection, in: (bounds.start ?? .distantPast) ... (bounds.end ?? .distantFuture)
       )
         .labelsHidden()
@@ -31,8 +30,7 @@ public struct DayPicker: View {
       Spacer()
 
       Button { selection = nextDay } label: {
-        Label(String(localized: "next day", comment: "Button label for going forward one day."),
-              systemImage: "chevron.right")
+        Label(.localizable(.nextDay), systemImage: "chevron.right")
       }
         .disabled(bounds.end.flatMap { nextDay >= $0 } ?? false)
         .accessibilityIdentifier("next-day-button")

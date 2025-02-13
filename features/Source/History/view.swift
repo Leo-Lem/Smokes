@@ -1,10 +1,9 @@
 // Created by Leopold Lemmermann on 01.04.23.
 
 import Charts
-import Components
 import ComposableArchitecture
 import Extensions
-import SwiftUI
+import SwiftUIComponents
 
 public struct HistoryView: View {
   @Bindable public var store: StoreOf<History>

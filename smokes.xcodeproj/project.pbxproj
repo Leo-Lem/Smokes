@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		6E5E44912D5BA2DE0041BE73 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5E44902D5BA2DE0041BE73 /* App */; };
 		6E91322F2D523C3700E25F16 /* Smokes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91322E2D523C3700E25F16 /* Smokes.swift */; };
+		6E9CE3062D5E434500D69754 /* Statistic in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9CE3052D5E434500D69754 /* Statistic */; };
+		6E9CE3092D5E43ED00D69754 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9CE3082D5E43ED00D69754 /* ComposableArchitecture */; };
+		6E9CE30C2D5E464F00D69754 /* Types in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9CE30B2D5E464F00D69754 /* Types */; };
+		6EF6A6A32D5E3E1500D3E43C /* Calculate in Frameworks */ = {isa = PBXBuildFile; productRef = 6EF6A6A22D5E3E1500D3E43C /* Calculate */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -18,6 +22,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E48374428EC991100B67CA4;
 			remoteInfo = ashtray;
+		};
+		6EF6A6992D5E3BB300D3E43C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E48373D28EC991100B67CA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E48374428EC991100B67CA4;
+			remoteInfo = Smokes;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -32,6 +43,7 @@
 		6ED3746E2D4F8535008586CC /* library */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = library; sourceTree = "<group>"; };
 		6ED3746F2D4F8535008586CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EF6A6952D5E3BB300D3E43C /* SmokesPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmokesPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -47,9 +59,15 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				LaunchScreen.storyboard,
-				Localizable.xcstrings,
 			);
 			target = 6E48374428EC991100B67CA4 /* Smokes */;
+		};
+		6E9CE3032D5E42CB00D69754 /* Exceptions for "test" folder in "SmokesPerformanceTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				performance.swift,
+			);
+			target = 6EF6A6942D5E3BB300D3E43C /* SmokesPerformanceTests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -57,6 +75,7 @@
 		6ED374D12D4F8565008586CC /* test */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				6E9CE3032D5E42CB00D69754 /* Exceptions for "test" folder in "SmokesPerformanceTests" target */,
 				6E4F71CC2D593C0B008EBF3D /* Exceptions for "test" folder in "SmokesUITests" target */,
 			);
 			path = test;
@@ -88,6 +107,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EF6A6922D5E3BB300D3E43C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EF6A6A32D5E3E1500D3E43C /* Calculate in Frameworks */,
+				6E9CE3092D5E43ED00D69754 /* ComposableArchitecture in Frameworks */,
+				6E9CE30C2D5E464F00D69754 /* Types in Frameworks */,
+				6E9CE3062D5E434500D69754 /* Statistic in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -100,10 +130,11 @@
 				6EF802132D58A12900069BB1 /* resource */,
 				6E6C05292D4F930400CAFDBC /* features */,
 				6ED3746E2D4F8535008586CC /* library */,
-				6ED3746B2D4F8535008586CC /* extensions */,
 				6ED3746C2D4F8535008586CC /* facts */,
+				6ED3746B2D4F8535008586CC /* extensions */,
 				6ED3746D2D4F8535008586CC /* LICENSE */,
 				6ED374692D4F8535008586CC /* CNAME */,
+				6E9CE30A2D5E464F00D69754 /* Frameworks */,
 				6E48374628EC991100B67CA4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,8 +144,16 @@
 			children = (
 				6E48374528EC991100B67CA4 /* Smokes.app */,
 				6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */,
+				6EF6A6952D5E3BB300D3E43C /* SmokesPerformanceTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6E9CE30A2D5E464F00D69754 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +198,30 @@
 			productReference = 6ED91E20293FB7BB00728E2B /* SmokesUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		6EF6A6942D5E3BB300D3E43C /* SmokesPerformanceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EF6A69B2D5E3BB300D3E43C /* Build configuration list for PBXNativeTarget "SmokesPerformanceTests" */;
+			buildPhases = (
+				6EF6A6912D5E3BB300D3E43C /* Sources */,
+				6EF6A6922D5E3BB300D3E43C /* Frameworks */,
+				6EF6A6932D5E3BB300D3E43C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6EF6A69A2D5E3BB300D3E43C /* PBXTargetDependency */,
+			);
+			name = SmokesPerformanceTests;
+			packageProductDependencies = (
+				6EF6A6A22D5E3E1500D3E43C /* Calculate */,
+				6E9CE3052D5E434500D69754 /* Statistic */,
+				6E9CE3082D5E43ED00D69754 /* ComposableArchitecture */,
+				6E9CE30B2D5E464F00D69754 /* Types */,
+			);
+			productName = SmokesPerformanceTests;
+			productReference = 6EF6A6952D5E3BB300D3E43C /* SmokesPerformanceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -166,7 +229,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					6E48374428EC991100B67CA4 = {
@@ -175,6 +238,9 @@
 					6ED91E1F293FB7BB00728E2B = {
 						CreatedOnToolsVersion = 14.1;
 						TestTargetID = 6E48374428EC991100B67CA4;
+					};
+					6EF6A6942D5E3BB300D3E43C = {
+						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
@@ -190,7 +256,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				6E5E448F2D5BA2DE0041BE73 /* XCLocalSwiftPackageReference "features" */,
+				6E9CE3072D5E43ED00D69754 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6E48374628EC991100B67CA4 /* Products */;
@@ -198,6 +264,7 @@
 			projectRoot = "";
 			targets = (
 				6E48374428EC991100B67CA4 /* Smokes */,
+				6EF6A6942D5E3BB300D3E43C /* SmokesPerformanceTests */,
 				6ED91E1F293FB7BB00728E2B /* SmokesUITests */,
 			);
 		};
@@ -212,6 +279,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6ED91E1E293FB7BB00728E2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EF6A6932D5E3BB300D3E43C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -236,6 +310,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EF6A6912D5E3BB300D3E43C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -247,6 +328,11 @@
 			isa = PBXTargetDependency;
 			target = 6E48374428EC991100B67CA4 /* Smokes */;
 			targetProxy = 6ED91E26293FB7BB00728E2B /* PBXContainerItemProxy */;
+		};
+		6EF6A69A2D5E3BB300D3E43C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E48374428EC991100B67CA4 /* Smokes */;
+			targetProxy = 6EF6A6992D5E3BB300D3E43C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -321,7 +407,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/Info.plist;
@@ -480,7 +565,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/Info.plist;
@@ -503,7 +587,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				DEVELOPMENT_TEAM = 4UUEFBYP76;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/Info.plist;
@@ -546,6 +629,61 @@
 			};
 			name = Release;
 		};
+		6EF6A69C2D5E3BB300D3E43C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4UUEFBYP76;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.SmokesPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6EF6A69D2D5E3BB300D3E43C /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4UUEFBYP76;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.SmokesPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Test;
+		};
+		6EF6A69E2D5E3BB300D3E43C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4UUEFBYP76;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.SmokesPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -579,14 +717,17 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-/* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		6E5E448F2D5BA2DE0041BE73 /* XCLocalSwiftPackageReference "features" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = features;
+		6EF6A69B2D5E3BB300D3E43C /* Build configuration list for PBXNativeTarget "SmokesPerformanceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EF6A69C2D5E3BB300D3E43C /* Debug */,
+				6EF6A69D2D5E3BB300D3E43C /* Test */,
+				6EF6A69E2D5E3BB300D3E43C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		6E136CD32D4F7E9D00800130 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
@@ -595,6 +736,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.1.0;
+			};
+		};
+		6E9CE3072D5E43ED00D69754 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -608,6 +757,23 @@
 		6E5E44902D5BA2DE0041BE73 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
+		};
+		6E9CE3052D5E434500D69754 /* Statistic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Statistic;
+		};
+		6E9CE3082D5E43ED00D69754 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E9CE3072D5E43ED00D69754 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		6E9CE30B2D5E464F00D69754 /* Types */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Types;
+		};
+		6EF6A6A22D5E3E1500D3E43C /* Calculate */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Calculate;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

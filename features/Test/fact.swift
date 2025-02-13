@@ -12,14 +12,12 @@ struct FactTest {
   func appear() async throws {
     let store = TestStore(initialState: Fact.State(), reducer: Fact.init) { deps in
       deps.continuousClock = ImmediateClock()
-      deps.urlSession = URLSession(configuration: .ephemeral)
+      deps.factsAPIClient = .testValue
     }
     store.exhaustivity = .off
 
     await store.send(.appear)
     await store.receive(\.fetch)
-
-    // TODO: create fact api client dependency
 
     await store.finish()
   }

@@ -2,12 +2,11 @@
 
 import ComposableArchitecture
 import Extensions
+import FactsAPIClient
 import Foundation
 
-@Reducer
-public struct Fact {
-  @ObservableState
-  public struct State: Equatable, Sendable {
+@Reducer public struct Fact {
+  @ObservableState public struct State: Equatable, Sendable {
     @Shared var fact: String
     var progress = 0.0
 
@@ -51,15 +50,10 @@ public struct Fact {
         }
 
       case .fetch:
-        return .run { [state, session] _ in
+        return .run { [state, fetch] _ in
           do {
-            let url = Bundle.main[url: "SmokesFactsUrl"].appendingPathComponent(Locale.current.identifier)
-            let (data, response) = try await session.data(from: url)
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
-
-            state.$fact.withLock {
-              $0 ?= String(data: data, encoding: .utf8)
-            }
+            let fact = try await fetch(Bundle.main[url: "SmokesFactsUrl"])
+            state.$fact.withLock { $0 = fact }
           } catch {
             print("Failed to fetch fact: \(error)")
           }
@@ -68,7 +62,7 @@ public struct Fact {
     }
   }
 
-  @Dependency(\.urlSession) var session
+  @Dependency(\.factsAPIClient.fetch) var fetch
   @Dependency(\.dismiss) var dismiss
   @Dependency(\.continuousClock) var clock
 

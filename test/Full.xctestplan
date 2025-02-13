@@ -18,11 +18,10 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : false,
       "target" : {
-        "containerPath" : "container:features",
-        "identifier" : "FeaturesTest",
-        "name" : "FeaturesTest"
+        "containerPath" : "container:library",
+        "identifier" : "LibraryTest",
+        "name" : "LibraryTest"
       }
     },
     {
@@ -35,9 +34,16 @@
     },
     {
       "target" : {
-        "containerPath" : "container:library",
-        "identifier" : "LibraryTest",
-        "name" : "LibraryTest"
+        "containerPath" : "container:smokes.xcodeproj",
+        "identifier" : "6EF6A6942D5E3BB300D3E43C",
+        "name" : "SmokesPerformanceTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:features",
+        "identifier" : "FeaturesTest",
+        "name" : "FeaturesTest"
       }
     }
   ],

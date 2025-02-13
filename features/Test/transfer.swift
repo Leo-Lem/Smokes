@@ -5,13 +5,12 @@ import ComposableArchitecture
 import Extensions
 import Foundation
 import Testing
-
 @testable import Transfer
 
+@Suite(.serialized)
 @MainActor
 struct TransferTest {
-  @Test
-  func appear() async throws {
+  @Test func appear() async throws {
     let content = "Hello, World!"
     let data = content.data(using: .utf8)!
     let file = DataFile(data)
@@ -30,7 +29,7 @@ struct TransferTest {
     await store.receive(\.preview) { $0.preview = content }
   }
 
-  @Test(arguments: Encoding.allCases)
+  @Test(.serialized, arguments: Encoding.allCases)
   func selectEncoding(_ encoding: Encoding) async throws {
     let store = TestStore(initialState: Transfer.State(), reducer: Transfer.init) { deps in
       deps.code = .testValue
@@ -70,13 +69,13 @@ struct TransferTest {
     let no_permission_url = URL(string: "not.a.file.url")!
     await store.send(.view(.import(Result<URL, Error>.success(no_permission_url))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Permission denied…") }
+      $0.alert = AlertState { TextState(String(localizable: .noPermission)) }
     }
 
     let other_error_url = URL.documentsDirectory
     await store.send(.view(.import(Result<URL, Error>.success(other_error_url))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Something went wrong…") }
+      $0.alert = AlertState { TextState(String(localizable: .error)) }
     }
   }
 
@@ -113,7 +112,7 @@ struct TransferTest {
     
     await store.send(.view(.export(Result<URL, Error>.failure(NSError(domain: "", code: 0)))))
     await store.receive(\.failure) {
-      $0.alert = AlertState { TextState("Something went wrong…") }
+      $0.alert = AlertState { TextState(String(localizable: .error)) }
     }
   }
 
