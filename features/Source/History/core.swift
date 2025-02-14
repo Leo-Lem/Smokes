@@ -8,7 +8,7 @@ import Types
 
 @Reducer public struct History {
   @ObservableState public struct State: Equatable {
-    @Shared public var entries: Dates
+    @Shared var entries: Dates
     @Shared var option: HistoryOption
 
     var selection: Date

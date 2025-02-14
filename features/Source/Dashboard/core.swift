@@ -8,7 +8,7 @@ import Types
 
 @Reducer public struct Dashboard: Sendable {
   @ObservableState public struct State: Equatable {
-    @Shared public var entries: Dates
+    @Shared var entries: Dates
     @Shared var amountOption: AmountOption
     @Shared var timeOption: TimeOption
 

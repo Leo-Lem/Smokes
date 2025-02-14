@@ -14,13 +14,17 @@ struct Main: App {
 
   init() {
     do {
-      try Tips.configure([
-        .displayFrequency(.hourly)
-      ])
+      if CommandLine.arguments.contains("UI_TESTS") {
+        #if DEBUG
+        try FileManager.default.removeItem(at: .documentsDirectory.appending(path: "entries.json"))
+        try FileManager.default.removeItem(at: .documentsDirectory.appending(path: "stats_selection"))
+        UserDefaults.resetStandardUserDefaults()
+        #endif
+      } else {
+        try Tips.configure([
+          .displayFrequency(.hourly)
+        ])
+      }
     } catch { print(error.localizedDescription) }
   }
-}
-
-#Preview {
-  SmokesView()
 }
