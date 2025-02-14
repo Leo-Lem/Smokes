@@ -1,0 +1,51 @@
+{
+  "configurations" : [
+    {
+      "id" : "6A249B7B-C609-48A8-92FE-A37F5D6BE91D",
+      "name" : "Config",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "en",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ashtray.xcodeproj",
+      "identifier" : "6E48374428EC991100B67CA4",
+      "name" : "ashtray"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:library",
+        "identifier" : "LibraryTest",
+        "name" : "LibraryTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:smokes.xcodeproj",
+        "identifier" : "6ED91E1F293FB7BB00728E2B",
+        "name" : "SmokesUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:smokes.xcodeproj",
+        "identifier" : "6EF6A6942D5E3BB300D3E43C",
+        "name" : "SmokesPerformanceTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:features",
+        "identifier" : "FeaturesTest",
+        "name" : "FeaturesTest"
+      }
+    }
+  ],
+  "version" : 1
+}

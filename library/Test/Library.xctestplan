@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "9ACD49BE-E728-4F06-A7B8-67BEEA50B111",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "LibraryTest",
+        "name" : "LibraryTest"
+      }
+    }
+  ],
+  "version" : 1
+}
