@@ -52,7 +52,7 @@ import Foundation
       case .fetch:
         return .run { [state, fetch] _ in
           do {
-            let fact = try await fetch(Bundle.main[url: "SmokesFactsUrl"])
+            let fact = try await fetch(Bundle.main[url: "FactsUrl"])
             state.$fact.withLock { $0 = fact }
           } catch {
             print("Failed to fetch fact: \(error)")

@@ -36,20 +36,20 @@ public struct DashboardView: View {
           String(localizable: .smokesLld(store.untilHereAmount)),
           description: String(localizable: .untilNow)
         )
-          .overlay(alignment: .bottomLeading) {
-            Button(.localizable(.openExporter), systemImage: "folder", action: transfer)
-              .labelStyle(.iconOnly)
-              .accessibilityIdentifier("show-porter-button")
-              .popoverTip(TransferTip())
-          }
-          .widgetStyle()
+        .overlay(alignment: .bottomLeading) {
+          Button(.localizable(.openExporter), systemImage: "folder", action: transfer)
+            .labelStyle(.iconOnly)
+            .accessibilityIdentifier("show-porter-button")
+            .popoverTip(TransferTip())
+        }
+        .widgetStyle()
 
-          IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
-            store.send(.addButtonTapped, animation: .default)
-          } remove: {
-            store.send(.removeButtonTapped, animation: .default)
-          }
-          .widgetStyle()
+        IncrementMenu(decrementDisabled: store.dayAmount <= 0) {
+          store.send(.addButtonTapped, animation: .default)
+        } remove: {
+          store.send(.removeButtonTapped, animation: .default)
+        }
+        .widgetStyle()
       }
     }
     .animation(.default, value: .combine(store.optionAmount, store.optionTime))

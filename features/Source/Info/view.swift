@@ -51,8 +51,8 @@ public struct InfoView: View {
 
       Section(.localizable(.credits)) {
         VStack {
-          Text(.localizable(.developed(Bundle.main[string: "SmokesCreator"])))
-          Text(.localizable(.designed(Bundle.main[string: "SmokesCreator"])))
+          Text(.localizable(.developed(Bundle.main[string: "Creator"])))
+          Text(.localizable(.designed(Bundle.main[string: "Creator"])))
         }
         .font(.caption)
       }

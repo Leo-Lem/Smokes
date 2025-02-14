@@ -18,9 +18,9 @@ public struct Info {
   public var body: some Reducer<State, Action> {
     Reduce { _, action in
       let name = switch action {
-      case .openSupport: "SmokesSupportUrl"
-      case .openPrivacy: "SmokesPrivacyUrl"
-      case .openMarketing: "SmokesMarketingUrl"
+      case .openSupport: "SupportUrl"
+      case .openPrivacy: "PrivacyUrl"
+      case .openMarketing: "MarketingUrl"
       }
       return .run { [open] _ in
         await open(Bundle.main[url: name])

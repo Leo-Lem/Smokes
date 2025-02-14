@@ -18,24 +18,24 @@ public struct SmokesView: View {
       Tab(.localizable(.history), systemImage: "calendar", value: 0) {
         HistoryView(store: store.scope(state: \.history, action: \.history))
           .padding(.bottom, 50)
+          .padding(5)
       }
 
       Tab(.localizable(.dashboard), systemImage: "square", value: 1) {
-        DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard)) {
-          send(.transferButtonTapped)
-        }
-        .padding(.bottom, 50)
-        .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
+        DashboardView(store: store.scope(state: \.dashboard, action: \.dashboard)) { send(.transferButtonTapped) }
+          .sheet(item: $store.scope(state: \.transfer, action: \.transfer)) { TransferView(store: $0) }
+          .padding(.bottom, 50)
+          .padding(5)
       }
 
       Tab(.localizable(.statistic), systemImage: "percent", value: 2) {
         StatisticView(store: store.scope(state: \.statistic, action: \.statistic))
           .padding(.bottom, 50)
+          .padding(5)
       }
     }
     .tabViewStyle(.page(indexDisplayMode: .always))
     .indexViewStyle(.page(backgroundDisplayMode: .always))
-    .padding(5)
     .overlay(alignment: .bottomLeading) {
       FloatingButton(.init(localizable: .info), systemImage: "info") { send(.infoButtonTapped) }
         .sheet(item: $store.scope(state: \.info, action: \.info)) { InfoView(store: $0) }
